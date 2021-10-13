@@ -1,0 +1,29 @@
+{
+  "name": "sphnx",
+  "version": "1.0.0",
+  "description": "\"# Sphnx\"",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meetAlexLau/Sphnx.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/meetAlexLau/Sphnx/issues"
+  },
+  "homepage": "https://github.com/meetAlexLau/Sphnx#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^6.0.10",
+    "nodemon": "^2.0.13"
+  }
+}
