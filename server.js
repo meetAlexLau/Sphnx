@@ -1,9 +1,11 @@
+require('dotenv').config();
 let express = require('express');
 let mongoose = require('mongoose');
 let cors = require('cors');
 const path = require("path")
+const PORT = process.env.PORT || 3000;
 
-mongoose.connect('mongodb://localhost:27017/SphnxDB', {
+mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser:  true
 }).then(() => {
     console.log("Local Database Connected");
@@ -25,7 +27,7 @@ app.get("*", (req, res) => {
 })
 */
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 const server = app.listen(port, () => {
   console.log('Connected to port ' + port)
 })
