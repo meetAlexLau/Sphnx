@@ -2,14 +2,14 @@ import React, {Component} from 'react';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 
-export default class NewPlatform extends Component{
+export default class SearchResult extends Component{
     constructor(props){
         super(props);
 
     }
-    routeChangeLogout() {
+    routeChangeHome() {
         //should be  /home/:userid
-        axios.post('/login')
+        axios.post('/home')
         .then(res => console.log(res.data));
     }
     routeChangeProfile(){
