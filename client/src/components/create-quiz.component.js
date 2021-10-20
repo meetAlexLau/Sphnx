@@ -46,13 +46,24 @@ export default class CreateQuiz extends Component {
     }
 
     render(){
+        //TODO: link Exit button
         return (<div className="form-wrapper">
             <Form onSubmit={this.onSubmit}>
                 <Form.Group controlId="Title">
                     <Form.Label>Title</Form.Label>
                     <Form.Control type="text" value={this.state.title} onChange={this.onChangeQuizTitle} />
                 </Form.Group>
+            
+                <Button variant="danger" size="lg" block="block" type="submit">
+                    Save
+                </Button>
+
             </Form>
+            
+            <button>
+                Exit
+            </button>
+
         </div>);
     }
 }
