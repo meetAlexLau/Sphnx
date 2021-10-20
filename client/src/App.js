@@ -27,8 +27,10 @@ class App extends Component{
             <Router>
                 <Route path="/" exact component={Login} />
                 <Route path="/home" exact component={Home} />
-                <Route path="/u/:id" exact component={UserComponent} />
-                <Route path="/u/:id/edit" exact component={EditUserComponent} />
+                <Route path="/profile" exact component={UserComponent} />
+                //should be /u/:id
+                <Route path="/profile/edit" exact component={EditUserComponent} />
+                //should be /u/:id
                 <Route path="/p/:id" exact component={PlatformComponent} />
                 <Route path="/p/:id/badges" exact component={PlatformBadgesComponent} />
                 <Route path="/p/:id/leaderboard" exact component={PlatformLeaderboardComponent} />
