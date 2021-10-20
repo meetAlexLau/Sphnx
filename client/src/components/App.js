@@ -11,6 +11,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 // import components from other group members
 
+// import routes from Syed
 function App(){
     return (<Router>
         <div className="App">
