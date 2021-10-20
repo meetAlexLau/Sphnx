@@ -1,23 +1,40 @@
 import React from "react";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-//import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
-
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 // import components from other group members
+import Login from './components/Login';
+import Home from './components/Home';
+import SearchResults from './components/SearchResults'
+import UserComponent from './components/UserComponent';
+import EditUserComponent from './components/EditUserComponent';
+import PlatformComponent from './components/Login';
+import NewPlatformComponent from './components/NewPlatform';
+import PlatformBadgesComponent from './components/PlatformBadges'
+import PlatformLeaderboardComponent from './components/PlatformLeaderboard'
+import QuizResult from './components/QuizResult'
+import QuizComponent from './components/QuizComponent'
 
-// import routes from Syed
-function App(){
-    return (<Router>
-        <div className="App">
-            
-        </div>
-    </Router>)
+class App extends Component{
+    render(){
+        return(
+            <Router>
+                <Route path="/" exact component={Login} />
+                <Route path="/home" exact component={Home} />
+                <Route path="/profile" exact component={UserComponent} />
+                //should be /u/:id
+                <Route path="/profile/edit" exact component={EditUserComponent} />
+                //should be /u/:id
+                <Route path="/p/:id" exact component={PlatformComponent} />
+                <Route path="/p/:id/badges" exact component={PlatformBadgesComponent} />
+                <Route path="/p/:id/leaderboard" exact component={PlatformLeaderboardComponent} />
+                <Route path="/q/:id" exact component={QuizComponent} />
+                <Route path="/q/:id/res" exact component={QuizResult} />
+                <Route path="/search" exact component={SearchResults} />
+            </Router>
+        )
+    }
 }
 
 export default App;
