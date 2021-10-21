@@ -3,19 +3,19 @@ import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
+import { SketchPicker } from 'react-color';
 
-export default class NewPlatformComponent extends Component {
+export default class NewBadgeComponent extends Component {
     constructor(props) {
         super(props)
 
-        // Routes
-        this.routeChangeUser = this.routeChangeUser.bind(this);
-        //this.routeChange
+        // Setting up routes
+        this.routeChangePlatform = this.routeChangePlatform.bind(this);
 
         // Setting up functions
-        this.onChangePlatformTitle = this.onChangePlatformTitle.bind(this);
-        this.onChangePlatformId = this.onChangePlatformId.bind(this);
-        this.onChangePlatformDesc = this.onChangePlatformDesc.bind(this);
+        this.onChangeBadgeTitle = this.onChangeBadgeTitle.bind(this);
+        this.onChangeBadgeId = this.onChangeBadgeId.bind(this);
+        this.onChangeBadgeDesc = this.onChangeBadgeDesc.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         // Setting up state
@@ -26,31 +26,31 @@ export default class NewPlatformComponent extends Component {
         }
     }
 
-    routeChangeUser() {
-        this.props.history.push('/user')
+    routeChangePlatform(e) {
+        this.props.history.push('/platform')
     }
 
-    onChangePlatformTitle(e) {
+    onChangeBadgeTitle(e) {
         this.setState({ title: e.target.value })
     }
 
-    onChangePlatformId(e) {
+    onChangeBadgeId(e) {
         this.setState({ id: e.target.value })
     }
 
-    onChangePlatformDesc(e) {
+    onChangeBadgeDesc(e) {
         this.setState({ desc: e.target.value })
     }
 
     onSubmit(e) {
         e.preventDefault()
 
-        const platformObject = {
+        const badgeObject = {
             title: this.state.title,
             id: this.state.id
         }
 
-        //axios.post('/')
+        //axios.post
 
         this.setState({
             title: '',
@@ -58,24 +58,34 @@ export default class NewPlatformComponent extends Component {
         });
     }
 
+
     render() {
         //TODO: link Exit button
         return (<div className="form-wrapper">
+
             <Form onSubmit={this.onSubmit}>
                 <div class="medium">
                     <Form.Group controlId="Title">
                         <Form.Label>Title:</Form.Label>
-                        <Form.Control type="text" value={this.state.title} onChange={this.onChangePlatformTitle} />
+                        <Form.Control type="text" value={this.state.title} onChange={this.onChangeBadgeTitle} />
                     </Form.Group>
 
-                    Select Background Image:
+                    Select Badge Image:
                     <div>
                         <Button className="choose-file-button">
                             Choose File
                         </Button>
                     </div>
 
+
                     <div class="light">
+                        <Form.Group controlId="BadgeCondition">
+                            <div>
+                                <Form.Label>Select Badge Condition:</Form.Label>
+                                <Form.Control type="text"></Form.Control>
+                            </div>
+                        </Form.Group>
+
                         <Form.Group controlId="Description">
                             <Form.Label>Description:</Form.Label>
                             <Form.Control type="textarea" size="lg" value={this.state.desc} onChange={this.onChangePlatformDesc} />
@@ -83,11 +93,11 @@ export default class NewPlatformComponent extends Component {
                     </div>
 
                     <div class="text-right">
-                        <Button className='savebutton' type="submit" onClick={this.routeChangeUser}>
+                        <Button className='savebutton' type="submit" onClick={this.routeChangePlatform}>
                             Save
                         </Button>
 
-                        <Button className='cancelbutton' variant="danger" onClick={this.routeChangeUser}>
+                        <Button className='cancelbutton' variant="danger" onClick={this.routeChangePlatform}>
                             Cancel
                         </Button>
                     </div>
