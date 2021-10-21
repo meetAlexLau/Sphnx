@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import { SketchPicker } from 'react-color';
 
-export default class CreatePlatform extends Component {
+export default class NewPlatformComponent extends Component {
     constructor(props) {
         super(props)
 
