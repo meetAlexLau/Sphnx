@@ -58,35 +58,35 @@ export default class NewPlatformComponent extends Component {
         });
     }
 
-    render(){
+    render() {
         //TODO: link Exit button
         return (<div className="form-wrapper">
             <Form onSubmit={this.onSubmit}>
                 <Form.Group controlId="Title">
                     <Form.Label>Title:</Form.Label>
-                    <Form.Control type="text" value={this.state.title} onChange={this.onChangePlatformTitle}/>
+                    <Form.Control type="text" value={this.state.title} onChange={this.onChangePlatformTitle} />
                 </Form.Group>
-                
+
                 Select Background Image:
                 <div>
-                <Button className="choose-file-button">
-                    Choose File
-                </Button>
+                    <Button className="choose-file-button">
+                        Choose File
+                    </Button>
                 </div>
 
                 <Form.Group controlId="Description">
                     <Form.Label>Description:</Form.Label>
-                    <Form.Control type="textarea" size="lg" value={this.state.desc} onChange={this.onChangePlatformDesc}/>
+                    <Form.Control type="textarea" size="lg" value={this.state.desc} onChange={this.onChangePlatformDesc} />
                 </Form.Group>
 
                 <div class="text-right">
-                <Button className='savebutton' type="submit" onClick={this.routeChangeUser}>
-                    Save
-                </Button>
-                
-                <Button className='cancelbutton' variant="danger" onClick={this.routeChangeUser}>
-                    Cancel
-                </Button>
+                    <Button className='savebutton' type="submit" onClick={this.routeChangeUser}>
+                        Save
+                    </Button>
+
+                    <Button className='cancelbutton' variant="danger" onClick={this.routeChangeUser}>
+                        Cancel
+                    </Button>
                 </div>
 
             </Form>
