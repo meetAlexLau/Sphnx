@@ -45,13 +45,10 @@ app.get('/logout', (req, res) => {
     res.redirect('/');
 })
 
-/*
 app.use(express.static(path.resolve(__dirname, "client", "build")))
 
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "client", "build", "index.html"))
-})
-*/
 
 const port = process.env.PORT;
 const server = app.listen(port, () => {
