@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import { SketchPicker } from 'react-color';
+import { Container } from "react-bootstrap";
 
 export default class NewBadgeComponent extends Component {
     constructor(props) {
@@ -61,8 +62,8 @@ export default class NewBadgeComponent extends Component {
 
     render() {
         //TODO: link Exit button
-        return (<div className="form-wrapper">
-
+        return (
+        <Container fluid className="sky containerrow">
             <Form onSubmit={this.onSubmit}>
                 <div class="medium">
                     <Form.Group controlId="Title">
@@ -102,9 +103,7 @@ export default class NewBadgeComponent extends Component {
                         </Button>
                     </div>
                 </div>
-
             </Form>
-
-        </div>);
+        </Container>);
     }
 }

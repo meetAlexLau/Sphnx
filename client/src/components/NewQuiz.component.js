@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import { SketchPicker } from 'react-color';
+import { Container } from "react-bootstrap";
 
 export default class NewQuizComponent extends Component {
     constructor(props) {
@@ -55,7 +56,7 @@ export default class NewQuizComponent extends Component {
     render() {
         //TODO: link Exit button
         return (
-            <div class="sky">
+            <Container fluid className="sky containerrow">
                 <div className="form-wrapper">
                     <Form onSubmit={this.onSubmit}>
 
@@ -112,6 +113,6 @@ export default class NewQuizComponent extends Component {
                     </Form>
 
                 </div>
-            </div>);
+            </Container>);
     }
 }
