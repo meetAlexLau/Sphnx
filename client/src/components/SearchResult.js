@@ -19,15 +19,17 @@ export default class SearchResult extends Component{
     }
     render(){
         return (
-            <Button onClick={routeChangeLogout} variant="primary">
-                Login
-            </Button>
-            <Button onClick={} variant="primary">
-                Platform Example
-            </Button>
-            <Button onClick={routeChangeProfile} variant="primary">
-                Profile
-            </Button>
+                <div>
+                <Button onClick={routeChangeLogout} variant="primary">
+                    Login
+                </Button>
+                <Button variant="primary">
+                    Platform Example
+                </Button>
+                <Button onClick={routeChangeProfile} variant="primary">
+                    Profile
+                </Button>
+            </div>
         )
     }
 }

@@ -1,0 +1,39 @@
+.light{
+    background-color: #F3ECC9;
+}
+
+.resultcontainer{
+    max-height: 100%;
+    width:98%;
+    height:100%;
+    padding: 1%;
+    align-content: center;
+}
+
+.resultscore{
+    padding:1%;
+    font-size: 25px;
+    max-width:100%;
+    width:90%;
+}
+
+.routebuttons{
+    margin:1%;
+}
+
+.medium{
+    background-color: #E7C496;
+}
+
+.dark{
+    background-color: #D4AC67;
+}
+
+.result{
+    max-width:100%;
+    max-height: 100%;
+    width:95%;
+    height:100%;
+    padding:1%;
+    font-size: 18px;
+}

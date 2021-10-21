@@ -4,7 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
-import '../App.css';
+import '../css/App.css';
 
 export default class Home extends Component{
     constructor(props){
