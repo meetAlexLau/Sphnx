@@ -9,7 +9,6 @@ import SearchResults from './components/SearchResults'
 import UserComponent from './components/UserComponent';
 import EditUserComponent from './components/EditUserComponent';
 import PlatformComponent from './components/Login';
-import NewPlatformComponent from './components/NewPlatform';
 import PlatformBadgesComponent from './components/PlatformBadges'
 import PlatformLeaderboardComponent from './components/PlatformLeaderboard'
 import QuizResult from './components/QuizResult'
