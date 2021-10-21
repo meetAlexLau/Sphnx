@@ -22,10 +22,16 @@ app.use(cors());
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 
+app.use(express.static(path.resolve(__dirname, "client", "build")))
+
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "build", "index.html"))
+})
+
 app.use(cookieSession({
     name: 'Sphnx-session',
     keys: ['key1', 'key2']
-}))
+}));
 
 
 app.use(passport.initialize()); 
@@ -45,10 +51,6 @@ app.get('/logout', (req, res) => {
     res.redirect('/');
 })
 
-app.use(express.static(path.resolve(__dirname, "client", "build")))
-
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "client", "build", "index.html"))
 
 const port = process.env.PORT || PORT;
 const server = app.listen(port, () => {
