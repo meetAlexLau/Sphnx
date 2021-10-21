@@ -76,7 +76,7 @@ export default class NewQuizComponent extends Component {
                                 Question 1: <input type="text"></input>
 
                                 <div>
-                                    Add Question Image: <Button class="choose-file-button"> Choose File </Button> Correct?
+                                    Add Question Image: <Button className="choose-file-button"> Choose File </Button> Correct?
                                 </div>
 
                                 <div>
@@ -89,12 +89,12 @@ export default class NewQuizComponent extends Component {
                                 </div>
 
                                 <div>
-                                    <Button class="creationbutton">Add Answer</Button>
+                                    <Button className="choose-file-button">Add Answer</Button>
                                 </div>
                             </div>
 
                             <div class="text-left">
-                                <Button className='addquestion'>
+                                <Button className='choose-file-button'>
                                     Add Question
                                 </Button>
                             </div>
