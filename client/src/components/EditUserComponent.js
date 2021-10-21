@@ -11,6 +11,35 @@ export default class EditUserComponent extends Component{
 
     constructor(props){
         super(props)
+
+        this.state = {
+          UserPrimaryColor: '#FF5353',
+          UserSecondaryColor: '#87CEEB',
+          UserName: 'ScaryJones23'
+        }
+
+        this.onChangeUserName = this.onChangeUserName.bind(this)
+        this.onChangeUserPrimaryColor = this.onChangeUserPrimaryColor.bind(this)
+        this.onChangeUserSecondaryColor = this.onChangeUserSecondaryColor.bind(this)
+
+    }
+
+    onChangeUserName(e){
+      this.setState({
+        UserName: e.target.value
+      })
+    }
+
+    onChangeUserPrimaryColor(e){
+      this.setState({
+        UserPrimaryColor: e.target.value
+      })
+    }
+
+    onChangeUserSecondaryColor(e){
+      this.setState({
+        UserSecondaryColor: e.target.value
+      })
     }
 
     render(){
@@ -63,7 +92,7 @@ export default class EditUserComponent extends Component{
                 >
                   Change Username
                 </Form.Label>
-                <Form.Control type="text" placeholder="ScaryJones23" />
+                <Form.Control type="text" placeholder={this.state.UserName} onChange={this.onChangeUserName} />
               </Form.Group>
 
               <Form.Group controlId="formUserProfilePicture">
@@ -115,8 +144,9 @@ export default class EditUserComponent extends Component{
               </Form.Label>
               <Form.Control
                 type="color"
-                defaultValue="#FF5353"
+                defaultValue={this.state.UserPrimaryColor}
                 title="Choose your color"
+                onChange={this.onChangeUserPrimaryColor}
               />
 
               <Form.Label
@@ -134,8 +164,9 @@ export default class EditUserComponent extends Component{
               </Form.Label>
               <Form.Control
                 type="color"
-                defaultValue="#87CEEB"
+                defaultValue={this.state.UserSecondaryColor}
                 title="Choose your color"
+                onChange={this.onChangeUserSecondaryColor}
               />
 
               <Link
@@ -181,7 +212,7 @@ export default class EditUserComponent extends Component{
       <Col className="dark" fluid md={6}>
         <div
           style={{
-            background: "#FF5353",
+            background: this.state.UserPrimaryColor,
             width: "1920px",
             height: "1080px"
           }}
@@ -226,7 +257,7 @@ export default class EditUserComponent extends Component{
                 left: "534.5px",
                 top: "531px",
 
-                background: "#87CEEB",
+                background: this.state.UserSecondaryColor,
                 border: "solid",
                 borderRadius: "15px"
               }}
@@ -247,7 +278,7 @@ export default class EditUserComponent extends Component{
                   color: "#000000"
                 }}
               >
-                ScaryJones23
+                {this.state.UserName}
               </div>
             </div>
           </div>
@@ -260,7 +291,7 @@ export default class EditUserComponent extends Component{
               left: "78px",
               top: "634px",
 
-              background: "#87CEEB",
+              background: this.state.UserSecondaryColor,
               boxSizing: "border-box",
               borderRadius: "25px",
               border: "solid",
@@ -371,7 +402,7 @@ export default class EditUserComponent extends Component{
               left: "1000px",
               top: "634px",
 
-              background: "#87CEEB",
+              background: this.state.UserSecondaryColor,
               boxSizing: "border-box",
               borderRadius: "25px",
               border: "solid",

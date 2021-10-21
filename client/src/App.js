@@ -17,10 +17,7 @@ class App extends Component{
                 <Route path="/" exact component={Login} />
                 <Route path="/home" exact component={Home} />
                 <Route path="/profile" exact component={UserComponent} />
-                //should be /u/:id
                 <Route path="/profile/edit" exact component={EditUserComponent} />
-                //should be /u/:id/edit
-           
             </Router>
         )
     }

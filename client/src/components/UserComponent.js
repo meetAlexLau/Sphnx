@@ -8,6 +8,12 @@ export default class UserComponent extends Component{
 
         super(props)
 
+        this.state = {
+          UserPrimaryColor: '#FF5353',
+          UserSecondaryColor: '#87CEEB',
+          UserName: 'ScaryJones23'
+        }
+
     }
 
     render(){
@@ -15,7 +21,7 @@ export default class UserComponent extends Component{
         return(
             <div
             style={{
-              background: "#FF5353",
+              background: this.state.UserPrimaryColor,
               width: "1920px",
               height: "1080px"
             }}
@@ -251,7 +257,7 @@ export default class UserComponent extends Component{
                   left: "534.5px",
                   top: "531px",
         
-                  background: "#87CEEB",
+                  background: this.state.UserSecondaryColor,
                   border: "solid",
                   borderRadius: "15px"
                 }}
@@ -269,7 +275,7 @@ export default class UserComponent extends Component{
                   fontSize: "40px",
                   lineHeight: "51px",
                   color: "#000000"
-                }}>ScaryJones23</div>
+                }}>{this.state.UserName}</div>
               </div>
             </div>
         
@@ -281,7 +287,7 @@ export default class UserComponent extends Component{
                 left: "78px",
                 top: "634px",
         
-                background: "#87CEEB",
+                background: this.state.UserSecondaryColor,
                 boxSizing: "border-box",
                 borderRadius: "25px",
                 border: "solid",
@@ -414,7 +420,7 @@ export default class UserComponent extends Component{
                 left: "1000px",
                 top: "634px",
         
-                background: "#87CEEB",
+                background: this.state.UserSecondaryColor,
                 boxSizing: "border-box",
                 borderRadius: "25px",
                 border: "solid",
