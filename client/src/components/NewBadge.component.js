@@ -83,7 +83,14 @@ export default class NewBadgeComponent extends Component {
                         <Form.Group controlId="BadgeCondition">
                             <div>
                                 <Form.Label>Select Badge Condition:</Form.Label>
-                                <Form.Control type="text"></Form.Control>
+                                <div>
+                                <select id="conditions" name="conditions">
+                                    <option value="blank">-------------------------------------------------------------------------------</option>
+                                    <option value="QuizTime">Complete Quiz in /TIME/</option>
+                                    <option value="QuizTime">Score at or above /PERCENT/</option>
+                                    <option value="Leaderboard>">Reach /POSITION/ on the Leaderboard</option>
+                                </select>
+                                </div>
                             </div>
                         </Form.Group>
 
