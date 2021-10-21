@@ -1,0 +1,51 @@
+.light{
+    background-color: #F3ECC9;
+}
+
+.medium{
+    background-color: #E7C496;
+}
+
+.dark{
+    background-color: #D4AC67;
+}
+
+.sky {
+    background-color: #87CEEB;
+}
+
+.search{
+    max-height: 100%;
+    width:98%;
+    height:100vh;
+    padding: 1%;
+    align-content: center;
+}
+
+.searchcontainer{
+    padding:1%;
+    font-size: 25px;
+    max-width:100%;
+    width:90%;
+}
+.marginspacing{
+    margin: 1%;
+}
+
+.title{
+    text-align: center;
+    font-size: 30px;
+}
+
+.searchresult{
+    max-width:100%;
+    max-height: 100%;
+    width:95%;
+    height:100%;
+    padding:1%;
+    font-size: 18px;
+}
+
+.buttons{
+    margin-right: 10px
+}
