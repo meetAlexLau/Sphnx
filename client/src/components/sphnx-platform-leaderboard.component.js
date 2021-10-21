@@ -25,13 +25,13 @@ export default class Platform extends Component {
         <div class="platform-content">
           <div class="platform-content-header">
 
-            <Container>
+          <Container>
               <Row>
                 <Col>
-                  <Row><Link to={"/student-list"} className="platform-left-button">Leaderboard</Link>
-                    <Link to={"/student-list"} className="platform-home-button"></Link>
+                  <Row><Link to={"/platformLeaderboard"} className="platform-left-button">Leaderboard</Link>
+                    <Link to={"/platform"} className="platform-home-button"></Link>
                   </Row>
-                  <Row><Link to={"/student-list"} className="platform-left-button">View All Badges</Link>
+                  <Row><Link to={"/platformBadge"} className="platform-left-button">View All Badges</Link>
 
                   </Row>
                 </Col>
@@ -44,8 +44,8 @@ export default class Platform extends Component {
                 <Col >
 
                   <Row className="d-flex justify-content-end"><Link to={"/student-list"} className="platform-right-button" style={{ backgroundColor: "#E79696" }}>unsubscribe</Link></Row>
-                  <Row className="d-flex justify-content-end"><Link to={"/student-list"} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Quiz</Link></Row>
-                  <Row className="d-flex justify-content-end"><Link to={"/student-list"} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Post</Link></Row>
+                  <Row className="d-flex justify-content-end"><Link to={"/new-quiz"} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Quiz</Link></Row>
+                  <Row className="d-flex justify-content-end"><Link to={"/new-post"} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Post</Link></Row>
 
                 </Col>
               </Row>
@@ -67,7 +67,7 @@ export default class Platform extends Component {
                       1.
                     </Col>
                     <Col  >
-                    FerrariFan1967
+                      FerrariFan1967
                     </Col>
                   </Row>
                 </Container>
@@ -81,7 +81,7 @@ export default class Platform extends Component {
                       2.
                     </Col>
                     <Col  >
-                    JohnCena
+                      JohnCena
                     </Col>
                   </Row>
                 </Container>
@@ -95,7 +95,7 @@ export default class Platform extends Component {
                       3.
                     </Col>
                     <Col  >
-                    Ninja
+                      Ninja
                     </Col>
                   </Row>
                 </Container>
@@ -109,7 +109,7 @@ export default class Platform extends Component {
                       4.
                     </Col>
                     <Col  >
-                    DwayneNotTheRockJohnson
+                      DwayneNotTheRockJohnson
                     </Col>
                   </Row>
                 </Container>
@@ -123,7 +123,7 @@ export default class Platform extends Component {
                       5.
                     </Col>
                     <Col  >
-                    jack
+                      jack
                     </Col>
                   </Row>
                 </Container>
@@ -131,7 +131,7 @@ export default class Platform extends Component {
             </Row>
 
 
-        
+
 
 
           </Container>

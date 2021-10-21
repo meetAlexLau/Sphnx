@@ -28,10 +28,10 @@ export default class Platform extends Component {
             <Container>
               <Row>
                 <Col>
-                  <Row><Link to={"/student-list"} className="platform-left-button">Leaderboard</Link>
-                    <Link to={"/student-list"} className="platform-home-button"></Link>
+                  <Row><Link to={"/platformLeaderboard"} className="platform-left-button">Leaderboard</Link>
+                    <Link to={"/platform"} className="platform-home-button"></Link>
                   </Row>
-                  <Row><Link to={"/student-list"} className="platform-left-button">View All Badges</Link>
+                  <Row><Link to={"/platformBadge"} className="platform-left-button">View All Badges</Link>
 
                   </Row>
                 </Col>
@@ -44,8 +44,8 @@ export default class Platform extends Component {
                 <Col >
 
                   <Row className="d-flex justify-content-end"><Link to={"/student-list"} className="platform-right-button" style={{ backgroundColor: "#E79696" }}>unsubscribe</Link></Row>
-                  <Row className="d-flex justify-content-end"><Link to={"/student-list"} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Quiz</Link></Row>
-                  <Row className="d-flex justify-content-end"><Link to={"/student-list"} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Post</Link></Row>
+                  <Row className="d-flex justify-content-end"><Link to={"/new-quiz"} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Quiz</Link></Row>
+                  <Row className="d-flex justify-content-end"><Link to={"/new-post"} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Post</Link></Row>
 
                 </Col>
               </Row>

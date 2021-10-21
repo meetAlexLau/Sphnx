@@ -25,13 +25,13 @@ export default class Platform extends Component {
         <div class="platform-content">
           <div class="platform-content-header">
 
-            <Container>
+          <Container>
               <Row>
                 <Col>
-                  <Row><Link to={"/student-list"} className="platform-left-button">Leaderboard</Link>
-                    <Link to={"/student-list"} className="platform-home-button"></Link>
+                  <Row><Link to={"/platformLeaderboard"} className="platform-left-button">Leaderboard</Link>
+                    <Link to={"/platform"} className="platform-home-button"></Link>
                   </Row>
-                  <Row><Link to={"/student-list"} className="platform-left-button">View All Badges</Link>
+                  <Row><Link to={"/platformBadge"} className="platform-left-button">View All Badges</Link>
 
                   </Row>
                 </Col>
@@ -44,8 +44,8 @@ export default class Platform extends Component {
                 <Col >
 
                   <Row className="d-flex justify-content-end"><Link to={"/student-list"} className="platform-right-button" style={{ backgroundColor: "#E79696" }}>unsubscribe</Link></Row>
-                  <Row className="d-flex justify-content-end"><Link to={"/student-list"} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Quiz</Link></Row>
-                  <Row className="d-flex justify-content-end"><Link to={"/student-list"} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Post</Link></Row>
+                  <Row className="d-flex justify-content-end"><Link to={"/new-quiz"} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Quiz</Link></Row>
+                  <Row className="d-flex justify-content-end"><Link to={"/new-post"} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Post</Link></Row>
 
                 </Col>
               </Row>
@@ -65,15 +65,15 @@ export default class Platform extends Component {
                 <Container>
                   <Row>
                     <Col xs lg="2" >
-                   <img style={{ "witdth": "70px", "height": "70px" }} src="https://www.pngmart.com/files/14/Golden-Ribbon-Badge-PNG.png" />
+                      <img style={{ "witdth": "70px", "height": "70px" }} src="https://www.pngmart.com/files/14/Golden-Ribbon-Badge-PNG.png" />
                     </Col>
                     <Col  >
-                    <Row style={{ fontSize: "30px" }} >
-                    Speed Demon
-                    </Row>
-                    <Row>
-                    Complete a Quiz in less than 180 Seconds.
-                    </Row>
+                      <Row style={{ fontSize: "30px" }} >
+                        Speed Demon
+                      </Row>
+                      <Row>
+                        Complete a Quiz in less than 180 Seconds.
+                      </Row>
                     </Col>
                   </Row>
                 </Container>
@@ -87,35 +87,15 @@ export default class Platform extends Component {
                 <Container>
                   <Row>
                     <Col xs lg="2" >
-                   <img style={{ "witdth": "70px", "height": "70px" }} src="https://www.pngmart.com/files/14/Golden-Ribbon-Badge-PNG.png" />
+                      <img style={{ "witdth": "70px", "height": "70px" }} src="https://www.pngmart.com/files/14/Golden-Ribbon-Badge-PNG.png" />
                     </Col>
                     <Col  >
-                    <Row style={{ fontSize: "30px" }} >
-                    Gran Turismo
-                    </Row>
-                    <Row>
-                    Score above 80% correct answers on “GT Cars of Italy”.
-                    </Row>
-                    </Col>
-                  </Row>
-                </Container>
-              </div>
-            </Row>
-           <Row>
-
-              <div class="platform-content-row">
-                <Container>
-                  <Row>
-                    <Col xs lg="2" >
-                   <img style={{ "witdth": "70px", "height": "70px" }} src="https://www.pngmart.com/files/14/Golden-Ribbon-Badge-PNG.png" />
-                    </Col>
-                    <Col  >
-                    <Row style={{ fontSize: "30px" }} >
-                    Top Player
-                    </Row>
-                    <Row>
-                    Reach #1 on the leaderboard.
-                    </Row>
+                      <Row style={{ fontSize: "30px" }} >
+                        Gran Turismo
+                      </Row>
+                      <Row>
+                        Score above 80% correct answers on “GT Cars of Italy”.
+                      </Row>
                     </Col>
                   </Row>
                 </Container>
@@ -127,15 +107,15 @@ export default class Platform extends Component {
                 <Container>
                   <Row>
                     <Col xs lg="2" >
-                   <img style={{ "witdth": "70px", "height": "70px" }} src="https://www.pngmart.com/files/14/Golden-Ribbon-Badge-PNG.png" />
+                      <img style={{ "witdth": "70px", "height": "70px" }} src="https://www.pngmart.com/files/14/Golden-Ribbon-Badge-PNG.png" />
                     </Col>
                     <Col  >
-                    <Row style={{ fontSize: "30px" }} >
-                    F1 Superstar
-                    </Row>
-                    <Row>
-                    Get a perfect score on “Iconic F1 Races”.
-                    </Row>
+                      <Row style={{ fontSize: "30px" }} >
+                        Top Player
+                      </Row>
+                      <Row>
+                        Reach #1 on the leaderboard.
+                      </Row>
                     </Col>
                   </Row>
                 </Container>
@@ -147,15 +127,35 @@ export default class Platform extends Component {
                 <Container>
                   <Row>
                     <Col xs lg="2" >
-                   <img style={{ "witdth": "70px", "height": "70px" }} src="https://www.pngmart.com/files/14/Golden-Ribbon-Badge-PNG.png" />
+                      <img style={{ "witdth": "70px", "height": "70px" }} src="https://www.pngmart.com/files/14/Golden-Ribbon-Badge-PNG.png" />
                     </Col>
                     <Col  >
-                    <Row style={{ fontSize: "30px" }} >
-                    Need for Speed
-                    </Row>
-                    <Row>
-                    Complete “Fastest Cars in the United States” in less than 120 Seconds.
-                    </Row>
+                      <Row style={{ fontSize: "30px" }} >
+                        F1 Superstar
+                      </Row>
+                      <Row>
+                        Get a perfect score on “Iconic F1 Races”.
+                      </Row>
+                    </Col>
+                  </Row>
+                </Container>
+              </div>
+            </Row>
+            <Row>
+
+              <div class="platform-content-row">
+                <Container>
+                  <Row>
+                    <Col xs lg="2" >
+                      <img style={{ "witdth": "70px", "height": "70px" }} src="https://www.pngmart.com/files/14/Golden-Ribbon-Badge-PNG.png" />
+                    </Col>
+                    <Col  >
+                      <Row style={{ fontSize: "30px" }} >
+                        Need for Speed
+                      </Row>
+                      <Row>
+                        Complete “Fastest Cars in the United States” in less than 120 Seconds.
+                      </Row>
                     </Col>
                   </Row>
                 </Container>
