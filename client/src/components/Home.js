@@ -11,6 +11,8 @@ export default class Home extends Component{
         super(props);
         this.routeChangeLogout = this.routeChangeLogout.bind(this);
         this.routeChangeProfile = this.routeChangeProfile.bind(this);
+        this.routeChangePlatform = this.routeChangePlatform.bind(this);
+        this.routeChangeQuiz = this.routeChangeQuiz.bind(this);
     }
     routeChangeLogout() {
         //should be  /home/:userid
@@ -19,6 +21,14 @@ export default class Home extends Component{
     routeChangeProfile(){
         //should be  /profile/:userid
         this.props.history.push('/profile')
+    }
+    routeChangePlatform(){
+        //should be  /profile/:userid
+        this.props.history.push('/platform')
+    }
+    routeChangeQuiz(){
+        //should be  /profile/:userid
+        this.props.history.push('/quiz')
     }
     render(){
         return (
@@ -45,17 +55,17 @@ export default class Home extends Component{
                             </Card>
                         </Row>
                         <Row className='mr-auto'>
-                            <Button className ='marginspacing  mr-auto' variant="primary">
+                            <Button onClick={this.routeChangePlatform} className ='marginspacing  mr-auto' variant="primary">
                                 Example Platform
                             </Button>
                         </Row>
                         <Row>
-                            <Button className ='marginspacing' variant="primary">
+                            <Button onClick={this.routeChangeQuiz} className ='marginspacing' variant="primary">
                                 Example Quiz
                             </Button>
                         </Row>
                         <Row>
-                            <Button className ='marginspacing' variant="primary">
+                            <Button onClick={this.routeChangeProfile} className ='marginspacing' variant="primary">
                                 Example Profile
                             </Button>
                         </Row>
