@@ -11,7 +11,7 @@ export default class NewPlatformComponent extends Component {
         super(props)
 
         // Routes
-        this.routeChangeUser = this.routeChangeUser.bind(this);
+        this.routeChangeProfile = this.routeChangeProfile.bind(this);
         //this.routeChange
 
         // Setting up functions
@@ -28,8 +28,8 @@ export default class NewPlatformComponent extends Component {
         }
     }
 
-    routeChangeUser() {
-        this.props.history.push('/user')
+    routeChangeProfile() {
+        this.props.history.push('/profile')
     }
 
     onChangePlatformTitle(e) {
@@ -86,11 +86,11 @@ export default class NewPlatformComponent extends Component {
                         </div>
 
                         <div class="text-right">
-                            <Button className='savebutton' type="submit" onClick={this.routeChangeUser}>
+                            <Button className='savebutton' type="submit" onClick={this.routeChangeProfile}>
                                 Save
                             </Button>
 
-                            <Button className='cancelbutton' variant="danger" onClick={this.routeChangeUser}>
+                            <Button className='cancelbutton' variant="danger" onClick={this.routeChangeProfile}>
                                 Cancel
                             </Button>
                         </div>
