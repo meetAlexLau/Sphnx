@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Login from './components/Login';
 import Home from './components/Home';
+
+import QuizResult from './components/QuizResult';
+import SearchResult from './components/SearchResult';
+
 import UserComponent from './components/UserComponent';
 import EditUserComponent from './components/EditUserComponent';
 
