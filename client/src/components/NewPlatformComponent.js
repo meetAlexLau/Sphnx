@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import Form from 'react-bootstrap/Form';
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
-import axios from 'axios';
+//import axios from 'axios';
 import { Container } from "react-bootstrap";
 import '../App.css';
 

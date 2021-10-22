@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import Form from 'react-bootstrap/Form';
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
-import axios from 'axios';
-import { SketchPicker } from 'react-color';
+//import axios from 'axios';
+//import { SketchPicker } from 'react-color';
 import { Container } from "react-bootstrap";
 
 export default class NewQuizComponent extends Component {
