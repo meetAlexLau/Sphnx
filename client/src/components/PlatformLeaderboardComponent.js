@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { Link } from 'react-router-dom';
 
 import { Form, Col, Row, Container, Button } from "react-bootstrap";
-import axios from 'axios';
+//import axios from 'axios';
 
 
 
@@ -29,10 +29,10 @@ export default class PlatformLeaderboard extends Component {
               <Row>
                 <Col>
                   <Row><Link to={"/platformLeaderboard"} className="platform-left-button">Leaderboard</Link>
-                    <Link to={"/platform"} className="platform-home-button"></Link>
+                    <Link to={"/home"} className="platform-home-button"></Link>
                   </Row>
                   <Row><Link to={"/platformBadge"} className="platform-left-button">View All Badges</Link>
-
+                  <Link to={"/newBadge"} className="platform-left-button">New badge</Link>
                   </Row>
                 </Col>
 
@@ -43,9 +43,9 @@ export default class PlatformLeaderboard extends Component {
 
                 <Col >
 
-                  <Row className="d-flex justify-content-end"><Link to={"/student-list"} className="platform-right-button" style={{ backgroundColor: "#E79696" }}>unsubscribe</Link></Row>
-                  <Row className="d-flex justify-content-end"><Link to={"/new-quiz"} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Quiz</Link></Row>
-                  <Row className="d-flex justify-content-end"><Link to={"/new-post"} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Post</Link></Row>
+                  <Row className="d-flex justify-content-end"><Link to={"/"} className="platform-right-button" style={{ backgroundColor: "#E79696" }}>unsubscribe</Link></Row>
+                  <Row className="d-flex justify-content-end"><Link to={"/newQuiz"} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Quiz</Link></Row>
+                  <Row className="d-flex justify-content-end"><Link to={"/newPost"} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Post</Link></Row>
 
                 </Col>
               </Row>
