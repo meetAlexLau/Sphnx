@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Login from './components/Login';
 import Home from './components/Home';
-
 import QuizResult from './components/QuizResult';
 import SearchResult from './components/SearchResult';
-
 import NewBadgeComponent from './components/NewBadgeComponent';
 import NewPlatformComponent from './components/NewPlatformComponent';
 import NewQuizComponent from './components/NewQuizComponent';
@@ -18,7 +16,6 @@ import PlatformBadgeComponent from './components/PlatformBadgeComponent';
 import PlatformLeaderboardComponent from './components/PlatformLeaderboardComponent';
 import PlatformComponent from './components/PlatformComponent';
 import QuizComponent from './components/QuizComponent';
-import QuizResult from './components/QuizResult';
 
 
 class App extends Component{
