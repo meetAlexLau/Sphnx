@@ -3,9 +3,7 @@ import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
-import { SketchPicker } from 'react-color';
-//import questionImg from "../img/question.png";
-//import quizBackground from "../img/quizBackgournd.png";
+
 
 
 export default class Quiz extends Component {
