@@ -1,20 +1,30 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Login from './components/Login';
 import Home from './components/Home';
+
 import QuizResult from './components/QuizResult';
 import SearchResult from './components/SearchResult';
-class App extends Component {
-  render() {
-    return ( 
-      <Router>
-        <Route exact path='/' component={Login} />
-        <Route exact path='/home' component={Home} />
-        <Route exact path='/quizresult' component={QuizResult} />
-        <Route exact path='/searchresult' component={SearchResult} />
-      </Router>
-    )
-  }
+
+import UserComponent from './components/UserComponent';
+import EditUserComponent from './components/EditUserComponent';
+
+
+
+class App extends Component{
+
+    render(){
+
+        return(
+
+            <Router>
+                <Route path="/" exact component={Login} />
+                <Route path="/home" exact component={Home} />
+                <Route path="/profile" exact component={UserComponent} />
+                <Route path="/profile/edit" exact component={EditUserComponent} />
+            </Router>
+        )
+    }
 }
 
 export default App;
