@@ -1,0 +1,161 @@
+/*
+.wrapper {
+  padding-top: 30px;
+}
+
+body h3 {
+  margin-bottom: 25px;
+}
+
+.navbar-brand a {
+  color: #ffffff;
+}
+
+.form-wrapper,
+.table-wrapper {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.table-wrapper {
+  max-width: 700px;
+}
+
+.edit-link {
+  padding: 7px 10px;
+  font-size: 0.875rem;
+  line-height: normal;
+  border-radius: 0.2rem;
+  color: #fff;
+  background-color: #28a745;
+  border-color: #28a745;
+  margin-right: 10px;
+  position: relative;
+  top: 1px;
+}
+.show-link {
+  padding: 7px 10px;
+  font-size: 0.875rem;
+  line-height: normal;
+  border-radius: 0.2rem;
+  color: #fff;
+  background-color: #4a28a7;
+  border-color: #4a28a7;
+  margin-right: 10px;
+  position: relative;
+  top: 1px;
+}
+.edit-link:hover {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+#content {
+  height: 300px;
+  width: 75%;
+  
+  background-color: #ffffff;
+  margin: 0 auto;
+}
+#backgorund {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-image: url("./img/quizBackgournd.png");
+  height: 400px;
+  width: 100%;
+
+  background-color: rgba(255,0,0,0.5);
+  margin: 0 auto;
+}
+*/
+
+
+.light{
+  background-color: #F3ECC9;
+}
+
+.medium{
+  background-color: #E7C496;
+}
+
+
+.medium .sphnxtext{
+  margin-bottom: 400px;
+}
+
+
+.medium.homesearchbar{
+  margin-left: 8%;
+  margin-right: 8%;
+}
+
+.homecontainer{
+  width:95%;
+  height:100vh;
+  margin-bottom:10%;
+  align-items:left;
+}
+
+.dark{
+  background-color: #D4AC67;
+}
+
+.gray{
+  background-color: #AAAAAA;
+}
+
+.loginleft{
+  height: 100vh;
+}
+.loginSphnx{
+  font-size: 45px;
+}
+
+.medium .login{
+  margin-top: 15%;
+  padding-left: 50%;
+  padding-right: 50%;
+  position: relative;
+  width:40%;
+  font-size: 25px;
+}
+
+.containerrow {
+  margin-left:0;
+  margin-right:0;
+  height:100%;
+}
+.marginspacing{
+  margin: 1%;
+}
+.paddingspacing{
+  padding: 0.5%;
+}
+
+.sky {
+  background-color: #87CEEB;
+}
+
+.savebutton {
+  background-color: #C9F3D5;
+  color: #000000;
+}
+
+.cancelbutton {
+  color: #000000;
+}
+
+.choose-file-button {
+  background-color: white;
+  color: #000000;
+}
+
+select {
+  direction: ltr;
+}
+
+option {
+  direction: ltr;
+}

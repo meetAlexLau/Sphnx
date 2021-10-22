@@ -1,66 +1,88 @@
+
 .light{
     background-color: #F3ECC9;
-}
-
-.medium{
+  }
+  
+  .medium{
     background-color: #E7C496;
-}
-
-
-.medium .sphnxtext{
+  }
+  
+  
+  .medium .sphnxtext{
     margin-bottom: 400px;
-}
-
-
-.medium.homesearchbar{
+  }
+  
+  
+  .medium.homesearchbar{
     margin-left: 8%;
     margin-right: 8%;
-}
-
-.homecontainer{
+  }
+  
+  .homecontainer{
     width:95%;
-    height:100%;
-    max-height:100%;
+    height:100vh;
     margin-bottom:10%;
     align-items:left;
-}
-
-.dark{
+  }
+  
+  .dark{
     background-color: #D4AC67;
-}
-
-.gray{
+  }
+  
+  .gray{
     background-color: #AAAAAA;
-}
-
-.loginleft{
+  }
+  
+  .loginleft{
     height: 100vh;
-}
-.loginSphnx{
+  }
+  .loginSphnx{
     font-size: 45px;
-}
-
-.medium .login{
+  }
+  
+  .medium .login{
     margin-top: 15%;
     padding-left: 50%;
     padding-right: 50%;
     position: relative;
     width:40%;
     font-size: 25px;
-}
-
-.containerrow {
+  }
+  
+  .containerrow {
     margin-left:0;
     margin-right:0;
     height:100%;
-}
-.marginspacing{
+  }
+  .marginspacing{
     margin: 1%;
-}
-.paddingspacing{
+  }
+  .paddingspacing{
     padding: 0.5%;
-}
-
-.sky {
+  }
+  
+  .sky {
     background-color: #87CEEB;
-}
+  }
+  
+  .savebutton {
+    background-color: #C9F3D5;
+    color: #000000;
+  }
+  
+  .cancelbutton {
+    color: #000000;
+  }
+  
+  .choose-file-button {
+    background-color: white;
+    color: #000000;
+  }
+  
+  select {
+    direction: ltr;
+  }
+  
+  option {
+    direction: ltr;
+  }
