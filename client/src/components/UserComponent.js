@@ -14,6 +14,17 @@ export default class UserComponent extends Component{
           UserName: 'ScaryJones23'
         }
 
+        this.onClickNewPlatform = this.onClickNewPlatform.bind(this)
+        this.onClickPlatform = this.onClickPlatform.bind(this)
+
+    }
+
+    onClickNewPlatform(){
+      this.props.history.push('/newPlatform')
+    }
+
+    onClickPlatform(){
+      this.props.history.push('/platform')
     }
 
     render(){
@@ -323,7 +334,7 @@ export default class UserComponent extends Component{
                 }}>Test Platform 2</div>
               </div>
         
-              <div
+              <Button
                 style={{
                   position: "absolute",
                   width: "773px",
@@ -335,6 +346,7 @@ export default class UserComponent extends Component{
                   border: "solid",
                   borderRadius: "15px"
                 }}
+                onClick={this.onClickPlatform}
               >
                 <div style={{
                   position: "absolute",
@@ -350,9 +362,9 @@ export default class UserComponent extends Component{
                   lineHeight: "76px",
                   color: "#000000"
                 }}>Test Platform 1</div>
-              </div>
+              </Button>
         
-              <div
+              <Button
                 style={{
                   position: "absolute",
                   width: "450px",
@@ -364,6 +376,7 @@ export default class UserComponent extends Component{
                   border: "solid",
                   borderRadius: "15px"
                 }}
+                onClick={this.onClickNewPlatform}
               >
                 <div style={{
                   position: "absolute",
@@ -379,9 +392,9 @@ export default class UserComponent extends Component{
                   lineHeight: "76px",
                   color: "#000000"
                 }}>Your Platforms</div>
-              </div>
+              </Button>
         
-              <Link
+              <Button
                 style={{
                   position: "absolute",
                   width: "259px",
@@ -393,7 +406,7 @@ export default class UserComponent extends Component{
                   border: "solid",
                   borderRadius: "15px"
                 }}
-                to={'/new-platform'}
+                onClick={this.onClickNewPlatform}
               >
                 <div style={{
                   position: "absolute",
@@ -410,7 +423,7 @@ export default class UserComponent extends Component{
                   color: "#000000",
                   textAlign: 'center'
                 }}>Create New Platform</div>
-              </Link>
+              </Button>
             </div>
         
             <div
@@ -428,7 +441,7 @@ export default class UserComponent extends Component{
                 borderSize: "4px"
               }}
             >
-              <div
+              <Button
                 style={{
                   position: "absolute",
                   width: "773px",
@@ -440,6 +453,7 @@ export default class UserComponent extends Component{
                   border: "solid",
                   borderRadius: "15px"
                 }}
+                onClick={this.onClickPlatform}
               >
                 <div style={{
                   position: "absolute",
@@ -456,7 +470,7 @@ export default class UserComponent extends Component{
                   textAlign: 'center',
                   color: "#000000"
                 }}>Platform: Movies</div>
-              </div>
+              </Button>
         
               <div
                 style={{

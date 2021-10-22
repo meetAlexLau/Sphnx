@@ -6,6 +6,10 @@ import Home from './components/Home';
 import QuizResult from './components/QuizResult';
 import SearchResult from './components/SearchResult';
 
+import NewBadgeComponent from './components/NewBadgeComponent';
+import NewPlatformComponent from './components/NewPlatformComponent';
+import NewQuizComponent from './components/NewQuizComponent';
+
 import UserComponent from './components/UserComponent';
 import EditUserComponent from './components/EditUserComponent';
 
@@ -22,6 +26,9 @@ class App extends Component{
                 <Route path="/home" exact component={Home} />
                 <Route path="/profile" exact component={UserComponent} />
                 <Route path="/profile/edit" exact component={EditUserComponent} />
+                <Route path='/newPlatform' exact component={NewPlatformComponent}/>
+                <Route path='/newBadge' exact component={NewBadgeComponent}/>
+                <Route path='/newQuiz' exact component={NewQuizComponent}/>
             </Router>
         )
     }
