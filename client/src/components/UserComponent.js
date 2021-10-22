@@ -381,7 +381,7 @@ export default class UserComponent extends Component{
                 }}>Your Platforms</div>
               </div>
         
-              <div
+              <Link
                 style={{
                   position: "absolute",
                   width: "259px",
@@ -393,6 +393,7 @@ export default class UserComponent extends Component{
                   border: "solid",
                   borderRadius: "15px"
                 }}
+                to={'/new-platform'}
               >
                 <div style={{
                   position: "absolute",
@@ -409,7 +410,7 @@ export default class UserComponent extends Component{
                   color: "#000000",
                   textAlign: 'center'
                 }}>Create New Platform</div>
-              </div>
+              </Link>
             </div>
         
             <div
