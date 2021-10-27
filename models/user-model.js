@@ -51,3 +51,5 @@ let User = new Schema({
         type: Number
     }
 })
+
+module.exports = mongoose.model('User', User);

@@ -54,3 +54,5 @@ let Platform = new Schema({
         of: String
     }
 })
+
+module.exports = mongoose.model('Platform', Platform);

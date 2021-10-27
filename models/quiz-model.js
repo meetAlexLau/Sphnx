@@ -15,9 +15,10 @@ let Quiz = new Schema({
         type: String
     },
 
-    QuizUserAnswers: {
-
+    QuizQuestions: {
         type: Map,
         of: String
     }
 })
+
+module.exports = mongoose.model('Quiz', Quiz);
