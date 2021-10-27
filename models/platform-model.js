@@ -37,8 +37,7 @@ let Platform = new Schema({
 
     PlatformPicture: {
 
-        data: Buffer,
-        contentType: String
+        type: String
     },
 
     PlatformPoints: {

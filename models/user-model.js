@@ -16,13 +16,11 @@ let User = new Schema({
     },
 
     UserPicture: {
-        data: Buffer,
-        contentType: String
+        type: String,
     },
 
     UserBackgroundPicture: {
-        data: Buffer,
-        contentType: String
+        type: String
     },
 
     UserBadgeArray: {
