@@ -32,8 +32,9 @@ export default class UserComponent extends Component{
     }
 
     componentDidMount(){
-
         
+        axios.get('http://localhost:4000/users/617b2b616175b258c227c8b8')
+        .then(res => console.log(res.data.UserName));
 
     }
 

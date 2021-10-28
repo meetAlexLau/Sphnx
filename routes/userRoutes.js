@@ -19,7 +19,7 @@ router.route('/signUp').post(function(req, res) {
 });
 
 //fetch user info
-router.route('users/:id').get(function(req, res) {
+router.route('/:id').get(function(req, res) {
     let id = req.params.id;
     userSchema.findById(id, function(err, object) {
         res.json(object);
