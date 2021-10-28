@@ -20,13 +20,13 @@ app.use(cors());
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 
-/*
+
 app.use(express.static(path.resolve(__dirname, "client", "build")))
 
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "client", "build", "index.html"))
 })
-*/
+
 
 const port = process.env.PORT || PORT;
 const server = app.listen(port, () => {
