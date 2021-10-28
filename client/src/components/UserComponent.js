@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Image from 'react-bootstrap/Image'
 import Button from 'react-bootstrap/Button'
-import '.../css/userComponent.css'
+import '../css/userComponent.css'
 
 export default class UserComponent extends Component{
 
