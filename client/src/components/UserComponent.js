@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Image from 'react-bootstrap/Image'
+import Button from 'react-bootstrap/Button'
 
 export default class UserComponent extends Component{
 
@@ -14,6 +15,27 @@ export default class UserComponent extends Component{
           UserName: 'ScaryJones23'
         }
 
+        this.onClickNewPlatform = this.onClickNewPlatform.bind(this)
+        this.onClickPlatform = this.onClickPlatform.bind(this)
+        this.onClickMyBadge = this.onClickMyBadge.bind(this)
+        this.onClickQuiz = this.onClickQuiz.bind(this)
+
+    }
+
+    onClickNewPlatform(){
+      this.props.history.push('/newPlatform')
+    }
+
+    onClickPlatform(){
+      this.props.history.push('/platform')
+    }
+
+    onClickMyBadge(){
+      this.props.history.push('/myBadge')
+    }
+
+    onClickQuiz(){
+      this.props.history.push('/quiz')
     }
 
     render(){
@@ -188,7 +210,7 @@ export default class UserComponent extends Component{
                 }}
               ></div>
         
-              <div
+              <Button
                 style={{
                   position: "absolute",
                   width: "272px",
@@ -198,9 +220,11 @@ export default class UserComponent extends Component{
         
                   background: "#FFA2A2",
                   border: "solid",
+                  borderColor: 'black',
                   boxSizing: "border-box",
                   borderRadius: "15px"
                 }}
+                onClick={this.onClickMyBadge}
               >
                 <div style={{
                   position: "absolute",
@@ -216,7 +240,7 @@ export default class UserComponent extends Component{
                   lineHeight: "32px",
                   color: "#000000"
                 }}>View All Badges</div>
-              </div>
+              </Button>
         
               <Link
                 style={{
@@ -294,7 +318,7 @@ export default class UserComponent extends Component{
                 borderSize: "4px"
               }}
             >
-              <div
+              <Button
                 style={{
                   position: "absolute",
                   width: "773px",
@@ -304,8 +328,11 @@ export default class UserComponent extends Component{
         
                   background: "#FFA2A2",
                   border: "solid",
+                  borderColor: 'black',
                   borderRadius: "15px"
                 }}
+
+                onClick={this.onClickPlatform}
               >
                 <div style={{
                   position: "absolute",
@@ -321,9 +348,9 @@ export default class UserComponent extends Component{
                   lineHeight: "76px",
                   color: "#000000"
                 }}>Test Platform 2</div>
-              </div>
+              </Button>
         
-              <div
+              <Button
                 style={{
                   position: "absolute",
                   width: "773px",
@@ -333,8 +360,10 @@ export default class UserComponent extends Component{
         
                   background: "#FFA2A2",
                   border: "solid",
+                  borderColor: 'black',
                   borderRadius: "15px"
                 }}
+                onClick={this.onClickPlatform}
               >
                 <div style={{
                   position: "absolute",
@@ -350,9 +379,9 @@ export default class UserComponent extends Component{
                   lineHeight: "76px",
                   color: "#000000"
                 }}>Test Platform 1</div>
-              </div>
+              </Button>
         
-              <div
+              <Button
                 style={{
                   position: "absolute",
                   width: "450px",
@@ -362,8 +391,10 @@ export default class UserComponent extends Component{
         
                   background: "#FFA2A2",
                   border: "solid",
+                  borderColor: 'black',
                   borderRadius: "15px"
                 }}
+                onClick={this.onClickNewPlatform}
               >
                 <div style={{
                   position: "absolute",
@@ -379,9 +410,9 @@ export default class UserComponent extends Component{
                   lineHeight: "76px",
                   color: "#000000"
                 }}>Your Platforms</div>
-              </div>
+              </Button>
         
-              <div
+              <Button
                 style={{
                   position: "absolute",
                   width: "259px",
@@ -391,8 +422,10 @@ export default class UserComponent extends Component{
         
                   background: "#FFA2A2",
                   border: "solid",
+                  borderColor: 'black',
                   borderRadius: "15px"
                 }}
+                onClick={this.onClickNewPlatform}
               >
                 <div style={{
                   position: "absolute",
@@ -409,7 +442,7 @@ export default class UserComponent extends Component{
                   color: "#000000",
                   textAlign: 'center'
                 }}>Create New Platform</div>
-              </div>
+              </Button>
             </div>
         
             <div
@@ -427,7 +460,7 @@ export default class UserComponent extends Component{
                 borderSize: "4px"
               }}
             >
-              <div
+              <Button
                 style={{
                   position: "absolute",
                   width: "773px",
@@ -439,6 +472,7 @@ export default class UserComponent extends Component{
                   border: "solid",
                   borderRadius: "15px"
                 }}
+                onClick={this.onClickPlatform}
               >
                 <div style={{
                   position: "absolute",
@@ -455,9 +489,9 @@ export default class UserComponent extends Component{
                   textAlign: 'center',
                   color: "#000000"
                 }}>Platform: Movies</div>
-              </div>
+              </Button>
         
-              <div
+              <Button
                 style={{
                   position: "absolute",
                   width: "773px",
@@ -467,8 +501,10 @@ export default class UserComponent extends Component{
         
                   background: "#FFA2A2",
                   border: "solid",
+                  borderColor: 'black',
                   borderRadius: "15px"
                 }}
+                onClick={this.onClickQuiz}
               >
                 <div style={{
                   position: "absolute",
@@ -485,7 +521,7 @@ export default class UserComponent extends Component{
                   textAlign: 'center',
                   color: "#000000"
                 }}>Quiz: Orange Juice</div>
-              </div>
+              </Button>
         
               <div
                 style={{
