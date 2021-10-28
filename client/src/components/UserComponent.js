@@ -2,6 +2,12 @@ import React, {Component} from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Image from 'react-bootstrap/Image'
 import Button from 'react-bootstrap/Button'
+import Container from "react-bootstrap/Container";
+import Button from "react-bootstrap/Button";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Image from "react-bootstrap/Image";
+
 import '../css/userComponent.css'
 
 export default class UserComponent extends Component{
