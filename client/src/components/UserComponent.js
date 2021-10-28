@@ -13,7 +13,9 @@ export default class UserComponent extends Component{
         this.state = {
           UserPrimaryColor: '#FF5353',
           UserSecondaryColor: '#87CEEB',
-          UserName: 'ScaryJones23'
+          UserName: 'ScaryJones23',
+          UserPicture: "https://images.freeimages.com/images/large-previews/25d/eagle-1523807.jpg",
+          UserBackgroundPicture: 'url(https://www.ksn.com/wp-content/uploads/sites/13/2020/08/EFC31919-DFE1-4C07-8AE2-2B03AAF57D55.jpeg?w=4032)'
         }
 
         this.onClickNewPlatform = this.onClickNewPlatform.bind(this)
@@ -42,7 +44,7 @@ export default class UserComponent extends Component{
     render(){
 
         return(
-          <Container fluid style={{ background: UserPrimaryColor }}>
+          <Container fluid style={{ background: this.state.UserPrimaryColor }}>
             <Row>
             <Col md={12}>
                 <Row>
