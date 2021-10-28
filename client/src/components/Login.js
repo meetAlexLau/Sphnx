@@ -1,4 +1,6 @@
+require('dotenv').config();
 import React, {Component} from 'react';
+import GoogleLogin from 'react-google-login';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -14,6 +16,10 @@ export default class Login extends Component{
         //should be  /home/:userid
         this.props.history.push('/home');
     }
+    responseGoogle = (resp) => {
+        console.log(resp)
+        console.log(resp.profileObj)
+    }
     render(){
         return (
             <Container fluid style={{width: '100%'}}>
@@ -27,10 +33,14 @@ export default class Login extends Component{
                             <Card className='light'>
                                 Quiz yourself, Quiz your friends, Quiz Everyone!
                             </Card>
-
-                            <Button onClick={this.routeChange} variant="primary" className = 'medium login'>
-                                Login with Google Email
-                            </Button>
+                            <GoogleLogin className = 'login'
+                                clientId = '787055066898-kiaajnba1a2dpgk2lvkg20uhsn70pe3i.apps.googleusercontent.com'
+                                buttonText = "Sign In With Google"
+                                onSuccess = {this.responseGoogle, this.routeChange}
+                                onFailure = {this.responseGoogle}
+                                cookiePolicy = {'single_host_origin'}
+                            />
+                            
                         </Container>
                     </Col>
                     <Col className='dark' fluid>
