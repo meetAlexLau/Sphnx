@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-let User = new Schema({
-
+let UserSchema = new Schema({
     UserID: {
         type: String
     },
@@ -49,7 +48,9 @@ let User = new Schema({
         type: Number
     },
 
-    UserCoints: {
+    UserCoins: {
         type: Number
     }
 })
+
+module.exports = mongoose.model("Users", UserSchema)

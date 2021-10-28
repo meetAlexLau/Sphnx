@@ -1,5 +1,6 @@
 require('dotenv').config();
 import React, {Component} from 'react';
+import axios from 'axios';
 import GoogleLogin from 'react-google-login';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -17,8 +18,17 @@ export default class Login extends Component{
         this.props.history.push('/home');
     }
     responseGoogle = (resp) => {
-        console.log(resp)
-        console.log(resp.profileObj)
+        let profile = resp.profileObj;
+        const newUser = {
+            UserID: profile.googleId,
+            UserName: profile.name + (Math.floor(Math.random() * 1000) + 1),
+            UserEmail: profile.email,
+            UserPoints: 0,
+            UserCoins: 0
+        }
+        axios.post('http://localhost:4000/Users', newUser).then(res => console.log(res.data));
+        this.routeChange()
+
     }
     render(){
         return (
@@ -36,7 +46,7 @@ export default class Login extends Component{
                             <GoogleLogin className = 'login'
                                 clientId = '787055066898-kiaajnba1a2dpgk2lvkg20uhsn70pe3i.apps.googleusercontent.com'
                                 buttonText = "Sign In With Google"
-                                onSuccess = {this.responseGoogle, this.routeChange}
+                                onSuccess = {this.responseGoogle}
                                 onFailure = {this.responseGoogle}
                                 cookiePolicy = {'single_host_origin'}
                             />
