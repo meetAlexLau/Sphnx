@@ -1,5 +1,6 @@
 require('dotenv').config();
 import React, {Component} from 'react';
+import axios from 'axios';
 import GoogleLogin from 'react-google-login';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -17,8 +18,17 @@ export default class Login extends Component{
         this.props.history.push('/home');
     }
     responseGoogle = (resp) => {
-        console.log(resp)
-        console.log(resp.profileObj)
+        let profile = resp.profileObj;
+        const newUser = {
+            UserID: profile.googleId,
+            UserName: profile.name + (Math.floor(Math.random() * 1000) + 1),
+            UserEmail: profile.email,
+            UserPoints: 0,
+            UserCoins: 0
+        }
+        axios.post('http://localhost:4000/Users', newUser).then(res => console.log(res.data));
+        this.routeChange()
+
     }
     render(){
         return (
@@ -33,7 +43,6 @@ export default class Login extends Component{
                             <Card className='light'>
                                 Quiz yourself, Quiz your friends, Quiz Everyone!
                             </Card>
-                            
                             <Button onClick={this.routeChange} variant="primary" className = 'medium login'>
                                 Login with Google Email
                             </Button>
