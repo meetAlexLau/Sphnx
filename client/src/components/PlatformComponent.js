@@ -14,6 +14,7 @@ export default class Platform extends Component {
 
   }
 
+  // TODO: Decouple badge creation from platforms and make it part of quiz creation.
   render() {
     return (
 
@@ -28,11 +29,13 @@ export default class Platform extends Component {
             <Container>
               <Row>
                 <Col>
-                  <Row><Link to={"/platformLeaderboard"} className="platform-left-button">Leaderboard</Link>
+                  <Row>
+                    <Link to={"/platformLeaderboard"} className="platform-left-button">Leaderboard</Link>
                     <Link to={"/home"} className="platform-home-button"></Link>
                   </Row>
-                  <Row><Link to={"/platformBadge"} className="platform-left-button">View All Badges</Link>
-                  <Link to={"/newBadge"} className="platform-left-button">New badge</Link>
+                  <Row>
+                    <Link to={"/platformBadge"} className="platform-left-button">View All Badges</Link>
+                    <Link to={"/platform"} className="platform-left-button">Platform Home</Link>
                   </Row>
                 </Col>
 
