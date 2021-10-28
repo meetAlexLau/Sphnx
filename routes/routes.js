@@ -142,6 +142,7 @@ router.route('/updateQuiz/:id').post((req, res) => {
           object.QuizAnswerKey = req.body.QuizAnswerKey;
           object.QuizID = req.params.id;
           object.QuizTitle = req.body.QuizTitle;
+          object.QuizBackground = req.body.QuizBackground;
           object.QuizQuestions = req.body.QuizQuestions;
         
         

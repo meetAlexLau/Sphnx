@@ -15,6 +15,10 @@ let Quiz = new Schema({
         type: String
     },
 
+    QuizBackground:{
+        type: String
+    },
+
     QuizQuestions: {
         type: Map,
         of: String
