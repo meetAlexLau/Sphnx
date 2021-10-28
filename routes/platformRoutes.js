@@ -52,3 +52,5 @@ router.route('/updatePlatform/:id').post((req, res) => {
             })
     })
   })
+
+  module.exports = router;

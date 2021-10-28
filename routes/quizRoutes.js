@@ -46,3 +46,6 @@ router.route('/updateQuiz/:id').post((req, res) => {
             })
     })
   })
+
+  
+  module.exports = router;
