@@ -1,0 +1,263 @@
+
+.backgorund {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /*background-image: url("./img/quizBackgournd.png");*/
+  height: 400px;
+  width: 100%;
+
+  background-color: #87CEEB;
+  margin: 0 auto;
+}
+
+
+
+.quiz-content {
+  height: 300px;
+  width: 75%;
+  
+  background-color: #ffffff;
+  margin: 0 auto;
+}
+.quiz-button {
+  padding: 7px 10px;
+  font-size: 0.875rem;
+  line-height: normal;
+  border-radius: 0.2rem;
+  color: #000000;
+  background-color: #E7C496;;
+  border-color: #E7C496;;
+  margin-right: 10px;
+  position: relative;
+  top: 1px;
+  float: right
+}
+.badge-content {
+  height: 350px;
+  width: 90%;
+  border-color: #000000;
+  border-style: solid;
+  border-radius: 25px;
+  background-color: #E7C496;
+  margin: 0 auto;
+}
+.badge-content-header {
+  
+  text-align: center;
+  font-size: 30px;
+  height: 50px;
+  width: 90%;
+  border-color: #000000;
+  border-style: solid;
+  background-color: #F3ECC9;
+  margin-top:10px;
+  margin-bottom:0;
+  margin-left:auto;
+  margin-right:auto;
+}
+.badge-button {
+  padding: 7px 7px;
+  font-size: 0.875rem;
+  line-height: normal;
+  color: #000000;
+  background-color: #E79696;
+  border-color: #E79696;
+  margin-right: 10px;
+  position: relative;
+  left: 10px;
+  top: 10px;
+  float: left
+}
+
+
+
+.platform-backgorund {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /*background-image: url("./img/quizBackgournd.png");*/
+  height: 700px;
+  width: 100%;
+
+  background-color: #87CEEB;
+  margin: 0 auto;
+}
+.platform-content {
+  height: 600px;
+  width: 90%;
+  border-color: #000000;
+  border-style: solid;
+  
+  background-color: #E79696;
+  margin: 0 auto;
+}
+
+.platform-content-header {
+  color: #ffffff;
+  text-align: center;
+  font-size: 30px;
+  height: 110px;
+  width: 90%;
+  border-color: #000000;
+  border-style: solid;
+  background-color: #E96363;
+  
+  margin-bottom:20px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.platform-left-button {
+  padding: 5px 5px;
+  font-size: 0.875rem;
+  line-height: normal;
+  color: #000000;
+  background-color: #E7C496;
+  border-color: #E7C496;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  position: relative;
+  left: 10px;
+  top: 5px;
+  float: left
+}
+
+.platform-home-button {
+
+  background-color: #E7C496;
+  border-color: #E7C496;
+  margin-right: 10px;
+  position: relative;
+  left: 10px;
+  top: 10px;
+  float: left;
+  height: 20px;
+  width: 20px;
+  background-repeat: no-repeat;
+  background-size: 20px 20px;
+  /*background-image: url("./homebutton.png");*/
+  background-image: url("https://s3-alpha-sig.figma.com/img/0382/8b48/140edd168ff7161345206341c0ff5fa6?Expires=1635724800&Signature=Cz4q5p0kCSf0c0T18rRHS0THDTAvElybIqU6PgdSoeafXvyNyecIHaeahLElopWwusZKT2aEWzUFQGLuDfNT~nxKZOd3pozK8HUmwVst7LPRKlhh861jf88-ZLUlxS8dfBH1RKnv6LIecR1k2Sq5bEtHU-2VHMI-A6aL9PFX6JH2xsWNb6iWX9xSzPWKm3v2yGUJhHcLp2P1yDgXFMuO7rmc9pT9CNljnuTrEM83C5lCTYUnxgNMmNDsNgMWcqsxlzcWXzGqqucp9pGF2EXq9iB0jhxMC2Csu6XZKKU3rS5JzGcpGtVkg6kBene53H1y5i8eK0YUnQXa-o7mdgc7ow__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA");
+
+}
+
+.platform-right-button {
+  padding: 4px 4px;
+  font-size: 0.875rem;
+  line-height: normal;
+  color: #000000;
+  background-color: #E7C496;
+  border-color: #E7C496;
+  
+  margin-bottom: 5px;
+  position: relative;
+  right: 10px;
+  top: 5px;
+  
+ 
+}
+
+.platform-content-row {
+  color: #ffffff;
+  text-align: left;
+  font-size: 20px;
+  height: 80px;
+  width: 90%;
+  border-color: #000000;
+  border-style: solid;
+  background-color: #D87171;
+  margin-left:auto;
+  margin-right:auto;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.light{
+  background-color: #F3ECC9;
+}
+
+.medium{
+  background-color: #E7C496;
+}
+
+
+.medium .sphnxtext{
+  margin-bottom: 400px;
+}
+
+
+.medium.homesearchbar{
+  margin-left: 8%;
+  margin-right: 8%;
+}
+
+.homecontainer{
+  width:95%;
+  height:100vh;
+  margin-bottom:10%;
+  align-items:left;
+}
+
+.dark{
+  background-color: #D4AC67;
+}
+
+.gray{
+  background-color: #AAAAAA;
+}
+
+.loginleft{
+  height: 100vh;
+}
+.loginSphnx{
+  font-size: 45px;
+}
+
+.medium .login{
+  margin-top: 15%;
+  padding-left: 50%;
+  padding-right: 50%;
+  position: relative;
+  width:40%;
+  font-size: 25px;
+}
+
+.containerrow {
+  margin-left:0;
+  margin-right:0;
+  height:100%;
+}
+.marginspacing{
+  margin: 1%;
+}
+.paddingspacing{
+  padding: 0.5%;
+}
+
+.sky {
+  background-color: #87CEEB;
+}
+
+.savebutton {
+  background-color: #C9F3D5;
+  color: #000000;
+}
+
+.cancelbutton {
+  color: #000000;
+}
+
+.choose-file-button {
+  background-color: white;
+  color: #000000;
+}
+
+select {
+  direction: ltr;
+}
+
+option {
+  direction: ltr;
+}
