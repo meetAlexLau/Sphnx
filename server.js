@@ -6,10 +6,8 @@ const path = require("path")
 const PORT = process.env.PORT || 4000;
 const cookieSession= require('cookie-session');
 
-mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser:  true
-}).then(() => {
-    console.log("Local Database Connected");
+mongoose.connect("mongodb+srv://masong:12345@cluster0.aravz.mongodb.net/Sphnx?retryWrites=true&w=majority", { useNewUrlParser: true}).then(() => {
+    console.log("MongoDB database connection established successfully");
 }, error => {
     console.log(error);
     console.log("Local Database Error Connection");
