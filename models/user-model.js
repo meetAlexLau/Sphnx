@@ -15,13 +15,11 @@ let UserSchema = new Schema({
     },
 
     UserPicture: {
-        data: Buffer,
-        contentType: String
+        type: String,
     },
 
     UserBackgroundPicture: {
-        data: Buffer,
-        contentType: String
+        type: String
     },
 
     UserBadgeArray: {
@@ -53,4 +51,8 @@ let UserSchema = new Schema({
     }
 })
 
+<<<<<<< HEAD
 module.exports = mongoose.model("Users", UserSchema)
+=======
+module.exports = mongoose.model('User', User);
+>>>>>>> 731e638bbda879e972c0a26ddd5a6e67aa328d0f

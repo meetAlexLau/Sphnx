@@ -37,8 +37,7 @@ let Platform = new Schema({
 
     PlatformPicture: {
 
-        data: Buffer,
-        contentType: String
+        type: String
     },
 
     PlatformPoints: {
@@ -55,3 +54,5 @@ let Platform = new Schema({
         of: String
     }
 })
+
+module.exports = mongoose.model('Platform', Platform);

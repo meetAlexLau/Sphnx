@@ -16,3 +16,5 @@ let Question = new Schema({
         of: String
     }
 })
+
+module.exports = mongoose.model('Question', Question);
