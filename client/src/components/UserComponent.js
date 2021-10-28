@@ -230,7 +230,7 @@ export default class UserComponent extends Component{
                   position: "absolute",
                   width: "396px",
                   height: "76px",
-                  left: "45px",
+                  left: "15px",
                   top: "10px",
         
                   fontFamily: "Oxygen",

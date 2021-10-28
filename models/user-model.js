@@ -16,13 +16,11 @@ let User = new Schema({
     },
 
     UserPicture: {
-        data: Buffer,
-        contentType: String
+        type: String,
     },
 
     UserBackgroundPicture: {
-        data: Buffer,
-        contentType: String
+        type: String
     },
 
     UserBadgeArray: {
@@ -53,3 +51,5 @@ let User = new Schema({
         type: Number
     }
 })
+
+module.exports = mongoose.model('User', User);
