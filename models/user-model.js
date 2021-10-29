@@ -48,11 +48,16 @@ let UserSchema = new Schema({
 
     UserCoins: {
         type: Number
+    },
+
+    UserPrimaryColor: {
+        type: String
+    },
+
+    UserSecondaryColor: {
+        type: String
     }
 })
 
-<<<<<<< HEAD
-module.exports = mongoose.model("Users", UserSchema)
-=======
-module.exports = mongoose.model('User', User);
->>>>>>> 731e638bbda879e972c0a26ddd5a6e67aa328d0f
+
+module.exports = mongoose.model('User', UserSchema);

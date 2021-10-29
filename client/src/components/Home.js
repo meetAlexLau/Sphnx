@@ -1,10 +1,13 @@
 import React, {Component} from 'react';
+import {Redirect} from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
+import {GoogleLogout} from 'react-google-login';
 import '../css/App.css';
+import axios from 'axios'
 
 export default class Home extends Component{
     constructor(props){
@@ -13,6 +16,32 @@ export default class Home extends Component{
         this.routeChangeProfile = this.routeChangeProfile.bind(this);
         this.routeChangePlatform = this.routeChangePlatform.bind(this);
         this.routeChangeQuiz = this.routeChangeQuiz.bind(this);
+        this.state = {
+            isLoggedIn: sessionStorage.getItem('isLoggedIn'),
+            UserID: '',
+            UserName: '',
+            UserEmail: ''
+
+        }
+    }
+    componentDidMount(){
+        console.log("Mounting")
+        axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
+            .then((res) => {
+                let User = res.data[0];
+                this.setState({
+                    UserName: User.UserName,
+                    UserId: User.UserID,
+                    UserEmail: User.UserEmail
+                });
+            })
+            .catch((err) => {
+
+            })
+            
+        if(this.state.isLoggedIn == false){
+            this.props.history.push('/')
+        }
     }
     routeChangeLogout() {
         //should be  /home/:userid
@@ -20,6 +49,7 @@ export default class Home extends Component{
     }
     routeChangeProfile(){
         //should be  /profile/:userid
+        
         this.props.history.push('/profile')
     }
     routeChangePlatform(){
@@ -30,15 +60,32 @@ export default class Home extends Component{
         //should be  /profile/:userid
         this.props.history.push('/quiz')
     }
+
+    logout = (response) => {
+        console.log(response)
+        this.props.history.push('/')
+        sessionStorage.clear()
+    }
+
     render(){
         return (
             <Container fluid className='sky containerrow'> {/* home container*/}
                 <Row className = 'medium marginspacing paddingspacing'> {/*Logout | Title | Profile */}
+                    <GoogleLogout
+                        clientId='787055066898-kiaajnba1a2dpgk2lvkg20uhsn70pe3i.apps.googleusercontent.com'
+                        buttonText="Logout"
+                        onLogoutSuccess={this.logout}
+                        isSignedIn={false}
+                    >
+                    </GoogleLogout>
                     <Button className='mr-auto gray'onClick={this.routeChangeLogout} variant="primary">
                         Logout
                     </Button>
                     <Card body className='ml-auto mr-auto' style={{width: "25%", textAlign: 'center', fontSize: '25px'}}>
-                        Sphnx
+                        Sphnx 
+                        <p>
+                            Welcome, [{this.state.UserName}]
+                        </p>
                     </Card>
                     <Button className='ml-auto gray' onClick={this.routeChangeProfile} variant="primary">
                         Profile

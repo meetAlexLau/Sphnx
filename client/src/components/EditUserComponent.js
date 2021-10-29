@@ -5,7 +5,31 @@ import Image from "react-bootstrap/Image";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import axios from 'axios'
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+const NAME_OF_UPLOAD_PRESET = "sphnxPreset";
+const YOUR_CLOUDINARY_ID = "sphnx"; 
+
+async function uploadImage(file) {
+  const data = new FormData();
+  data.append("file", file);
+  data.append("upload_preset", NAME_OF_UPLOAD_PRESET);
+  const res = await fetch(
+    `https://api.cloudinary.com/v1_1/${YOUR_CLOUDINARY_ID}/image/upload`,
+    {
+      method: "POST",
+      body: data
+    }
+  );
+  const img = await res.json();
+  console.log(img);
+  return img.secure_url;
+}
+
+
+
+
+
 
 export default class EditUserComponent extends Component{
 
@@ -15,14 +39,83 @@ export default class EditUserComponent extends Component{
         this.state = {
           UserPrimaryColor: '#FF5353',
           UserSecondaryColor: '#87CEEB',
-          UserName: 'ScaryJones23'
+          UserName: 'ScaryJones23',
+          UserPicture:'',
+          UserBackgroundPicture: '',
+          uploading: false
         }
 
         this.onChangeUserName = this.onChangeUserName.bind(this)
         this.onChangeUserPrimaryColor = this.onChangeUserPrimaryColor.bind(this)
         this.onChangeUserSecondaryColor = this.onChangeUserSecondaryColor.bind(this)
+        this.setUploadingImg = this.setUploadingImg.bind(this)
+        this.handleFileChange = this.handleFileChange.bind(this)
+        this.onSubmit = this.onSubmit.bind(this)
 
     }
+
+
+    setUploadingImg(isUploading){
+      this.setState({
+        uploading: isUploading
+      })
+    }
+    
+    handleFileChange = async event => {
+      const [file] = event.target.files;
+      if (!file) return;
+    
+      
+      const uploadedUrl = await uploadImage(file);
+      console.log(uploadedUrl)
+      this.setState({
+
+        UserPicture: uploadedUrl
+
+      })
+
+    };
+
+    handleFileChange2 = async event => {
+      const [file] = event.target.files;
+      if (!file) return;
+    
+      
+      const uploadedUrl2 = await uploadImage(file);
+      console.log(uploadedUrl2)
+      this.setState({
+
+        UserBackgroundPicture: 'url(' + uploadedUrl2 + ')'
+
+      })
+    
+    };
+
+    onSubmit(e){
+
+      if(this.state.uploading){
+        return
+      }
+      else{
+
+        const updatedUser = {
+          UserPicture: this.state.UserPicture,
+          UserBackgroundPicture: this.state.UserBackgroundPicture,
+          UserName: this.state.UserName,
+          UserPrimaryColor: this.state.UserPrimaryColor,
+          UserSecondaryColor: this.state.UserSecondaryColor
+        }
+
+        console.log('print')
+        axios.put('http://localhost:4000/users/617b5dcceaf186e2ae0998bb', updatedUser)
+        .then(res => console.log(res.data))
+        .catch(err => console.log(err))
+        this.props.history.push('/profile')
+
+      }
+      
+    }
+    
 
     onChangeUserName(e){
       this.setState({
@@ -109,7 +202,7 @@ export default class EditUserComponent extends Component{
                 >
                   Profile Picture
                 </Form.Label>
-                <Form.Control type="file" />
+                <Form.Control type="file" accept='image/*' onChange={this.handleFileChange}/>
               </Form.Group>
 
               <Form.Group controlId="formUserBackgroundPicture">
@@ -126,7 +219,7 @@ export default class EditUserComponent extends Component{
                 >
                   Profile Background Picture
                 </Form.Label>
-                <Form.Control type="file" />
+                <Form.Control type="file" accept='image/*' onChange={this.handleFileChange2}/>
               </Form.Group>
 
               <Form.Label
@@ -186,8 +279,8 @@ export default class EditUserComponent extends Component{
                   to={'/profile'}>
                     Exit
               </Link>
-              <Link 
-                type='submit'
+              <Button
+                
                 style={{position: 'absolute',
                   width: '233px',
                   height: '76px',
@@ -201,277 +294,12 @@ export default class EditUserComponent extends Component{
                   boxSizing: 'border-box',
                   borderRadius: '20px',
                 }}
-                to={'/profile'}>
+                onClick={this.onSubmit}>
                   Save & Exit
-              </Link>
-
+              </Button>
             </Form>
           </div>
         </Container>
-      </Col>
-      <Col className="dark" fluid md={6}>
-        <div
-          style={{
-            background: this.state.UserPrimaryColor,
-            width: "1920px",
-            height: "1080px"
-          }}
-        >
-          <div
-            style={{
-              background: "gray",
-              position: "absolute",
-              width: "1361px",
-              height: "610px",
-              left: "279px",
-              top: "8px",
-
-              border: "solid",
-              borderSize: "4px",
-              borderRadius: "25px",
-              boxSizing: "border-box"
-            }}
-          >
-            <div
-              style={{
-                position: "absolute",
-                width: "511px",
-                height: "511px",
-                left: "424px",
-                top: "8px",
-
-                backgroundPosition: "center",
-                backgroundImage:
-                  'url("https://images.freeimages.com/images/large-previews/25d/eagle-1523807.jpg")',
-                border: "solid",
-                boxSizing: "border-box",
-                borderRadius: "50%"
-              }}
-            ></div>
-
-            <div
-              style={{
-                position: "absolute",
-                width: "288px",
-                height: "68px",
-                left: "534.5px",
-                top: "531px",
-
-                background: this.state.UserSecondaryColor,
-                border: "solid",
-                borderRadius: "15px"
-              }}
-            >
-              <div
-                style={{
-                  position: "absolute",
-                  width: "205px",
-                  height: "41px",
-                  left: "35px",
-                  top: "5px",
-
-                  fontFamily: "Oxygen",
-                  fontStyle: "normal",
-                  fontWeight: "normal",
-                  fontSize: "40px",
-                  lineHeight: "51px",
-                  color: "#000000"
-                }}
-              >
-                {this.state.UserName}
-              </div>
-            </div>
-          </div>
-
-          <div
-            style={{
-              position: "absolute",
-              width: "843px",
-              height: "478px",
-              left: "78px",
-              top: "634px",
-
-              background: this.state.UserSecondaryColor,
-              boxSizing: "border-box",
-              borderRadius: "25px",
-              border: "solid",
-              borderSize: "4px"
-            }}
-          >
-            <div
-              style={{
-                position: "absolute",
-                width: "773px",
-                height: "120px",
-                left: "35px",
-                top: "169px",
-
-                background: "#FFA2A2",
-                border: "solid",
-                borderRadius: "15px"
-              }}
-            ></div>
-
-            <div
-              style={{
-                position: "absolute",
-                width: "773px",
-                height: "120px",
-                left: "35px",
-                top: "321px",
-
-                background: "#FFA2A2",
-                border: "solid",
-                borderRadius: "15px"
-              }}
-            ></div>
-
-            <div
-              style={{
-                position: "absolute",
-                width: "450px",
-                height: "108px",
-                left: "29px",
-                top: "35px",
-
-                background: "#FFA2A2",
-                border: "solid",
-                borderRadius: "15px"
-              }}
-            >
-              <div
-                style={{
-                  position: "absolute",
-                  width: "396px",
-                  height: "76px",
-                  left: "27px",
-                  top: "16px",
-
-                  fontFamily: "Oxygen",
-                  fontStyle: "normal",
-                  fontWeight: "normal",
-                  fontSize: "60px",
-                  lineHeight: "76px",
-                  color: "#000000"
-                }}
-              >
-                Your Platforms
-              </div>
-            </div>
-
-            <div
-              style={{
-                position: "absolute",
-                width: "259px",
-                height: "108px",
-                left: "529px",
-                top: "35px",
-
-                background: "#FFA2A2",
-                border: "solid",
-                borderRadius: "15px"
-              }}
-            >
-              <div
-                style={{
-                  position: "absolute",
-                  width: "244px",
-                  height: "115px",
-                  left: "8px",
-                  top: "12px",
-
-                  fontFamily: "Oxygen",
-                  fontStyle: "normal",
-                  fontWeight: "normal",
-                  fontSize: "35px",
-                  lineHeight: "44px",
-                  color: "#000000",
-                  textAlign: "center"
-                }}
-              >
-                Create New Platform
-              </div>
-            </div>
-          </div>
-
-          <div
-            style={{
-              position: "absolute",
-              width: "843px",
-              height: "478px",
-              left: "1000px",
-              top: "634px",
-
-              background: this.state.UserSecondaryColor,
-              boxSizing: "border-box",
-              borderRadius: "25px",
-              border: "solid",
-              borderSize: "4px"
-            }}
-          >
-            <div
-              style={{
-                position: "absolute",
-                width: "773px",
-                height: "120px",
-                left: "35px",
-                top: "169px",
-
-                background: "#FFA2A2",
-                border: "solid",
-                borderRadius: "15px"
-              }}
-            ></div>
-
-            <div
-              style={{
-                position: "absolute",
-                width: "773px",
-                height: "120px",
-                left: "35px",
-                top: "321px",
-
-                background: "#FFA2A2",
-                border: "solid",
-                borderRadius: "15px"
-              }}
-            ></div>
-
-            <div
-              style={{
-                position: "absolute",
-                width: "725px",
-                height: "92px",
-                left: "55px",
-                top: "34px",
-
-                background: "#FFA2A2",
-                border: "solid",
-                borderRadius: "15px"
-              }}
-            >
-              <div
-                style={{
-                  position: "absolute",
-                  width: "235px",
-                  height: "76px",
-                  left: "245px",
-                  top: "3px",
-
-                  fontFamily: "Oxygen",
-                  fontStyle: "normal",
-                  fontWeight: "normal",
-                  fontSize: "60px",
-                  lineHeight: "76px",
-                  textAlign: "center",
-                  color: "#000000"
-                }}
-              >
-                Recently
-              </div>
-            </div>
-          </div>
-        </div>
       </Col>
     </Row>
   </Container>

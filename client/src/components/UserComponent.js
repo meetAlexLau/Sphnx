@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button'
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import axios from 'axios'
 
 
 import '../css/userComponent.css'
@@ -30,6 +31,20 @@ export default class UserComponent extends Component{
 
     }
 
+    componentDidMount(){
+        axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
+        .then(res => {
+            this.setState({
+                UserName : res.data.UserName,
+                UserPicture : res.data.UserPicture,
+                UserPrimaryColor : res.data.UserPrimaryColor,
+                UserSecondaryColor : res.data.UserSecondaryColor,
+                UserBackgroundPicture : res.data.UserBackgroundPicture,
+            })
+            
+        })
+    }
+
     onClickNewPlatform(){
       this.props.history.push('/newPlatform')
     }
@@ -46,6 +61,7 @@ export default class UserComponent extends Component{
       this.props.history.push('/quiz')
     }
 
+    
     render(){
 
         return(

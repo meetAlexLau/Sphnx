@@ -6,6 +6,7 @@ const path = require("path")
 const PORT = process.env.PORT || 4000;
 const cookieSession= require('cookie-session');
 
+mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser:  true
 }).then(() => {
@@ -20,6 +21,15 @@ app.use(cors());
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 
+const usersRouter = require('./routes/userRoutes');
+const platformsRouter = require('./routes/platformRoutes');
+const quizRouter = require('./routes/quizRoutes');
+const questionsRouter = require('./routes/questionRoutes');
+
+app.use('/users', usersRouter);
+app.use('/platforms', platformsRouter);
+app.use('/quizzes', quizRouter);
+app.use('/questions', questionsRouter);
 
 app.use(express.static(path.resolve(__dirname, "client", "build")))
 
