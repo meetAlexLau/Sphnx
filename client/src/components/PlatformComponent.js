@@ -24,7 +24,7 @@ export default class Platform extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:4000/platforms/id/' + sessionStorage.getItem('id'))
+    axios.get('/platforms/id/' + sessionStorage.getItem('id'))
       .then(res => {
         this.setState({
           PlatformName: res.data.PlatformName,
