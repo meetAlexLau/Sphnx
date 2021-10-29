@@ -65,14 +65,14 @@ export default class EditUserComponent extends Component{
       const [file] = event.target.files;
       if (!file) return;
     
-      this.setState({
-        uploading: true
-      })
-      const uploadedUrl = await uploadImage(file);
-      this.setState({
-        UserPicture: uploadedUrl
-      })
       
+      const uploadedUrl = await uploadImage(file);
+      console.log(uploadedUrl)
+      this.setState({
+
+        UserPicture: uploadedUrl
+
+      })
 
     };
 
@@ -80,19 +80,15 @@ export default class EditUserComponent extends Component{
       const [file] = event.target.files;
       if (!file) return;
     
-      this.setState({
-        uploading: true
-      })
+      
       const uploadedUrl2 = await uploadImage(file);
+      console.log(uploadedUrl2)
       this.setState({
 
         UserBackgroundPicture: 'url(' + uploadedUrl2 + ')'
 
       })
-      this.setState({
-        uploading: false
-      })
-
+    
     };
 
     onSubmit(e){
@@ -107,7 +103,7 @@ export default class EditUserComponent extends Component{
           UserBackgroundPicture: this.state.UserBackgroundPicture,
           UserName: this.state.UserName,
           UserPrimaryColor: this.state.UserPrimaryColor,
-          UserSecondaryColor: this.state.UserPrimaryColor
+          UserSecondaryColor: this.state.UserSecondaryColor
         }
 
         console.log('print')
@@ -223,7 +219,7 @@ export default class EditUserComponent extends Component{
                 >
                   Profile Background Picture
                 </Form.Label>
-                <Form.Control type="file" accept='image/*' onChange={this.handleFileChange}/>
+                <Form.Control type="file" accept='image/*' onChange={this.handleFileChange2}/>
               </Form.Group>
 
               <Form.Label

@@ -34,7 +34,7 @@ router.route('/:id').put((req, res) => {
       if(!object)
           res.status(404).send("Error Object not found")
       else  
-          object.UserID = req.params.id;
+          
           object.UserName = req.body.UserName;
           object.UserEmail = req.body.UserEmail;
           object.UserPicture = req.body.UserPicture;
