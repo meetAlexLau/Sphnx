@@ -111,7 +111,9 @@ export default class EditUserComponent extends Component{
         }
 
         console.log('print')
-        axios.post('http://localhost:4000/users/updateUser/617b5dcceaf186e2ae0998bb', updatedUser).then(res => console.log(res.data))
+        axios.put('http://localhost:4000/users/617b5dcceaf186e2ae0998bb', updatedUser)
+        .then(res => console.log(res.data))
+        .catch(err => console.log(err))
         this.props.history.push('/profile')
 
       }
