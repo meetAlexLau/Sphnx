@@ -34,12 +34,14 @@ export default class UserComponent extends Component{
     componentDidMount(){
         axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
         .then(res => {
+
+            
             this.setState({
-                UserName : res.data.UserName,
-                UserPicture : res.data.UserPicture,
-                UserPrimaryColor : res.data.UserPrimaryColor,
-                UserSecondaryColor : res.data.UserSecondaryColor,
-                UserBackgroundPicture : res.data.UserBackgroundPicture,
+                UserName : res.data[0].UserName,
+                UserPicture : res.data[0].UserPicture,
+                UserPrimaryColor : res.data[0].UserPrimaryColor,
+                UserSecondaryColor : res.data[0].UserSecondaryColor,
+                UserBackgroundPicture : res.data[0].UserBackgroundPicture,
             })
             
         })
