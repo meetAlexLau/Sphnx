@@ -101,7 +101,6 @@ export default class Login extends Component{
                             <Card className='light'>
                                 Quiz yourself, Quiz your friends, Quiz Everyone!
                             </Card>
-<<<<<<< HEAD
                             <GoogleLogin className = 'login'
                                 clientId = '787055066898-kiaajnba1a2dpgk2lvkg20uhsn70pe3i.apps.googleusercontent.com'
                                 buttonText = "Sign In With Google"
@@ -110,15 +109,6 @@ export default class Login extends Component{
                                 cookiePolicy = {'single_host_origin'}
                                 isSignedIn={true}
                             />
-                            <Button onClick={this.userCheck} variant="primary" className = 'medium login'>
-                                Check If User Exists
-                            </Button>
-=======
-                            <Button onClick={this.routeChange} variant="primary" className = 'medium login'>
-                                Login with Google Email
-                            </Button>
-
->>>>>>> local-testing
                         </Container>
                     </Col>
                     <Col className='dark' fluid>
