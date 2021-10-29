@@ -17,6 +17,14 @@ router.route('/createQuestion').post(function(req, res) {
         });
 });
 
+//fetch question
+router.route('/:id').get(function(req, res) {
+    let id = req.params.id;
+    questionSchema.findById(id, function(err, object) {
+        res.json(object);
+    });
+});
+
 //update question
 router.route('/updateQuiz/:id').post((req, res) => {
     questionSchema.findById(req.params.id, function(err, object) {

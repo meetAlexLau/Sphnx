@@ -48,6 +48,14 @@ let UserSchema = new Schema({
 
     UserCoins: {
         type: Number
+    },
+
+    UserPrimaryColor: {
+        type: String
+    },
+
+    UserSecondaryColor: {
+        type: String
     }
 })
 

@@ -33,8 +33,17 @@ export default class UserComponent extends Component{
 
     componentDidMount(){
         
-        axios.get('http://localhost:4000/users/617b2b616175b258c227c8b8')
-        .then(res => console.log(res.data.UserName));
+        axios.get('http://localhost:4000/users/617b3c34eca12c2b0ccd02fc')
+        .then(res => {
+            this.setState({
+                UserName : res.data.UserName,
+                UserPicture : res.data.UserPicture,
+                UserPrimaryColor : res.data.UserPrimaryColor,
+                UserSecondaryColor : res.data.UserSecondaryColor,
+                UserBackgroundPicture : res.data.UserBackgroundPicture,
+            })
+            
+        })
 
     }
 

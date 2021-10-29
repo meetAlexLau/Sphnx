@@ -17,7 +17,7 @@ let quizSchema = require('../models/quiz-model');
 });
 
 //fetch quiz info
-router.route('/quizzes/:id').get(function(req, res) {
+router.route('/:id').get(function(req, res) {
     let id = req.params.id;
     quizSchema.findById(id, function(err, object) {
         res.json(object);

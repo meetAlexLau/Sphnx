@@ -17,7 +17,7 @@ router.route('/createPlatform').post(function(req, res) {
 });
 
 //fetch platform info
-router.route('/platforms/:id').get(function(req, res) {
+router.route('/:id').get(function(req, res) {
     let id = req.params.id;
     platformSchema.findById(id, function(err, object) {
         res.json(object);
