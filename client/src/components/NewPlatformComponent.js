@@ -22,12 +22,16 @@ export default class NewPlatformComponent extends Component {
         this.onChangePlatformTitle = this.onChangePlatformTitle.bind(this);
         this.onChangePlatformId = this.onChangePlatformId.bind(this);
         this.onChangePlatformDesc = this.onChangePlatformDesc.bind(this);
+        this.onChangePlatformColor = this.onChangePlatformColor.bind(this);
+        this.onChangePlatformPicture = this.onChangePlatformPicture.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         // Setting up state
         this.state = {
             title: '',
             desc: '',
+            color: '',
+            picture: '',
             id: ''
         }
     }
@@ -48,12 +52,22 @@ export default class NewPlatformComponent extends Component {
         this.setState({ desc: e.target.value })
     }
 
+    onChangePlatformColor(e) {
+        this.setState({ color: e.target.value })
+    }
+
+    onChangePlatformPicture(e) {
+        this.setState({ picture: e.target.value })
+    }
+
     onSubmit(e) {
         e.preventDefault()
 
         const platformObject = {
             PlatformName: this.state.title,
             PlatformDesc: this.state.desc,
+            PlatformColor: this.state.color,
+            PlatformPicture: this.state.picture,
             PlatformID: this.state.id
         }
 
@@ -82,10 +96,13 @@ export default class NewPlatformComponent extends Component {
                         </Form.Group>
 
                         Select Background Image:
+                        <Form.Group>
+                            <Form.Control type="file" className="choose-file-button"/>
+                        </Form.Group>
+
                         <div>
-                            <Button className="choose-file-button">
-                                Choose File
-                            </Button>
+                            <Form.Label>Color:</Form.Label>
+                            <Form.Control type="color" value={this.state.color} onChange={this.onChangePlatformColor} />
                         </div>
 
                         <div class="light">

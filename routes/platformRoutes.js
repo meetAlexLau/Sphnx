@@ -25,7 +25,7 @@ router.route('/:id').get(function(req, res) {
 });
 
 //update platform
-router.route('/updatePlatform/:id').post((req, res) => {
+router.route('/updatePlatform/:id').put((req, res) => {
     platformSchema.findById(req.params.id, function(err, object) {
       if(!object)
           res.status(404).send("Error Object not found")
