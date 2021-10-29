@@ -6,7 +6,11 @@ import axios from 'axios';
 import { Container } from "react-bootstrap";
 import '../App.css';
 
+const NAME_OF_UPLOAD_PRESET = "kmowfgdj";
+const YOUR_CLOUDINARY_ID = "dxczlnkjx";
+
 export default class NewPlatformComponent extends Component {
+    
     constructor(props) {
         super(props)
 
