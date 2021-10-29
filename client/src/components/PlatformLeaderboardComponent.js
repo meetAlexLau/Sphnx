@@ -32,7 +32,7 @@ export default class PlatformLeaderboard extends Component {
                     <Link to={"/home"} className="platform-home-button"></Link>
                   </Row>
                   <Row><Link to={"/platformBadge"} className="platform-left-button">View All Badges</Link>
-                  <Link to={"/newBadge"} className="platform-left-button">New badge</Link>
+                  <Link to={"/platform"} className="platform-left-button">Platform Home</Link>
                   </Row>
                 </Col>
 
