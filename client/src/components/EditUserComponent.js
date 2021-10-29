@@ -5,7 +5,31 @@ import Image from "react-bootstrap/Image";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import axios from 'axios'
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+const NAME_OF_UPLOAD_PRESET = "sphnxPreset";
+const YOUR_CLOUDINARY_ID = "sphnx"; 
+
+async function uploadImage(file) {
+  const data = new FormData();
+  data.append("file", file);
+  data.append("upload_preset", NAME_OF_UPLOAD_PRESET);
+  const res = await fetch(
+    `https://api.cloudinary.com/v1_1/${YOUR_CLOUDINARY_ID}/image/upload`,
+    {
+      method: "POST",
+      body: data
+    }
+  );
+  const img = await res.json();
+  console.log(img);
+  return img.secure_url;
+}
+
+
+
+
+
 
 export default class EditUserComponent extends Component{
 
@@ -13,16 +37,107 @@ export default class EditUserComponent extends Component{
         super(props)
 
         this.state = {
-          UserPrimaryColor: '#FF5353',
-          UserSecondaryColor: '#87CEEB',
-          UserName: 'ScaryJones23'
+          UserPrimaryColor: '',
+          UserSecondaryColor: '',
+          UserName: '',
+          UserPicture:'',
+          UserBackgroundPicture: '',
+          IDtoEdit: ''
         }
 
         this.onChangeUserName = this.onChangeUserName.bind(this)
         this.onChangeUserPrimaryColor = this.onChangeUserPrimaryColor.bind(this)
         this.onChangeUserSecondaryColor = this.onChangeUserSecondaryColor.bind(this)
+        this.setUploadingImg = this.setUploadingImg.bind(this)
+        this.handleFileChange = this.handleFileChange.bind(this)
+        this.onSubmit = this.onSubmit.bind(this)
+        
 
     }
+
+    componentDidMount(){
+
+      axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
+        .then(res => {
+          console.log(res.data[0]._id)
+          this.setState({
+            IDtoEdit: res.data[0]._id ,
+            UserName: res.data[0].UserName ,
+            UserPrimaryColor: res.data[0].UserPrimaryColor,
+            UserSecondaryColor: res.data[0].UserSecondaryColor /* SOLUTION FOUND:
+                                         Axios put and get are ASYNC functions, that's why you're getting
+                                         an error for get and put. Some of the time, it is putting before getting.
+
+                                         --You need to make both functions async/await so that you wait for 
+                                          .get to execute, then execute .put
+                                        */
+          })
+        })
+
+        console.log(this.state.IDtoEdit)
+
+    }
+
+
+    setUploadingImg(isUploading){
+      this.setState({
+        uploading: isUploading
+      })
+    }
+    
+    handleFileChange = async event => {
+      const [file] = event.target.files;
+      if (!file) return;
+    
+      
+      const uploadedUrl = await uploadImage(file);
+      console.log(uploadedUrl)
+      this.setState({
+
+        UserPicture: uploadedUrl
+
+      })
+
+    };
+
+    handleFileChange2 = async event => {
+      const [file] = event.target.files;
+      if (!file) return;
+    
+      
+      const uploadedUrl2 = await uploadImage(file);
+      console.log(uploadedUrl2)
+      this.setState({
+
+        UserBackgroundPicture: 'url(' + uploadedUrl2 + ')'
+
+      })
+    
+    };
+
+    onSubmit(e){
+
+
+        const updatedUser = {
+          UserPicture: this.state.UserPicture,
+          UserBackgroundPicture: this.state.UserBackgroundPicture,
+          UserName: this.state.UserName,
+          UserPrimaryColor: this.state.UserPrimaryColor,
+          UserSecondaryColor: this.state.UserSecondaryColor
+        }
+
+        
+        const newPath = ('http://localhost:4000/users/'+this.state.IDtoEdit)
+        
+        axios.put(newPath, updatedUser)
+        .then(res => console.log(res.data))
+        .catch(err => console.log(err))
+        this.props.history.push('/profile')
+        window.location.reload(false);
+
+      }
+      
+    
 
     onChangeUserName(e){
       this.setState({
@@ -109,7 +224,7 @@ export default class EditUserComponent extends Component{
                 >
                   Profile Picture
                 </Form.Label>
-                <Form.Control type="file" />
+                <Form.Control type="file" accept='image/*' onChange={this.handleFileChange}/>
               </Form.Group>
 
               <Form.Group controlId="formUserBackgroundPicture">
@@ -126,7 +241,7 @@ export default class EditUserComponent extends Component{
                 >
                   Profile Background Picture
                 </Form.Label>
-                <Form.Control type="file" />
+                <Form.Control type="file" accept='image/*' onChange={this.handleFileChange2}/>
               </Form.Group>
 
               <Form.Label
@@ -186,8 +301,8 @@ export default class EditUserComponent extends Component{
                   to={'/profile'}>
                     Exit
               </Link>
-              <Link 
-                type='submit'
+              <Button
+                
                 style={{position: 'absolute',
                   width: '233px',
                   height: '76px',
@@ -201,9 +316,9 @@ export default class EditUserComponent extends Component{
                   boxSizing: 'border-box',
                   borderRadius: '20px',
                 }}
-                to={'/profile'}>
+                onClick={this.onSubmit}>
                   Save & Exit
-              </Link>
+              </Button>
             </Form>
           </div>
         </Container>

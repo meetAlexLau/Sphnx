@@ -2,11 +2,31 @@ import React, { Component } from "react";
 import Form from 'react-bootstrap/Form';
 //import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
-//import axios from 'axios';
+import axios from 'axios';
 import { Container } from "react-bootstrap";
 import '../App.css';
 
+const NAME_OF_UPLOAD_PRESET = "kmowfgdj";
+const YOUR_CLOUDINARY_ID = "dxczlnkjx";
+
+async function uploadImage(file) {
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", NAME_OF_UPLOAD_PRESET);
+    const res = await fetch(
+        `https://api.cloudinary.com/v1_1/${YOUR_CLOUDINARY_ID}/image/upload`,
+        {
+            method: "POST",
+            body: data
+        }
+    );
+    const img = await res.json();
+    console.log(img);
+    return img.secure_url;
+}
+
 export default class NewPlatformComponent extends Component {
+
     constructor(props) {
         super(props)
 
@@ -18,15 +38,40 @@ export default class NewPlatformComponent extends Component {
         this.onChangePlatformTitle = this.onChangePlatformTitle.bind(this);
         this.onChangePlatformId = this.onChangePlatformId.bind(this);
         this.onChangePlatformDesc = this.onChangePlatformDesc.bind(this);
+        this.onChangePlatformColor1 = this.onChangePlatformColor1.bind(this);
+        this.onChangePlatformColor2 = this.onChangePlatformColor2.bind(this);
+        this.onChangePlatformPicture = this.onChangePlatformPicture.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         // Setting up state
         this.state = {
             title: '',
             desc: '',
+            color1: '',
+            color2: '',
+            picture: '',
             id: ''
         }
     }
+
+    setUploadingImg(isUploading){
+        this.setState({
+            uploading: isUploading
+        })
+    }
+
+    handleFileChange = async event => {
+        const [file] = event.target.files;
+        if (!file) return;
+
+        this.setState({
+            uploading: true
+        })
+        const uploadedUrl = await uploadImage(file);
+        this.setState({
+            PlatformPicture: uploadedUrl
+        })
+    };
 
     routeChangeProfile() {
         this.props.history.push('/profile')
@@ -44,22 +89,43 @@ export default class NewPlatformComponent extends Component {
         this.setState({ desc: e.target.value })
     }
 
+    onChangePlatformColor1(e) {
+        this.setState({ color1: e.target.value })
+    }
+
+    onChangePlatformColor2(e) {
+        this.setState({ color2: e.target.value })
+    }
+
+    onChangePlatformPicture(e) {
+        this.setState({ picture: e.target.value })
+    }
+
     onSubmit(e) {
         e.preventDefault()
 
         const platformObject = {
-            title: this.state.title,
-            id: this.state.id
+            PlatformName: this.state.title,
+            PlatformDesc: this.state.desc,
+            PlatformColor1: this.state.color1,
+            PlatformColor2: this.state.color2,
+            PlatformPicture: this.state.picture,
+            PlatformID: this.state.id
         }
 
-        //axios.post('/')
+        axios.post('http://localhost:4000/platforms/createPlatform', platformObject).then(res => console.log(res.data));
 
+        this.routeChangeProfile();
+        /*
         this.setState({
             title: '',
+            desc: '',
             id: ''
         });
+        */
     }
 
+    //
     render() {
         //TODO: link Exit button
         return (
@@ -72,10 +138,15 @@ export default class NewPlatformComponent extends Component {
                         </Form.Group>
 
                         Select Background Image:
+                        <Form.Group>
+                            <Form.Control type="file" className="choose-file-button" accept='image/*' onChange={this.handleFileChange}/>
+                        </Form.Group>
+
                         <div>
-                            <Button className="choose-file-button">
-                                Choose File
-                            </Button>
+                            <Form.Label>Color1:</Form.Label>
+                            <Form.Control type="color" value={this.state.color1} onChange={this.onChangePlatformColor1} />
+                            <Form.Label>Color2:</Form.Label>
+                            <Form.Control type="color" value={this.state.color2} onChange={this.onChangePlatformColor2} />
                         </div>
 
                         <div class="light">
@@ -86,7 +157,7 @@ export default class NewPlatformComponent extends Component {
                         </div>
 
                         <div class="text-right">
-                            <Button className='savebutton' type="submit" onClick={this.routeChangeProfile}>
+                            <Button className='savebutton' type="submit">
                                 Save
                             </Button>
 

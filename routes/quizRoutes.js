@@ -30,6 +30,7 @@ router.route('/').get((req, res) => {
 
 
 //fetch quiz info
+
 router.route('/:id').get(function(req, res) {
     let id = req.params.id;
     quizSchema.findById(id, function(err, object) {

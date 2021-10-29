@@ -19,6 +19,7 @@ router.route('/signUp').post(function(req, res) {
 });
 
 //fetch user info
+
 router.route('/:id').get(function(req, res) {
     let id = req.params.id;
     userSchema.findById(id, function(err, object) {
@@ -26,14 +27,21 @@ router.route('/:id').get(function(req, res) {
     });
 });
 
+router.route('/UserID/:UserID').get(function(req, res) {
+    let UserID = req.params.UserID;
+    userSchema.find({UserID: UserID}, function(err, user) {
+        res.json(user);
+    });
+});
+
 
 //update user info
-router.route('/updateUser/:id').put((req, res) => {
-    userSchema.findById(req.params.id, function(err, object) {
+router.route('/:id').put((req, res) => {
+    userSchema.findOne({_id: req.params.id}, function(err, object) {
       if(!object)
           res.status(404).send("Error Object not found")
       else  
-          object.UserID = req.params.id;
+          
           object.UserName = req.body.UserName;
           object.UserEmail = req.body.UserEmail;
           object.UserPicture = req.body.UserPicture;
@@ -45,10 +53,13 @@ router.route('/updateUser/:id').put((req, res) => {
           object.UserCoints = req.body.UserCoints;
           object.UserColor1 = req.body.UserColor1;
           object.UserColor2 = req.body.UserColor2;
+          object.UserPrimaryColor = req.body.UserPrimaryColor;
+          object.UserSecondaryColor = req.body.UserSecondaryColor;
         
           object.save()
             .then(object => {
                 res.json("User has been updated")
+                res.send()
             })
             .catch(err => {
                 res.status(400).send("Error occurred when updating User.")

@@ -17,8 +17,8 @@ export default class UserComponent extends Component{
         super(props)
 
         this.state = {
-          UserPrimaryColor: '#FF5353',
-          UserSecondaryColor: '#87CEEB',
+          UserPrimaryColor: '',
+          UserSecondaryColor: '',
           UserName: 'ScaryJones23',
           UserPicture: "https://images.freeimages.com/images/large-previews/25d/eagle-1523807.jpg",
           UserBackgroundPicture: 'url(https://www.ksn.com/wp-content/uploads/sites/13/2020/08/EFC31919-DFE1-4C07-8AE2-2B03AAF57D55.jpeg?w=4032)'
@@ -32,19 +32,19 @@ export default class UserComponent extends Component{
     }
 
     componentDidMount(){
-        
-        axios.get('http://localhost:4000/users/617b3c34eca12c2b0ccd02fc')
+        axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
         .then(res => {
+
+            
             this.setState({
-                UserName : res.data.UserName,
-                UserPicture : res.data.UserPicture,
-                UserPrimaryColor : res.data.UserPrimaryColor,
-                UserSecondaryColor : res.data.UserSecondaryColor,
-                UserBackgroundPicture : res.data.UserBackgroundPicture,
+                UserName : res.data[0].UserName,
+                UserPicture : res.data[0].UserPicture,
+                UserPrimaryColor : res.data[0].UserPrimaryColor,
+                UserSecondaryColor : res.data[0].UserSecondaryColor,
+                UserBackgroundPicture : res.data[0].UserBackgroundPicture,
             })
             
         })
-
     }
 
     onClickNewPlatform(){
@@ -134,16 +134,16 @@ export default class UserComponent extends Component{
                 style={{background: this.state.UserSecondaryColor}}>
                 <Row>
                     <Col md={8}>
-                    <div className="profileCard">My Platforms</div>
+                    <div className="profileCard" style={{background: this.state.UserPrimaryColor}}>My Platforms</div>
                     </Col>
                     <Col md={4}>
-                    <Button onClick={this.onClickNewPlatform} className="profileCard"> New Platform </Button>
+                    <Button onClick={this.onClickNewPlatform} className="profileCard" style={{background: this.state.UserPrimaryColor}}> New Platform </Button>
                     </Col>
                 </Row>
                 <Row style={{ margin: "8px" }}>
                     <Col md={12} style={{ margin: "5px 2px" }}>
-                    <Button onClick={this.onClickPlatform}  className="profileCard">Cowboys</Button>
-                    <Button onClick={this.onClickPlatform} className="profileCard">Instruments</Button>
+                    <Button onClick={this.onClickPlatform}  className="profileCard" style={{background: this.state.UserPrimaryColor}}>Cowboys</Button>
+                    <Button onClick={this.onClickPlatform} className="profileCard" style={{background: this.state.UserPrimaryColor}}>Instruments</Button>
                     </Col>
                 </Row>
                 </div>

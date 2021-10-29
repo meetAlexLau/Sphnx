@@ -13,7 +13,15 @@ let Platform = new Schema({
         of: String
     },
 
-    PlatformColor: {
+    PlatformColor1: {
+        type: String
+    },
+
+    PlatformColor2: {
+        type: String
+    },
+
+    PlatformColor2: {
         type: String
     },
 
