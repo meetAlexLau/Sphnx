@@ -28,7 +28,7 @@ router.route('/:id').get(function(req, res) {
 
 
 //update user info
-router.route('/updateUser/:id').post((req, res) => {
+router.route('/updateUser/:id').put((req, res) => {
     userSchema.findById(req.params.id, function(err, object) {
       if(!object)
           res.status(404).send("Error Object not found")

@@ -2,27 +2,17 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 let Quiz = new Schema({
-
-    QuizAnswerKey:{
-        type: Map,
-        of: String
+    QuizTitle: {
+        type: String
     },
     QuizID: {
         type: String
     },
-
-    QuizTitle: {
-        type: String
-    },
-
     QuizBackground:{
         type: String
     },
-
-    QuizQuestions: {
-        type: Map,
-        of: String
-    }
+    QuizQuestions:[[]],
+    QuizAnswerKey:{ type : Array , "default" : [] }
 })
 
 module.exports = mongoose.model('Quiz', Quiz);

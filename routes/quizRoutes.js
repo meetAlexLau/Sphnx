@@ -16,6 +16,19 @@ let quizSchema = require('../models/quiz-model');
         });
 });
 
+//get all quiz
+
+router.route('/').get((req, res) => {
+    quizSchema.find((error, data) => {
+      if (error) {
+        return next(error)
+      } else {
+        res.json(data)
+      }
+    })
+  })
+
+
 //fetch quiz info
 router.route('/:id').get(function(req, res) {
     let id = req.params.id;
@@ -25,7 +38,7 @@ router.route('/:id').get(function(req, res) {
 });
 
 //update quiz
-router.route('/updateQuiz/:id').post((req, res) => {
+router.route('/updateQuiz/:id').put((req, res) => {
     quizSchema.findById(req.params.id, function(err, object) {
       if(!object)
           res.status(404).send("Error Object not found")
