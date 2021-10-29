@@ -4,7 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
-import GoogleLogout from 'react-google-login';
+import {GoogleLogout} from 'react-google-login';
 import '../css/App.css';
 import axios from 'axios'
 
@@ -44,6 +44,8 @@ export default class Home extends Component{
 
     logout = (response) => {
         console.log(response)
+        this.props.history.push('/')
+        sessionStorage.clear()
     }
 
     render(){
@@ -54,6 +56,7 @@ export default class Home extends Component{
                         clientId='787055066898-kiaajnba1a2dpgk2lvkg20uhsn70pe3i.apps.googleusercontent.com'
                         buttonText="Logout"
                         onLogoutSuccess={this.logout}
+                        isSignedIn={false}
                     >
                     </GoogleLogout>
                     <Button className='mr-auto gray'onClick={this.routeChangeLogout} variant="primary">

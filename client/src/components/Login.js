@@ -18,14 +18,6 @@ export default class Login extends Component{
         this.props.history.push('/home');
     }
     responseGoogle = (resp) => {
-        console.log(resp.tokenId)
-        axios.get('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + resp.tokenId)
-            .then((res) => {
-                console.log(res)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
         let profile = resp.profileObj;
         const newUser = {
             UserID: profile.googleId + "",
@@ -33,17 +25,33 @@ export default class Login extends Component{
             UserEmail: profile.email,
             UserPoints: 0
         }
-        
-        axios.post('http://localhost:4000/users/signUp', newUser)
+        /*
+        axios.get('http://localhost:4000/?UserID=111118527412503377447')
             .then((res) => {
-                console.log(res);
                 console.log(newUser.UserID)
                 this.routeChange(); //change to home screen
             })
+        */
+        axios.post('http://localhost:4000/users/signUp', newUser)
+            .then((res) => {
+                sessionStorage.setItem('UserID', newUser.UserID)
+                sessionStorage.setItem("id token", resp.tokenId)
+                console.log(resp.tokenId)
+                axios.get('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + resp.tokenId)
+                    .then((tokenresp) => {
+                        console.log(tokenresp)
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+                this.routeChange(); //change to home screen
+            })
+            .catch((err) => {
+                console.log("Axios post err " + err)
+            })
     }
     addUser = (resp) => {
-        axios.get('http://localhost:4000/users/617b2b616175b258c227c8b8')
-        .then(res => console.log(res.data.UserName));
+        console.log(localStorage)
     }
     render(){
         return (
@@ -58,23 +66,17 @@ export default class Login extends Component{
                             <Card className='light'>
                                 Quiz yourself, Quiz your friends, Quiz Everyone!
                             </Card>
-<<<<<<< HEAD
                             <GoogleLogin className = 'login'
                                 clientId = '787055066898-kiaajnba1a2dpgk2lvkg20uhsn70pe3i.apps.googleusercontent.com'
                                 buttonText = "Sign In With Google"
                                 onSuccess = {this.responseGoogle}
                                 onFailure = {this.responseGoogle}
                                 cookiePolicy = {'single_host_origin'}
+                                isSignedIn={true}
                             />
                             <Button onClick={this.addUser} variant="primary" className = 'medium login'>
                                 Login with Google Email
                             </Button>
-=======
-                            <Button onClick={this.routeChange} variant="primary" className = 'medium login'>
-                                Login with Google Email
-                            </Button>
-
->>>>>>> local-testing
                         </Container>
                     </Col>
                     <Col className='dark' fluid>
