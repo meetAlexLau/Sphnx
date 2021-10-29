@@ -31,7 +31,6 @@ export default class UserComponent extends Component{
 
     }
 
-    
     componentDidMount(){
         
         axios.get('http://localhost:4000/users/617b5dcceaf186e2ae0998bb')
@@ -47,7 +46,6 @@ export default class UserComponent extends Component{
         })
 
     }
-    
 
     onClickNewPlatform(){
       this.props.history.push('/newPlatform')
