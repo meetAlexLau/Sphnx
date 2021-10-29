@@ -18,17 +18,36 @@ export default class Login extends Component{
         this.props.history.push('/home');
     }
     responseGoogle = (resp) => {
+        console.log(resp.tokenId)
+        axios.get('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + resp.tokenId)
+            .then((res) => {
+                console.log(res)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
         let profile = resp.profileObj;
         const newUser = {
-            UserID: profile.googleId,
+            UserID: profile.googleId + "",
             UserName: profile.name + (Math.floor(Math.random() * 1000) + 1),
             UserEmail: profile.email,
-            UserPoints: 0,
-            UserCoins: 0
+            UserPoints: 0
         }
-        axios.post('http://localhost:4000/Users', newUser).then(res => console.log(res.data));
-        this.routeChange()
-
+        axios.get('http://localhost:4000/users/'+ '617b24975c98b75e931815fc')
+            .then((res) => {
+                console.log(newUser.UserID)
+                this.routeChange(); //change to home screen
+            })
+        axios.post('http://localhost:4000/users/signUp', newUser)
+            .then((res) => {
+                console.log(res);
+                console.log(newUser.UserID)
+                this.routeChange(); //change to home screen
+            })
+    }
+    addUser = (resp) => {
+        axios.get('http://localhost:4000/users/617b2b616175b258c227c8b8')
+        .then(res => console.log(res.data.UserName));
     }
     render(){
         return (
@@ -50,7 +69,9 @@ export default class Login extends Component{
                                 onFailure = {this.responseGoogle}
                                 cookiePolicy = {'single_host_origin'}
                             />
-                            
+                            <Button onClick={this.addUser} variant="primary" className = 'medium login'>
+                                Login with Google Email
+                            </Button>
                         </Container>
                     </Col>
                     <Col className='dark' fluid>

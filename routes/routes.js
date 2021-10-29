@@ -25,13 +25,27 @@ router.route('/signUp').post(function(req, res) {
         });
 });
 
+
 //fetch user info
-router.route('users/:id').get(function(req, res) {
+router.route('/users/:id').get((req, res) => {
+    console.log("PARAMS:" + req.params)
     let id = req.params.id;
     userSchema.findById(id, function(err, object) {
         res.json(object);
     });
 });
+
+router.route('/users/').get(function(req, res) {
+    userSchema.find(function(err, users) {
+        if(err){
+            console.log(err)
+        }
+        else{
+            console.log(users)
+            res.json(users);
+        }
+    })
+})
 
 
 //update user info
@@ -188,5 +202,4 @@ router.route('/updateQuiz/:id').post((req, res) => {
     })
   })
 
-
-
+module.exports = router;

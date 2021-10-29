@@ -4,6 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
+import GoogleLogout from 'react-google-login';
 import '../css/App.css';
 
 export default class Home extends Component{
@@ -30,15 +31,29 @@ export default class Home extends Component{
         //should be  /profile/:userid
         this.props.history.push('/quiz')
     }
+
+    logout = (response) => {
+        console.log(response)
+    }
+
     render(){
         return (
             <Container fluid className='sky containerrow'> {/* home container*/}
                 <Row className = 'medium marginspacing paddingspacing'> {/*Logout | Title | Profile */}
+                    <GoogleLogout
+                        clientId='787055066898-kiaajnba1a2dpgk2lvkg20uhsn70pe3i.apps.googleusercontent.com'
+                        buttonText="Logout"
+                        onLogoutSuccess={this.logout}
+                    >
+                    </GoogleLogout>
                     <Button className='mr-auto gray'onClick={this.routeChangeLogout} variant="primary">
                         Logout
                     </Button>
                     <Card body className='ml-auto mr-auto' style={{width: "25%", textAlign: 'center', fontSize: '25px'}}>
-                        Sphnx
+                        Sphnx 
+                        <p>
+                            Welcome, [insert User name]
+                        </p>
                     </Card>
                     <Button className='ml-auto gray' onClick={this.routeChangeProfile} variant="primary">
                         Profile

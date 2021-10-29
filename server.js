@@ -5,7 +5,9 @@ let cors = require('cors');
 const path = require("path")
 const PORT = process.env.PORT || 4000;
 const cookieSession= require('cookie-session');
+const routes = require('./routes/routes')
 
+mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser:  true
 }).then(() => {
@@ -19,7 +21,7 @@ const app = express();
 app.use(cors());
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
-
+app.use('/users', routes)
 /*
 app.use(express.static(path.resolve(__dirname, "client", "build")))
 
