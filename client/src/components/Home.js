@@ -17,11 +17,28 @@ export default class Home extends Component{
         this.routeChangePlatform = this.routeChangePlatform.bind(this);
         this.routeChangeQuiz = this.routeChangeQuiz.bind(this);
         this.state = {
-            isLoggedIn: true
+            isLoggedIn: sessionStorage.getItem('isLoggedIn'),
+            UserID: '',
+            UserName: '',
+            UserEmail: ''
+
         }
     }
     componentDidMount(){
+        console.log("Mounting")
+        axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
+            .then((res) => {
+                let User = res.data[0];
+                this.setState({
+                    UserName: User.UserName,
+                    UserId: User.UserID,
+                    UserEmail: User.UserEmail
+                });
+            })
+            .catch((err) => {
 
+            })
+            
         if(this.state.isLoggedIn == false){
             this.props.history.push('/')
         }
@@ -32,15 +49,6 @@ export default class Home extends Component{
     }
     routeChangeProfile(){
         //should be  /profile/:userid
-        const newUser = {
-            UserID: '111724848',
-            UserName: 'syed' + (Math.floor(Math.random() * 1000) + 1),
-            UserEmail: 'test@affan.com',
-            UserPoints: 0,
-            UserCoints: 0
-        }
-
-        axios.post('http://localhost:4000/users/signUp', newUser).then(res => console.log(res.data));
         this.props.history.push('/profile')
     }
     routeChangePlatform(){
@@ -75,7 +83,7 @@ export default class Home extends Component{
                     <Card body className='ml-auto mr-auto' style={{width: "25%", textAlign: 'center', fontSize: '25px'}}>
                         Sphnx 
                         <p>
-                            Welcome, [insert User name]
+                            Welcome, [{this.state.UserName}]
                         </p>
                     </Card>
                     <Button className='ml-auto gray' onClick={this.routeChangeProfile} variant="primary">

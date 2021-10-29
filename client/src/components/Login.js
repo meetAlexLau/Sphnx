@@ -42,8 +42,9 @@ export default class Login extends Component{
         if(!sessionStorage.getItem("isLoggedIn")){ //CHECKS IF USER IS ALREADY LOGGED IN
             axios.get('http://localhost:4000/users/UserID/'+ newUser.UserID)
                 .then((res) => {
+                    let UserData = res.data[0]
                     if(res.data[0].UserID != undefined){ //RETURNING USER
-                        sessionStorage.setItem('UserID', res.data.UserID)
+                        sessionStorage.setItem('UserID', UserData.UserID)
                         sessionStorage.setItem("id token", resp.tokenId)
                         sessionStorage.setItem("isLoggedIn", true);
                         this.refreshTokenSetup(resp)
