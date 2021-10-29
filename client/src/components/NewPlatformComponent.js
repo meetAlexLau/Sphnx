@@ -48,14 +48,16 @@ export default class NewPlatformComponent extends Component {
         e.preventDefault()
 
         const platformObject = {
-            title: this.state.title,
-            id: this.state.id
+            PlatformName: this.state.title,
+            PlatformDesc: this.state.desc,
+            PlatformID: this.state.id
         }
 
-        //axios.post('/')
+        axios.post('/createPlatform', platformObject);
 
         this.setState({
             title: '',
+            desc: '',
             id: ''
         });
     }
@@ -87,7 +89,7 @@ export default class NewPlatformComponent extends Component {
 
                         <div class="text-right">
                             <Button className='savebutton' type="submit" onClick={this.routeChangeProfile}>
-                                Save
+                                Save and Submit
                             </Button>
 
                             <Button className='cancelbutton' variant="danger" onClick={this.routeChangeProfile}>
