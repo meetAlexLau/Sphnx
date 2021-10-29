@@ -59,4 +59,8 @@ let UserSchema = new Schema({
     }
 })
 
+<<<<<<< HEAD
+module.exports = mongoose.model("User", UserSchema)
+=======
 module.exports = mongoose.model('User', UserSchema);
+>>>>>>> local-testing

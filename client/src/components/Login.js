@@ -12,23 +12,81 @@ export default class Login extends Component{
     constructor(props){
         super(props);
         this.routeChange = this.routeChange.bind(this);
+        this.state = {
+            isLoggedIn: false
+        }
     }
     routeChange() {
         //should be  /home/:userid
         this.props.history.push('/home');
     }
+    refreshTokenSetup = (res) => {
+        let refreshTiming = (res.tokenObj.expires_in ||3600 - 5 * 60) * 1000;
+        const refreshToken= async() => {
+            const newAuthRes = await res.reloadAuthResponse();
+            refreshTiming = (newAuthRes.expires_in ||3600 - 5 * 60) * 1000;
+            setTimeout(refreshToken, refreshTiming);
+            console.log("new token", newAuthRes.id_token)
+            sessionStorage.setItem('id token', newAuthRes.id_token);
+        }
+        setTimeout(refreshToken, refreshTiming);
+    }
     responseGoogle = (resp) => {
         let profile = resp.profileObj;
         const newUser = {
-            UserID: profile.googleId,
+            UserID: profile.googleId + "",
             UserName: profile.name + (Math.floor(Math.random() * 1000) + 1),
             UserEmail: profile.email,
-            UserPoints: 0,
-            UserCoins: 0
+            UserPoints: 0
         }
-        axios.post('http://localhost:4000/Users', newUser).then(res => console.log(res.data));
-        this.routeChange()
-
+        if(!sessionStorage.getItem("isLoggedIn")){ //CHECKS IF USER IS ALREADY LOGGED IN
+            axios.get('http://localhost:4000/users/UserID/'+ newUser.UserID)
+                .then((res) => {
+                    let UserData = res.data[0]
+                    if(res.data[0].UserID != undefined){ //RETURNING USER
+                        sessionStorage.setItem('UserID', UserData.UserID)
+                        sessionStorage.setItem("id token", resp.tokenId)
+                        sessionStorage.setItem("isLoggedIn", true);
+                        this.refreshTokenSetup(resp)
+                        this.routeChange();
+                    }
+                    else{                                //NEW USER
+                        axios.post('http://localhost:4000/users/signUp', newUser)
+                            .then((res) => {
+                                console.log("NEW USER")
+                                sessionStorage.setItem('UserID', newUser.UserID)
+                                sessionStorage.setItem("id token", resp.tokenId)
+                                sessionStorage.setItem("isLoggedIn", true);
+                                console.log("TOKEN ID", resp.tokenId)
+                                console.log("ACCESS TOKEN", resp.accessToken)
+                                this.refreshTokenSetup(resp)
+                                this.routeChange(); //change to home screen
+                            })
+                            .catch((err) => {
+                                console.log("Axios post err " + err)
+                            })
+                    }
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        }
+        else{
+            this.props.history.push('/home');
+        }
+        
+        if(!sessionStorage.getItem("isLoggedIn")){
+            
+        }
+    }
+    userCheck = (resp) => {
+        axios.get('http://localhost:4000/users/UserID/111118527412503377447')
+            .then((res) => {
+                console.log(res)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
     }
     render(){
         return (
@@ -43,10 +101,24 @@ export default class Login extends Component{
                             <Card className='light'>
                                 Quiz yourself, Quiz your friends, Quiz Everyone!
                             </Card>
+<<<<<<< HEAD
+                            <GoogleLogin className = 'login'
+                                clientId = '787055066898-kiaajnba1a2dpgk2lvkg20uhsn70pe3i.apps.googleusercontent.com'
+                                buttonText = "Sign In With Google"
+                                onSuccess = {this.responseGoogle}
+                                onFailure = {this.responseGoogle}
+                                cookiePolicy = {'single_host_origin'}
+                                isSignedIn={true}
+                            />
+                            <Button onClick={this.userCheck} variant="primary" className = 'medium login'>
+                                Check If User Exists
+                            </Button>
+=======
                             <Button onClick={this.routeChange} variant="primary" className = 'medium login'>
                                 Login with Google Email
                             </Button>
 
+>>>>>>> local-testing
                         </Container>
                     </Col>
                     <Col className='dark' fluid>

@@ -17,6 +17,8 @@ router.route('/createQuestion').post(function(req, res) {
         });
 });
 
+<<<<<<< HEAD
+=======
 //fetch question
 router.route('/:id').get(function(req, res) {
     let id = req.params.id;
@@ -25,6 +27,7 @@ router.route('/:id').get(function(req, res) {
     });
 });
 
+>>>>>>> local-testing
 //update question
 router.route('/updateQuiz/:id').put((req, res) => {
     questionSchema.findById(req.params.id, function(err, object) {
