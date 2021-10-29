@@ -39,34 +39,47 @@ export default class Login extends Component{
             UserEmail: profile.email,
             UserPoints: 0
         }
-        /*
-        axios.get('http://localhost:4000/?UserID=111118527412503377447')
-            .then((res) => {
-                console.log(newUser.UserID)
-                this.routeChange(); //change to home screen
-            })
-        */
-        if(!sessionStorage.getItem("isLoggedIn")){
-            axios.post('http://localhost:4000/users/signUp', newUser)
+        if(!sessionStorage.getItem("isLoggedIn")){ //CHECKS IF USER IS ALREADY LOGGED IN
+            axios.get('http://localhost:4000/users/UserID/'+ newUser.UserID)
                 .then((res) => {
-                    sessionStorage.setItem('UserID', newUser.UserID)
-                    sessionStorage.setItem("id token", resp.tokenId)
-                    sessionStorage.setItem("isLoggedIn", true);
-                    console.log("TOKEN ID", resp.tokenId)
-                    console.log("ACCESS TOKEN", resp.accessToken)
-                    this.refreshTokenSetup(resp)
-                    this.routeChange(); //change to home screen
+                    if(res.data[0].UserID != undefined){ //RETURNING USER
+                        sessionStorage.setItem('UserID', res.data.UserID)
+                        sessionStorage.setItem("id token", resp.tokenId)
+                        sessionStorage.setItem("isLoggedIn", true);
+                        this.refreshTokenSetup(resp)
+                        this.routeChange();
+                    }
+                    else{                                //NEW USER
+                        axios.post('http://localhost:4000/users/signUp', newUser)
+                            .then((res) => {
+                                console.log("NEW USER")
+                                sessionStorage.setItem('UserID', newUser.UserID)
+                                sessionStorage.setItem("id token", resp.tokenId)
+                                sessionStorage.setItem("isLoggedIn", true);
+                                console.log("TOKEN ID", resp.tokenId)
+                                console.log("ACCESS TOKEN", resp.accessToken)
+                                this.refreshTokenSetup(resp)
+                                this.routeChange(); //change to home screen
+                            })
+                            .catch((err) => {
+                                console.log("Axios post err " + err)
+                            })
+                    }
                 })
                 .catch((err) => {
-                    console.log("Axios post err " + err)
+                    console.log(err)
                 })
         }
         else{
-            this.routeChange();
+            this.props.history.push('/home');
+        }
+        
+        if(!sessionStorage.getItem("isLoggedIn")){
+            
         }
     }
     userCheck = (resp) => {
-        axios.get('http://localhost:4000/users/617b5ca93c66b2130eefce55')
+        axios.get('http://localhost:4000/users/UserID/111118527412503377447')
             .then((res) => {
                 console.log(res)
             })

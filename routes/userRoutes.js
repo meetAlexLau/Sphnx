@@ -19,15 +19,15 @@ router.route('/signUp').post(function(req, res) {
 });
 
 //fetch user info
-/*
+
 router.route('/:id').get(function(req, res) {
     let id = req.params.id;
     userSchema.findById(id, function(err, object) {
         res.json(object);
     });
 });
-*/
-router.route('/:UserID').get(function(req, res) {
+
+router.route('/UserID/:UserID').get(function(req, res) {
     let UserID = req.params.UserID;
     userSchema.find({UserID: UserID}, function(err, user) {
         res.json(user);
