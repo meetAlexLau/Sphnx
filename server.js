@@ -5,7 +5,9 @@ let cors = require('cors');
 const path = require("path")
 const PORT = process.env.PORT || 4000;
 const cookieSession= require('cookie-session');
+const routes = require('./routes/routes')
 
+mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser:  true
 }).then(() => {

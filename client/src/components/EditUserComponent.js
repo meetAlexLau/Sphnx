@@ -296,7 +296,11 @@ export default class EditUserComponent extends Component{
                 }}
                 onClick={this.onSubmit}>
                   Save & Exit
+<<<<<<< HEAD
+              </Link>
+=======
               </Button>
+>>>>>>> local-testing
             </Form>
           </div>
         </Container>

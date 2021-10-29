@@ -34,6 +34,10 @@ export default class UserComponent extends Component{
 
     componentDidMount(){
         
+<<<<<<< HEAD
+        axios.get('http://localhost:4000/users/617b2b616175b258c227c8b8')
+        .then(res => console.log(res.data.UserName));
+=======
         axios.get('http://localhost:4000/users/617b5dcceaf186e2ae0998bb')
         .then(res => {
             this.setState({
@@ -45,6 +49,7 @@ export default class UserComponent extends Component{
             })
             
         })
+>>>>>>> local-testing
 
     }
 
