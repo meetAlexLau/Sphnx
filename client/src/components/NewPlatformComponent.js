@@ -2,11 +2,15 @@ import React, { Component } from "react";
 import Form from 'react-bootstrap/Form';
 //import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
-//import axios from 'axios';
+import axios from 'axios';
 import { Container } from "react-bootstrap";
 import '../App.css';
 
+const NAME_OF_UPLOAD_PRESET = "kmowfgdj";
+const YOUR_CLOUDINARY_ID = "dxczlnkjx";
+
 export default class NewPlatformComponent extends Component {
+    
     constructor(props) {
         super(props)
 
@@ -48,18 +52,24 @@ export default class NewPlatformComponent extends Component {
         e.preventDefault()
 
         const platformObject = {
-            title: this.state.title,
-            id: this.state.id
+            PlatformName: this.state.title,
+            PlatformDesc: this.state.desc,
+            PlatformID: this.state.id
         }
 
-        //axios.post('/')
+        axios.post('http://localhost:4000/platforms/createPlatform', platformObject).then(res => console.log(res.data));
 
+        this.routeChangeProfile();
+        /*
         this.setState({
             title: '',
+            desc: '',
             id: ''
         });
+        */
     }
 
+//
     render() {
         //TODO: link Exit button
         return (
@@ -86,7 +96,7 @@ export default class NewPlatformComponent extends Component {
                         </div>
 
                         <div class="text-right">
-                            <Button className='savebutton' type="submit" onClick={this.routeChangeProfile}>
+                            <Button className='savebutton' type="submit">
                                 Save
                             </Button>
 
