@@ -73,7 +73,7 @@
 
 
 
-.platform-backgorund {
+.platform-background {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -82,7 +82,7 @@
   height: 700px;
   width: 100%;
 
-  background-color: #87CEEB;
+  /*background-color: #87CEEB;*/
   margin: 0 auto;
 }
 .platform-content {

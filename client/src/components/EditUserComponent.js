@@ -37,12 +37,12 @@ export default class EditUserComponent extends Component{
         super(props)
 
         this.state = {
-          UserPrimaryColor: '#FF5353',
-          UserSecondaryColor: '#87CEEB',
-          UserName: 'ScaryJones23',
+          UserPrimaryColor: '',
+          UserSecondaryColor: '',
+          UserName: '',
           UserPicture:'',
           UserBackgroundPicture: '',
-          uploading: false
+          IDtoEdit: ''
         }
 
         this.onChangeUserName = this.onChangeUserName.bind(this)
@@ -51,6 +51,30 @@ export default class EditUserComponent extends Component{
         this.setUploadingImg = this.setUploadingImg.bind(this)
         this.handleFileChange = this.handleFileChange.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
+        
+
+    }
+
+    componentDidMount(){
+
+      axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
+        .then(res => {
+          console.log(res.data[0]._id)
+          this.setState({
+            IDtoEdit: res.data[0]._id ,
+            UserName: res.data[0].UserName ,
+            UserPrimaryColor: res.data[0].UserPrimaryColor,
+            UserSecondaryColor: res.data[0].UserSecondaryColor /* SOLUTION FOUND:
+                                         Axios put and get are ASYNC functions, that's why you're getting
+                                         an error for get and put. Some of the time, it is putting before getting.
+
+                                         --You need to make both functions async/await so that you wait for 
+                                          .get to execute, then execute .put
+                                        */
+          })
+        })
+
+        console.log(this.state.IDtoEdit)
 
     }
 
@@ -93,10 +117,6 @@ export default class EditUserComponent extends Component{
 
     onSubmit(e){
 
-      if(this.state.uploading){
-        return
-      }
-      else{
 
         const updatedUser = {
           UserPicture: this.state.UserPicture,
@@ -106,15 +126,17 @@ export default class EditUserComponent extends Component{
           UserSecondaryColor: this.state.UserSecondaryColor
         }
 
-        console.log('print')
-        axios.put('http://localhost:4000/users/617b5dcceaf186e2ae0998bb', updatedUser)
+        
+        const newPath = ('http://localhost:4000/users/'+this.state.IDtoEdit)
+        
+        axios.put(newPath, updatedUser)
         .then(res => console.log(res.data))
         .catch(err => console.log(err))
         this.props.history.push('/profile')
+        window.location.reload(false);
 
       }
       
-    }
     
 
     onChangeUserName(e){

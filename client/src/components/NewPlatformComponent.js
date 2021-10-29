@@ -38,7 +38,8 @@ export default class NewPlatformComponent extends Component {
         this.onChangePlatformTitle = this.onChangePlatformTitle.bind(this);
         this.onChangePlatformId = this.onChangePlatformId.bind(this);
         this.onChangePlatformDesc = this.onChangePlatformDesc.bind(this);
-        this.onChangePlatformColor = this.onChangePlatformColor.bind(this);
+        this.onChangePlatformColor1 = this.onChangePlatformColor1.bind(this);
+        this.onChangePlatformColor2 = this.onChangePlatformColor2.bind(this);
         this.onChangePlatformPicture = this.onChangePlatformPicture.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
@@ -46,7 +47,8 @@ export default class NewPlatformComponent extends Component {
         this.state = {
             title: '',
             desc: '',
-            color: '',
+            color1: '',
+            color2: '',
             picture: '',
             id: ''
         }
@@ -87,8 +89,12 @@ export default class NewPlatformComponent extends Component {
         this.setState({ desc: e.target.value })
     }
 
-    onChangePlatformColor(e) {
-        this.setState({ color: e.target.value })
+    onChangePlatformColor1(e) {
+        this.setState({ color1: e.target.value })
+    }
+
+    onChangePlatformColor2(e) {
+        this.setState({ color2: e.target.value })
     }
 
     onChangePlatformPicture(e) {
@@ -101,7 +107,8 @@ export default class NewPlatformComponent extends Component {
         const platformObject = {
             PlatformName: this.state.title,
             PlatformDesc: this.state.desc,
-            PlatformColor: this.state.color,
+            PlatformColor1: this.state.color1,
+            PlatformColor2: this.state.color2,
             PlatformPicture: this.state.picture,
             PlatformID: this.state.id
         }
@@ -136,8 +143,10 @@ export default class NewPlatformComponent extends Component {
                         </Form.Group>
 
                         <div>
-                            <Form.Label>Color:</Form.Label>
-                            <Form.Control type="color" value={this.state.color} onChange={this.onChangePlatformColor} />
+                            <Form.Label>Color1:</Form.Label>
+                            <Form.Control type="color" value={this.state.color1} onChange={this.onChangePlatformColor1} />
+                            <Form.Label>Color2:</Form.Label>
+                            <Form.Control type="color" value={this.state.color2} onChange={this.onChangePlatformColor2} />
                         </div>
 
                         <div class="light">
