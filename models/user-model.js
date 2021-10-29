@@ -48,7 +48,19 @@ let UserSchema = new Schema({
 
     UserCoins: {
         type: Number
+    },
+
+    UserPrimaryColor: {
+        type: String
+    },
+
+    UserSecondaryColor: {
+        type: String
     }
 })
 
+<<<<<<< HEAD
 module.exports = mongoose.model("User", UserSchema)
+=======
+module.exports = mongoose.model('User', UserSchema);
+>>>>>>> local-testing

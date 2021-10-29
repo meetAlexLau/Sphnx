@@ -49,6 +49,7 @@ export default class Home extends Component{
     }
     routeChangeProfile(){
         //should be  /profile/:userid
+        
         this.props.history.push('/profile')
     }
     routeChangePlatform(){

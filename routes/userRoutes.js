@@ -19,7 +19,10 @@ router.route('/signUp').post(function(req, res) {
 });
 
 //fetch user info
+<<<<<<< HEAD
 
+=======
+>>>>>>> local-testing
 router.route('/:id').get(function(req, res) {
     let id = req.params.id;
     userSchema.findById(id, function(err, object) {
@@ -27,6 +30,7 @@ router.route('/:id').get(function(req, res) {
     });
 });
 
+<<<<<<< HEAD
 router.route('/UserID/:UserID').get(function(req, res) {
     let UserID = req.params.UserID;
     userSchema.find({UserID: UserID}, function(err, user) {
@@ -38,6 +42,13 @@ router.route('/UserID/:UserID').get(function(req, res) {
 //update user info
 router.route('/updateUser/:id').post((req, res) => {
     userSchema.findById(req.params.id, function(err, object) {
+=======
+
+
+//update user info
+router.route('/:id').put((req, res) => {
+    userSchema.findOne({_id: req.params.id}, function(err, object) {
+>>>>>>> local-testing
       if(!object)
           res.status(404).send("Error Object not found")
       else  
@@ -51,12 +62,21 @@ router.route('/updateUser/:id').post((req, res) => {
           object.UserFriendsArray = req.body.UserFriendsArray;
           object.UserPoints = req.body.UserPoints;
           object.UserCoints = req.body.UserCoints;
+<<<<<<< HEAD
           object.UserColor1 = req.body.UserColor1;
           object.UserColor2 = req.body.UserColor2;
+=======
+          object.UserPrimaryColor = req.body.UserPrimaryColor;
+          object.UserSecondaryColor = req.body.UserSecondaryColor;
+>>>>>>> local-testing
         
           object.save()
             .then(object => {
                 res.json("User has been updated")
+<<<<<<< HEAD
+=======
+                res.send()
+>>>>>>> local-testing
             })
             .catch(err => {
                 res.status(400).send("Error occurred when updating User.")

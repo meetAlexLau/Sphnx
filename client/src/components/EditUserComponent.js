@@ -5,7 +5,31 @@ import Image from "react-bootstrap/Image";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import axios from 'axios'
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+const NAME_OF_UPLOAD_PRESET = "sphnxPreset";
+const YOUR_CLOUDINARY_ID = "sphnx"; 
+
+async function uploadImage(file) {
+  const data = new FormData();
+  data.append("file", file);
+  data.append("upload_preset", NAME_OF_UPLOAD_PRESET);
+  const res = await fetch(
+    `https://api.cloudinary.com/v1_1/${YOUR_CLOUDINARY_ID}/image/upload`,
+    {
+      method: "POST",
+      body: data
+    }
+  );
+  const img = await res.json();
+  console.log(img);
+  return img.secure_url;
+}
+
+
+
+
+
 
 export default class EditUserComponent extends Component{
 
@@ -15,14 +39,87 @@ export default class EditUserComponent extends Component{
         this.state = {
           UserPrimaryColor: '#FF5353',
           UserSecondaryColor: '#87CEEB',
-          UserName: 'ScaryJones23'
+          UserName: 'ScaryJones23',
+          UserPicture:'',
+          UserBackgroundPicture: '',
+          uploading: false
         }
 
         this.onChangeUserName = this.onChangeUserName.bind(this)
         this.onChangeUserPrimaryColor = this.onChangeUserPrimaryColor.bind(this)
         this.onChangeUserSecondaryColor = this.onChangeUserSecondaryColor.bind(this)
+        this.setUploadingImg = this.setUploadingImg.bind(this)
+        this.handleFileChange = this.handleFileChange.bind(this)
+        this.onSubmit = this.onSubmit.bind(this)
 
     }
+
+
+    setUploadingImg(isUploading){
+      this.setState({
+        uploading: isUploading
+      })
+    }
+    
+    handleFileChange = async event => {
+      const [file] = event.target.files;
+      if (!file) return;
+    
+      this.setState({
+        uploading: true
+      })
+      const uploadedUrl = await uploadImage(file);
+      this.setState({
+        UserPicture: uploadedUrl
+      })
+      
+
+    };
+
+    handleFileChange2 = async event => {
+      const [file] = event.target.files;
+      if (!file) return;
+    
+      this.setState({
+        uploading: true
+      })
+      const uploadedUrl2 = await uploadImage(file);
+      this.setState({
+
+        UserBackgroundPicture: 'url(' + uploadedUrl2 + ')'
+
+      })
+      this.setState({
+        uploading: false
+      })
+
+    };
+
+    onSubmit(e){
+
+      if(this.state.uploading){
+        return
+      }
+      else{
+
+        const updatedUser = {
+          UserPicture: this.state.UserPicture,
+          UserBackgroundPicture: this.state.UserBackgroundPicture,
+          UserName: this.state.UserName,
+          UserPrimaryColor: this.state.UserPrimaryColor,
+          UserSecondaryColor: this.state.UserPrimaryColor
+        }
+
+        console.log('print')
+        axios.put('http://localhost:4000/users/617b5dcceaf186e2ae0998bb', updatedUser)
+        .then(res => console.log(res.data))
+        .catch(err => console.log(err))
+        this.props.history.push('/profile')
+
+      }
+      
+    }
+    
 
     onChangeUserName(e){
       this.setState({
@@ -109,7 +206,7 @@ export default class EditUserComponent extends Component{
                 >
                   Profile Picture
                 </Form.Label>
-                <Form.Control type="file" />
+                <Form.Control type="file" accept='image/*' onChange={this.handleFileChange}/>
               </Form.Group>
 
               <Form.Group controlId="formUserBackgroundPicture">
@@ -126,7 +223,7 @@ export default class EditUserComponent extends Component{
                 >
                   Profile Background Picture
                 </Form.Label>
-                <Form.Control type="file" />
+                <Form.Control type="file" accept='image/*' onChange={this.handleFileChange}/>
               </Form.Group>
 
               <Form.Label
@@ -186,8 +283,8 @@ export default class EditUserComponent extends Component{
                   to={'/profile'}>
                     Exit
               </Link>
-              <Link 
-                type='submit'
+              <Button
+                
                 style={{position: 'absolute',
                   width: '233px',
                   height: '76px',
@@ -201,9 +298,13 @@ export default class EditUserComponent extends Component{
                   boxSizing: 'border-box',
                   borderRadius: '20px',
                 }}
-                to={'/profile'}>
+                onClick={this.onSubmit}>
                   Save & Exit
+<<<<<<< HEAD
               </Link>
+=======
+              </Button>
+>>>>>>> local-testing
             </Form>
           </div>
         </Container>
