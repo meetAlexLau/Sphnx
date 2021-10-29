@@ -17,8 +17,27 @@ router.route('/createQuestion').post(function(req, res) {
         });
 });
 
+//get all quiz
+/** 
+router.route('/').get((req, res) => {
+    questionSchema.find((error, data) => {
+      if (error) {
+        return next(error)
+      } else {
+        res.json(data)
+      }
+    })
+  })
+**/
+  router.route('/').get((req, res) => {
+    questionSchema.find()
+    .then(data => res.json(data))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
 
-//fetch question
+
+
+
 router.route('/:id').get(function(req, res) {
     let id = req.params.id;
     questionSchema.findById(id, function(err, object) {

@@ -16,6 +16,19 @@ let quizSchema = require('../models/quiz-model');
         });
 });
 
+//get all quiz
+
+router.route('/').get((req, res) => {
+    quizSchema.find((error, data) => {
+      if (error) {
+        return next(error)
+      } else {
+        res.json(data)
+      }
+    })
+  })
+
+
 //fetch quiz info
 
 router.route('/:id').get(function(req, res) {
