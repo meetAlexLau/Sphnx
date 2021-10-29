@@ -69,7 +69,7 @@ export default class NewQuizComponent extends Component {
 
         };
 
-        axios.post(' http://localhost:4000/quizzes/createQuiz', quizObject)
+        axios.post('/quizzes/createQuiz', quizObject)
             .then(res => console.log(res.data));
 
         this.setState({
