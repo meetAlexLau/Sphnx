@@ -9,8 +9,24 @@ import '../App.css';
 const NAME_OF_UPLOAD_PRESET = "kmowfgdj";
 const YOUR_CLOUDINARY_ID = "dxczlnkjx";
 
+async function uploadImage(file) {
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", NAME_OF_UPLOAD_PRESET);
+    const res = await fetch(
+        `https://api.cloudinary.com/v1_1/${YOUR_CLOUDINARY_ID}/image/upload`,
+        {
+            method: "POST",
+            body: data
+        }
+    );
+    const img = await res.json();
+    console.log(img);
+    return img.secure_url;
+}
+
 export default class NewPlatformComponent extends Component {
-    
+
     constructor(props) {
         super(props)
 
@@ -35,6 +51,25 @@ export default class NewPlatformComponent extends Component {
             id: ''
         }
     }
+
+    setUploadingImg(isUploading){
+        this.setState({
+            uploading: isUploading
+        })
+    }
+
+    handleFileChange = async event => {
+        const [file] = event.target.files;
+        if (!file) return;
+
+        this.setState({
+            uploading: true
+        })
+        const uploadedUrl = await uploadImage(file);
+        this.setState({
+            PlatformPicture: uploadedUrl
+        })
+    };
 
     routeChangeProfile() {
         this.props.history.push('/profile')
@@ -83,7 +118,7 @@ export default class NewPlatformComponent extends Component {
         */
     }
 
-//
+    //
     render() {
         //TODO: link Exit button
         return (
@@ -97,7 +132,7 @@ export default class NewPlatformComponent extends Component {
 
                         Select Background Image:
                         <Form.Group>
-                            <Form.Control type="file" className="choose-file-button"/>
+                            <Form.Control type="file" className="choose-file-button" accept='image/*' onChange={this.handleFileChange}/>
                         </Form.Group>
 
                         <div>
