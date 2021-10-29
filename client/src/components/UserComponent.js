@@ -17,8 +17,8 @@ export default class UserComponent extends Component{
         super(props)
 
         this.state = {
-          UserPrimaryColor: '#FF5353',
-          UserSecondaryColor: '#87CEEB',
+          UserPrimaryColor: '',
+          UserSecondaryColor: '',
           UserName: 'ScaryJones23',
           UserPicture: "https://images.freeimages.com/images/large-previews/25d/eagle-1523807.jpg",
           UserBackgroundPicture: 'url(https://www.ksn.com/wp-content/uploads/sites/13/2020/08/EFC31919-DFE1-4C07-8AE2-2B03AAF57D55.jpeg?w=4032)'
@@ -34,12 +34,14 @@ export default class UserComponent extends Component{
     componentDidMount(){
         axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
         .then(res => {
+
+            
             this.setState({
-                UserName : res.data.UserName,
-                UserPicture : res.data.UserPicture,
-                UserPrimaryColor : res.data.UserPrimaryColor,
-                UserSecondaryColor : res.data.UserSecondaryColor,
-                UserBackgroundPicture : res.data.UserBackgroundPicture,
+                UserName : res.data[0].UserName,
+                UserPicture : res.data[0].UserPicture,
+                UserPrimaryColor : res.data[0].UserPrimaryColor,
+                UserSecondaryColor : res.data[0].UserSecondaryColor,
+                UserBackgroundPicture : res.data[0].UserBackgroundPicture,
             })
             
         })
