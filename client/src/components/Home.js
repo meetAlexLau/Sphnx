@@ -26,7 +26,7 @@ export default class Home extends Component{
     }
     componentDidMount(){
         console.log("Mounting")
-        axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
+        axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
             .then((res) => {
                 let User = res.data[0];
                 this.setState({

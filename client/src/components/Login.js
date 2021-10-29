@@ -40,7 +40,7 @@ export default class Login extends Component{
             UserPoints: 0
         }
         if(!sessionStorage.getItem("isLoggedIn")){ //CHECKS IF USER IS ALREADY LOGGED IN
-            axios.get('http://localhost:4000/users/UserID/'+ newUser.UserID)
+            axios.get('/users/UserID/'+ newUser.UserID)
                 .then((res) => {
                     let UserData = res.data[0]
                     console.log(UserData)
@@ -52,7 +52,7 @@ export default class Login extends Component{
                         this.routeChange();
                     }
                     else{                                //NEW USER
-                        axios.post('http://localhost:4000/users/signUp', newUser)
+                        axios.post('/users/signUp', newUser)
                             .then((res) => {
                                 console.log("NEW USER")
                                 sessionStorage.setItem('UserID', newUser.UserID)
@@ -81,7 +81,7 @@ export default class Login extends Component{
         }
     }
     userCheck = (resp) => {
-        axios.get('http://localhost:4000/users/UserID/111118527412503377447')
+        axios.get('/users/UserID/111118527412503377447')
             .then((res) => {
                 console.log(res)
             })

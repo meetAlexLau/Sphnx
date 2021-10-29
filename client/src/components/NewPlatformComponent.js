@@ -106,7 +106,7 @@ export default class NewPlatformComponent extends Component {
             PlatformID: this.state.id
         }
 
-        axios.post('http://localhost:4000/platforms/createPlatform', platformObject).then(res => console.log(res.data));
+        axios.post('/platforms/createPlatform', platformObject).then(res => console.log(res.data));
 
         this.routeChangeProfile();
         /*
