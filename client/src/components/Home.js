@@ -78,9 +78,6 @@ export default class Home extends Component{
                         isSignedIn={false}
                     >
                     </GoogleLogout>
-                    <Button className='mr-auto gray'onClick={this.routeChangeLogout} variant="primary">
-                        Logout
-                    </Button>
                     <Card body className='ml-auto mr-auto' style={{width: "25%", textAlign: 'center', fontSize: '25px'}}>
                         Sphnx 
                         <p>
