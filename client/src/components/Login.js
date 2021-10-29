@@ -12,10 +12,24 @@ export default class Login extends Component{
     constructor(props){
         super(props);
         this.routeChange = this.routeChange.bind(this);
+        this.state = {
+            isLoggedIn: false
+        }
     }
     routeChange() {
         //should be  /home/:userid
         this.props.history.push('/home');
+    }
+    refreshTokenSetup = (res) => {
+        let refreshTiming = (res.tokenObj.expires_in ||3600 - 5 * 60) * 1000;
+        const refreshToken= async() => {
+            const newAuthRes = await res.reloadAuthResponse();
+            refreshTiming = (newAuthRes.expires_in ||3600 - 5 * 60) * 1000;
+            setTimeout(refreshToken, refreshTiming);
+            console.log("new token", newAuthRes.id_token)
+            sessionStorage.setItem('id token', newAuthRes.id_token);
+        }
+        setTimeout(refreshToken, refreshTiming);
     }
     responseGoogle = (resp) => {
         let profile = resp.profileObj;
@@ -32,26 +46,33 @@ export default class Login extends Component{
                 this.routeChange(); //change to home screen
             })
         */
-        axios.post('http://localhost:4000/users/signUp', newUser)
+        if(!sessionStorage.getItem("isLoggedIn")){
+            axios.post('http://localhost:4000/users/signUp', newUser)
+                .then((res) => {
+                    sessionStorage.setItem('UserID', newUser.UserID)
+                    sessionStorage.setItem("id token", resp.tokenId)
+                    sessionStorage.setItem("isLoggedIn", true);
+                    console.log("TOKEN ID", resp.tokenId)
+                    console.log("ACCESS TOKEN", resp.accessToken)
+                    this.refreshTokenSetup(resp)
+                    this.routeChange(); //change to home screen
+                })
+                .catch((err) => {
+                    console.log("Axios post err " + err)
+                })
+        }
+        else{
+            this.routeChange();
+        }
+    }
+    userCheck = (resp) => {
+        axios.get('http://localhost:4000/users/617b5ca93c66b2130eefce55')
             .then((res) => {
-                sessionStorage.setItem('UserID', newUser.UserID)
-                sessionStorage.setItem("id token", resp.tokenId)
-                console.log(resp.tokenId)
-                axios.get('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + resp.tokenId)
-                    .then((tokenresp) => {
-                        console.log(tokenresp)
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    })
-                this.routeChange(); //change to home screen
+                console.log(res)
             })
             .catch((err) => {
-                console.log("Axios post err " + err)
+                console.log(err)
             })
-    }
-    addUser = (resp) => {
-        console.log(localStorage)
     }
     render(){
         return (
@@ -74,8 +95,8 @@ export default class Login extends Component{
                                 cookiePolicy = {'single_host_origin'}
                                 isSignedIn={true}
                             />
-                            <Button onClick={this.addUser} variant="primary" className = 'medium login'>
-                                Login with Google Email
+                            <Button onClick={this.userCheck} variant="primary" className = 'medium login'>
+                                Check If User Exists
                             </Button>
                         </Container>
                     </Col>

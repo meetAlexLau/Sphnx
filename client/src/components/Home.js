@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Redirect} from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
@@ -15,6 +16,15 @@ export default class Home extends Component{
         this.routeChangeProfile = this.routeChangeProfile.bind(this);
         this.routeChangePlatform = this.routeChangePlatform.bind(this);
         this.routeChangeQuiz = this.routeChangeQuiz.bind(this);
+        this.state = {
+            isLoggedIn: true
+        }
+    }
+    componentDidMount(){
+
+        if(this.state.isLoggedIn == false){
+            this.props.history.push('/')
+        }
     }
     routeChangeLogout() {
         //should be  /home/:userid
