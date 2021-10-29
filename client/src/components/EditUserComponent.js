@@ -37,12 +37,12 @@ export default class EditUserComponent extends Component{
         super(props)
 
         this.state = {
-          UserPrimaryColor: '#FF5353',
-          UserSecondaryColor: '#87CEEB',
-          UserName: 'ScaryJones23',
+          UserPrimaryColor: '',
+          UserSecondaryColor: '',
+          UserName: '',
           UserPicture:'',
           UserBackgroundPicture: '',
-          IDtoEdit: '0'
+          IDtoEdit: ''
         }
 
         this.onChangeUserName = this.onChangeUserName.bind(this)
@@ -107,12 +107,21 @@ export default class EditUserComponent extends Component{
         }
 
         console.log('print')
-        axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID')).then(res => {
+        axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
+        .then(res => {
+          console.log(res.data[0]._id)
           this.setState({
-            IDtoEdit: res.data[0]._id
+            IDtoEdit: res.data[0]._id   /* SOLUTION FOUND:
+                                         Axios put and get are ASYNC functions, that's why you're getting
+                                         an error for get and put. Some of the time, it is putting before getting.
+
+                                         --You need to make both functions async/await so that you wait for 
+                                          .get to execute, then execute .put
+                                        */
           })
         })
-        axios.put('http://localhost:4000/users/'+this.state.IDtoEdit, updatedUser)
+        console.log(this.state)
+        axios.put('http://localhost:4000/users/',this.state.IDtoEdit, updatedUser)
         .then(res => console.log(res.data))
         .catch(err => console.log(err))
         this.props.history.push('/profile')
