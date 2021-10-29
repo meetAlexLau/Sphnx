@@ -13,7 +13,11 @@ export default class Platform extends Component {
     super(props)
 
     this.state = {
-      
+      PlatformColor1: '',
+      PlatformColor2: '',
+      PlatformName: '',
+      PlatformDesc: '',
+      PlatformPicture: ''
     }
 
   }
