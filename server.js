@@ -21,14 +21,28 @@ const app = express();
 app.use(cors());
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
+<<<<<<< HEAD
 app.use('/users', routes)
 /*
+=======
+
+const usersRouter = require('./routes/userRoutes');
+const platformsRouter = require('./routes/platformRoutes');
+const quizRouter = require('./routes/quizRoutes');
+const questionsRouter = require('./routes/questionRoutes');
+
+app.use('/users', usersRouter);
+app.use('/platforms', platformsRouter);
+app.use('/quizzes', quizRouter);
+app.use('/questions', questionsRouter);
+
+>>>>>>> local-testing
 app.use(express.static(path.resolve(__dirname, "client", "build")))
 
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "client", "build", "index.html"))
 })
-*/
+
 
 const port = process.env.PORT || PORT;
 const server = app.listen(port, () => {

@@ -6,6 +6,7 @@ import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import GoogleLogout from 'react-google-login';
 import '../css/App.css';
+import axios from 'axios'
 
 export default class Home extends Component{
     constructor(props){
@@ -21,6 +22,15 @@ export default class Home extends Component{
     }
     routeChangeProfile(){
         //should be  /profile/:userid
+        const newUser = {
+            UserID: '111724848',
+            UserName: 'syed' + (Math.floor(Math.random() * 1000) + 1),
+            UserEmail: 'test@affan.com',
+            UserPoints: 0,
+            UserCoints: 0
+        }
+
+        axios.post('http://localhost:4000/users/signUp', newUser).then(res => console.log(res.data));
         this.props.history.push('/profile')
     }
     routeChangePlatform(){
