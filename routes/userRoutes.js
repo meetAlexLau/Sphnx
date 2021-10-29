@@ -43,8 +43,8 @@ router.route('/updateUser/:id').post((req, res) => {
           object.UserFriendsArray = req.body.UserFriendsArray;
           object.UserPoints = req.body.UserPoints;
           object.UserCoints = req.body.UserCoints;
-          object.UserColor1 = req.body.UserColor1;
-          object.UserColor2 = req.body.UserColor2;
+          object.UserPrimaryColor = req.body.UserPrimaryColor;
+          object.UserSecondaryColor = req.body.UserSecondaryColor;
         
           object.save()
             .then(object => {
