@@ -32,7 +32,7 @@ export default class UserComponent extends Component{
     }
 
     componentDidMount(){
-        axios.get('http://localhost:4000/users/617b5dcceaf186e2ae0998bb')
+        axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
         .then(res => {
             this.setState({
                 UserName : res.data.UserName,
