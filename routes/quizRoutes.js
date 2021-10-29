@@ -25,7 +25,7 @@ router.route('/:id').get(function(req, res) {
 });
 
 //update quiz
-router.route('/updateQuiz/:id').post((req, res) => {
+router.route('/updateQuiz/:id').put((req, res) => {
     quizSchema.findById(req.params.id, function(err, object) {
       if(!object)
           res.status(404).send("Error Object not found")
