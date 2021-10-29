@@ -57,7 +57,7 @@ export default class EditUserComponent extends Component{
 
     componentDidMount(){
 
-      axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
+      axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
         .then(res => {
           console.log(res.data[0]._id)
           this.setState({
@@ -127,7 +127,7 @@ export default class EditUserComponent extends Component{
         }
 
         
-        const newPath = ('http://localhost:4000/users/'+this.state.IDtoEdit)
+        const newPath = ('/users/'+this.state.IDtoEdit)
         
         axios.put(newPath, updatedUser)
         .then(res => console.log(res.data))
