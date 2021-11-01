@@ -7,6 +7,26 @@ import axios from 'axios';
 import { Container } from "react-bootstrap";
 import NewQuestionComponent from "./NewQuestionComponent";
 
+const NAME_OF_UPLOAD_PRESET = "sphnxPreset";
+const YOUR_CLOUDINARY_ID = "sphnx"; 
+
+async function uploadImage(file) {
+  const data = new FormData();
+  data.append("file", file);
+  data.append("upload_preset", NAME_OF_UPLOAD_PRESET);
+  const res = await fetch(
+    `https://api.cloudinary.com/v1_1/${YOUR_CLOUDINARY_ID}/image/upload`,
+    {
+      method: "POST",
+      body: data
+    }
+  );
+  const img = await res.json();
+  console.log(img);
+  return img.secure_url;
+}
+
+
 export default class NewQuizComponent extends Component {
     constructor(props) {
         super(props)
@@ -17,7 +37,7 @@ export default class NewQuizComponent extends Component {
         // Setting up functions
         this.onChangeQuizTitle = this.onChangeQuizTitle.bind(this);
         this.onChangeQuizId = this.onChangeQuizId.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
+       
 
         this.onClickSave = this.onClickSave.bind(this);
 
@@ -31,7 +51,7 @@ export default class NewQuizComponent extends Component {
         this.state = {
             isLoggedIn: sessionStorage.getItem('isLoggedIn'),
             title: '',
-            image: '',
+            backgourndPic: '',
             questionArray: [],
             answerKeyArray: []
         }
@@ -70,7 +90,7 @@ export default class NewQuizComponent extends Component {
         const quizObject = {
             QuizTitle: this.state.title,
             QuizID:"Manuel Song",
-            QuizBackground: this.state.image,
+            QuizBackground: this.state.backgourndPic,
             QuizQuestions: this.state.questionArray,
             QuizAnswerKey: answer
 
@@ -90,21 +110,7 @@ export default class NewQuizComponent extends Component {
         this.props.history.push('/platform')
     }
 
-    onSubmit(e) {
-        e.preventDefault()
 
-        const quizObject = {
-            title: this.state.title,
-            id: this.state.id
-        }
-
-        //axios.post
-
-        this.setState({
-            title: '',
-            id: ''
-        });
-    }
 
 
     addQuestionInput() {
@@ -141,12 +147,29 @@ export default class NewQuizComponent extends Component {
         console.log(this.state.questionArray)
 
     }
+
+    handleFileChange = async event => {
+        const [file] = event.target.files;
+        if (!file) return;
+      
+        
+        const uploadedUrl = await uploadImage(file);
+        console.log(uploadedUrl)
+        this.setState({
+  
+            backgourndPic: uploadedUrl
+  
+        })
+  
+      };
+
+
     render() {
         //TODO: link Exit button
         return (
             <Container fluid className="sky containerrow">
                 <div className="form-wrapper">
-                    <Form onSubmit={this.onSubmit}>
+                   
 
                         <div className="medium">
                             <Form.Group controlId="Title">
@@ -156,9 +179,12 @@ export default class NewQuizComponent extends Component {
 
                             <div>
                                 Select Background Image:
+                                <Form.Control type="file" accept='image/*' onChange={this.handleFileChange}/>
+                                {/*
                                 <Button className="choose-file-button">
                                     Choose File
                                 </Button>
+                                */}
                             </div>
 
                             {/*}
@@ -201,7 +227,7 @@ export default class NewQuizComponent extends Component {
                             </div>
                         </div>
 
-                    </Form>
+                    
 
                 </div>
             </Container>);
