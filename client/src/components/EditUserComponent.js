@@ -61,14 +61,15 @@ export default class EditUserComponent extends Component{
             this.props.history.push('/')
         }
       else{
+
         axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
           .then(res => {
-            console.log(res.data[0]._id)
+            let User = res.data[0]
             this.setState({
-              IDtoEdit: res.data[0]._id ,
-              UserName: res.data[0].UserName ,
-              UserPrimaryColor: res.data[0].UserPrimaryColor,
-              UserSecondaryColor: res.data[0].UserSecondaryColor /* SOLUTION FOUND:
+              IDtoEdit: User._id ,
+              UserName: User.UserName ,
+              UserPrimaryColor: User.UserPrimaryColor,
+              UserSecondaryColor: User.UserSecondaryColor /* SOLUTION FOUND:
                                           Axios put and get are ASYNC functions, that's why you're getting
                                           an error for get and put. Some of the time, it is putting before getting.
 
@@ -135,8 +136,8 @@ export default class EditUserComponent extends Component{
         const newPath = ('http://localhost:4000/users/'+this.state.IDtoEdit)
         
         axios.put(newPath, updatedUser)
-        .then(res => console.log(res.data))
-        .catch(err => console.log(err))
+          .then(res => console.log(res.data))
+          .catch(err => console.log(err))
         this.props.history.push('/profile')
         window.location.reload(false);
 
