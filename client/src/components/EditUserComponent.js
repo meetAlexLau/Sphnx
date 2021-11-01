@@ -37,6 +37,7 @@ export default class EditUserComponent extends Component{
         super(props)
 
         this.state = {
+          isLoggedIn: sessionStorage.getItem('isLoggedIn'),
           UserPrimaryColor: '',
           UserSecondaryColor: '',
           UserName: '',
@@ -56,25 +57,29 @@ export default class EditUserComponent extends Component{
     }
 
     componentDidMount(){
+      if(this.state.isLoggedIn !== "true"){
+            this.props.history.push('/')
+        }
+      else{
+        axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
+          .then(res => {
+            console.log(res.data[0]._id)
+            this.setState({
+              IDtoEdit: res.data[0]._id ,
+              UserName: res.data[0].UserName ,
+              UserPrimaryColor: res.data[0].UserPrimaryColor,
+              UserSecondaryColor: res.data[0].UserSecondaryColor /* SOLUTION FOUND:
+                                          Axios put and get are ASYNC functions, that's why you're getting
+                                          an error for get and put. Some of the time, it is putting before getting.
 
-      axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
-        .then(res => {
-          console.log(res.data[0]._id)
-          this.setState({
-            IDtoEdit: res.data[0]._id ,
-            UserName: res.data[0].UserName ,
-            UserPrimaryColor: res.data[0].UserPrimaryColor,
-            UserSecondaryColor: res.data[0].UserSecondaryColor /* SOLUTION FOUND:
-                                         Axios put and get are ASYNC functions, that's why you're getting
-                                         an error for get and put. Some of the time, it is putting before getting.
-
-                                         --You need to make both functions async/await so that you wait for 
-                                          .get to execute, then execute .put
-                                        */
+                                          --You need to make both functions async/await so that you wait for 
+                                            .get to execute, then execute .put
+                                          */
+            })
           })
-        })
+      }
 
-        console.log(this.state.IDtoEdit)
+      console.log(this.state.IDtoEdit)
 
     }
 

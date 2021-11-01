@@ -45,6 +45,7 @@ export default class NewPlatformComponent extends Component {
 
         // Setting up state
         this.state = {
+            isLoggedIn: sessionStorage.getItem('isLoggedIn'),
             title: '',
             desc: '',
             color1: '',
@@ -53,7 +54,11 @@ export default class NewPlatformComponent extends Component {
             id: ''
         }
     }
-
+    componentDidMount() {
+        if(this.state.isLoggedIn != true){
+            this.props.history.push('/')
+        }
+    }
     setUploadingImg(isUploading){
         this.setState({
             uploading: isUploading

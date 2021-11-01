@@ -13,6 +13,7 @@ export default class Platform extends Component {
     super(props)
 
     this.state = {
+      isLoggedIn: sessionStorage.getItem('isLoggedIn'),
       PlatformColor1: '',
       PlatformColor2: '',
       PlatformName: '',
@@ -24,17 +25,22 @@ export default class Platform extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:4000/platforms/id/' + sessionStorage.getItem('id'))
-      .then(res => {
-        this.setState({
-          PlatformName: res.data.PlatformName,
-          PlatformPicture: res.data.PlatformPicture,
-          PlatformColor1: res.data.PlatformColor1,
-          PlatformColor2: res.data.PlatformColor2,
-          PlatformDesc: res.data.PlatformDesc,
-        })
+    if(this.state.isLoggedIn !== "true"){
+      this.props.history.push('/')
+    }
+    else{
+      axios.get('http://localhost:4000/platforms/id/' + sessionStorage.getItem('id'))
+        .then(res => {
+          this.setState({
+            PlatformName: res.data.PlatformName,
+            PlatformPicture: res.data.PlatformPicture,
+            PlatformColor1: res.data.PlatformColor1,
+            PlatformColor2: res.data.PlatformColor2,
+            PlatformDesc: res.data.PlatformDesc,
+          })
 
-      })
+        })
+    }
   }
 
   // Racecar Background

@@ -17,11 +17,12 @@ export default class UserComponent extends Component{
         super(props)
 
         this.state = {
-          UserPrimaryColor: '',
-          UserSecondaryColor: '',
-          UserName: 'ScaryJones23',
-          UserPicture: "https://images.freeimages.com/images/large-previews/25d/eagle-1523807.jpg",
-          UserBackgroundPicture: 'url(https://www.ksn.com/wp-content/uploads/sites/13/2020/08/EFC31919-DFE1-4C07-8AE2-2B03AAF57D55.jpeg?w=4032)'
+            isLoggedIn: sessionStorage.getItem('isLoggedIn'),
+            UserPrimaryColor: '',
+            UserSecondaryColor: '',
+            UserName: 'ScaryJones23',
+            UserPicture: "https://images.freeimages.com/images/large-previews/25d/eagle-1523807.jpg",
+            UserBackgroundPicture: 'url(https://www.ksn.com/wp-content/uploads/sites/13/2020/08/EFC31919-DFE1-4C07-8AE2-2B03AAF57D55.jpeg?w=4032)'
         }
 
         this.onClickNewPlatform = this.onClickNewPlatform.bind(this)
@@ -32,19 +33,21 @@ export default class UserComponent extends Component{
     }
 
     componentDidMount(){
-        axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
-        .then(res => {
-
-            
-            this.setState({
-                UserName : res.data[0].UserName,
-                UserPicture : res.data[0].UserPicture,
-                UserPrimaryColor : res.data[0].UserPrimaryColor,
-                UserSecondaryColor : res.data[0].UserSecondaryColor,
-                UserBackgroundPicture : res.data[0].UserBackgroundPicture,
-            })
-            
-        })
+        if(this.state.isLoggedIn !== "true"){
+            this.props.history.push('/')
+        }
+            else{
+            axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
+                .then(res => {
+                    this.setState({
+                        UserName : res.data[0].UserName,
+                        UserPicture : res.data[0].UserPicture,
+                        UserPrimaryColor : res.data[0].UserPrimaryColor,
+                        UserSecondaryColor : res.data[0].UserSecondaryColor,
+                        UserBackgroundPicture : res.data[0].UserBackgroundPicture,
+                    }) 
+                })
+            }
     }
 
     onClickNewPlatform(){

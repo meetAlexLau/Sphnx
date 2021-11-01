@@ -73,12 +73,9 @@ export default class Login extends Component{
                 })
         }
         else{
-            this.props.history.push('/home');
+            this.routeChange();
         }
         
-        if(!sessionStorage.getItem("isLoggedIn")){
-            
-        }
     }
     userCheck = (resp) => {
         axios.get('http://localhost:4000/users/UserID/111118527412503377447')

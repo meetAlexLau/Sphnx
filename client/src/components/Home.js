@@ -25,22 +25,23 @@ export default class Home extends Component{
         }
     }
     componentDidMount(){
-        console.log("Mounting")
-        axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
-            .then((res) => {
-                let User = res.data[0];
-                this.setState({
-                    UserName: User.UserName,
-                    UserId: User.UserID,
-                    UserEmail: User.UserEmail
-                });
-            })
-            .catch((err) => {
-
-            })
-            
-        if(this.state.isLoggedIn == false){
+        if(this.state.isLoggedIn !== "true"){
             this.props.history.push('/')
+        }
+        else{
+            console.log("Mounting")
+            axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
+                .then((res) => {
+                    let User = res.data[0];
+                    this.setState({
+                        UserName: User.UserName,
+                        UserId: User.UserID,
+                        UserEmail: User.UserEmail
+                    });
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
         }
     }
     routeChangeLogout() {
