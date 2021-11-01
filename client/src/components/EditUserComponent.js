@@ -69,13 +69,9 @@ export default class EditUserComponent extends Component{
               IDtoEdit: User._id ,
               UserName: User.UserName ,
               UserPrimaryColor: User.UserPrimaryColor,
-              UserSecondaryColor: User.UserSecondaryColor /* SOLUTION FOUND:
-                                          Axios put and get are ASYNC functions, that's why you're getting
-                                          an error for get and put. Some of the time, it is putting before getting.
-
-                                          --You need to make both functions async/await so that you wait for 
-                                            .get to execute, then execute .put
-                                          */
+              UserSecondaryColor: User.UserSecondaryColor,
+              UserPicture: User.UserPicture,
+              UserBackgroundPicture: User.UserBackgroundPicture
             })
           })
       }
