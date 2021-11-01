@@ -79,7 +79,7 @@ export default class Home extends Component{
                         isSignedIn={false}
                     >
                     </GoogleLogout>
-                    <Card body className='ml-auto mr-auto' style={{width: "25%", textAlign: 'center', fontSize: '25px'}}>
+                    <Card body className='ml-auto' style={{width: "25%", textAlign: 'center', fontSize: '25px'}}>
                         Sphnx 
                         <p>
                             Welcome, [{this.state.UserName}]
