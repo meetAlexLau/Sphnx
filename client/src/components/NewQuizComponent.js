@@ -38,11 +38,11 @@ export default class NewQuizComponent extends Component {
     }
 
     componentDidMount() {
-        if(this.state.isLoggedIn != true){
+        if(this.state.isLoggedIn !== "true"){
             this.props.history.push('/')
         }
     }
-    
+
     routeChangePlatform(e) {
         this.props.history.push('/platform')
     }

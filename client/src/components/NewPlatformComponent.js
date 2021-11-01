@@ -55,7 +55,7 @@ export default class NewPlatformComponent extends Component {
         }
     }
     componentDidMount() {
-        if(this.state.isLoggedIn != true){
+        if(this.state.isLoggedIn !== "true"){
             this.props.history.push('/')
         }
     }
