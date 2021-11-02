@@ -6,7 +6,7 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import {GoogleLogout} from 'react-google-login';
-import '../css/App.css';
+import '../css/Home.css';
 import axios from 'axios'
 
 export default class Home extends Component{
@@ -99,8 +99,8 @@ export default class Home extends Component{
                                 Your News Feed
                             </Card>
                         </Row>
-                        <Row className='mr-auto'>
-                            <Button onClick={this.routeChangePlatform} className ='marginspacing  mr-auto' variant="primary">
+                        <Row className='mr-auto activityCard'>
+                            <Button onClick={this.routeChangePlatform} className ='activityCard marginspacing  mr-auto' variant="primary">
                                 Example Platform
                             </Button>
                         </Row>

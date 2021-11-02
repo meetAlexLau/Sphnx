@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: '.env' })
 import React, {Component} from 'react';
 import axios from 'axios';
 import GoogleLogin from 'react-google-login';
@@ -32,6 +32,7 @@ export default class Login extends Component{
         setTimeout(refreshToken, refreshTiming);
     }
     responseGoogle = (resp) => {
+        console.log(resp);
         let profile = resp.profileObj;
         const newUser = {
             UserID: profile.googleId + "",
@@ -43,7 +44,6 @@ export default class Login extends Component{
             axios.get('http://localhost:4000/users/UserID/'+ newUser.UserID)
                 .then((res) => {
                     let UserData = res.data[0]
-                    console.log(UserData)
                     if(typeof UserData !== 'undefined'){ //RETURNING USER
                         sessionStorage.setItem('UserID', UserData.UserID)
                         sessionStorage.setItem("id token", resp.tokenId)
