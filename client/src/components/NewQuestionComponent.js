@@ -40,7 +40,7 @@ export default class NewQuestionComponent extends Component {
         this.setState({
             questionTitle: this.props.value.questionTitle,
             answerNumber: this.props.value.answerNumber,
-            answerInputArray: [...this.props.value.answerInputArray, ""]
+            answerInputArray: this.props.value.answerInputArray?[...this.props.value.answerInputArray, ""]:[""]
 
         }, () => {
             console.log("inside of addanswerInput" + this.state.answerInputArray)
