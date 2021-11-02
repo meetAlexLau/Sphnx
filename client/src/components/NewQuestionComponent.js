@@ -14,9 +14,6 @@ export default class NewQuestionComponent extends Component {
         this.routeChangePlatform = this.routeChangePlatform.bind(this);
 
 
-        this.onChangeAnswerNumber = this.onChangeAnswerNumber.bind(this);
-
-
         // Setting up functions
         // Setting up state
         this.state = {
@@ -32,22 +29,57 @@ export default class NewQuestionComponent extends Component {
 
 
 
-
+    /*
     addAnswerInput() {
         this.setState({ answerInputArray: [...this.state.answerInputArray, ""] })
+        this.props.onChange(this.state,this.props.index);
     }
+    */
+    addAnswerInput = e => {
+
+        this.setState({
+            questionTitle: this.props.value.questionTitle,
+            answerNumber: this.props.value.answerNumber,
+            answerInputArray: [...this.props.value.answerInputArray, ""]
+
+        }, () => {
+            console.log("inside of addanswerInput" + this.state.answerInputArray)
+            if (this.props.onChange) {
+                this.props.onChange(this.state, this.props.index);
+            }
+        })
+
+    }
+
     onChangeAnswer(e, index) {
         this.state.answerInputArray[index] = e.target.value
         this.setState({ answerInputArray: this.state.answerInputArray })
         this.props.onChange(this.state, this.props.index);
     }
-    handleRemove(index) {
+    handleRemove2(index) {
         this.state.answerInputArray.splice(index, 1)
 
-        console.log(this.state.answerInputArray, "$$$$");
+        //console.log(this.state.answerInputArray, "$$$$");
 
         this.setState({ answerInputArray: this.state.answerInputArray })
         this.props.onChange(this.state, this.props.index);
+    }
+
+    handleRemove = index => {
+        this.props.value.answerInputArray.splice(index, 1)
+        console.log(index)
+        this.setState({
+            questionTitle: this.props.value.questionTitle,
+            answerNumber: this.props.value.answerNumber,
+            answerInputArray: this.props.value.answerInputArray
+
+        }, () => {
+            console.log("inside of addanswerInput" + this.state.answerInputArray)
+            if (this.props.onChange) {
+                this.props.onChange(this.state, this.props.index);
+            }
+        })
+
     }
 
 
@@ -65,28 +97,21 @@ export default class NewQuestionComponent extends Component {
 
 
 
-
-
-
-    onChangeAnswerNumber(e) {
-
-        this.setState({ QuestionTitle: e.target.value })
-    }
     render() {
         //TODO: link Exit button
         return (
 
             <div className="dark">
-                Question {this.props.index}: <input type="text" name="questionTitle" onChange={this.handleChange}></input>
+                Question {this.props.index}: <input value={this.props.value.questionTitle ? this.props.value.questionTitle : ""} type="text" name="questionTitle" onChange={this.handleChange}></input>
 
 
                 <div>
-                    Correct Answer Number(from 0)   : <input type="text" name="answerNumber" onChange={this.handleChange}></input>
+                    Correct Answer Number(from 0)   : <input value={this.props.value.answerNumber ? this.props.value.answerNumber : ""} type="text" name="answerNumber" onChange={this.handleChange}></input>
                 </div>
 
 
                 {
-                    this.state.answerInputArray.map((input, index) => {
+                    (this.props.value.answerInputArray ? this.props.value.answerInputArray : []).map((input, index) => {
                         return (
                             <div key={index}>
                                 Answer {index}: <input onChange={(e) => this.onChangeAnswer(e, index)} value={input} />

@@ -121,7 +121,7 @@ export default class NewQuizComponent extends Component {
         this.state.questionArray.splice(index, 1)
 
         console.log(this.state.questionArray, "$$$$");
-
+            
         this.setState({ questionArray: this.state.questionArray })
     }
 
@@ -196,11 +196,11 @@ export default class NewQuizComponent extends Component {
 
                             {
                                 this.state.questionArray.map((input, index) => (
-                                    <>
-                                        <NewQuestionComponent key={input} questionArray={this.state.questionArray} onChange={this.eventhandler} index={index} />
+                                    <div key={index}>
+                                        <NewQuestionComponent  value={input} onChange={this.eventhandler} index={index} />
 
                                         <button onClick={() => this.handleRemoveQuestion(index)}>delete Question {index}</button>
-                                    </>
+                                    </div>
                                 )
 
                                 )

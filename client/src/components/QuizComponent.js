@@ -17,10 +17,10 @@ export default class Quiz extends Component {
     // Setting up state
     this.state = {
       isLoggedIn: sessionStorage.getItem('isLoggedIn'),
-      quizId:'',
+      quizId: '',
       quizTitle: '',
       backgourndPic: '',
-      questionArray: [[]],
+      questionArray: [{ answerInputArray: [] }],
       answerKeyArray: []
     }
   }
@@ -40,7 +40,7 @@ export default class Quiz extends Component {
             backgourndPic: res.data.QuizBackground,
             questionArray: res.data.QuizQuestions,
             answerKeyArray: res.data.QuizAnswerKey
-            
+
 
           })
         })
@@ -58,42 +58,46 @@ export default class Quiz extends Component {
   //<div style={{ backgroundImage: `url(${exampleBackground})` }} class="backgorund" >
   render() {
     return (
-      
-      <div style={{ backgroundImage: `url(${this.state.backgourndPic})` }} class="backgorund" >
-        <div class="quiz-content">
+
+      <div style={{ backgroundImage: `url(${this.state.backgourndPic})` }} className="backgorund" >
+        <div className="quiz-content">
           <h1 style={{ textAlign: 'center', fontSize: 20 }}>{this.state.quizTitle}</h1>
-          <h2 style={{ fontSize: 15, "margin-left": "5%" }}>Question 1</h2>
-          <h2 style={{ fontSize: 15, "margin-left": "5%" }}>{this.state.answerKeyArray[0]}</h2>
+          <h2 style={{ fontSize: 15, marginLeft: "5%" }}>Question 1</h2>
+          <h2 style={{ fontSize: 15, marginLeft: "5%" }}>{this.state.questionArray[0].questionTitle}</h2>
           {
-           console.log(this.state.questionArray[0].questionTitle)
-           
+            /*console.log(this.state.questionArray[0].questionTitle)
+            */
           }
 
 
 
           <div style={{ "width": "100%", "display": "table" }}>
             <div style={{ "display": "table-row", "height": "100px" }}>
-              <div style={{ "width": "50%", "display": "table-cell", "justify-content": "center", "align-items": "center" }}>
+              <div style={{ "width": "50%", "display": "table-cell", justifyContent: "center", alignItems: "center" }}>
 
-                <div className="form-check" style={{ fontSize: 15, "margin-left": "15%" }}>
+                <div className="form-check" style={{ fontSize: 15, marginLeft: "15%" }}>
                   <label className="form-check-label">
                     <input type="checkbox"
 
                       className="form-check-input"
                     />
-                    Infinitum
+                    {//console.log(this.state.questionArray[0].answerInputArray[0])
+                      this.state.questionArray[0].answerInputArray[0]
+                    }
                   </label>
                 </div>
-                <div className="form-check" style={{ fontSize: 15, "margin-left": "15%" }}>
+                <div className="form-check" style={{ fontSize: 15, marginLeft: "15%" }}>
                   <label className="form-check-label">
                     <input type="checkbox"
 
                       className="form-check-input"
                     />
-                    Singularity
+                    {
+                      this.state.questionArray[0].answerInputArray[1]
+                    }
                   </label>
                 </div>
-                <div className="form-check" style={{ fontSize: 15, "margin-left": "15%" }}>
+                <div className="form-check" style={{ fontSize: 15, marginLeft: "15%" }}>
                   <label className="form-check-label">
                     <input type="checkbox"
 
