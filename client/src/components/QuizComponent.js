@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 //import exampleBackground from "../img/quizBackgroundExample.png";
 import axios from 'axios'
 
-let profiles = [{ "name": "John" }, { "name": "Kitty" }, { "name": "Ji" }, { "name": "Mattis" }]
 
 export default class Quiz extends Component {
 
