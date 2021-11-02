@@ -14,12 +14,12 @@ export default class Platform extends Component {
 
     this.state = {
       isLoggedIn: sessionStorage.getItem('isLoggedIn'),
-      PlatformColor1: '',
-      PlatformColor2: '',
-      PlatformName: '',
+      PlatformColor1: '#E79696',
+      PlatformColor2: '#E96363',
+      PlatformName: 'Racecar Fans',
       PlatformDesc: '',
-      PlatformPicture: `url("https://s3-alpha-sig.figma.com/img/00af/4155/29de19f4df8c2a4e41bb723fd95362e2?Expires=1635724800&Signature=PVA11EFkHmq5xt7imvZ89GSsvZWKadADlM0dqBwbYrXAd2UNVK0fssovN~EqEl0efWVO7s7ZPLhU5gEThaEZkWcCEvQ8SPWJ~EtEfErJAuZrxYZIMElKKdo4qq7~sys5s4CEbV1G-lR3Af2QBqz3vgMKUz2zaKZB3vQCE5VYtEVCtViB3J500MXdymu9Xj386~TrqvAXtNcEuWr5UD2nkwVjQjk9EWhNJ-zDOo1SxE71te15fXpJOda7GrFQAm8OAV0rbyRtAuzuXNnJC1GyULEaVJ5FYYZt4np~2jRXuP5HgDgoi1riOPDJG08IwUozIkiQ7WoCMXPilMEF6z5V3g__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA")`
-      //PlatformPicture: `url(https://images.unsplash.com/photo-1494976388531-d1058494cdd8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8M3x8fGVufDB8fHx8&w=1000&q=80)`
+      //PlatformPicture: `url("https://s3-alpha-sig.figma.com/img/00af/4155/29de19f4df8c2a4e41bb723fd95362e2?Expires=1635724800&Signature=PVA11EFkHmq5xt7imvZ89GSsvZWKadADlM0dqBwbYrXAd2UNVK0fssovN~EqEl0efWVO7s7ZPLhU5gEThaEZkWcCEvQ8SPWJ~EtEfErJAuZrxYZIMElKKdo4qq7~sys5s4CEbV1G-lR3Af2QBqz3vgMKUz2zaKZB3vQCE5VYtEVCtViB3J500MXdymu9Xj386~TrqvAXtNcEuWr5UD2nkwVjQjk9EWhNJ-zDOo1SxE71te15fXpJOda7GrFQAm8OAV0rbyRtAuzuXNnJC1GyULEaVJ5FYYZt4np~2jRXuP5HgDgoi1riOPDJG08IwUozIkiQ7WoCMXPilMEF6z5V3g__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA")`
+      PlatformPicture: `url(https://images.unsplash.com/photo-1494976388531-d1058494cdd8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8M3x8fGVufDB8fHx8&w=1000&q=80)`
       //PlatformPicture: "url(../img/platformExample.png)"
     }
 
@@ -55,8 +55,8 @@ export default class Platform extends Component {
 
 
 
-        <div class="platform-content">
-          <div class="platform-content-header">
+        <div class="platform-content" style={{ backgroundColor: this.state.PlatformColor1 }}>
+          <div class="platform-content-header" style={{ backgroundColor: this.state.PlatformColor2 }}>
 
             <Container>
               <Row>
@@ -71,7 +71,7 @@ export default class Platform extends Component {
 
                 <Col>
                   <Row className="d-flex justify-content-center" style={{ fontSize: "20px" }}>Platform</Row>
-                  <Row className="d-flex justify-content-center" style={{ fontSize: "40px" }}>Racecar Fans</Row>
+                  <Row className="d-flex justify-content-center" style={{ fontSize: "40px" }}>{this.state.PlatformName}</Row>
                 </Col>
 
                 <Col >
@@ -94,7 +94,7 @@ export default class Platform extends Component {
           <Container>
             <Row>
 
-              <div class="platform-content-row">
+              <div class="platform-content-row" style={{ backgroundColor: this.state.PlatformColor2 }}>
                 <Container>
                   <Row>
                     <Col xs lg="2" >
@@ -113,7 +113,7 @@ export default class Platform extends Component {
 
 
             <Row>
-              <div class="platform-content-row">
+              <div class="platform-content-row" style={{ backgroundColor: this.state.PlatformColor2 }}>
                 <Container>
                   <Row>
                     <Col xs lg="2" >
@@ -125,7 +125,7 @@ export default class Platform extends Component {
               </div>
             </Row>
             <Row>
-              <div class="platform-content-row">
+            <div class="platform-content-row" style={{ backgroundColor: this.state.PlatformColor2 }}>
                 <Container>
                   <Row>
                     <Col xs lg="2" >
@@ -138,7 +138,7 @@ export default class Platform extends Component {
             </Row>
             <Row>
 
-              <div class="platform-content-row">
+            <div class="platform-content-row" style={{ backgroundColor: this.state.PlatformColor2 }}>
                 <Container>
                   <Row>
                     <Col xs lg="2" >
@@ -157,7 +157,7 @@ export default class Platform extends Component {
 
 
             <Row>
-              <div class="platform-content-row">
+            <div class="platform-content-row" style={{ backgroundColor: this.state.PlatformColor2 }}>
                 <Container>
                   <Row>
                     <Col xs lg="2" >

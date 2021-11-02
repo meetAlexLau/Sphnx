@@ -91,7 +91,7 @@
   border-color: #000000;
   border-style: solid;
   
-  background-color: #E79696;
+  /*background-color: #E79696;*/
   margin: 0 auto;
 }
 
@@ -103,7 +103,7 @@
   width: 90%;
   border-color: #000000;
   border-style: solid;
-  background-color: #E96363;
+  /*background-color: #E96363;*/
   
   margin-bottom:20px;
   margin-left:auto;
@@ -167,7 +167,7 @@
   width: 90%;
   border-color: #000000;
   border-style: solid;
-  background-color: #D87171;
+  /*background-color: #D87171;*/
   margin-left:auto;
   margin-right:auto;
   margin-top: 5px;
