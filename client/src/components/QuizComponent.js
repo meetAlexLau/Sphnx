@@ -3,8 +3,10 @@ import React, { Component } from "react";
 import { Link } from 'react-router-dom';
 //import Button from 'react-bootstrap/Button';
 
-import exampleBackground from "../img/quizBackgroundExample.png";
+//import exampleBackground from "../img/quizBackgroundExample.png";
 import axios from 'axios'
+
+let profiles = [{ "name": "John" }, { "name": "Kitty" }, { "name": "Ji" }, { "name": "Mattis" }]
 
 export default class Quiz extends Component {
 
@@ -12,7 +14,7 @@ export default class Quiz extends Component {
     super(props)
 
     // Setting up functions
-
+    this.onClickNext = this.onClickNext.bind(this);
 
     // Setting up state
     this.state = {
@@ -21,7 +23,12 @@ export default class Quiz extends Component {
       quizTitle: '',
       backgourndPic: '',
       questionArray: [{ answerInputArray: [] }],
-      answerKeyArray: []
+      answerKeyArray: [],
+      numberOfQuestion:'',
+      userAnswer: [],
+      index: 0,
+      titleOfQuestion: '',
+      arrayOfAnswer: []
     }
   }
 
@@ -39,8 +46,8 @@ export default class Quiz extends Component {
             quizTitle: res.data.QuizTitle,
             backgourndPic: res.data.QuizBackground,
             questionArray: res.data.QuizQuestions,
-            answerKeyArray: res.data.QuizAnswerKey
-
+            answerKeyArray: res.data.QuizAnswerKey,
+            numberOfQuestion:res.data.QuizQuestions.length
 
           })
         })
@@ -49,6 +56,27 @@ export default class Quiz extends Component {
 
   }
 
+
+  onClickNext(){
+    if(this.state.index>=this.state.numberOfQuestion-1){
+      this.props.history.push('/QuizResult')
+    }else{
+    this.setState({ index: this.state.index +1 })
+    //console.log(this.state.numberOfQuestion)
+    console.log(this.state.index)}
+  }
+  onClickBack(){
+
+    if(this.state.index<=0){
+      console.log(this.state.index)
+    }else{
+      this.setState({ index: this.state.index -1 })
+      console.log(this.state.index)
+    
+    }
+    
+
+  }
 
 
   //<div className="form-wrapper" style={{ backgroundImage: `url(${quizBackground})` }}>
@@ -59,11 +87,13 @@ export default class Quiz extends Component {
   render() {
     return (
 
+      <div key={this.state.index}>
       <div style={{ backgroundImage: `url(${this.state.backgourndPic})` }} className="backgorund" >
         <div className="quiz-content">
+
           <h1 style={{ textAlign: 'center', fontSize: 20 }}>{this.state.quizTitle}</h1>
-          <h2 style={{ fontSize: 15, marginLeft: "5%" }}>Question 1</h2>
-          <h2 style={{ fontSize: 15, marginLeft: "5%" }}>{this.state.questionArray[0].questionTitle}</h2>
+          <h2 style={{ fontSize: 15, marginLeft: "5%" }}>Question {this.state.index+1}</h2>
+          <h2 style={{ fontSize: 15, marginLeft: "5%" }}>{this.state.questionArray[this.state.index].questionTitle}</h2>
           {
             /*console.log(this.state.questionArray[0].questionTitle)
             */
@@ -71,61 +101,53 @@ export default class Quiz extends Component {
 
 
 
+
           <div style={{ "width": "100%", "display": "table" }}>
             <div style={{ "display": "table-row", "height": "100px" }}>
               <div style={{ "width": "50%", "display": "table-cell", justifyContent: "center", alignItems: "center" }}>
 
-                <div className="form-check" style={{ fontSize: 15, marginLeft: "15%" }}>
-                  <label className="form-check-label">
-                    <input type="checkbox"
-
-                      className="form-check-input"
-                    />
-                    {//console.log(this.state.questionArray[0].answerInputArray[0])
-                      this.state.questionArray[0].answerInputArray[0]
-                    }
-                  </label>
-                </div>
-                <div className="form-check" style={{ fontSize: 15, marginLeft: "15%" }}>
-                  <label className="form-check-label">
-                    <input type="checkbox"
-
-                      className="form-check-input"
-                    />
-                    {
-                      this.state.questionArray[0].answerInputArray[1]
-                    }
-                  </label>
-                </div>
-                <div className="form-check" style={{ fontSize: 15, marginLeft: "15%" }}>
-                  <label className="form-check-label">
-                    <input type="checkbox"
-
-                      className="form-check-input"
-                    />
-                    Centrality
-                  </label>
-                </div>
+                {
+                  (this.state.questionArray[this.state.index].answerInputArray ? this.state.questionArray[this.state.index].answerInputArray : []).map((input, index) => {
+                    return (
+                      <div key={index}>
+                        <div className="form-check" style={{ fontSize: 15, marginLeft: "15%" }}>
+                          <label className="form-check-label">
+                            <input type="checkbox" className="form-check-input" />
+                            {input}
+                          </label>
+                        </div>
+                      </div>
+                    )
+                  })
+                }
               </div>
+              {/*
               <div style={{ "display": "table-cell" }}>
                 <img style={{ "witdth": "160px", "height": "120px" }} src="https://www.innovationnewsnetwork.com/wp-content/uploads/2020/11/Black-hole-simulations-800x450.jpg" />
               </div>
+              */}
             </div>
           </div>
 
 
 
-          <Link to={"/QuizResult"} className="quiz-button">
+          <button className="quiz-button" onClick={() => this.onClickNext()}>
             Next
-          </Link>
+          </button>
+          <button className="quiz-button" onClick={() => this.onClickBack()}>
+            Back
+          </button>
+
+          {/*
           <Link to={"/QuizResult"} className="quiz-button">
             Back
           </Link>
-
+          */
+          }
 
         </div>
       </div>
-
+      </div>
     );
   }
 }
