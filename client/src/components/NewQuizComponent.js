@@ -131,7 +131,7 @@ export default class NewQuizComponent extends Component {
     onChangeQuestionArray(e, index) {
         this.state.questionArray[index] = e.target.value
         this.setState({ questionArray: this.state.questionArray })
-        console.log(this.state.questionArray)
+        //console.log(this.state.questionArray)
     }
 
     /*eventhandler = data => console.log(data)
@@ -141,10 +141,10 @@ export default class NewQuizComponent extends Component {
     }*/
 
     eventhandler(data, index) {
-        console.log("index is " + index)
+        //console.log("index is " + index)
         this.state.questionArray[index] = data
         this.setState({ questionArray: this.state.questionArray })
-        console.log(this.state.questionArray)
+        //console.log(this.state.questionArray)
 
     }
 
@@ -199,7 +199,7 @@ export default class NewQuizComponent extends Component {
                                     <>
                                         <NewQuestionComponent key={input} questionArray={this.state.questionArray} onChange={this.eventhandler} index={index} />
 
-                                        <button onClick={() => this.handleRemoveQuestion(index)}>delete</button>
+                                        <button onClick={() => this.handleRemoveQuestion(index)}>delete Question {index}</button>
                                     </>
                                 )
 

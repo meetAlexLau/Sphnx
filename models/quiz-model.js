@@ -11,7 +11,7 @@ let Quiz = new Schema({
     QuizBackground:{
         type: String
     },
-    QuizQuestions:[[]],
+    QuizQuestions:[],
     QuizAnswerKey:{ type : Array , "default" : [] }
 })
 
