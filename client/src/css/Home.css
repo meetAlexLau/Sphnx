@@ -45,5 +45,9 @@
 
   .activityCard{
     width: 100%;
-    outline: 2px solid black
+    outline: 2px solid black;
+    align-items: center
+  }
+  .platformBytton{
+      
   }

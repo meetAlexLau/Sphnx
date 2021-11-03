@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
@@ -82,6 +83,7 @@ export default class Home extends Component{
                         })
                     }
                 })
+            
             console.log(p)
         } catch(err) {
             console.log(err)
@@ -89,16 +91,19 @@ export default class Home extends Component{
     }
 
     render(){
-        const plats = this.state.Platforms?.map((plat, i) => (
+        let plats = this.state.Platforms?.map((plat, i) => (
             //<li key={i}>{plat.PlatformName}</li>
-            <Card key={i} className= 'ml-auto activityCard'>
-                <div className= 'mb-2'>
-                    <Button onClick={this.routeChangePlatform} variant="primary">
-                        {plat.PlatformName}
-                    </Button>
-                </div>
-            </Card>
+            <Col key={i}>    
+                <Card className= 'ml-auto activityCard'>
+                    <div className= ''>
+                        <Button onClick={this.routeChangePlatform} variant="primary">
+                            {plat.PlatformName}
+                        </Button>
+                    </div>
+                </Card>
+            </Col>
         ))
+        plats = <Row>{plats}</Row>
         return (
             <Container fluid className='sky containerrow'> {/* home container*/}
                 <Row className = 'medium marginspacing paddingspacing'> {/*Logout | Title | Profile */}
@@ -129,9 +134,9 @@ export default class Home extends Component{
                                 Your News Feed
                             </Card>
                         </Row>
-                        <Row>
+                        
                             {plats}
-                        </Row>
+                        
                         <Row>
                             <Button onClick={this.routeChangeQuiz} className ='marginspacing' variant="primary">
                                 Example Quiz
