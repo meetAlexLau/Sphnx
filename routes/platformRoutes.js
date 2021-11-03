@@ -16,6 +16,16 @@ router.route('/createPlatform').post(function(req, res) {
         });
 });
 
+router.route('/').get(function(req, res) {
+    platformSchema.find(function(err, platforms){
+        if(err) {
+            console.log(err)
+        }
+        else{
+            res.json(platforms);
+        }
+    })
+})
 
 router.route('/:id').get(function(req, res) {
     let id = req.params.id;

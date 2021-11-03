@@ -16,12 +16,13 @@ export default class Home extends Component{
         this.routeChangeProfile = this.routeChangeProfile.bind(this);
         this.routeChangePlatform = this.routeChangePlatform.bind(this);
         this.routeChangeQuiz = this.routeChangeQuiz.bind(this);
+        this.renderPlatforms = this.renderPlatforms.bind(this);
         this.state = {
             isLoggedIn: sessionStorage.getItem('isLoggedIn'),
             UserID: '',
             UserName: '',
-            UserEmail: ''
-
+            UserEmail: '',
+            Platforms: []
         }
     }
     componentDidMount(){
@@ -42,6 +43,7 @@ export default class Home extends Component{
                 .catch((err) => {
                     console.log(err);
                 })
+            this.renderPlatforms();
         }
     }
     routeChangeLogout() {
@@ -68,7 +70,35 @@ export default class Home extends Component{
         sessionStorage.clear()
     }
 
+    renderPlatforms = async() => {
+        let p = [];
+        try{
+            await axios.get('http://localhost:4000/platforms')
+                .then(res => {
+                    p = res.data
+                    for(var i = 0; i < p.length; i++){
+                        this.setState({
+                            Platforms: this.state.Platforms.concat([p[i]])
+                        })
+                    }
+                })
+            console.log(p)
+        } catch(err) {
+            console.log(err)
+        }
+    }
+
     render(){
+        const plats = this.state.Platforms?.map((plat, i) => (
+            //<li key={i}>{plat.PlatformName}</li>
+            <Card key={i} className= 'ml-auto activityCard'>
+                <div className= 'mb-2'>
+                    <Button onClick={this.routeChangePlatform} variant="primary">
+                        {plat.PlatformName}
+                    </Button>
+                </div>
+            </Card>
+        ))
         return (
             <Container fluid className='sky containerrow'> {/* home container*/}
                 <Row className = 'medium marginspacing paddingspacing'> {/*Logout | Title | Profile */}
@@ -99,10 +129,8 @@ export default class Home extends Component{
                                 Your News Feed
                             </Card>
                         </Row>
-                        <Row className='mr-auto activityCard'>
-                            <Button onClick={this.routeChangePlatform} className ='activityCard marginspacing  mr-auto' variant="primary">
-                                Example Platform
-                            </Button>
+                        <Row>
+                            {plats}
                         </Row>
                         <Row>
                             <Button onClick={this.routeChangeQuiz} className ='marginspacing' variant="primary">
