@@ -12,7 +12,7 @@
   }
   
   .homecontainer{
-    width:95%;
+    width:100%;
     height:100vh;
     margin-bottom:10%;
     align-items:left;
@@ -44,5 +44,22 @@
   }
 
   .activityCard{
-    width: 100%
+    width: 100%;
+    height: 250px;
+    outline: 2px solid black;
+    align-items: center;
+    margin-top: 30px
+  }
+
+  .activityCardButton{
+    position: absolute;
+    bottom: 0px;
+    inline-size: 200px;
+    overflow-wrap: break-word;
+  }
+
+  .activityCardImage{
+    max-width: auto;
+    height: 150px;
+    object-fit: cover;
   }
