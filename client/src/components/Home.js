@@ -83,15 +83,13 @@ export default class Home extends Component{
                         })
                     }
                 })
-            
-            console.log(p)
         } catch(err) {
             console.log(err)
         }
     }
 
     render(){
-        let plats = this.state.Platforms?.map((plat, i) => (
+        let plats = this.state.Platforms?.map((plat, i) => (        //map each platform to structure <Col>
             //<li key={i}>{plat.PlatformName}</li>
             <Col key={i}>    
                 <Card className= 'ml-auto activityCard'>
@@ -103,7 +101,14 @@ export default class Home extends Component{
                 </Card>
             </Col>
         ))
-        plats = <Row>{plats}</Row>
+        let rendplats = [];             //row oriented platforms
+        while(plats.length > 0){        //splice the array of platforms into groups of 4
+            let chunk = plats.splice(0, 4);     
+            rendplats.push(chunk)
+        }
+        for(var j = 0; j < rendplats.length; j++){          //each chunk is a group of 4, surround with <Row>
+            rendplats[j] = <Row> {rendplats[j]} </Row>
+        }
         return (
             <Container fluid className='sky containerrow'> {/* home container*/}
                 <Row className = 'medium marginspacing paddingspacing'> {/*Logout | Title | Profile */}
@@ -135,7 +140,7 @@ export default class Home extends Component{
                             </Card>
                         </Row>
                         
-                            {plats}
+                            {rendplats}
                         
                         <Row>
                             <Button onClick={this.routeChangeQuiz} className ='marginspacing' variant="primary">

@@ -16,6 +16,11 @@ export default class Login extends Component{
             isLoggedIn: false
         }
     }
+    componentDidMount() {
+        this.setState({
+            isLoggedIn: false
+        })
+    }
     routeChange() {
         //should be  /home/:userid
         this.props.history.push('/home');
