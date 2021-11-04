@@ -66,6 +66,7 @@ export default class EditUserComponent extends Component{
           .then(res => {
             let User = res.data[0]
             this.setState({
+              oldUser: User,
               IDtoEdit: User._id ,
               UserName: User.UserName ,
               UserPrimaryColor: User.UserPrimaryColor,
@@ -119,14 +120,14 @@ export default class EditUserComponent extends Component{
 
     onSubmit(e){
 
-
-        const updatedUser = {
-          UserPicture: this.state.UserPicture,
-          UserBackgroundPicture: this.state.UserBackgroundPicture,
-          UserName: this.state.UserName,
-          UserPrimaryColor: this.state.UserPrimaryColor,
-          UserSecondaryColor: this.state.UserSecondaryColor
-        }
+        let updatedUser = this.state.oldUser
+      
+        updatedUser.UserPicture= this.state.UserPicture
+        updatedUser.UserBackgroundPicture= this.state.UserBackgroundPicture
+        updatedUser.UserName= this.state.UserName
+        updatedUser.UserPrimaryColor= this.state.UserPrimaryColor
+        updatedUser.UserSecondaryColor= this.state.UserSecondaryColor
+      
 
         
         const newPath = ('http://localhost:4000/users/'+this.state.IDtoEdit)

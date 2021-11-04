@@ -38,7 +38,7 @@ export default class Quiz extends Component {
     }
     else {
 
-      axios.get('http://localhost:4000/quizzes/61808e9944a7d8064e72256e/')
+      axios.get('http://localhost:4000/quizzes/6182b0b76ad37b02b34dd10e/')
         .then(res => {
           this.setState({
             quizId: res.data._id,

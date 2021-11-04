@@ -58,6 +58,17 @@ export default class NewPlatformComponent extends Component {
         if(this.state.isLoggedIn !== "true"){
             this.props.history.push('/')
         }
+        else{
+            
+        axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
+         .then(res => {
+          let User = res.data[0];
+            this.setState({
+                oldUser: User,
+                IDtoEdit: User._id
+            })
+        })
+        }
     }
     setUploadingImg(isUploading){
         this.setState({
@@ -80,6 +91,7 @@ export default class NewPlatformComponent extends Component {
 
     routeChangeProfile() {
         this.props.history.push('/profile')
+        window.location.reload(false)
     }
 
     onChangePlatformTitle(e) {
@@ -109,6 +121,10 @@ export default class NewPlatformComponent extends Component {
     onSubmit(e) {
         e.preventDefault()
 
+        let updatedUser = this.state.oldUser
+        updatedUser.UserPoints = updatedUser.UserPoints + 25
+
+
         const platformObject = {
             PlatformName: this.state.title,
             PlatformDesc: this.state.desc,
@@ -119,6 +135,11 @@ export default class NewPlatformComponent extends Component {
         }
 
         axios.post('http://localhost:4000/platforms/createPlatform', platformObject).then(res => console.log(res.data));
+        const newPath = ('http://localhost:4000/users/'+this.state.IDtoEdit)
+        
+        axios.put(newPath, updatedUser)
+          .then(res => console.log(res.data))
+          .catch(err => console.log(err))
 
         this.routeChangeProfile();
         /*
