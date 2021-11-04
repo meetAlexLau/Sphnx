@@ -56,9 +56,10 @@ export default class Home extends Component{
         
         this.props.history.push('/profile')
     }
-    routeChangePlatform(){
+    routeChangePlatform=(platformID)=>{
         //should be  /profile/:userid
-        this.props.history.push('/platform')
+        console.log(platformID);
+        //this.props.history.push('/platform/' + platformID);
     }
     routeChangeQuiz(){
         //should be  /profile/:userid
@@ -93,11 +94,14 @@ export default class Home extends Component{
             //<li key={i}>{plat.PlatformName}</li>
             <Col key={i}>    
                 <Card className= 'ml-auto activityCard'>
-                    <div className= ''>
-                        <Button onClick={this.routeChangePlatform} variant="primary">
+                    <Card.Img variant='top' className='activityCardImage' src = 'https://res.cloudinary.com/demo/image/upload/sheep.png'>
+                    </Card.Img>
+                    <Card.Title>
+                        {plat.PlatformDesc}
+                    </Card.Title>
+                    <Button className='activityCardButton' onClick={() => this.routeChangePlatform(plat._id)} variant="primary">
                             {plat.PlatformName}
-                        </Button>
-                    </div>
+                    </Button>
                 </Card>
             </Col>
         ))
