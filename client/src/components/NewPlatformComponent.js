@@ -80,9 +80,7 @@ export default class NewPlatformComponent extends Component {
         const [file] = event.target.files;
         if (!file) return;
 
-        this.setState({
-            uploading: true
-        })
+       
         const uploadedUrl = await uploadImage(file);
         this.setState({
             PlatformPicture: uploadedUrl
@@ -130,7 +128,7 @@ export default class NewPlatformComponent extends Component {
             PlatformDesc: this.state.desc,
             PlatformColor1: this.state.color1,
             PlatformColor2: this.state.color2,
-            PlatformPicture: this.state.picture,
+            PlatformPicture: this.state.PlatformPicture,
             PlatformID: this.state.id
         }
 

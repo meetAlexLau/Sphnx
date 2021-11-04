@@ -94,7 +94,7 @@ export default class Home extends Component{
             //<li key={i}>{plat.PlatformName}</li>
             <Col key={i}>    
                 <Card className= 'ml-auto activityCard'>
-                    <Card.Img variant='top' className='activityCardImage' src = 'https://res.cloudinary.com/demo/image/upload/sheep.png'>
+                    <Card.Img variant='top' className='activityCardImage' src = {plat.PlatformPicture}>
                     </Card.Img>
                     <Card.Title>
                         {plat.PlatformDesc}
