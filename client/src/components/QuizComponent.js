@@ -11,6 +11,22 @@ import QuizResult from "./QuizResult";
 export default class Quiz extends Component {
 
   constructor(props) {
+
+
+    /*
+        const t1 = new Date(1579876543210) // your initial time
+        const t2 = new Date(1579987654321) // your later time
+        
+        const diff = t2-t1
+        const SEC = 1000, MIN = 60 * SEC, HRS = 60 * MIN
+        const humanDiff = `${Math.floor(diff/HRS)}:${Math.floor((diff%HRS)/MIN).toLocaleString('en-US', {minimumIntegerDigits: 2})}:${Math.floor((diff%MIN)/SEC).toLocaleString('en-US', {minimumIntegerDigits: 2})}.${Math.floor(diff % SEC).toLocaleString('en-US', {minimumIntegerDigits: 4, useGrouping: false})}`
+        
+        console.log("humanDiff:", humanDiff)
+        */
+    var time = new Date()
+
+
+
     super(props)
 
     // Setting up functions
@@ -32,7 +48,9 @@ export default class Quiz extends Component {
       titleOfQuestion: '',
       submitActive: 0,
       ResultActive: 0,
-      score: 0
+      score: 0,
+      startTime: time,
+      totalTime: 0
       //arrayOfAnswer: []
     }
   }
@@ -80,6 +98,11 @@ export default class Quiz extends Component {
     }
 
     this.setState({ score: scoreResult })
+
+    var endtime = new Date()
+    this.setState({ totalTime: endtime - this.state.startTime })
+
+
 
     this.setState({ ResultActive: 1 })
 
@@ -129,7 +152,7 @@ export default class Quiz extends Component {
 
 
         {!this.state.ResultActive && <div key={this.state.indexOfQuestion}>
-          
+
           <div style={{ backgroundImage: `url(${this.state.backgroundPic})` }} className="background" >
             <div className="quiz-content">
 
@@ -180,10 +203,12 @@ export default class Quiz extends Component {
                     <div style={{ fontSize: 15, marginLeft: "5%" }}>
 
                       Selected answer is : {
-                      this.state.questionArray[this.state.indexOfQuestion].answerInputArray[this.state.userAnswer[this.state.indexOfQuestion]]
-                      //this.state.userAnswer[this.state.indexOfQuestion]
-                    }
+                        this.state.questionArray[this.state.indexOfQuestion].answerInputArray[this.state.userAnswer[this.state.indexOfQuestion]]
+                        //this.state.userAnswer[this.state.indexOfQuestion]
+                      }
+
                     </div>
+                    
 
 
 
@@ -229,7 +254,7 @@ export default class Quiz extends Component {
 
         {
           this.state.ResultActive && <QuizResult answerKeyArray={this.state.answerKeyArray} userAnswer={this.state.userAnswer} score={this.state.score}
-            numberOfQuestion={this.state.numberOfQuestion} history={this.props.history}
+            numberOfQuestion={this.state.numberOfQuestion} history={this.props.history} totalTime={this.state.totalTime}
           />}
 
 

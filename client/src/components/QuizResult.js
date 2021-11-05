@@ -47,7 +47,7 @@ export default class QuizResult extends Component{
                     </Row>
                     <Row className='justify-content-center'>
                         <Card> {/*Obtain Time Completed Param */}
-                            Time Completed 06/06/2021 4:21PM
+                            {this.props.totalTime/1000} Second to take the quiz
                         </Card>
                     </Row>
                     <Row className='justify-content-center'>
