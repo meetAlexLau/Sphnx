@@ -144,15 +144,17 @@ export default class Quiz extends Component {
 
   }
   onClickNext() {
-    if (this.state.indexOfQuestion >= this.state.numberOfQuestion - 1) {
+    /*if (this.state.indexOfQuestion >= this.state.numberOfQuestion - 1) {
       //this.props.history.push('/QuizResult')
       this.setState({ ResultActive: 1 })
 
-    } else {
+    } else {*/
+
+      
       this.setState({ indexOfQuestion: this.state.indexOfQuestion + 1 })
       //console.log(this.state.numberOfQuestion)
       console.log(this.state.indexOfQuestion)
-    }
+    
   }
 
   onClickBack() {
