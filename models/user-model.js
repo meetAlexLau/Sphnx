@@ -27,15 +27,9 @@ let UserSchema = new Schema({
         of: String
     },
     
-    UserPlatformArray: {
-        type: Map,
-        of: String
-    },
+    UserPlatformArray: [],
 
-    UserSubscribedPlatformArray: {
-        type: Map,
-        of: String
-    },
+    UserSubscribedPlatformArray: [],
 
     UserFriendsArray: {
         type: Map,
