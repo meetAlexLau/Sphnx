@@ -52,15 +52,9 @@ let Platform = new Schema({
         type: Number
     },
 
-    PlatformQuizArray: {
-        type: Map,
-        of: String
-    },
+    PlatformQuizArray: [],
 
-    PlatformSubscriberArray: {
-        type: Map,
-        of: String
-    }
+    PlatformSubscriberArray: []
 })
 
 module.exports = mongoose.model('Platform', Platform);

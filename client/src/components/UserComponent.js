@@ -17,11 +17,13 @@ export default class UserComponent extends Component{
         super(props)
 
         this.state = {
-          UserPrimaryColor: '',
-          UserSecondaryColor: '',
-          UserName: 'ScaryJones23',
-          UserPicture: "https://images.freeimages.com/images/large-previews/25d/eagle-1523807.jpg",
-          UserBackgroundPicture: 'url(https://www.ksn.com/wp-content/uploads/sites/13/2020/08/EFC31919-DFE1-4C07-8AE2-2B03AAF57D55.jpeg?w=4032)'
+            isLoggedIn: sessionStorage.getItem('isLoggedIn'),
+            UserPrimaryColor: '',
+            UserSecondaryColor: '',
+            UserName: '',
+            UserPicture: "",
+            UserBackgroundPicture: '',
+            UserPoints: 0
         }
 
         this.onClickNewPlatform = this.onClickNewPlatform.bind(this)
@@ -32,19 +34,24 @@ export default class UserComponent extends Component{
     }
 
     componentDidMount(){
-        axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
-        .then(res => {
-
-            
-            this.setState({
-                UserName : res.data[0].UserName,
-                UserPicture : res.data[0].UserPicture,
-                UserPrimaryColor : res.data[0].UserPrimaryColor,
-                UserSecondaryColor : res.data[0].UserSecondaryColor,
-                UserBackgroundPicture : res.data[0].UserBackgroundPicture,
-            })
-            
-        })
+        if(this.state.isLoggedIn !== "true"){
+            this.props.history.push('/')
+        }
+            else{
+                axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
+                    .then(res => {
+                        let User = res.data[0];
+                        this.setState({
+                            UserName : User.UserName,
+                            UserPicture : User.UserPicture,
+                            UserPrimaryColor : User.UserPrimaryColor,
+                            UserSecondaryColor : User.UserSecondaryColor,
+                            UserBackgroundPicture : User.UserBackgroundPicture,
+                            UserPoints : User.UserPoints
+                        }) 
+                        console.log(this.state);
+                    })
+            }
     }
 
     onClickNewPlatform(){
@@ -104,6 +111,8 @@ export default class UserComponent extends Component{
                         />
                         <div className="profileNameTag"
                             style={{background: this.state.UserSecondaryColor}}>{this.state.UserName}</div>
+                        <div className="profileNameTag"
+                            style={{background: this.state.UserSecondaryColor}}>Total Points: {""+this.state.UserPoints}</div>
                     </Col>
                     <Col md={1}>
                         <Image

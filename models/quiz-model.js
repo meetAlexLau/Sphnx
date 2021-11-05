@@ -11,8 +11,11 @@ let Quiz = new Schema({
     QuizBackground:{
         type: String
     },
-    QuizQuestions:[[]],
-    QuizAnswerKey:{ type : Array , "default" : [] }
+    QuizQuestions:[],
+    QuizAnswerKey:{ type : Array , "default" : [] },
+    PlatformID: {
+        type: String
+    }
 })
 
 module.exports = mongoose.model('Quiz', Quiz);

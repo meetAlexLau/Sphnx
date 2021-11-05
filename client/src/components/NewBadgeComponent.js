@@ -12,6 +12,7 @@ export default class NewBadgeComponent extends Component {
 
         // Setting up routes
         this.routeChangePlatform = this.routeChangePlatform.bind(this);
+        this.routeChangeNewQuiz = this.routeChangeNewQuiz.bind(this);
 
         // Setting up functions
         this.onChangeBadgeTitle = this.onChangeBadgeTitle.bind(this);
@@ -29,6 +30,10 @@ export default class NewBadgeComponent extends Component {
 
     routeChangePlatform(e) {
         this.props.history.push('/platform')
+    }
+
+    routeChangeNewQuiz(e) {
+        this.props.history.push('/newQuiz')
     }
 
     onChangeBadgeTitle(e) {
@@ -101,11 +106,11 @@ export default class NewBadgeComponent extends Component {
                     </div>
 
                     <div class="text-right">
-                        <Button className='savebutton' type="submit" onClick={this.routeChangePlatform}>
+                        <Button className='savebutton' type="submit" onClick={this.routeChangeNewQuiz}>
                             Save
                         </Button>
 
-                        <Button className='cancelbutton' variant="danger" onClick={this.routeChangePlatform}>
+                        <Button className='cancelbutton' variant="danger" onClick={this.routeChangeNewQuiz}>
                             Cancel
                         </Button>
                     </div>

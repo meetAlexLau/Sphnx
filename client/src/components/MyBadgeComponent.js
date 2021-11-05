@@ -18,7 +18,7 @@ export default class MyBadge extends Component {
     return (
 
 
-      <div class="backgorund"  >
+      <div class="background"  >
         <div class="badge-content">
           <div class="badge-content-header">
             <Link to={"/profile"} className="badge-button">

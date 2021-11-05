@@ -7,17 +7,38 @@ import axios from 'axios';
 import { Container } from "react-bootstrap";
 import NewQuestionComponent from "./NewQuestionComponent";
 
+const NAME_OF_UPLOAD_PRESET = "sphnxPreset";
+const YOUR_CLOUDINARY_ID = "sphnx";
+
+async function uploadImage(file) {
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", NAME_OF_UPLOAD_PRESET);
+    const res = await fetch(
+        `https://api.cloudinary.com/v1_1/${YOUR_CLOUDINARY_ID}/image/upload`,
+        {
+            method: "POST",
+            body: data
+        }
+    );
+    const img = await res.json();
+    console.log(img);
+    return img.secure_url;
+}
+
+
 export default class NewQuizComponent extends Component {
     constructor(props) {
         super(props)
 
         // Setting up routes
         this.routeChangePlatform = this.routeChangePlatform.bind(this);
+        this.routeChangeNewBadge = this.routeChangeNewBadge.bind(this);
 
         // Setting up functions
         this.onChangeQuizTitle = this.onChangeQuizTitle.bind(this);
         this.onChangeQuizId = this.onChangeQuizId.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
+
 
         this.onClickSave = this.onClickSave.bind(this);
 
@@ -29,15 +50,37 @@ export default class NewQuizComponent extends Component {
 
         // Setting up state
         this.state = {
+            isLoggedIn: sessionStorage.getItem('isLoggedIn'),
             title: '',
-            image: '',
+            backgroundPic: '',
             questionArray: [],
             answerKeyArray: []
         }
     }
 
+    componentDidMount() {
+        if (this.state.isLoggedIn !== "true") {
+            this.props.history.push('/')
+        }
+        else{
+            
+            axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
+             .then(res => {
+              let User = res.data[0];
+                this.setState({
+                    oldUser: User,
+                    IDtoEdit: User._id
+                })
+            })
+            }
+    }
+
     routeChangePlatform(e) {
         this.props.history.push('/platform')
+    }
+
+    routeChangeNewBadge(e) {
+        this.props.history.push('/newBadge')
     }
 
     onChangeQuizTitle(e) {
@@ -52,18 +95,21 @@ export default class NewQuizComponent extends Component {
     onClickSave(e) {
         e.preventDefault()
         const answer = []
-      
+
         let i = 0;
         while (this.state.questionArray[i]) {
-            answer.push(this.state.questionArray[i]["answerNumber"]); 
+            answer.push(this.state.questionArray[i]["answerNumber"]);
             i++;
         }
+
+        let updatedUser = this.state.oldUser
+        updatedUser.UserPoints = updatedUser.UserPoints + 10
 
 
         const quizObject = {
             QuizTitle: this.state.title,
-            QuizID:"Manuel Song",
-            QuizBackground: this.state.image,
+            QuizID: "Manuel Song",
+            QuizBackground: this.state.backgroundPic,
             QuizQuestions: this.state.questionArray,
             QuizAnswerKey: answer
 
@@ -72,6 +118,11 @@ export default class NewQuizComponent extends Component {
         axios.post('/quizzes/createQuiz', quizObject)
             .then(res => console.log(res.data));
 
+        const newPath = ('/users/'+this.state.IDtoEdit)
+    
+        axios.put(newPath, updatedUser)
+            .then(res => console.log(res.data))
+            .catch(err => console.log(err))
         this.setState({
             title: '',
             image: '',
@@ -80,24 +131,11 @@ export default class NewQuizComponent extends Component {
         });
 
 
-        this.props.history.push('/platform')
+        this.props.history.push('/home')
+        window.location.reload(false)
     }
 
-    onSubmit(e) {
-        e.preventDefault()
 
-        const quizObject = {
-            title: this.state.title,
-            id: this.state.id
-        }
-
-        //axios.post
-
-        this.setState({
-            title: '',
-            id: ''
-        });
-    }
 
 
     addQuestionInput() {
@@ -118,7 +156,7 @@ export default class NewQuizComponent extends Component {
     onChangeQuestionArray(e, index) {
         this.state.questionArray[index] = e.target.value
         this.setState({ questionArray: this.state.questionArray })
-        console.log(this.state.questionArray)
+        //console.log(this.state.questionArray)
     }
 
     /*eventhandler = data => console.log(data)
@@ -128,73 +166,97 @@ export default class NewQuizComponent extends Component {
     }*/
 
     eventhandler(data, index) {
-        console.log("index is " + index)
+        //console.log("index is " + index)
         this.state.questionArray[index] = data
         this.setState({ questionArray: this.state.questionArray })
-        console.log(this.state.questionArray)
+        //console.log(this.state.questionArray)
 
     }
+
+    handleFileChange = async event => {
+        const [file] = event.target.files;
+        if (!file) return;
+
+
+        const uploadedUrl = await uploadImage(file);
+        console.log(uploadedUrl)
+        this.setState({
+
+            backgroundPic: uploadedUrl
+
+        })
+
+    };
+
+
     render() {
         //TODO: link Exit button
         return (
             <Container fluid className="sky containerrow">
                 <div className="form-wrapper">
-                    <Form onSubmit={this.onSubmit}>
 
-                        <div className="medium">
-                            <Form.Group controlId="Title">
-                                <Form.Label>Title:</Form.Label>
-                                <Form.Control type="text" value={this.state.title} onChange={this.onChangeQuizTitle} />
-                            </Form.Group>
 
-                            <div>
-                                Select Background Image:
+                    <div className="medium">
+                        <Form.Group controlId="Title">
+                            <Form.Label>Title:</Form.Label>
+                            <Form.Control type="text" value={this.state.title} onChange={this.onChangeQuizTitle} />
+                        </Form.Group>
+
+                        <div>
+                            <Button className="choose-file-button" onClick={this.routeChangeNewBadge}>Add Badge</Button>
+                        </div>
+
+                        <div>
+                            Select Background Image:
+                            <Form.Control type="file" accept='image/*' onChange={this.handleFileChange} />
+                            {/*
                                 <Button className="choose-file-button">
                                     Choose File
                                 </Button>
-                            </div>
+                                */}
+                        </div>
 
-                            {/*}
+                        {/*}
                             <div>
                                 <NewQuestionComponent />
 
                             </div>
                             */}
 
-                            {
-                                this.state.questionArray.map((input, index) => (
-                                    <>
-                                        <NewQuestionComponent key={input} questionArray={this.state.questionArray} onChange={this.eventhandler} index={index} />
+                        {
+                            this.state.questionArray.map((input, index) => (
+                                <div key={index}>
+                                    <NewQuestionComponent value={input} onChange={this.eventhandler} index={index} />
 
-                                        <button onClick={() => this.handleRemoveQuestion(index)}>delete</button>
-                                    </>
-                                )
+                                    <button onClick={() => this.handleRemoveQuestion(index)}>delete Question {index}</button>
+                                </div>
+                            )
 
-                                )
-
-
-                            }
+                            )
 
 
-                            <div>
-                                <Button className="choose-file-button" onClick={(e) => this.addQuestionInput(e)}>Add Question</Button>
-                            </div>
+                        }
 
 
-
-
-                            <div className="text-right">
-                                <Button className='savebutton' type="submit" onClick={this.onClickSave}>
-                                    Save
-                                </Button>
-
-                                <Button className='cancelbutton' variant="danger" onClick={this.routeChangePlatform}>
-                                    Cancel
-                                </Button>
-                            </div>
+                        <div>
+                            <Button className="choose-file-button" onClick={(e) => this.addQuestionInput(e)}>Add Question</Button>
                         </div>
 
-                    </Form>
+
+
+
+                        <div className="text-right">
+                            <Button className='savebutton' type="submit" onClick={this.onClickSave}>
+                                Save
+                            </Button>
+
+                            <Button className='cancelbutton' variant="danger" onClick={this.routeChangePlatform}>
+                                Cancel
+                            </Button>
+                        </div>
+                    </div>
+
+
 
                 </div>
             </Container>);

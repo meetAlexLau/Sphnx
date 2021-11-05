@@ -37,6 +37,7 @@ export default class EditUserComponent extends Component{
         super(props)
 
         this.state = {
+          isLoggedIn: sessionStorage.getItem('isLoggedIn'),
           UserPrimaryColor: '',
           UserSecondaryColor: '',
           UserName: '',
@@ -56,25 +57,27 @@ export default class EditUserComponent extends Component{
     }
 
     componentDidMount(){
+      if(this.state.isLoggedIn !== "true"){
+            this.props.history.push('/')
+        }
+      else{
 
-      axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
-        .then(res => {
-          console.log(res.data[0]._id)
-          this.setState({
-            IDtoEdit: res.data[0]._id ,
-            UserName: res.data[0].UserName ,
-            UserPrimaryColor: res.data[0].UserPrimaryColor,
-            UserSecondaryColor: res.data[0].UserSecondaryColor /* SOLUTION FOUND:
-                                         Axios put and get are ASYNC functions, that's why you're getting
-                                         an error for get and put. Some of the time, it is putting before getting.
-
-                                         --You need to make both functions async/await so that you wait for 
-                                          .get to execute, then execute .put
-                                        */
+        axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
+          .then(res => {
+            let User = res.data[0]
+            this.setState({
+              oldUser: User,
+              IDtoEdit: User._id ,
+              UserName: User.UserName ,
+              UserPrimaryColor: User.UserPrimaryColor,
+              UserSecondaryColor: User.UserSecondaryColor,
+              UserPicture: User.UserPicture,
+              UserBackgroundPicture: User.UserBackgroundPicture
+            })
           })
-        })
+      }
 
-        console.log(this.state.IDtoEdit)
+      console.log(this.state.IDtoEdit)
 
     }
 
@@ -117,21 +120,21 @@ export default class EditUserComponent extends Component{
 
     onSubmit(e){
 
-
-        const updatedUser = {
-          UserPicture: this.state.UserPicture,
-          UserBackgroundPicture: this.state.UserBackgroundPicture,
-          UserName: this.state.UserName,
-          UserPrimaryColor: this.state.UserPrimaryColor,
-          UserSecondaryColor: this.state.UserSecondaryColor
-        }
+        let updatedUser = this.state.oldUser
+      
+        updatedUser.UserPicture= this.state.UserPicture
+        updatedUser.UserBackgroundPicture= this.state.UserBackgroundPicture
+        updatedUser.UserName= this.state.UserName
+        updatedUser.UserPrimaryColor= this.state.UserPrimaryColor
+        updatedUser.UserSecondaryColor= this.state.UserSecondaryColor
+      
 
         
         const newPath = ('/users/'+this.state.IDtoEdit)
         
         axios.put(newPath, updatedUser)
-        .then(res => console.log(res.data))
-        .catch(err => console.log(err))
+          .then(res => console.log(res.data))
+          .catch(err => console.log(err))
         this.props.history.push('/profile')
         window.location.reload(false);
 

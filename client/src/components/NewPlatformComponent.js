@@ -9,6 +9,8 @@ import '../App.css';
 const NAME_OF_UPLOAD_PRESET = "kmowfgdj";
 const YOUR_CLOUDINARY_ID = "dxczlnkjx";
 
+var newIDofPlat = ""
+
 async function uploadImage(file) {
     const data = new FormData();
     data.append("file", file);
@@ -45,6 +47,7 @@ export default class NewPlatformComponent extends Component {
 
         // Setting up state
         this.state = {
+            isLoggedIn: sessionStorage.getItem('isLoggedIn'),
             title: '',
             desc: '',
             color1: '',
@@ -53,7 +56,22 @@ export default class NewPlatformComponent extends Component {
             id: ''
         }
     }
-
+    componentDidMount() {
+        if(this.state.isLoggedIn !== "true"){
+            this.props.history.push('/')
+        }
+        else{
+            
+        axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
+         .then(res => {
+          let User = res.data[0];
+            this.setState({
+                oldUser: User,
+                IDtoEdit: User._id
+            })
+        })
+        }
+    }
     setUploadingImg(isUploading){
         this.setState({
             uploading: isUploading
@@ -64,9 +82,7 @@ export default class NewPlatformComponent extends Component {
         const [file] = event.target.files;
         if (!file) return;
 
-        this.setState({
-            uploading: true
-        })
+       
         const uploadedUrl = await uploadImage(file);
         this.setState({
             PlatformPicture: uploadedUrl
@@ -75,6 +91,7 @@ export default class NewPlatformComponent extends Component {
 
     routeChangeProfile() {
         this.props.history.push('/profile')
+        window.location.reload(false)
     }
 
     onChangePlatformTitle(e) {
@@ -101,21 +118,35 @@ export default class NewPlatformComponent extends Component {
         this.setState({ picture: e.target.value })
     }
 
-    onSubmit(e) {
+    onSubmit = async(e) => {
         e.preventDefault()
+
+        let updatedUser = this.state.oldUser
+        updatedUser.UserPoints = updatedUser.UserPoints + 25
+
 
         const platformObject = {
             PlatformName: this.state.title,
             PlatformDesc: this.state.desc,
             PlatformColor1: this.state.color1,
             PlatformColor2: this.state.color2,
-            PlatformPicture: this.state.picture,
+            PlatformPicture: this.state.PlatformPicture,
             PlatformID: this.state.id
         }
 
-        axios.post('/platforms/createPlatform', platformObject).then(res => console.log(res.data));
+        await axios.post('/platforms/createPlatform', platformObject).then(res => {newIDofPlat = res.data
+                                                                                                    }
+        );
 
-        this.routeChangeProfile();
+        console.log(newIDofPlat)
+        updatedUser.UserPlatformArray.push(newIDofPlat)
+        const newPath = ('/users/'+this.state.IDtoEdit)
+        
+        axios.put(newPath, updatedUser)
+          .then(res => console.log(res.data))
+          .catch(err => console.log(err))
+
+        
         /*
         this.setState({
             title: '',
@@ -123,6 +154,9 @@ export default class NewPlatformComponent extends Component {
             id: ''
         });
         */
+       
+        this.routeChangeProfile()
+
     }
 
     //

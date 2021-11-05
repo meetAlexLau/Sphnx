@@ -15,8 +15,15 @@ export default class QuizResult extends Component{
     }
     renderQuestions = () => {
         const q = [];
-        for(var i =0; i < 11; i++){
-            q.push(<Card body>Question {i}:</Card>)
+        for(var i =0; i < this.props.numberOfQuestion; i++){
+            q.push(<Card body key={i}>Question {i}: {this.props.questionArray[i].questionTitle}
+                    {"  [Your Answer: " }
+                    {this.props.questionArray[i].answerInputArray[this.props.userAnswer[i]] }
+                    {"]" }
+                    {"  [Correct Answer: " }
+                    {this.props.questionArray[i].answerInputArray[this.props.answerKeyArray[i]] }
+                    {"]" }
+            </Card>)
         }
         return q;
     }
@@ -47,12 +54,12 @@ export default class QuizResult extends Component{
                     </Row>
                     <Row className='justify-content-center'>
                         <Card> {/*Obtain Time Completed Param */}
-                            Time Completed 06/06/2021 4:21PM
+                            {this.props.totalTime/1000} Second to take the quiz
                         </Card>
                     </Row>
                     <Row className='justify-content-center'>
                         <Card> {/*Obtain Score and Badges Earned */}
-                            Score: 8/10     Badge Earned:[  ]
+                            Score: {this.props.score}/{this.props.numberOfQuestion}     Badge Earned:[  ]
                         </Card>
                     </Row>
                 </Container>
