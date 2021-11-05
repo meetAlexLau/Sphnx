@@ -16,7 +16,7 @@ export default class QuizResult extends Component{
     renderQuestions = () => {
         const q = [];
         for(var i =0; i < this.props.numberOfQuestion; i++){
-            q.push(<Card body key={i}>Question {i}: {this.props.questionArray[i].questionTitle}
+            q.push(<Card body key={i}>Question {i+1}: {this.props.questionArray[i].questionTitle}
                     {"  [Your Answer: " }
                     {this.props.questionArray[i].answerInputArray[this.props.userAnswer[i]] }
                     {"]" }
