@@ -193,7 +193,7 @@ export default class Home extends Component{
                     <Card body className='ml-auto' style={{width: "25%", textAlign: 'center', fontSize: '25px'}}>
                         Sphnx 
                         <p>
-                            Welcome, [{this.state.UserName}]
+                            Welcome, {this.state.UserName}!
                         </p>
                     </Card>
                     <Button className='ml-auto gray' onClick={this.routeChangeProfile} variant="primary">
