@@ -81,6 +81,20 @@ export default class Quiz extends Component {
 
           })
         })
+
+        axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
+        .then(res => {
+          let User = res.data[0]
+          this.setState({
+            oldUser: User,
+            IDtoEdit: User._id ,
+            UserName: User.UserName ,
+            UserPrimaryColor: User.UserPrimaryColor,
+            UserSecondaryColor: User.UserSecondaryColor,
+            UserPicture: User.UserPicture,
+            UserBackgroundPicture: User.UserBackgroundPicture
+          })
+        })
     }
     //console.log(this.state)
 
@@ -105,6 +119,17 @@ export default class Quiz extends Component {
 
 
     this.setState({ ResultActive: 1 })
+
+    let pointsScored = (scoreResult / this.state.numberOfQuestion) * 100
+
+    let updatedUser = this.state.oldUser
+    updatedUser.UserPoints  = updatedUser.UserPoints + pointsScored
+
+    const newPath = ('http://localhost:4000/users/'+this.state.IDtoEdit)
+        
+        axios.put(newPath, updatedUser)
+          .then(res => console.log(res.data))
+          .catch(err => console.log(err))
 
 
   }
