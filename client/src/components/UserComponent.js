@@ -38,7 +38,7 @@ export default class UserComponent extends Component{
             this.props.history.push('/')
         }
             else{
-                axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
+                axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
                     .then(res => {
                         let User = res.data[0];
                         this.setState({
