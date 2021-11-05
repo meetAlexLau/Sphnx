@@ -12,7 +12,10 @@ let Quiz = new Schema({
         type: String
     },
     QuizQuestions:[],
-    QuizAnswerKey:{ type : Array , "default" : [] }
+    QuizAnswerKey:{ type : Array , "default" : [] },
+    PlatformID: {
+        type: String
+    }
 })
 
 module.exports = mongoose.model('Quiz', Quiz);
