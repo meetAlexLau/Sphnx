@@ -35,7 +35,7 @@ class App extends Component{
                 <Route path="/myBadge" exact component={MyBadgeComponent} />
                 <Route path="/platformBadge" exact component={PlatformBadgeComponent} />
                 <Route path='/platformLeaderboard' exact component={PlatformLeaderboardComponent}/>
-                <Route path='/platform' exact component={PlatformComponent}/>
+                <Route path='/platform/:id' exact component={PlatformComponent}/>
                 <Route path='/quiz' exact component={QuizComponent}/>
                 <Route path='/QuizResult' exact component={QuizResult} />
             </Router>

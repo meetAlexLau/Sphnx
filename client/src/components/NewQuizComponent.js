@@ -52,7 +52,7 @@ export default class NewQuizComponent extends Component {
         this.state = {
             isLoggedIn: sessionStorage.getItem('isLoggedIn'),
             title: '',
-            backgourndPic: '',
+            backgroundPic: '',
             questionArray: [],
             answerKeyArray: []
         }
@@ -109,7 +109,7 @@ export default class NewQuizComponent extends Component {
         const quizObject = {
             QuizTitle: this.state.title,
             QuizID: "Manuel Song",
-            QuizBackground: this.state.backgourndPic,
+            QuizBackground: this.state.backgroundPic,
             QuizQuestions: this.state.questionArray,
             QuizAnswerKey: answer
 
@@ -182,7 +182,7 @@ export default class NewQuizComponent extends Component {
         console.log(uploadedUrl)
         this.setState({
 
-            backgourndPic: uploadedUrl
+            backgroundPic: uploadedUrl
 
         })
 
