@@ -84,7 +84,6 @@ export default class Quiz extends Component {
 
     this.setState({ ResultActive: 1 })
 
-    console.log("Score is:" + this.state.score)
 
   }
   onClickNext() {
@@ -164,7 +163,7 @@ export default class Quiz extends Component {
                           </div>
                           */
 
-                          <div className="radio" style={{ fontSize: 15, marginLeft: "5%" }}>
+                          <div key={indexOfAnswer} className="radio" style={{ fontSize: 15, marginLeft: "5%" }}>
                             <label>
                               <input
                                 type="radio"
@@ -179,7 +178,11 @@ export default class Quiz extends Component {
                       })
                     }
                     <div style={{ fontSize: 15, marginLeft: "5%" }}>
-                      Selected answer is : {this.state.userAnswer[this.state.indexOfQuestion]}
+
+                      Selected answer is : {
+                      this.state.questionArray[this.state.indexOfQuestion].answerInputArray[this.state.userAnswer[this.state.indexOfQuestion]]
+                      //this.state.userAnswer[this.state.indexOfQuestion]
+                    }
                     </div>
 
 
