@@ -33,7 +33,7 @@ export default class Quiz extends Component {
       tempAnswer: '',
       submitActive: 0,
       ResultActive: 0,
-      score:0
+      score: 0
       //arrayOfAnswer: []
     }
   }
@@ -70,21 +70,21 @@ export default class Quiz extends Component {
   }
 
   onClickSubmit() {
-    let scoreResult=0;
+    let scoreResult = 0;
     for (let i = 0; i < this.state.numberOfQuestion; i++) {
-      if(this.state.userAnswer[i] == this.state.answerKeyArray[i]){
+      if (this.state.userAnswer[i] == this.state.answerKeyArray[i]) {
         scoreResult++
-       //console.log("numberOfQuestion is: "+this.state.numberOfQuestion)
+        //console.log("numberOfQuestion is: "+this.state.numberOfQuestion)
         //console.log("user answer is: "+this.state.userAnswer[i]+"  actual answer is:" +this.state.answerKeyArray[i])
         //console.log("scoreResult is: "+scoreResult)
       }
     }
-    
+
     this.setState({ score: scoreResult })
 
     this.setState({ ResultActive: 1 })
 
-    console.log("Score is:"+this.state.score)
+    console.log("Score is:" + this.state.score)
 
   }
   onClickNext() {
@@ -131,7 +131,7 @@ export default class Quiz extends Component {
 
 
         {!this.state.ResultActive && <div key={this.state.indexOfQuestion}>
-          <div style={{ backgroundImage: `url(${this.state.backgourndPic})` }} className="backgorund" >
+          <div style={{ backgroundImage: `url(${this.state.backgroundPic})` }} className="background" >
             <div className="quiz-content">
 
               <h1 style={{ textAlign: 'center', fontSize: 20 }}>{this.state.quizTitle}</h1>
@@ -223,11 +223,11 @@ export default class Quiz extends Component {
 
         </div>
         }
-        
+
         {
-        this.state.ResultActive && <QuizResult answerKeyArray={this.state.answerKeyArray} userAnswer={this.state.userAnswer} score={this.state.score}
-        numberOfQuestion={this.state.numberOfQuestion} history={this.props.history}
-        />}
+          this.state.ResultActive && <QuizResult answerKeyArray={this.state.answerKeyArray} userAnswer={this.state.userAnswer} score={this.state.score}
+            numberOfQuestion={this.state.numberOfQuestion} history={this.props.history}
+          />}
 
 
       </div>
