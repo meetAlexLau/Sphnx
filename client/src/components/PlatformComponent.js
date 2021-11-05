@@ -29,11 +29,14 @@ export default class Platform extends Component {
     sessionStorage.removeItem('current platform')
   }
   componentDidMount() {
+    let currentPlatform = sessionStorage.getItem('current platform');
+    let PlatformID = currentPlatform ? currentPlatform : sessionStorage.getItem('previous platform')
+    sessionStorage.setItem('current platform', sessionStorage.getItem('previous platform'))
     if(this.state.isLoggedIn !== "true"){
       this.props.history.push('/')
     }
     else{
-      axios.get('http://localhost:4000/platforms/'+ sessionStorage.getItem('current platform'))
+      axios.get('http://localhost:4000/platforms/'+ PlatformID)
         .then(res => {
           console.log(sessionStorage.getItem('current platform'));
           console.log('logging res', res);

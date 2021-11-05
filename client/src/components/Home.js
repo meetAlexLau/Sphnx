@@ -60,6 +60,7 @@ export default class Home extends Component{
         //should be  /profile/:userid
         console.log(PlatformID);
         sessionStorage.setItem('current platform', PlatformID);
+        sessionStorage.setItem('previous platform', PlatformID);
         this.props.history.push('/platform/' + PlatformID);
     }
     routeChangeQuiz(){
