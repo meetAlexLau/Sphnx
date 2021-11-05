@@ -33,6 +33,7 @@ export default class NewQuizComponent extends Component {
 
         // Setting up routes
         this.routeChangePlatform = this.routeChangePlatform.bind(this);
+        this.routeChangeNewBadge = this.routeChangeNewBadge.bind(this);
 
         // Setting up functions
         this.onChangeQuizTitle = this.onChangeQuizTitle.bind(this);
@@ -76,6 +77,10 @@ export default class NewQuizComponent extends Component {
 
     routeChangePlatform(e) {
         this.props.history.push('/platform')
+    }
+
+    routeChangeNewBadge(e) {
+        this.props.history.push('/newBadge')
     }
 
     onChangeQuizTitle(e) {
@@ -196,6 +201,10 @@ export default class NewQuizComponent extends Component {
                             <Form.Label>Title:</Form.Label>
                             <Form.Control type="text" value={this.state.title} onChange={this.onChangeQuizTitle} />
                         </Form.Group>
+
+                        <div>
+                            <Button className="choose-file-button" onClick={this.routeChangeNewBadge}>Add Badge</Button>
+                        </div>
 
                         <div>
                             Select Background Image:
