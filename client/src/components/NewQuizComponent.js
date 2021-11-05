@@ -131,7 +131,7 @@ export default class NewQuizComponent extends Component {
         });
 
 
-        this.props.history.push('/platform')
+        this.props.history.push('/home')
         window.location.reload(false)
     }
 

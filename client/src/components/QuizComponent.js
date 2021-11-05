@@ -33,6 +33,7 @@ export default class Quiz extends Component {
     this.onClickNext = this.onClickNext.bind(this);
     this.onValueChange = this.onValueChange.bind(this);
     this.onClickSubmit = this.onClickSubmit.bind(this);
+    this.onClickBack = this.onClickBack.bind(this)
 
     // Setting up state
     this.state = {
@@ -160,7 +161,7 @@ export default class Quiz extends Component {
   onClickBack() {
 
     if (this.state.indexOfQuestion <= 0) {
-      console.log(this.state.indexOfQuestion)
+      this.props.history.goBack()
     } else {
       this.setState({ indexOfQuestion: this.state.indexOfQuestion - 1 })
       console.log(this.state.indexOfQuestion)
