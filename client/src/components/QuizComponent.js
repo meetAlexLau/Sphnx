@@ -56,13 +56,23 @@ export default class Quiz extends Component {
   }
 
 
+
+    
+  
+
   componentDidMount() {
     if (this.state.isLoggedIn !== "true") {
       this.props.history.push('/')
     }
     else {
 
-      axios.get('http://localhost:4000/quizzes/6182b0b76ad37b02b34dd10e/')
+      let currentQuiz = sessionStorage.getItem('current quiz');
+    let QuizID = currentQuiz ? currentQuiz : sessionStorage.getItem('previous quiz')
+    sessionStorage.setItem('current quiz', sessionStorage.getItem('previous quiz'))
+    
+
+      //axios.get('http://localhost:4000/quizzes/6182b0b76ad37b02b34dd10e/')
+      axios.get('http://localhost:4000/quizzes/'+ QuizID)
         .then(res => {
 
           const initUserAnswer = []
