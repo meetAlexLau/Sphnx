@@ -13,13 +13,26 @@
   
   .homecontainer{
     width:100%;
-    height:100vh;
+    height:100%;
     margin-bottom:10%;
     align-items:left;
   }
   
   .dark{
     background-color: #D4AC67;
+  }
+
+  html, body, #root, .containerrow{
+    height: 100%;
+    overflow:auto;
+  }
+
+  html{
+    margin-top: -15px;
+  }
+
+  .mainFeed{
+    height: 400vh;
   }
   
   .gray{
