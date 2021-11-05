@@ -30,7 +30,7 @@ export default class Platform extends Component {
       this.props.history.push('/')
     }
     else{
-      axios.get('http://localhost:4000/platforms/id/' + sessionStorage.getItem('id'))
+      axios.get('http://localhost:4000/platform')
         .then(res => {
           this.setState({
             PlatformName: res.data.PlatformName,

@@ -2,11 +2,12 @@ import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import {GoogleLogout} from 'react-google-login';
-import '../css/App.css';
+import '../css/Home.css';
 import axios from 'axios'
 
 export default class Home extends Component{
@@ -16,12 +17,13 @@ export default class Home extends Component{
         this.routeChangeProfile = this.routeChangeProfile.bind(this);
         this.routeChangePlatform = this.routeChangePlatform.bind(this);
         this.routeChangeQuiz = this.routeChangeQuiz.bind(this);
+        this.renderPlatforms = this.renderPlatforms.bind(this);
         this.state = {
             isLoggedIn: sessionStorage.getItem('isLoggedIn'),
             UserID: '',
             UserName: '',
-            UserEmail: ''
-
+            UserEmail: '',
+            Platforms: []
         }
     }
     componentDidMount(){
@@ -42,6 +44,7 @@ export default class Home extends Component{
                 .catch((err) => {
                     console.log(err);
                 })
+            this.renderPlatforms();
         }
     }
     routeChangeLogout() {
@@ -53,9 +56,10 @@ export default class Home extends Component{
         
         this.props.history.push('/profile')
     }
-    routeChangePlatform(){
+    routeChangePlatform=(platformID)=>{
         //should be  /profile/:userid
-        this.props.history.push('/platform')
+        console.log(platformID);
+        //this.props.history.push('/platform/' + platformID);
     }
     routeChangeQuiz(){
         //should be  /profile/:userid
@@ -68,7 +72,47 @@ export default class Home extends Component{
         sessionStorage.clear()
     }
 
+    renderPlatforms = async() => {
+        let p = [];
+        try{
+            await axios.get('http://localhost:4000/platforms')
+                .then(res => {
+                    p = res.data
+                    for(var i = 0; i < p.length; i++){
+                        this.setState({
+                            Platforms: this.state.Platforms.concat([p[i]])
+                        })
+                    }
+                })
+        } catch(err) {
+            console.log(err)
+        }
+    }
+
     render(){
+        let plats = this.state.Platforms?.map((plat, i) => (        //map each platform to structure <Col>
+            //<li key={i}>{plat.PlatformName}</li>
+            <Col key={i}>    
+                <Card className= 'ml-auto activityCard'>
+                    <Card.Img variant='top' className='activityCardImage' src = {plat.PlatformPicture}>
+                    </Card.Img>
+                    <Card.Title>
+                        {plat.PlatformDesc}
+                    </Card.Title>
+                    <Button className='activityCardButton' onClick={() => this.routeChangePlatform(plat.platformID)} variant="primary">
+                            {plat.PlatformName}
+                    </Button>
+                </Card>
+            </Col>
+        ))
+        let rendplats = [];             //row oriented platforms
+        while(plats.length > 0){        //splice the array of platforms into groups of 4
+            let chunk = plats.splice(0, 4);     
+            rendplats.push(chunk)
+        }
+        for(var j = 0; j < rendplats.length; j++){          //each chunk is a group of 4, surround with <Row>
+            rendplats[j] = <Row> {rendplats[j]} </Row>
+        }
         return (
             <Container fluid className='sky containerrow'> {/* home container*/}
                 <Row className = 'medium marginspacing paddingspacing'> {/*Logout | Title | Profile */}
@@ -99,11 +143,9 @@ export default class Home extends Component{
                                 Your News Feed
                             </Card>
                         </Row>
-                        <Row className='mr-auto'>
-                            <Button onClick={this.routeChangePlatform} className ='marginspacing  mr-auto' variant="primary">
-                                Example Platform
-                            </Button>
-                        </Row>
+                        
+                            {rendplats}
+                        
                         <Row>
                             <Button onClick={this.routeChangeQuiz} className ='marginspacing' variant="primary">
                                 Example Quiz

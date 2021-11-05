@@ -22,7 +22,8 @@ export default class UserComponent extends Component{
             UserSecondaryColor: '',
             UserName: '',
             UserPicture: "",
-            UserBackgroundPicture: ''
+            UserBackgroundPicture: '',
+            UserPoints: 0
         }
 
         this.onClickNewPlatform = this.onClickNewPlatform.bind(this)
@@ -46,6 +47,7 @@ export default class UserComponent extends Component{
                             UserPrimaryColor : User.UserPrimaryColor,
                             UserSecondaryColor : User.UserSecondaryColor,
                             UserBackgroundPicture : User.UserBackgroundPicture,
+                            UserPoints : User.UserPoints
                         }) 
                         console.log(this.state);
                     })
@@ -109,6 +111,8 @@ export default class UserComponent extends Component{
                         />
                         <div className="profileNameTag"
                             style={{background: this.state.UserSecondaryColor}}>{this.state.UserName}</div>
+                        <div className="profileNameTag"
+                            style={{background: this.state.UserSecondaryColor}}>Total Points: {""+this.state.UserPoints}</div>
                     </Col>
                     <Col md={1}>
                         <Image

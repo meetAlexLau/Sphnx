@@ -58,6 +58,17 @@ export default class NewPlatformComponent extends Component {
         if(this.state.isLoggedIn !== "true"){
             this.props.history.push('/')
         }
+        else{
+            
+        axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
+         .then(res => {
+          let User = res.data[0];
+            this.setState({
+                oldUser: User,
+                IDtoEdit: User._id
+            })
+        })
+        }
     }
     setUploadingImg(isUploading){
         this.setState({
@@ -69,9 +80,7 @@ export default class NewPlatformComponent extends Component {
         const [file] = event.target.files;
         if (!file) return;
 
-        this.setState({
-            uploading: true
-        })
+       
         const uploadedUrl = await uploadImage(file);
         this.setState({
             PlatformPicture: uploadedUrl
@@ -80,6 +89,7 @@ export default class NewPlatformComponent extends Component {
 
     routeChangeProfile() {
         this.props.history.push('/profile')
+        window.location.reload(false)
     }
 
     onChangePlatformTitle(e) {
@@ -109,18 +119,29 @@ export default class NewPlatformComponent extends Component {
     onSubmit(e) {
         e.preventDefault()
 
+        let updatedUser = this.state.oldUser
+        updatedUser.UserPoints = updatedUser.UserPoints + 25
+
+
         const platformObject = {
             PlatformName: this.state.title,
             PlatformDesc: this.state.desc,
             PlatformColor1: this.state.color1,
             PlatformColor2: this.state.color2,
-            PlatformPicture: this.state.picture,
+            PlatformPicture: this.state.PlatformPicture,
             PlatformID: this.state.id
         }
 
-        axios.post('http://localhost:4000/platforms/createPlatform', platformObject).then(res => console.log(res.data));
+        axios.post('http://localhost:4000/platforms/createPlatform', platformObject).then(res => console.log("ID of new platform" + res.data));
+        
+        
+        
+        const newPath = ('http://localhost:4000/users/'+this.state.IDtoEdit)
+        
+        axios.put(newPath, updatedUser)
+          .then(res => console.log(res.data))
+          .catch(err => console.log(err))
 
-        this.routeChangeProfile();
         /*
         this.setState({
             title: '',
@@ -128,6 +149,7 @@ export default class NewPlatformComponent extends Component {
             id: ''
         });
         */
+       this.routeChangeProfile();
     }
 
     //

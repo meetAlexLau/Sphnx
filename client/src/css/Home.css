@@ -1,0 +1,65 @@
+  .light{
+    background-color: #F3ECC9;
+  }
+  
+  .medium{
+    background-color: #E7C496;
+  }
+  
+  .medium.homesearchbar{
+    margin-left: 8%;
+    margin-right: 8%;
+  }
+  
+  .homecontainer{
+    width:100%;
+    height:100vh;
+    margin-bottom:10%;
+    align-items:left;
+  }
+  
+  .dark{
+    background-color: #D4AC67;
+  }
+  
+  .gray{
+    background-color: #AAAAAA;
+  }
+  
+  .containerrow {
+    margin-left:0;
+    margin-right:0;
+    height:100%;
+  }
+  .marginspacing{
+    margin: 1%;
+  }
+
+  .paddingspacing{
+    padding: 0.5%;
+  }
+  
+  .sky {
+    background-color: #87CEEB;
+  }
+
+  .activityCard{
+    width: 100%;
+    height: 250px;
+    outline: 2px solid black;
+    align-items: center;
+    margin-top: 30px
+  }
+
+  .activityCardButton{
+    position: absolute;
+    bottom: 0px;
+    inline-size: 200px;
+    overflow-wrap: break-word;
+  }
+
+  .activityCardImage{
+    max-width: auto;
+    height: 150px;
+    object-fit: cover;
+  }

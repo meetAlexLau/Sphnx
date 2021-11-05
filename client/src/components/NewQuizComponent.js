@@ -33,6 +33,7 @@ export default class NewQuizComponent extends Component {
 
         // Setting up routes
         this.routeChangePlatform = this.routeChangePlatform.bind(this);
+        this.routeChangeNewBadge = this.routeChangeNewBadge.bind(this);
 
         // Setting up functions
         this.onChangeQuizTitle = this.onChangeQuizTitle.bind(this);
@@ -61,10 +62,25 @@ export default class NewQuizComponent extends Component {
         if (this.state.isLoggedIn !== "true") {
             this.props.history.push('/')
         }
+        else{
+            
+            axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
+             .then(res => {
+              let User = res.data[0];
+                this.setState({
+                    oldUser: User,
+                    IDtoEdit: User._id
+                })
+            })
+            }
     }
 
     routeChangePlatform(e) {
         this.props.history.push('/platform')
+    }
+
+    routeChangeNewBadge(e) {
+        this.props.history.push('/newBadge')
     }
 
     onChangeQuizTitle(e) {
@@ -86,6 +102,9 @@ export default class NewQuizComponent extends Component {
             i++;
         }
 
+        let updatedUser = this.state.oldUser
+        updatedUser.UserPoints = updatedUser.UserPoints + 10
+
 
         const quizObject = {
             QuizTitle: this.state.title,
@@ -99,6 +118,11 @@ export default class NewQuizComponent extends Component {
         axios.post(' http://localhost:4000/quizzes/createQuiz', quizObject)
             .then(res => console.log(res.data));
 
+        const newPath = ('http://localhost:4000/users/'+this.state.IDtoEdit)
+    
+        axios.put(newPath, updatedUser)
+            .then(res => console.log(res.data))
+            .catch(err => console.log(err))
         this.setState({
             title: '',
             image: '',
@@ -108,6 +132,7 @@ export default class NewQuizComponent extends Component {
 
 
         this.props.history.push('/platform')
+        window.location.reload(false)
     }
 
 
@@ -176,6 +201,10 @@ export default class NewQuizComponent extends Component {
                             <Form.Label>Title:</Form.Label>
                             <Form.Control type="text" value={this.state.title} onChange={this.onChangeQuizTitle} />
                         </Form.Group>
+
+                        <div>
+                            <Button className="choose-file-button" onClick={this.routeChangeNewBadge}>Add Badge</Button>
+                        </div>
 
                         <div>
                             Select Background Image:
