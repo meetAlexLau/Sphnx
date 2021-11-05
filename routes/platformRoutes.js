@@ -9,7 +9,9 @@ router.route('/createPlatform').post(function(req, res) {
     let newPlatform = new platformSchema(req.body);
     newPlatform.save()
         .then(object => {
-            res.status(200).send('Platform successfully created')
+            res.status(200).send(object.id)
+            object.PlatformID = object.id
+            object.save()
         })
         .catch(err => {
             res.status(400).send('Error creating platform');

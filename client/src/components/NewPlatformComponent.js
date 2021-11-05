@@ -132,14 +132,16 @@ export default class NewPlatformComponent extends Component {
             PlatformID: this.state.id
         }
 
-        axios.post('http://localhost:4000/platforms/createPlatform', platformObject).then(res => console.log(res.data));
+        axios.post('http://localhost:4000/platforms/createPlatform', platformObject).then(res => console.log("ID of new platform" + res.data));
+        
+        
+        
         const newPath = ('http://localhost:4000/users/'+this.state.IDtoEdit)
         
         axios.put(newPath, updatedUser)
           .then(res => console.log(res.data))
           .catch(err => console.log(err))
 
-        this.routeChangeProfile();
         /*
         this.setState({
             title: '',
@@ -147,6 +149,7 @@ export default class NewPlatformComponent extends Component {
             id: ''
         });
         */
+       this.routeChangeProfile();
     }
 
     //

@@ -99,7 +99,7 @@ export default class Home extends Component{
                     <Card.Title>
                         {plat.PlatformDesc}
                     </Card.Title>
-                    <Button className='activityCardButton' onClick={() => this.routeChangePlatform(plat._id)} variant="primary">
+                    <Button className='activityCardButton' onClick={() => this.routeChangePlatform(plat.platformID)} variant="primary">
                             {plat.PlatformName}
                     </Button>
                 </Card>
