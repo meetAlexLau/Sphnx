@@ -56,10 +56,11 @@ export default class Home extends Component{
         
         this.props.history.push('/profile')
     }
-    routeChangePlatform=(platformID)=>{
+    routeChangePlatform=(PlatformID)=>{
         //should be  /profile/:userid
-        console.log(platformID);
-        //this.props.history.push('/platform/' + platformID);
+        console.log(PlatformID);
+        sessionStorage.setItem('current platform', PlatformID);
+        this.props.history.push('/platform/' + PlatformID);
     }
     routeChangeQuiz(){
         //should be  /profile/:userid
@@ -99,7 +100,7 @@ export default class Home extends Component{
                     <Card.Title>
                         {plat.PlatformDesc}
                     </Card.Title>
-                    <Button className='activityCardButton' onClick={() => this.routeChangePlatform(plat.platformID)} variant="primary">
+                    <Button className='activityCardButton' onClick={() => this.routeChangePlatform(plat._id)} variant="primary">
                             {plat.PlatformName}
                     </Button>
                 </Card>
