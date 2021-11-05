@@ -253,7 +253,8 @@ export default class Quiz extends Component {
         }
 
         {
-          this.state.ResultActive && <QuizResult answerKeyArray={this.state.answerKeyArray} userAnswer={this.state.userAnswer} score={this.state.score}
+          this.state.ResultActive && <QuizResult questionArray={this.state.questionArray} answerKeyArray={this.state.answerKeyArray} 
+          userAnswer={this.state.userAnswer} score={this.state.score}
             numberOfQuestion={this.state.numberOfQuestion} history={this.props.history} totalTime={this.state.totalTime}
           />}
 
