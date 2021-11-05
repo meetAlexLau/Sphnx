@@ -9,6 +9,8 @@ import '../App.css';
 const NAME_OF_UPLOAD_PRESET = "kmowfgdj";
 const YOUR_CLOUDINARY_ID = "dxczlnkjx";
 
+var newIDofPlat = ""
+
 async function uploadImage(file) {
     const data = new FormData();
     data.append("file", file);
@@ -116,7 +118,7 @@ export default class NewPlatformComponent extends Component {
         this.setState({ picture: e.target.value })
     }
 
-    onSubmit(e) {
+    onSubmit = async(e) => {
         e.preventDefault()
 
         let updatedUser = this.state.oldUser
@@ -132,14 +134,19 @@ export default class NewPlatformComponent extends Component {
             PlatformID: this.state.id
         }
 
-        axios.post('http://localhost:4000/platforms/createPlatform', platformObject).then(res => console.log(res.data[0].id));
+        await axios.post('http://localhost:4000/platforms/createPlatform', platformObject).then(res => {newIDofPlat = res.data
+                                                                                                    }
+        );
+
+        console.log(newIDofPlat)
+        updatedUser.UserPlatformArray.push(newIDofPlat)
         const newPath = ('http://localhost:4000/users/'+this.state.IDtoEdit)
         
         axios.put(newPath, updatedUser)
           .then(res => console.log(res.data))
           .catch(err => console.log(err))
 
-        this.routeChangeProfile();
+        
         /*
         this.setState({
             title: '',
@@ -147,6 +154,9 @@ export default class NewPlatformComponent extends Component {
             id: ''
         });
         */
+       
+        this.routeChangeProfile()
+
     }
 
     //
