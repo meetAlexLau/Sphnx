@@ -30,7 +30,6 @@ export default class Quiz extends Component {
       userAnswer: [],
       indexOfQuestion: 0,
       titleOfQuestion: '',
-      tempAnswer: '',
       submitActive: 0,
       ResultActive: 0,
       score: 0
@@ -130,6 +129,7 @@ export default class Quiz extends Component {
 
 
         {!this.state.ResultActive && <div key={this.state.indexOfQuestion}>
+          
           <div style={{ backgroundImage: `url(${this.state.backgroundPic})` }} className="background" >
             <div className="quiz-content">
 
