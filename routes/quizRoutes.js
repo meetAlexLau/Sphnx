@@ -10,6 +10,8 @@ let quizSchema = require('../models/quiz-model');
     newQuiz.save()
         .then(object => {
             res.status(200).send('Quiz successfully created')
+            object.QuizID = object.id
+            object.save()
         })
         .catch(err => {
             res.status(400).send('Error creating quiz.');
