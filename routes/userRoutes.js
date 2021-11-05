@@ -27,6 +27,17 @@ router.route('/:id').get(function(req, res) {
     });
 });
 
+router.route('/').get(function(req, res) {
+    userSchema.find(function(err, platforms){
+        if(err) {
+            console.log(err)
+        }
+        else{
+            res.json(platforms);
+        }
+    })
+})
+
 router.route('/UserID/:UserID').get(function(req, res) {
     let UserID = req.params.UserID;
     userSchema.find({UserID: UserID}, function(err, user) {

@@ -29,9 +29,11 @@ export default class Platform extends Component {
     sessionStorage.removeItem('current platform')
   }
   componentDidMount() {
+    // Persistent Platform when using <back or >forward buttons
     let currentPlatform = sessionStorage.getItem('current platform');
     let PlatformID = currentPlatform ? currentPlatform : sessionStorage.getItem('previous platform')
     sessionStorage.setItem('current platform', sessionStorage.getItem('previous platform'))
+    //
     if(this.state.isLoggedIn !== "true"){
       this.props.history.push('/')
     }
