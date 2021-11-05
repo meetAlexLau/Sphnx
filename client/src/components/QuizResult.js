@@ -52,7 +52,7 @@ export default class QuizResult extends Component{
                     </Row>
                     <Row className='justify-content-center'>
                         <Card> {/*Obtain Score and Badges Earned */}
-                            Score: 8/10     Badge Earned:[  ]
+                            Score: {this.props.score}/{this.props.numberOfQuestion}     Badge Earned:[  ]
                         </Card>
                     </Row>
                 </Container>

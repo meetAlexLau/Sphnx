@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 //import exampleBackground from "../img/quizBackgroundExample.png";
 import axios from 'axios'
 
+import QuizResult from "./QuizResult";
 
 export default class Quiz extends Component {
 
@@ -15,6 +16,8 @@ export default class Quiz extends Component {
     // Setting up functions
     this.onClickNext = this.onClickNext.bind(this);
     this.onValueChange = this.onValueChange.bind(this);
+    this.onClickSubmit = this.onClickSubmit.bind(this);
+
     // Setting up state
     this.state = {
       isLoggedIn: sessionStorage.getItem('isLoggedIn'),
@@ -27,7 +30,10 @@ export default class Quiz extends Component {
       userAnswer: [],
       indexOfQuestion: 0,
       titleOfQuestion: '',
-      tempAnswer: ''
+      tempAnswer: '',
+      submitActive: 0,
+      ResultActive: 0,
+      score:0
       //arrayOfAnswer: []
     }
   }
@@ -42,9 +48,9 @@ export default class Quiz extends Component {
       axios.get('http://localhost:4000/quizzes/6182b0b76ad37b02b34dd10e/')
         .then(res => {
 
-          const initUserAnswer=[]
+          const initUserAnswer = []
           for (let i = 0; i < res.data.QuizQuestions.length; i++) {
-            initUserAnswer[i]=-1
+            initUserAnswer[i] = -1
           }
 
           this.setState({
@@ -54,7 +60,7 @@ export default class Quiz extends Component {
             questionArray: res.data.QuizQuestions,
             answerKeyArray: res.data.QuizAnswerKey,
             numberOfQuestion: res.data.QuizQuestions.length,
-            userAnswer:initUserAnswer
+            userAnswer: initUserAnswer
 
           })
         })
@@ -63,16 +69,36 @@ export default class Quiz extends Component {
 
   }
 
+  onClickSubmit() {
+    let scoreResult=0;
+    for (let i = 0; i < this.state.numberOfQuestion; i++) {
+      if(this.state.userAnswer[i] == this.state.answerKeyArray[i]){
+        scoreResult++
+       //console.log("numberOfQuestion is: "+this.state.numberOfQuestion)
+        //console.log("user answer is: "+this.state.userAnswer[i]+"  actual answer is:" +this.state.answerKeyArray[i])
+        //console.log("scoreResult is: "+scoreResult)
+      }
+    }
+    
+    this.setState({ score: scoreResult })
 
+    this.setState({ ResultActive: 1 })
+
+    console.log("Score is:"+this.state.score)
+
+  }
   onClickNext() {
     if (this.state.indexOfQuestion >= this.state.numberOfQuestion - 1) {
-      this.props.history.push('/QuizResult')
+      //this.props.history.push('/QuizResult')
+      this.setState({ ResultActive: 1 })
+
     } else {
       this.setState({ indexOfQuestion: this.state.indexOfQuestion + 1 })
       //console.log(this.state.numberOfQuestion)
       console.log(this.state.indexOfQuestion)
     }
   }
+
   onClickBack() {
 
     if (this.state.indexOfQuestion <= 0) {
@@ -88,8 +114,8 @@ export default class Quiz extends Component {
 
   onValueChange(event) {
     //this.setState({selectedOption: event.target.value});
-    const tempUserAnswer=this.state.userAnswer
-    tempUserAnswer[this.state.indexOfQuestion]=event.target.value
+    const tempUserAnswer = this.state.userAnswer
+    tempUserAnswer[this.state.indexOfQuestion] = event.target.value
     this.setState({ userAnswer: tempUserAnswer })
 
   }
@@ -100,89 +126,114 @@ export default class Quiz extends Component {
   //<div style={{ backgroundImage: `url(${exampleBackground})` }} class="backgorund" >
   render() {
     return (
-
-      <div key={this.state.indexOfQuestion}>
-        <div style={{ backgroundImage: `url(${this.state.backgourndPic})` }} className="backgorund" >
-          <div className="quiz-content">
-
-            <h1 style={{ textAlign: 'center', fontSize: 20 }}>{this.state.quizTitle}</h1>
-            <h2 style={{ fontSize: 15, marginLeft: "5%" }}>Question {this.state.indexOfQuestion + 1}</h2>
-            <h2 style={{ fontSize: 15, marginLeft: "5%" }}>{this.state.questionArray[this.state.indexOfQuestion].questionTitle}</h2>
-            {
-              /*console.log(this.state.questionArray[0].questionTitle)
-              */
-            }
+      <div>
 
 
 
+        {!this.state.ResultActive && <div key={this.state.indexOfQuestion}>
+          <div style={{ backgroundImage: `url(${this.state.backgourndPic})` }} className="backgorund" >
+            <div className="quiz-content">
 
-            <div style={{ "width": "100%", "display": "table" }}>
-              <div style={{ "display": "table-row", "height": "100px" }}>
-                <div style={{ "width": "50%", "display": "table-cell", justifyContent: "center", alignItems: "center" }}>
+              <h1 style={{ textAlign: 'center', fontSize: 20 }}>{this.state.quizTitle}</h1>
+              <h2 style={{ fontSize: 15, marginLeft: "5%" }}>Question {this.state.indexOfQuestion + 1}</h2>
+              <h2 style={{ fontSize: 15, marginLeft: "5%" }}>{this.state.questionArray[this.state.indexOfQuestion].questionTitle}</h2>
+              {
+                /*console.log(this.state.questionArray[0].questionTitle)
+                */
+              }
 
-                
-                  {
-                    (this.state.questionArray[this.state.indexOfQuestion].answerInputArray ? this.state.questionArray[this.state.indexOfQuestion].answerInputArray : []).map((input, index) => {
-                      return (
-                        /*
-                        <div key={index}>
-                          <div className="form-check" style={{ fontSize: 15, marginLeft: "15%" }}>
-                            <label className="form-check-label">
-                              <input type="checkbox" className="form-check-input" />
+
+
+
+              <div style={{ "width": "100%", "display": "table" }}>
+                <div style={{ "display": "table-row", "height": "100px" }}>
+                  <div style={{ "width": "50%", "display": "table-cell", justifyContent: "center", alignItems: "center" }}>
+
+
+                    {
+                      (this.state.questionArray[this.state.indexOfQuestion].answerInputArray ? this.state.questionArray[this.state.indexOfQuestion].answerInputArray : []).map((input, indexOfAnswer) => {
+                        return (
+                          /*
+                          <div key={indexOfAnswer}>
+                            <div className="form-check" style={{ fontSize: 15, marginLeft: "15%" }}>
+                              <label className="form-check-label">
+                                <input type="checkbox" className="form-check-input" />
+                                {input}
+                              </label>
+                            </div>
+                          </div>
+                          */
+
+                          <div className="radio" style={{ fontSize: 15, marginLeft: "5%" }}>
+                            <label>
+                              <input
+                                type="radio"
+                                value={indexOfAnswer}
+                                checked={indexOfAnswer == this.state.userAnswer[this.state.indexOfQuestion]}
+                                onChange={this.onValueChange}
+                              />
                               {input}
                             </label>
                           </div>
-                        </div>
-                        */
+                        )
+                      })
+                    }
+                    <div style={{ fontSize: 15, marginLeft: "5%" }}>
+                      Selected answer is : {this.state.userAnswer[this.state.indexOfQuestion]}
+                    </div>
 
-                        <div className="radio" style={{ fontSize: 15, marginLeft: "5%" }}>
-                          <label>
-                            <input
-                              type="radio"
-                              value={index}
-                              checked={index == this.state.userAnswer[this.state.indexOfQuestion]}
-                              onChange={this.onValueChange}
-                            />
-                            {input}
-                          </label>
-                        </div>
-                      )
-                    })
-                  }
-                  <div style={{ fontSize: 15, marginLeft: "5%" }}>
-                    Selected option is : {this.state.userAnswer[this.state.indexOfQuestion]}
+
+
                   </div>
-
-                  
-
-                </div>
-                {/*
+                  {/*
               <div style={{ "display": "table-cell" }}>
                 <img style={{ "witdth": "160px", "height": "120px" }} src="https://www.innovationnewsnetwork.com/wp-content/uploads/2020/11/Black-hole-simulations-800x450.jpg" />
               </div>
               */}
+                </div>
               </div>
-            </div>
 
 
+              {(this.state.indexOfQuestion < this.state.numberOfQuestion - 1) &&
+                <button className="quiz-button" onClick={() => this.onClickNext()}>
+                  Next
+                </button>
+              }
 
-            <button className="quiz-button" onClick={() => this.onClickNext()}>
-              Next
-            </button>
-            <button className="quiz-button" onClick={() => this.onClickBack()}>
-              Back
-            </button>
+              {(this.state.indexOfQuestion == this.state.numberOfQuestion - 1) &&
+                <button className="quiz-button" onClick={() => this.onClickSubmit()}>
+                  Submit
+                </button>
+              }
 
-            {/*
+
+              <button className="quiz-button" onClick={() => this.onClickBack()}>
+                Back
+              </button>
+
+              {/*
           <Link to={"/QuizResult"} className="quiz-button">
             Back
           </Link>
           */
-            }
+              }
 
+            </div>
           </div>
+
         </div>
+        }
+        
+        {
+        this.state.ResultActive && <QuizResult answerKeyArray={this.state.answerKeyArray} userAnswer={this.state.userAnswer} score={this.state.score}
+        numberOfQuestion={this.state.numberOfQuestion} history={this.props.history}
+        />}
+
+
       </div>
+
+
+
     );
   }
 }
