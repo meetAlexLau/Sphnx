@@ -61,7 +61,7 @@ export default class Platform extends Component {
     return (
 
 
-      <div class="platform-background" style={{ backgroundImage: this.state.PlatformPicture }} >
+      <div class="platform-background" style={{ backgroundImage: 'url('+this.state.PlatformPicture+')' }} >
 
 
 
