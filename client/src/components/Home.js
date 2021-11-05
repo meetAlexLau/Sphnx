@@ -108,7 +108,6 @@ export default class Home extends Component{
                         })
                     }
                 })
-                console.log(this.state.Quizzes)
         }catch(err) {
             console.log(err);
         }
@@ -132,6 +131,7 @@ export default class Home extends Component{
         }
     }
     render(){
+        console.log("STATE:", this.state)
         //Platform grid
         let plats = this.state.Platforms?.map((plat, i) => (        //map each platform to structure <Col>
             //<li key={i}>{plat.PlatformName}</li>
@@ -143,7 +143,7 @@ export default class Home extends Component{
                         {plat.PlatformDesc}
                     </Card.Title>
                     <Button className='activityCardButton' onClick={() => this.routeChangePlatform(plat._id)} variant="primary">
-                            {plat.PlatformName}
+                        {plat.PlatformName}
                     </Button>
                 </Card>
             </Col>
@@ -158,7 +158,7 @@ export default class Home extends Component{
         }
         //
         //Quiz grid
-        let quizs = this.state.Quizzes?.map((quiz,i) => {
+        let quizs = this.state.Quizzes?.map((quiz,i) => (
             <Col key={i}>
                 <Card className = 'ml-auto activityCard'>
                     <Card.Img variant='top' className='activityCardImage' src = {quiz.QuizBackground}></Card.Img>
@@ -167,15 +167,19 @@ export default class Home extends Component{
                     </Button>
                 </Card>
             </Col>
-        })
+            
+        ))
+        console.log(quizs);
         let rendquizs = [];
         while(quizs.length > 0){        //splice the array of platforms into groups of 4
             let chunk = quizs.splice(0, 4);     
             rendquizs.push(chunk)
         }
+        console.log(rendquizs)
         for(var j = 0; j < rendquizs.length; j++){          //each chunk is a group of 4, surround with <Row>
             rendquizs[j] = <Row> {rendquizs[j]} </Row>
         }
+        console.log(rendplats)
         return (
             <Container fluid className='sky containerrow'> {/* home container*/}
                 <Row className = 'medium marginspacing paddingspacing'> {/*Logout | Title | Profile */}
