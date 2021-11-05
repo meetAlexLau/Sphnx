@@ -235,9 +235,12 @@ export default class Home extends Component{
 
                             }
                         <Row>
+                            {/*
                             <Button onClick={this.routeChangeQuiz} className ='marginspacing' variant="primary">
                                 Example Quiz
                             </Button>
+                                    */
+                            }
                         </Row>
                         <Row>
                             <Button onClick={this.routeChangeProfile} className ='marginspacing' variant="primary">

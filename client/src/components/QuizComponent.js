@@ -56,13 +56,23 @@ export default class Quiz extends Component {
   }
 
 
+
+    
+  
+
   componentDidMount() {
     if (this.state.isLoggedIn !== "true") {
       this.props.history.push('/')
     }
     else {
 
-      axios.get('http://localhost:4000/quizzes/6182b0b76ad37b02b34dd10e/')
+      let currentQuiz = sessionStorage.getItem('current quiz');
+    let QuizID = currentQuiz ? currentQuiz : sessionStorage.getItem('previous quiz')
+    sessionStorage.setItem('current quiz', sessionStorage.getItem('previous quiz'))
+    
+
+      //axios.get('http://localhost:4000/quizzes/6182b0b76ad37b02b34dd10e/')
+      axios.get('http://localhost:4000/quizzes/'+ QuizID)
         .then(res => {
 
           const initUserAnswer = []
@@ -134,15 +144,17 @@ export default class Quiz extends Component {
 
   }
   onClickNext() {
-    if (this.state.indexOfQuestion >= this.state.numberOfQuestion - 1) {
+    /*if (this.state.indexOfQuestion >= this.state.numberOfQuestion - 1) {
       //this.props.history.push('/QuizResult')
       this.setState({ ResultActive: 1 })
 
-    } else {
+    } else {*/
+
+      
       this.setState({ indexOfQuestion: this.state.indexOfQuestion + 1 })
       //console.log(this.state.numberOfQuestion)
       console.log(this.state.indexOfQuestion)
-    }
+    
   }
 
   onClickBack() {
