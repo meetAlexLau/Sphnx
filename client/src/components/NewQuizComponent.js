@@ -40,7 +40,7 @@ export default class NewQuizComponent extends Component {
         this.onChangeQuizId = this.onChangeQuizId.bind(this);
 
 
-        this.onClickSave = this.onClickSave.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
 
         this.onChangeQuestionArray = this.onChangeQuestionArray.bind(this);
 
@@ -92,7 +92,7 @@ export default class NewQuizComponent extends Component {
         this.setState({ id: e.target.value })
     }
 
-    onClickSave(e) {
+    onSubmit(e) {
         e.preventDefault()
         const answer = []
 
@@ -108,7 +108,7 @@ export default class NewQuizComponent extends Component {
 
         const quizObject = {
             QuizTitle: this.state.title,
-            QuizID: "Manuel Song",
+            QuizID: this.state.id,
             QuizBackground: this.state.backgroundPic,
             QuizQuestions: this.state.questionArray,
             QuizAnswerKey: answer
@@ -246,7 +246,7 @@ export default class NewQuizComponent extends Component {
 
 
                         <div className="text-right">
-                            <Button className='savebutton' type="submit" onClick={this.onClickSave}>
+                            <Button className='savebutton' type="submit" onClick={this.onSubmit}>
                                 Save
                             </Button>
 
