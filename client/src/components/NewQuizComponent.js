@@ -228,7 +228,7 @@ export default class NewQuizComponent extends Component {
                                 <div key={index}>
                                     <NewQuestionComponent value={input} onChange={this.eventhandler} index={index} />
 
-                                    <button onClick={() => this.handleRemoveQuestion(index)}>delete Question {index}</button>
+                                    <button onClick={() => this.handleRemoveQuestion(index)}>delete Question {index+1}</button>
                                 </div>
                             )
 
