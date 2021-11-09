@@ -131,12 +131,12 @@ export default class NewPlatformComponent extends Component {
             PlatformColor1: this.state.color1,
             PlatformColor2: this.state.color2,
             PlatformPicture: this.state.PlatformPicture,
-            PlatformID: this.state.id
+            PlatformID: this.state.id,
+            PlatformQuizArray: [],
+            PlatformSubscriberArray: []
         }
 
-        await axios.post('http://localhost:4000/platforms/createPlatform', platformObject).then(res => {newIDofPlat = res.data
-                                                                                                    }
-        );
+        await axios.post('http://localhost:4000/platforms/createPlatform', platformObject).then(res => {newIDofPlat = res.data});
 
         console.log(newIDofPlat)
         updatedUser.UserPlatformArray.push(newIDofPlat)

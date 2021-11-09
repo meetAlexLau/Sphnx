@@ -10,6 +10,8 @@ import NewQuestionComponent from "./NewQuestionComponent";
 const NAME_OF_UPLOAD_PRESET = "sphnxPreset";
 const YOUR_CLOUDINARY_ID = "sphnx";
 
+var newIDofQuiz = "";
+
 async function uploadImage(file) {
     const data = new FormData();
     data.append("file", file);
@@ -62,17 +64,17 @@ export default class NewQuizComponent extends Component {
         if (this.state.isLoggedIn !== "true") {
             this.props.history.push('/')
         }
-        else{
-            
+        else {
+
             axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
-             .then(res => {
-              let User = res.data[0];
-                this.setState({
-                    oldUser: User,
-                    IDtoEdit: User._id
+                .then(res => {
+                    let User = res.data[0];
+                    this.setState({
+                        oldUser: User,
+                        IDtoEdit: User._id
+                    })
                 })
-            })
-            }
+        }
     }
 
     routeChangePlatform(e) {
@@ -92,7 +94,7 @@ export default class NewQuizComponent extends Component {
         this.setState({ id: e.target.value })
     }
 
-    onSubmit(e) {
+    onSubmit = async (e) => {
         e.preventDefault()
         const answer = []
 
@@ -115,12 +117,25 @@ export default class NewQuizComponent extends Component {
 
         };
 
-        axios.post('http://localhost:4000/quizzes/createQuiz', quizObject)
-            .then(res => console.log(res.data));
+        await axios.post('http://localhost:4000/quizzes/createQuiz', quizObject)
+            .then(res => {newIDofQuiz=res.data});
 
-        const newPath = ('http://localhost:4000/users/'+this.state.IDtoEdit)
-    
-        axios.put(newPath, updatedUser)
+        let currentPlatform = sessionStorage.getItem('current platform');
+        let PlatformID = currentPlatform ? currentPlatform : sessionStorage.getItem('previous platform')
+        sessionStorage.setItem('current platform', sessionStorage.getItem('previous platform'))
+
+        axios.get('http://localhost:4000/platforms/' + PlatformID)
+            .then(res => {
+                console.log(sessionStorage.getItem('current platform'));
+                console.log('logging res', res);
+                let plat = res.data;
+                plat.PlatformQuizArray.push(newIDofQuiz);
+                axios.put('http://localhost:4000/platforms/updatePlatform/' + PlatformID, plat).then(res => {})
+            })  
+
+        const newPath = ('http://localhost:4000/users/' + this.state.IDtoEdit)
+
+        await axios.put(newPath, updatedUser)
             .then(res => console.log(res.data))
             .catch(err => console.log(err))
         this.setState({
@@ -228,7 +243,7 @@ export default class NewQuizComponent extends Component {
                                 <div key={index}>
                                     <NewQuestionComponent value={input} onChange={this.eventhandler} index={index} />
 
-                                    <button onClick={() => this.handleRemoveQuestion(index)}>delete Question {index+1}</button>
+                                    <button onClick={() => this.handleRemoveQuestion(index)}>delete Question {index + 1}</button>
                                 </div>
                             )
 
