@@ -18,6 +18,7 @@ router.route('/createPlatform').post(function(req, res) {
         });
 });
 
+// get all platforms
 router.route('/').get(function(req, res) {
     platformSchema.find(function(err, platforms){
         if(err) {
@@ -29,6 +30,7 @@ router.route('/').get(function(req, res) {
     })
 })
 
+// get a platform by id
 router.route('/:id').get(function(req, res) {
     let id = req.params.id;
     platformSchema.findById(id, function(err, object) {
