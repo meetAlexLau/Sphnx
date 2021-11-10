@@ -9,7 +9,7 @@ let quizSchema = require('../models/quiz-model');
     let newQuiz = new quizSchema(req.body);
     newQuiz.save()
         .then(object => {
-            res.status(200).send('Quiz successfully created')
+            res.status(200).send(object.id)
             object.QuizID = object.id
             object.save()
         })

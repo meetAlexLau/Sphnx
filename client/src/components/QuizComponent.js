@@ -33,6 +33,7 @@ export default class Quiz extends Component {
     this.onClickNext = this.onClickNext.bind(this);
     this.onValueChange = this.onValueChange.bind(this);
     this.onClickSubmit = this.onClickSubmit.bind(this);
+    this.onClickBack = this.onClickBack.bind(this)
 
     // Setting up state
     this.state = {
@@ -56,13 +57,23 @@ export default class Quiz extends Component {
   }
 
 
+
+    
+  
+
   componentDidMount() {
     if (this.state.isLoggedIn !== "true") {
       this.props.history.push('/')
     }
     else {
 
-      axios.get('http://localhost:4000/quizzes/6182b0b76ad37b02b34dd10e/')
+      let currentQuiz = sessionStorage.getItem('current quiz');
+    let QuizID = currentQuiz ? currentQuiz : sessionStorage.getItem('previous quiz')
+    sessionStorage.setItem('current quiz', sessionStorage.getItem('previous quiz'))
+    
+
+      //axios.get('http://localhost:4000/quizzes/6182b0b76ad37b02b34dd10e/')
+      axios.get('http://localhost:4000/quizzes/'+ QuizID)
         .then(res => {
 
           const initUserAnswer = []
@@ -79,6 +90,20 @@ export default class Quiz extends Component {
             numberOfQuestion: res.data.QuizQuestions.length,
             userAnswer: initUserAnswer
 
+          })
+        })
+
+        axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
+        .then(res => {
+          let User = res.data[0]
+          this.setState({
+            oldUser: User,
+            IDtoEdit: User._id ,
+            UserName: User.UserName ,
+            UserPrimaryColor: User.UserPrimaryColor,
+            UserSecondaryColor: User.UserSecondaryColor,
+            UserPicture: User.UserPicture,
+            UserBackgroundPicture: User.UserBackgroundPicture
           })
         })
     }
@@ -106,24 +131,37 @@ export default class Quiz extends Component {
 
     this.setState({ ResultActive: 1 })
 
+    let pointsScored = (scoreResult / this.state.numberOfQuestion) * 100
+
+    let updatedUser = this.state.oldUser
+    updatedUser.UserPoints  = updatedUser.UserPoints + pointsScored
+
+    const newPath = ('http://localhost:4000/users/'+this.state.IDtoEdit)
+        
+        axios.put(newPath, updatedUser)
+          .then(res => console.log(res.data))
+          .catch(err => console.log(err))
+
 
   }
   onClickNext() {
-    if (this.state.indexOfQuestion >= this.state.numberOfQuestion - 1) {
+    /*if (this.state.indexOfQuestion >= this.state.numberOfQuestion - 1) {
       //this.props.history.push('/QuizResult')
       this.setState({ ResultActive: 1 })
 
-    } else {
+    } else {*/
+
+      
       this.setState({ indexOfQuestion: this.state.indexOfQuestion + 1 })
       //console.log(this.state.numberOfQuestion)
       console.log(this.state.indexOfQuestion)
-    }
+    
   }
 
   onClickBack() {
 
     if (this.state.indexOfQuestion <= 0) {
-      console.log(this.state.indexOfQuestion)
+      this.props.history.goBack()
     } else {
       this.setState({ indexOfQuestion: this.state.indexOfQuestion - 1 })
       console.log(this.state.indexOfQuestion)
@@ -253,7 +291,8 @@ export default class Quiz extends Component {
         }
 
         {
-          this.state.ResultActive && <QuizResult answerKeyArray={this.state.answerKeyArray} userAnswer={this.state.userAnswer} score={this.state.score}
+          this.state.ResultActive && <QuizResult questionArray={this.state.questionArray} answerKeyArray={this.state.answerKeyArray} 
+          userAnswer={this.state.userAnswer} score={this.state.score}
             numberOfQuestion={this.state.numberOfQuestion} history={this.props.history} totalTime={this.state.totalTime}
           />}
 

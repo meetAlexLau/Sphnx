@@ -34,6 +34,7 @@ router.route('/:id').get(function(req, res) {
     platformSchema.findById(id, function(err, object) {
         res.json(object);
     });
+    console.log(res);
 });
 
 //update platform

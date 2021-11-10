@@ -75,7 +75,7 @@ export default class Platform extends Component {
                     <Link to={"/home"} className="platform-home-button"></Link>
                   </Row>
                   <Row><Link to={"/platformBadge"} className="platform-left-button">View All Badges</Link>
-                    <Link to={"/platform"} className="platform-left-button">Platform Home</Link>
+                    <Link to={"/home"} className="platform-left-button">Platform Home</Link>
                   </Row>
                 </Col>
 
