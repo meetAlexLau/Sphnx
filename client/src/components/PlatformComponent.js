@@ -283,19 +283,21 @@ export default class Platform extends Component {
 
 
           </Container>
-*/}
+          */}
 
           {/* quiz feed for platform in style of home feeds */}
 
 
-          {this.state.platformFeed &&
+          {this.state.platformFeed ?
             <div className="platformQuizFeed" >{
-                rendquizs
-              }
+              rendquizs
+            }
             </div>
+            :""
           }
 
-          {this.state.lederboardScreen && <PlatformLeaderboardComponent ScoreBoard={this.state.ScoreBoard} />}
+
+          {this.state.lederboardScreen ? <PlatformLeaderboardComponent ScoreBoard={this.state.ScoreBoard} />:""}
 
         </div>
       </div>

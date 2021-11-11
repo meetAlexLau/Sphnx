@@ -11,3 +11,5 @@ let Badge = new Schema({
     BadgeType: Number
 
 })
+
+module.exports = mongoose.model('Badge', Badge);
