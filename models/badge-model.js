@@ -3,11 +3,11 @@ const Schema = mongoose.Schema;
 
 let Badge = new Schema({
 
-    BadgeDesc: String,
-    BadgeID: Number,
-    BadgeName: String,
-    BadgePicture:{
-        data: Buffer,
-        contentType: String
-    }
+    BadgeID: String,
+    BadgeTitle: String,
+    BadgePicture: String,
+    BadgeMaxTime: Number,
+    BadgeMinScore: Number,
+    BadgeType: Number
+
 })
