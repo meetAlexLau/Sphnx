@@ -35,7 +35,6 @@ export default class Home extends Component {
             this.props.history.push('/')
         }
         else {
-            console.log("Mounting")
             axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
                 .then((res) => {
                     let User = res.data[0];
