@@ -6,6 +6,8 @@ import { Form, Col, Row, Container, Button } from "react-bootstrap";
 import axios from 'axios';
 import Card from 'react-bootstrap/Card';
 
+import PlatformLeaderboardComponent from "./PlatformLeaderboardComponent";
+
 
 export default class Platform extends Component {
 
@@ -22,7 +24,11 @@ export default class Platform extends Component {
       PlatformPicture: '',
       //PlatformPicture: `url(https://images.unsplash.com/photo-1494976388531-d1058494cdd8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8M3x8fGVufDB8fHx8&w=1000&q=80)`
       Quizzes: [],
-      ScoreBoard:[]
+      ScoreBoard: [],
+      platformFeed: 1,
+      lederboardScreen: 0,
+      viewAllbadgeScreen: 0
+
     }
 
   }
@@ -93,6 +99,30 @@ export default class Platform extends Component {
   // Racecar Background
   // `url("https://s3-alpha-sig.figma.com/img/00af/4155/29de19f4df8c2a4e41bb723fd95362e2?Expires=1635724800&Signature=PVA11EFkHmq5xt7imvZ89GSsvZWKadADlM0dqBwbYrXAd2UNVK0fssovN~EqEl0efWVO7s7ZPLhU5gEThaEZkWcCEvQ8SPWJ~EtEfErJAuZrxYZIMElKKdo4qq7~sys5s4CEbV1G-lR3Af2QBqz3vgMKUz2zaKZB3vQCE5VYtEVCtViB3J500MXdymu9Xj386~TrqvAXtNcEuWr5UD2nkwVjQjk9EWhNJ-zDOo1SxE71te15fXpJOda7GrFQAm8OAV0rbyRtAuzuXNnJC1GyULEaVJ5FYYZt4np~2jRXuP5HgDgoi1riOPDJG08IwUozIkiQ7WoCMXPilMEF6z5V3g__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA")`
 
+
+  onClickLeaderboard() {
+    this.setState({
+      platformFeed: 0,
+      lederboardScreen: 1,
+      viewAllbadgeScreen: 0
+    })
+  }
+  onClickPlatformHome() {
+    this.setState({
+      platformFeed: 1,
+      lederboardScreen: 0,
+      viewAllbadgeScreen: 0
+    })
+  }
+  onClickViewAllbadges() {
+    this.setState({
+      platformFeed: 0,
+      lederboardScreen: 0,
+      viewAllbadgeScreen: 1
+    })
+  }
+
+
   render() {
     console.log(this.state)
 
@@ -133,11 +163,19 @@ export default class Platform extends Component {
             <Container>
               <Row>
                 <Col>
-                  <Row><Link to={"/platformLeaderboard"} className="platform-left-button">Leaderboard</Link>
+                  <Row>
+                    <button className="platform-left-button" onClick={() => this.onClickLeaderboard()}>
+                      Leaderboard
+                    </button>
+
+
                     <Link to={"/home"} className="platform-home-button"></Link>
                   </Row>
                   <Row><Link to={"/platformBadge"} className="platform-left-button">View All Badges</Link>
-                    <Link to={"/home"} className="platform-left-button">Platform Home</Link>
+
+                    <button className="platform-left-button" onClick={() => this.onClickPlatformHome()}>
+                      Platform Home
+                    </button>
                   </Row>
                 </Col>
 
@@ -249,12 +287,15 @@ export default class Platform extends Component {
 
           {/* quiz feed for platform in style of home feeds */}
 
-          <div className="platformQuizFeed" >
-            { 
-              rendquizs
-            }
-          </div>
 
+          {this.state.platformFeed &&
+            <div className="platformQuizFeed" >{
+                rendquizs
+              }
+            </div>
+          }
+
+          {this.state.lederboardScreen && <PlatformLeaderboardComponent ScoreBoard={this.state.ScoreBoard} />}
 
         </div>
       </div>
