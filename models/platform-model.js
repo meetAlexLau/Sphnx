@@ -54,7 +54,9 @@ let Platform = new Schema({
 
     PlatformQuizArray: [],
 
-    PlatformSubscriberArray: []
+    PlatformSubscriberArray: [],
+
+    ScoreBoard: []
 })
 
 module.exports = mongoose.model('Platform', Platform);
