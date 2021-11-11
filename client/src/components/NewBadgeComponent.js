@@ -58,7 +58,7 @@ export default class NewBadgeComponent extends Component {
     }
 
     onChangeBadgeTitle(e) {
-        this.setState({ title: e.target.value }, () {
+        this.setState({ title: e.target.value }, () => {
             if(this.props.onChange) {
                 this.props.onChange(this.state, this.props.index)
             }
