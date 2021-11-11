@@ -189,11 +189,6 @@ export default class NewQuizComponent extends Component {
     }
 
 
-    onChangeBadgeArray(e, index) {
-        this.state.QuizBadgeArray[index] = e.target.value
-        this.setState({ QuizBadgeArray: this.state.QuizBadgeArray})
-    }
-
 
     onChangeQuestionArray(e, index) {
         this.state.questionArray[index] = e.target.value

@@ -2,7 +2,7 @@ let mongoose = require('mongoose'),
 express = require('express'),
 router = express.Router();
 
-let badgeSchema = require('.../models/badge-model')
+let badgeSchema = require('../models/badge-model')
 
 router.route('/createBadge').post(function(req, res) {
     let newBadge = new badgeSchema(req.body);

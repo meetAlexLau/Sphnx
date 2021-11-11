@@ -58,7 +58,11 @@ export default class NewBadgeComponent extends Component {
     }
 
     onChangeBadgeTitle(e) {
-        this.setState({ title: e.target.value })
+        this.setState({ title: e.target.value }, () {
+            if(this.props.onChange) {
+                this.props.onChange(this.state, this.props.index)
+            }
+        })
     }
 
     onChangeMinScore(e){
@@ -179,7 +183,7 @@ export default class NewBadgeComponent extends Component {
                 <div class="medium">
                     <Form.Group controlId="Title">
                         <Form.Label>Badge Title:</Form.Label>
-                        <Form.Control type="text" value={this.state.title} onChange={this.onChangeBadgeTitle} />
+                        <Form.Control type="text" value={this.state.title} onChange={this.onChangeBadgeTitle} name="badgeTitle"/>
                     </Form.Group>
 
                     Select Badge Image:
@@ -196,9 +200,9 @@ export default class NewBadgeComponent extends Component {
                                 </div>
                             </div>
                             <Form.Label>Minimum Score:</Form.Label>
-                            <Form.Control type='number' disabled={this.state.optionOneDisabled} placeholder={this.state.minScore} onChange={this.onChangeMinScore}></Form.Control>
+                            <Form.Control type='number' disabled={this.state.optionOneDisabled} placeholder={this.state.minScore} onChange={this.onChangeMinScore} name="minScore"></Form.Control>
                             <Form.Label>Minimum Time:</Form.Label>
-                            <Form.Control type='number' disabled={this.state.optionTwoDisabled} placeholder={this.state.maxTime} onChange={this.onChangeMaxTime}></Form.Control>
+                            <Form.Control type='number' disabled={this.state.optionTwoDisabled} placeholder={this.state.maxTime} onChange={this.onChangeMaxTime} name="maxTime"></Form.Control>
                         </Form.Group>
                     </div>
 
