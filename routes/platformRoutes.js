@@ -36,7 +36,6 @@ router.route('/:id').get(function(req, res) {
     platformSchema.findById(id, function(err, object) {
         res.json(object);
     });
-    console.log(res);
 });
 
 //update platform
@@ -56,7 +55,7 @@ router.route('/updatePlatform/:id').put((req, res) => {
           object.PlatformPoints = req.body.PlatformPoints;
           object.PlatformQuizArray = req.body.PlatformQuizArray;
           object.platformSubscriberArray = req.body.PlatformQuizArray;
-        
+          object.ScoreBoard = req.body.ScoreBoard;
         
           object.save()
             .then(object => {

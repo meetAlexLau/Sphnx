@@ -37,7 +37,6 @@ export default class Login extends Component{
         setTimeout(refreshToken, refreshTiming);
     }
     responseGoogle = (resp) => {
-        console.log(resp);
         let profile = resp.profileObj;
         const newUser = {
             UserID: profile.googleId + "",

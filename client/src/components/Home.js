@@ -35,7 +35,6 @@ export default class Home extends Component {
             this.props.history.push('/')
         }
         else {
-            console.log("Mounting")
             axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
                 .then((res) => {
                     let User = res.data[0];
@@ -63,7 +62,6 @@ export default class Home extends Component {
     }
     routeChangePlatform = (PlatformID) => {
         //should be  /profile/:userid
-        console.log(PlatformID);
         sessionStorage.setItem('current platform', PlatformID);
         sessionStorage.setItem('previous platform', PlatformID);
         this.props.history.push('/platform/' + PlatformID);
@@ -133,7 +131,7 @@ export default class Home extends Component {
         }
     }
     render() {
-        console.log("STATE:", this.state)
+        
         //Platform grid
         let plats = this.state.Platforms?.map((plat, i) => (        //map each platform to structure <Col>
             //<li key={i}>{plat.PlatformName}</li>
@@ -171,17 +169,14 @@ export default class Home extends Component {
             </Col>
 
         ))
-        console.log(quizs);
         let rendquizs = [];
         while (quizs.length > 0) {        //splice the array of platforms into groups of 4
             let chunk = quizs.splice(0, 4);
             rendquizs.push(chunk)
         }
-        console.log(rendquizs)
         for (var j = 0; j < rendquizs.length; j++) {          //each chunk is a group of 4, surround with <Row>
             rendquizs[j] = <Row> {rendquizs[j]} </Row>
         }
-        console.log(rendplats)
         return (
             <Container fluid className='sky containerrow'> {/* home container*/}
                 <Row className='medium marginspacing paddingspacing'> {/*Logout | Title | Profile */}
