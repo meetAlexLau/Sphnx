@@ -52,7 +52,7 @@ export default class Platform extends Component {
       this.props.history.push('/')
     }
     else {
-      await axios.get('http://localhost:4000/platforms/' + PlatformID)
+      await axios.get('/platforms/' + PlatformID)
         .then(res => {
           //console.log(sessionStorage.getItem('current platform'));
           //console.log('logging res', res);
@@ -70,7 +70,7 @@ export default class Platform extends Component {
       this.getQuizzes(this.state.PlatformID);
 
       //CHECK IF USER IS SUBSCRIBED
-      await axios.get('http://localhost:4000/users/UserID/'+ getUserID)
+      await axios.get('/users/UserID/'+ getUserID)
         .then(res => {
           
           //x = get UserSubscribedPlatformArray, .find(PlatformID)
@@ -98,7 +98,7 @@ export default class Platform extends Component {
     let plat;
 
     // get platformquizarray from this platform
-    await axios.get('http://localhost:4000/platforms/' + PlatformID)
+    await axios.get('/platforms/' + PlatformID)
       .then(res => {
         plat = res.data;
       })
@@ -106,7 +106,7 @@ export default class Platform extends Component {
     // iterate through and get all quizzes
     for (let i = 0; i < plat.PlatformQuizArray.length; i++) {
       try {
-        await axios.get('http://localhost:4000/quizzes/' + plat.PlatformQuizArray[i])
+        await axios.get('/quizzes/' + plat.PlatformQuizArray[i])
           .then(res => {
             q.push(res.data);
             this.setState({
@@ -143,11 +143,11 @@ export default class Platform extends Component {
     let getUserID = sessionStorage.getItem('UserID');
     let PlatformID = this.state.PlatformID;
     let plat, user;
-    await axios.get('http://localhost:4000/platforms/' + PlatformID)  //Get Platform Subscriber Array
+    await axios.get('/platforms/' + PlatformID)  //Get Platform Subscriber Array
       .then(res => {
         plat = res.data;
       })
-    await axios.get('http://localhost:4000/users/UserID/' + getUserID) //Get User Subscribed Platform Array
+    await axios.get('/users/UserID/' + getUserID) //Get User Subscribed Platform Array
       .then(res => {
         user = res.data[0];
       })
@@ -180,12 +180,12 @@ export default class Platform extends Component {
       })
     //Updating Platform PlatformSubscriberArray
     // [(userMongoId, username, points, timespentonplatform, isSubscribed)]
-    await axios.put('http://localhost:4000/platforms/updatePlatform/' + PlatformID, plat)
+    await axios.put('/platforms/updatePlatform/' + PlatformID, plat)
       .then(res=> console.log("User Subscribe Arr:", res))
       .catch(err=> console.log("User Subscribe Arr Err:", err));
     
     //Updating User UserSubscribedPlatformArray
-    await axios.put('http://localhost:4000/users/' + user._id, user)
+    await axios.put('/users/' + user._id, user)
       .then(res=> console.log("User Subscribe Arr:", res))
       .catch(err=> console.log("User Subscribe Arr Err:", err))
   }

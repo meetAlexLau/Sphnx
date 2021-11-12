@@ -73,8 +73,8 @@ export default class Quiz extends Component {
       sessionStorage.setItem('current quiz', sessionStorage.getItem('previous quiz'))
 
 
-      //axios.get('http://localhost:4000/quizzes/6182b0b76ad37b02b34dd10e/')
-      await axios.get('http://localhost:4000/quizzes/' + QuizID)
+      //axios.get('/quizzes/6182b0b76ad37b02b34dd10e/')
+      await axios.get('/quizzes/' + QuizID)
         .then(res => {
 
           const initUserAnswer = []
@@ -96,7 +96,7 @@ export default class Quiz extends Component {
         })
 
 
-      await axios.get('http://localhost:4000/platforms/' + this.state.platformID)
+      await axios.get('/platforms/' + this.state.platformID)
         .then(res => {
           let Platform = res.data
           this.setState({
@@ -109,7 +109,7 @@ export default class Quiz extends Component {
 
 
 
-      axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
+      axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
         .then(res => {
           let User = res.data[0]
           this.setState({
@@ -152,7 +152,7 @@ export default class Quiz extends Component {
     let updatedUser = this.state.oldUser
     updatedUser.UserPoints = updatedUser.UserPoints + pointsScored
 
-    const newPath = ('http://localhost:4000/users/' + this.state.IDtoEdit)
+    const newPath = ('/users/' + this.state.IDtoEdit)
 
     axios.put(newPath, updatedUser)
       .then(res => console.log(res.data))
@@ -181,7 +181,7 @@ export default class Quiz extends Component {
       })
     }
 
-    const newPathOfPlatform = ('http://localhost:4000/platforms/updatePlatform/' + this.state.platformID)
+    const newPathOfPlatform = ('/platforms/updatePlatform/' + this.state.platformID)
 
     axios.put(newPathOfPlatform, updatedPlatform)
       .then(res => console.log(res.data))

@@ -35,7 +35,7 @@ export default class Home extends Component {
             this.props.history.push('/')
         }
         else {
-            axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
+            axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
                 .then((res) => {
                     let User = res.data[0];
                     this.setState({
@@ -82,7 +82,7 @@ export default class Home extends Component {
     renderPlatforms = async () => {
         let p = [];
         try {
-            await axios.get('http://localhost:4000/platforms')
+            await axios.get('/platforms')
                 .then(res => {
                     p = res.data
                     for (var i = 0; i < p.length; i++) {
@@ -99,7 +99,7 @@ export default class Home extends Component {
     renderQuizzes = async () => {
         let q = [];
         try {
-            await axios.get('http://localhost:4000/quizzes')
+            await axios.get('/quizzes')
                 .then(res => {
                     q = res.data;
                     for (var i = 0; i < q.length; i++) {
@@ -116,7 +116,7 @@ export default class Home extends Component {
     renderUsers = async () => {
         let u = [];
         try {
-            await axios.get('http://localhost:4000/users')
+            await axios.get('/users')
                 .then(res => {
                     u = res.data;
                     for (var i = 0; i < u.length; i++) {

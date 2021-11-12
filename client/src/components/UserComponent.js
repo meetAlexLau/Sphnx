@@ -41,7 +41,7 @@ export default class UserComponent extends Component{
         }
         else{
             
-            axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
+            axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
                 .then(res => {
                     let User = res.data[0];
                     this.setState({
@@ -83,7 +83,7 @@ export default class UserComponent extends Component{
         for(let i =0; i < this.state.UserPlatformArray.length; i++){
             let platID = this.state.UserPlatformArray[i];
             promises.push(
-                axios.get('http://localhost:4000/platforms/' + platID)
+                axios.get('/platforms/' + platID)
                     .then(res => {
                         let object = res.data;
                         p.push([object.PlatformID, object.PlatformName]);
