@@ -82,7 +82,7 @@ export default class NewQuizComponent extends Component {
     }
 
     routeChangePlatform(e) {
-        this.props.history.push('/platform')
+        this.props.history.goBack()
     }
 
     routeChangeNewBadge(e) {

@@ -54,6 +54,10 @@ let Platform = new Schema({
 
     PlatformQuizArray: [],
 
+    PlatformCreator: {
+        type: String
+    },
+
     PlatformBadgeArray: [],
 
     PlatformSubscriberArray: [],

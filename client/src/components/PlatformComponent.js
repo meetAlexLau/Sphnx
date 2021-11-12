@@ -14,6 +14,8 @@ export default class Platform extends Component {
   constructor(props) {
     super(props)
 
+    this.clickNewQuiz = this.clickNewQuiz.bind(this)
+
     this.state = {
       isLoggedIn: sessionStorage.getItem('isLoggedIn'),
       PlatformColor1: '#',
@@ -27,7 +29,8 @@ export default class Platform extends Component {
       ScoreBoard: [],
       platformFeed: 1,
       lederboardScreen: 0,
-      viewAllbadgeScreen: 0
+      viewAllbadgeScreen: 0,
+      Creator: ''
 
     }
 
@@ -56,6 +59,7 @@ export default class Platform extends Component {
             PlatformColor2: res.data.PlatformColor2,
             PlatformDesc: res.data.PlatformDesc,
             ScoreBoard: res.data.ScoreBoard,
+            Creator: res.data.PlatformCreator,
           })
         })
       this.getQuizzes(PlatformID);
@@ -120,6 +124,17 @@ export default class Platform extends Component {
       lederboardScreen: 0,
       viewAllbadgeScreen: 1
     })
+  }
+
+  clickNewQuiz(){
+    console.log(this.state.Creator)
+    console.log(sessionStorage.getItem('UserID'))
+    if(this.state.Creator == sessionStorage.getItem('UserID')){
+      this.props.history.push('/newQuiz')
+    }
+    else{
+      
+    }
   }
 
 
@@ -187,7 +202,7 @@ export default class Platform extends Component {
                 <Col >
 
                   <Row className="d-flex justify-content-end"><Link to={"/"} className="platform-right-button" style={{ backgroundColor: "#E79696" }}>unsubscribe</Link></Row>
-                  <Row className="d-flex justify-content-end"><Link to={"/newQuiz"} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Quiz</Link></Row>
+                  <Row className="d-flex justify-content-end"><Button onClick={this.clickNewQuiz} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Quiz</Button></Row>
                   <Row className="d-flex justify-content-end"><Link to={"/newPost"} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Post</Link></Row>
 
                 </Col>
