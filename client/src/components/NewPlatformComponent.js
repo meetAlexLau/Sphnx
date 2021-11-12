@@ -131,7 +131,10 @@ export default class NewPlatformComponent extends Component {
             PlatformColor1: this.state.color1,
             PlatformColor2: this.state.color2,
             PlatformPicture: this.state.PlatformPicture,
-            PlatformID: this.state.id
+            PlatformID: this.state.id,
+            PlatformQuizArray: [],
+            PlatformCreator: sessionStorage.getItem('UserID'),
+            PlatformSubscriberArray: []
         }
 
         await axios.post('/platforms/createPlatform', platformObject).then(res => {newIDofPlat = res.data

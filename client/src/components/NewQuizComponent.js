@@ -5,10 +5,13 @@ import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 //import { SketchPicker } from 'react-color';
 import { Container } from "react-bootstrap";
+import NewBadgeComponent from "./NewBadgeComponent";
 import NewQuestionComponent from "./NewQuestionComponent";
 
 const NAME_OF_UPLOAD_PRESET = "sphnxPreset";
 const YOUR_CLOUDINARY_ID = "sphnx";
+
+var newIDofQuiz = "";
 
 async function uploadImage(file) {
     const data = new FormData();
@@ -40,12 +43,13 @@ export default class NewQuizComponent extends Component {
         this.onChangeQuizId = this.onChangeQuizId.bind(this);
 
 
-        this.onClickSave = this.onClickSave.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
 
         this.onChangeQuestionArray = this.onChangeQuestionArray.bind(this);
 
 
         this.eventhandler = this.eventhandler.bind(this);
+        this.eventhandler2 = this.eventhandler2.bind(this);
 
 
         // Setting up state
@@ -54,7 +58,9 @@ export default class NewQuizComponent extends Component {
             title: '',
             backgroundPic: '',
             questionArray: [],
-            answerKeyArray: []
+            answerKeyArray: [],
+            QuizBadgeArray: [],
+            badgeCounter: 0
         }
     }
 
@@ -62,6 +68,7 @@ export default class NewQuizComponent extends Component {
         if (this.state.isLoggedIn !== "true") {
             this.props.history.push('/')
         }
+<<<<<<< HEAD
         else{
             
             axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
@@ -70,13 +77,23 @@ export default class NewQuizComponent extends Component {
                 this.setState({
                     oldUser: User,
                     IDtoEdit: User._id
+=======
+        else {
+
+            axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
+                .then(res => {
+                    let User = res.data[0];
+                    this.setState({
+                        oldUser: User,
+                        IDtoEdit: User._id
+                    })
+>>>>>>> Build4
                 })
-            })
-            }
+        }
     }
 
     routeChangePlatform(e) {
-        this.props.history.push('/platform')
+        this.props.history.goBack()
     }
 
     routeChangeNewBadge(e) {
@@ -92,7 +109,7 @@ export default class NewQuizComponent extends Component {
         this.setState({ id: e.target.value })
     }
 
-    onClickSave(e) {
+    onSubmit = async (e) => {
         e.preventDefault()
         const answer = []
 
@@ -105,22 +122,69 @@ export default class NewQuizComponent extends Component {
         let updatedUser = this.state.oldUser
         updatedUser.UserPoints = updatedUser.UserPoints + 10
 
+        let currentPlatform = sessionStorage.getItem('current platform');
+        let PlatformID = currentPlatform ? currentPlatform : sessionStorage.getItem('previous platform')
+        sessionStorage.setItem('current platform', sessionStorage.getItem('previous platform'))
 
         const quizObject = {
             QuizTitle: this.state.title,
-            QuizID: "Manuel Song",
+            QuizID: this.state.id,
             QuizBackground: this.state.backgroundPic,
             QuizQuestions: this.state.questionArray,
-            QuizAnswerKey: answer
-
+            QuizAnswerKey: answer,
+            QuizBadgeArray: this.state.QuizBadgeArray,
+            PlatformID: PlatformID
         };
 
         axios.post('/quizzes/createQuiz', quizObject)
             .then(res => console.log(res.data));
 
         const newPath = ('/users/'+this.state.IDtoEdit)
+
+        var idsOfBadges = []
+        let j = 0;
+        while(this.state.QuizBadgeArray[j]){
+            const newBadgeObject = {
+                BadgeTitle: this.state.QuizBadgeArray[j].badgeTitle,
+                BadgePicture: this.state.QuizBadgeArray[j].badgePicture,
+                BadgeType: this.state.QuizBadgeArray[j].badgeType,
+                BadgeMinScore: this.state.QuizBadgeArray[j].minScore,
+                BadgeMaxTime: this.state.QuizBadgeArray[j].maxTime,
+            }
+
+            await axios.post('/badges/createBadge', newBadgeObject)
+                .then(res => {idsOfBadges.push(res.data)})
+            
+            j++
+        }
+
+
+
     
-        axios.put(newPath, updatedUser)
+
+
+        await axios.post('/quizzes/createQuiz', quizObject)
+            .then(res => {newIDofQuiz=res.data});
+
+
+        // retrieve platform from database, edit quiz array, and send the edited array back
+        axios.get('/platforms/' + PlatformID)
+            .then(res => {
+                console.log(sessionStorage.getItem('current platform'));
+                console.log('logging res', res);
+                let plat = res.data;
+                plat.PlatformQuizArray.push(newIDofQuiz);
+                let k = 0;
+                while(idsOfBadges[k]){
+                    plat.PlatformBadgeArray.push(idsOfBadges[k])
+                    k++;
+                }
+                axios.put('/platforms/updatePlatform/' + PlatformID, plat).then(res => {})
+            })  
+
+        const newPath = ('/users/' + this.state.IDtoEdit)
+
+        await axios.put(newPath, updatedUser)
             .then(res => console.log(res.data))
             .catch(err => console.log(err))
         this.setState({
@@ -131,8 +195,11 @@ export default class NewQuizComponent extends Component {
         });
 
 
-        this.props.history.push('/home')
+        //this.props.history.push('/home')
+        this.props.history.push('/platform/'+PlatformID);
         window.location.reload(false)
+        
+        
     }
 
 
@@ -140,6 +207,16 @@ export default class NewQuizComponent extends Component {
 
     addQuestionInput() {
         this.setState({ questionArray: [...this.state.questionArray, ""] })
+    }
+
+    addBadgeInput(){
+        if(this.state.badgeCounter < 3){
+        this.setState({ QuizBadgeArray: [...this.state.QuizBadgeArray, ""] })
+        this.state.badgeCounter++;
+        }
+        else{
+
+        }
     }
 
     handleRemoveQuestion(index) {
@@ -150,6 +227,12 @@ export default class NewQuizComponent extends Component {
         this.setState({ questionArray: this.state.questionArray })
     }
 
+    handleRemoveBadge(index) {
+        this.state.QuizBadgeArray.splice(index, 1)
+
+        this.setState({ QuizBadgeArray: this.state.QuizBadgeArray})
+        this.state.badgeCounter--;
+    }
 
 
 
@@ -170,6 +253,13 @@ export default class NewQuizComponent extends Component {
         this.state.questionArray[index] = data
         this.setState({ questionArray: this.state.questionArray })
         //console.log(this.state.questionArray)
+
+    }
+
+    eventhandler2(data, index) {
+
+        this.state.QuizBadgeArray[index] = data
+        this.setState({ QuizBadgeArray: this.state.QuizBadgeArray})
 
     }
 
@@ -203,7 +293,7 @@ export default class NewQuizComponent extends Component {
                         </Form.Group>
 
                         <div>
-                            <Button className="choose-file-button" onClick={this.routeChangeNewBadge}>Add Badge</Button>
+                            <Button className="choose-file-button" onClick={(e) => this.addBadgeInput(e)}>Add Badge</Button>
                         </div>
 
                         <div>
@@ -216,19 +306,28 @@ export default class NewQuizComponent extends Component {
                                 */}
                         </div>
 
-                        {/*}
-                            <div>
-                                <NewQuestionComponent />
+                        {
+                        
+                            this.state.QuizBadgeArray.map((input, index) => (
+                                <div key={index}>
+                                    <NewBadgeComponent value={input} onChange={this.eventhandler2} index={index} />
 
-                            </div>
-                            */}
+                                    <button onClick={() => this.handleRemoveBadge(index)}>Delete Badge {index + 1}</button>
+                                </div>
+                            )
+                            
+                            )
+                                
+                                
+
+                        }
 
                         {
                             this.state.questionArray.map((input, index) => (
                                 <div key={index}>
                                     <NewQuestionComponent value={input} onChange={this.eventhandler} index={index} />
 
-                                    <button onClick={() => this.handleRemoveQuestion(index)}>delete Question {index}</button>
+                                    <button onClick={() => this.handleRemoveQuestion(index)}>delete Question {index + 1}</button>
                                 </div>
                             )
 
@@ -246,7 +345,7 @@ export default class NewQuizComponent extends Component {
 
 
                         <div className="text-right">
-                            <Button className='savebutton' type="submit" onClick={this.onClickSave}>
+                            <Button className='savebutton' type="submit" onClick={this.onSubmit}>
                                 Save
                             </Button>
 

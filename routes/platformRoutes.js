@@ -18,6 +18,7 @@ router.route('/createPlatform').post(function(req, res) {
         });
 });
 
+// get all platforms
 router.route('/').get(function(req, res) {
     platformSchema.find(function(err, platforms){
         if(err) {
@@ -29,6 +30,7 @@ router.route('/').get(function(req, res) {
     })
 })
 
+// get a platform by id
 router.route('/:id').get(function(req, res) {
     let id = req.params.id;
     platformSchema.findById(id, function(err, object) {
@@ -52,8 +54,8 @@ router.route('/updatePlatform/:id').put((req, res) => {
           object.PlatformPicture = req.body.PlatformPicture;
           object.PlatformPoints = req.body.PlatformPoints;
           object.PlatformQuizArray = req.body.PlatformQuizArray;
-          object.platformSubscriberArray = req.body.PlatformQuizArray;
-        
+          object.PlatformSubscriberArray = req.body.PlatformSubscriberArray;
+          object.ScoreBoard = req.body.ScoreBoard;
         
           object.save()
             .then(object => {

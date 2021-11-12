@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button'
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Form from 'react-bootstrap/Form';
 import axios from 'axios'
 
 
@@ -23,20 +24,22 @@ export default class UserComponent extends Component{
             UserName: '',
             UserPicture: "",
             UserBackgroundPicture: '',
-            UserPoints: 0
+            UserPoints: 0,
+            UserPlatformArray: []
         }
 
         this.onClickNewPlatform = this.onClickNewPlatform.bind(this)
         this.onClickPlatform = this.onClickPlatform.bind(this)
         this.onClickMyBadge = this.onClickMyBadge.bind(this)
         this.onClickQuiz = this.onClickQuiz.bind(this)
-
+        this.renderPlatforms = this.renderPlatforms.bind(this)
     }
 
     componentDidMount(){
         if(this.state.isLoggedIn !== "true"){
             this.props.history.push('/')
         }
+<<<<<<< HEAD
             else{
                 axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
                     .then(res => {
@@ -52,14 +55,35 @@ export default class UserComponent extends Component{
                         console.log(this.state);
                     })
             }
+=======
+        else{
+            
+            axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
+                .then(res => {
+                    let User = res.data[0];
+                    this.setState({
+                        UserName : User.UserName,
+                        UserPicture : User.UserPicture,
+                        UserPrimaryColor : User.UserPrimaryColor,
+                        UserSecondaryColor : User.UserSecondaryColor,
+                        UserBackgroundPicture : User.UserBackgroundPicture,
+                        UserPoints : User.UserPoints,
+                        UserPlatformArray: User.UserPlatformArray
+                    }) 
+                    this.renderPlatforms();
+                })
+        }
+>>>>>>> Build4
     }
 
     onClickNewPlatform(){
       this.props.history.push('/newPlatform')
     }
 
-    onClickPlatform(){
-      this.props.history.push('/platform')
+    onClickPlatform(PlatformID){
+        sessionStorage.setItem('current platform', PlatformID);
+        sessionStorage.setItem('previous platform', PlatformID);
+        this.props.history.push('/platform/' + PlatformID);
     }
 
     onClickMyBadge(){
@@ -70,9 +94,44 @@ export default class UserComponent extends Component{
       this.props.history.push('/quiz')
     }
 
+    renderPlatforms(){
+        let p: [number, string] = [];
+        let promises = [];
+        
+        for(let i =0; i < this.state.UserPlatformArray.length; i++){
+            let platID = this.state.UserPlatformArray[i];
+            promises.push(
+                axios.get('/platforms/' + platID)
+                    .then(res => {
+                        let object = res.data;
+                        p.push([object.PlatformID, object.PlatformName]);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    })
+            )
+        }
+        Promise.all(promises).then(() => {
+            this.setState({
+                UserPlatformArray: p
+            })
+        });
+    }
     
     render(){
-
+        //<Button onClick={this.onClickPlatform}  className="profileCard" style={{background: this.state.UserPrimaryColor}}>Cowboys</Button>
+        //<Button onClick={this.onClickPlatform} className="profileCard" style={{background: this.state.UserPrimaryColor}}>Instruments</Button>
+        let plats = this.state.UserPlatformArray?.map((plat, i) => {
+            return(
+            <Button key={i} 
+                    onClick={() => this.onClickPlatform(plat[0])} 
+                    className="profileCard" 
+                    style={{background: this.state.UserPrimaryColor}}
+                    >
+                    {plat[1]}
+            </Button>
+            )
+        })
         return(
           <Container fluid style={{ background: this.state.UserPrimaryColor }}>
             <Row>
@@ -151,8 +210,7 @@ export default class UserComponent extends Component{
                 </Row>
                 <Row style={{ margin: "8px" }}>
                     <Col md={12} style={{ margin: "5px 2px" }}>
-                    <Button onClick={this.onClickPlatform}  className="profileCard" style={{background: this.state.UserPrimaryColor}}>Cowboys</Button>
-                    <Button onClick={this.onClickPlatform} className="profileCard" style={{background: this.state.UserPrimaryColor}}>Instruments</Button>
+                        {plats}
                     </Col>
                 </Row>
                 </div>

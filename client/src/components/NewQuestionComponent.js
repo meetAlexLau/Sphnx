@@ -8,7 +8,7 @@ import { Container } from "react-bootstrap";
 
 export default class NewQuestionComponent extends Component {
     constructor(props) {
-        super(props)
+        super(props) 
 
         // Setting up routes
         this.routeChangePlatform = this.routeChangePlatform.bind(this);
@@ -102,7 +102,7 @@ export default class NewQuestionComponent extends Component {
         return (
 
             <div className="dark">
-                Question {this.props.index}: <input value={this.props.value.questionTitle ? this.props.value.questionTitle : ""} type="text" name="questionTitle" onChange={this.handleChange}></input>
+                Question {this.props.index+1}: <input value={this.props.value.questionTitle ? this.props.value.questionTitle : ""} type="text" name="questionTitle" onChange={this.handleChange}></input>
 
 
                 <div>

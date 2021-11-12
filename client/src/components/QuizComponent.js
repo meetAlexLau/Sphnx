@@ -51,29 +51,35 @@ export default class Quiz extends Component {
       ResultActive: 0,
       score: 0,
       startTime: time,
-      totalTime: 0
+      totalTime: 0,
+      platformID: ''
       //arrayOfAnswer: []
     }
   }
 
 
 
-    
-  
 
-  componentDidMount() {
+
+
+  async componentDidMount() {
     if (this.state.isLoggedIn !== "true") {
       this.props.history.push('/')
     }
     else {
 
       let currentQuiz = sessionStorage.getItem('current quiz');
-    let QuizID = currentQuiz ? currentQuiz : sessionStorage.getItem('previous quiz')
-    sessionStorage.setItem('current quiz', sessionStorage.getItem('previous quiz'))
-    
+      let QuizID = currentQuiz ? currentQuiz : sessionStorage.getItem('previous quiz')
+      sessionStorage.setItem('current quiz', sessionStorage.getItem('previous quiz'))
 
+<<<<<<< HEAD
       //axios.get('http://localhost:4000/quizzes/6182b0b76ad37b02b34dd10e/')
       axios.get('/quizzes/'+ QuizID)
+=======
+
+      //axios.get('/quizzes/6182b0b76ad37b02b34dd10e/')
+      await axios.get('/quizzes/' + QuizID)
+>>>>>>> Build4
         .then(res => {
 
           const initUserAnswer = []
@@ -88,18 +94,37 @@ export default class Quiz extends Component {
             questionArray: res.data.QuizQuestions,
             answerKeyArray: res.data.QuizAnswerKey,
             numberOfQuestion: res.data.QuizQuestions.length,
-            userAnswer: initUserAnswer
+            userAnswer: initUserAnswer,
+            platformID: res.data.PlatformID
 
           })
         })
 
+
+      await axios.get('/platforms/' + this.state.platformID)
+        .then(res => {
+          let Platform = res.data
+          this.setState({
+            oldPlatform: Platform,
+            platformName: Platform.PlatformName
+
+
+          })
+        })
+
+<<<<<<< HEAD
         axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
+=======
+
+
+      axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
+>>>>>>> Build4
         .then(res => {
           let User = res.data[0]
           this.setState({
             oldUser: User,
-            IDtoEdit: User._id ,
-            UserName: User.UserName ,
+            IDtoEdit: User._id,
+            UserName: User.UserName,
             UserPrimaryColor: User.UserPrimaryColor,
             UserSecondaryColor: User.UserSecondaryColor,
             UserPicture: User.UserPicture,
@@ -131,16 +156,59 @@ export default class Quiz extends Component {
 
     this.setState({ ResultActive: 1 })
 
-    let pointsScored = (scoreResult / this.state.numberOfQuestion) * 100
+    let pointsScored = ( (((scoreResult / this.state.numberOfQuestion) * 100) * this.state.numberOfQuestion) + ( (15 - (this.state.totalTime / 1000) * 10) ) )
 
     let updatedUser = this.state.oldUser
-    updatedUser.UserPoints  = updatedUser.UserPoints + pointsScored
+    updatedUser.UserPoints = updatedUser.UserPoints + pointsScored
 
+    const newPath = ('/users/' + this.state.IDtoEdit)
+
+    axios.put(newPath, updatedUser)
+      .then(res => console.log(res.data))
+      .catch(err => console.log(err))
+
+<<<<<<< HEAD
     const newPath = ('/users/'+this.state.IDtoEdit)
         
         axios.put(newPath, updatedUser)
           .then(res => console.log(res.data))
           .catch(err => console.log(err))
+=======
+
+    //update platform scoreboard-------------
+    let updatedPlatform = this.state.oldPlatform
+
+    let obj = updatedPlatform.ScoreBoard.find((o, i) => {
+      if (o.userId === this.state.IDtoEdit) {
+        let oldRanker = updatedPlatform.ScoreBoard[i]
+        updatedPlatform.ScoreBoard[i] = {
+          userId: oldRanker.userId, userName: oldRanker.userName,
+          point: oldRanker.point + pointsScored
+        };
+        return true; // stop searching
+      }
+    });
+
+    console.log(updatedPlatform.ScoreBoard)
+    if (obj == undefined) {
+      updatedPlatform.ScoreBoard.push({
+        userId: this.state.IDtoEdit, userName: this.state.UserName,
+        point: pointsScored
+      })
+    }
+
+    const newPathOfPlatform = ('/platforms/updatePlatform/' + this.state.platformID)
+
+    axios.put(newPathOfPlatform, updatedPlatform)
+      .then(res => console.log(res.data))
+      .catch(err => console.log(err))
+
+    //update platform scoreboard-------------
+
+
+    console.log("platoform name is " + this.state.platformName)
+    console.log("platoform id is " + this.state.platformID)
+>>>>>>> Build4
 
 
   }
@@ -151,11 +219,11 @@ export default class Quiz extends Component {
 
     } else {*/
 
-      
-      this.setState({ indexOfQuestion: this.state.indexOfQuestion + 1 })
-      //console.log(this.state.numberOfQuestion)
-      console.log(this.state.indexOfQuestion)
-    
+
+    this.setState({ indexOfQuestion: this.state.indexOfQuestion + 1 })
+    //console.log(this.state.numberOfQuestion)
+    console.log(this.state.indexOfQuestion)
+
   }
 
   onClickBack() {
@@ -186,10 +254,7 @@ export default class Quiz extends Component {
   render() {
     return (
       <div>
-
-
-
-        {!this.state.ResultActive && <div key={this.state.indexOfQuestion}>
+        {!this.state.ResultActive ? <div key={this.state.indexOfQuestion}>
 
           <div style={{ backgroundImage: `url(${this.state.backgroundPic})` }} className="background" >
             <div className="quiz-content">
@@ -246,7 +311,7 @@ export default class Quiz extends Component {
                       }
 
                     </div>
-                    
+
 
 
 
@@ -288,13 +353,13 @@ export default class Quiz extends Component {
           </div>
 
         </div>
-        }
+        :''}
 
         {
-          this.state.ResultActive && <QuizResult questionArray={this.state.questionArray} answerKeyArray={this.state.answerKeyArray} 
-          userAnswer={this.state.userAnswer} score={this.state.score}
+          this.state.ResultActive ? <QuizResult questionArray={this.state.questionArray} answerKeyArray={this.state.answerKeyArray}
+            userAnswer={this.state.userAnswer} score={this.state.score} platformID={this.state.platformID}
             numberOfQuestion={this.state.numberOfQuestion} history={this.props.history} totalTime={this.state.totalTime}
-          />}
+          />:""}
 
 
       </div>

@@ -5,64 +5,198 @@ import Button from 'react-bootstrap/Button';
 //import axios from 'axios';
 //import { SketchPicker } from 'react-color';
 import { Container } from "react-bootstrap";
+const NAME_OF_UPLOAD_PRESET = "sphnxPreset";
+const YOUR_CLOUDINARY_ID = "sphnx";
+
+
+async function uploadImage(file) {
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", NAME_OF_UPLOAD_PRESET);
+    const res = await fetch(
+        `https://api.cloudinary.com/v1_1/${YOUR_CLOUDINARY_ID}/image/upload`,
+        {
+            method: "POST",
+            body: data
+        }
+    );
+    const img = await res.json();
+    console.log(img);
+    return img.secure_url;
+
+}
 
 export default class NewBadgeComponent extends Component {
     constructor(props) {
         super(props)
 
         // Setting up routes
-        this.routeChangePlatform = this.routeChangePlatform.bind(this);
-        this.routeChangeNewQuiz = this.routeChangeNewQuiz.bind(this);
+        
 
         // Setting up functions
         this.onChangeBadgeTitle = this.onChangeBadgeTitle.bind(this);
-        this.onChangeBadgeId = this.onChangeBadgeId.bind(this);
-        this.onChangeBadgeDesc = this.onChangeBadgeDesc.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.onOption1Change = this.onOption1Change.bind(this)
+        this.onOption2Change = this.onOption2Change.bind(this)
+        this.onOption3Change = this.onOption3Change.bind(this)
+        this.onChangeMaxTime = this.onChangeMaxTime.bind(this)
+        this.onChangeMinScore = this.onChangeMinScore.bind(this)
+        this.buildBadgeObject = this.buildBadgeObject.bind(this)
 
         // Setting up state
         this.state = {
-            title: '',
-            desc: '',
-            id: ''
+            badgeTitle: '',
+            badgeID: '',
+            badgeType: 0,
+            minScore: 0,
+            maxTime: 0,
+            badgePicture: '',
+            optionOneDisabled:'',
+            optionTwoDisabled:'',
+            optionThreeDisabled:''
         }
     }
 
-    routeChangePlatform(e) {
-        this.props.history.push('/platform')
-    }
-
-    routeChangeNewQuiz(e) {
-        this.props.history.push('/newQuiz')
-    }
-
     onChangeBadgeTitle(e) {
-        this.setState({ title: e.target.value })
+        this.setState({ badgeTitle: e.target.value }, () => {
+            if(this.props.onChange) {
+                this.props.onChange(this.state, this.props.index)
+            }
+        })
     }
 
-    onChangeBadgeId(e) {
-        this.setState({ id: e.target.value })
+    onChangeMinScore(e){
+        this.setState({minScore: e.target.value}, () => {
+            if(this.props.onChange) {
+                this.props.onChange(this.state, this.props.index)
+            }
+        })
     }
 
-    onChangeBadgeDesc(e) {
-        this.setState({ desc: e.target.value })
+    onChangeMaxTime(e){
+        this.setState({maxTime: e.target.value}, () => {
+            if(this.props.onChange) {
+                this.props.onChange(this.state, this.props.index)
+            }
+        })
+    }
+
+    onOption1Change(e){
+        if(this.state.optionTwoDisabled != ''){
+            this.setState({optionTwoDisabled : ''})
+        }
+        else{
+            this.setState({optionTwoDisabled : 'true'})
+        }
+
+        if(this.state.optionThreeDisabled != ''){
+            this.setState({optionThreeDisabled: ''})
+        }
+        else{
+            this.setState({optionThreeDisabled: 'true'})
+        }
+
+        if(this.state.badgeType != 1){
+            this.setState({badgeType: 1}, () => {
+                if(this.props.onChange) {
+                    this.props.onChange(this.state, this.props.index)
+                }
+            })
+        }
+    }
+
+    onOption2Change(e){
+        if(this.state.optionOneDisabled != ''){
+            this.setState({optionOneDisabled : ''})
+        }
+        else{
+            this.setState({optionOneDisabled : 'true'})
+        }
+
+        if(this.state.optionThreeDisabled != ''){
+            this.setState({optionThreeDisabled: ''})
+        }
+        else{
+            this.setState({optionThreeDisabled: 'true'})
+        }
+
+        if(this.state.badgeType != 2){
+            this.setState({badgeType: 2}, () => {
+                if(this.props.onChange) {
+                    this.props.onChange(this.state, this.props.index)
+                }
+            })
+        }
+
+    }
+
+    onOption3Change(e){
+        if(this.state.optionTwoDisabled != ''){
+            this.setState({optionTwoDisabled : ''})
+        }
+        else{
+            this.setState({optionTwoDisabled : 'true'})
+        }
+
+        if(this.state.optionOneDisabled != ''){
+            this.setState({optionOneDisabled: ''})
+        }
+        else{
+            this.setState({optionOneDisabled: 'true'})
+        }
+
+        if(this.state.badgeType != 3){
+            this.setState({badgeType: 3}, () => {
+                if(this.props.onChange) {
+                    this.props.onChange(this.state, this.props.index)
+                }
+            })
+        }
+    }
+
+    buildBadgeObject(){
+
+        console.log('badge title: ' + this.state.badgeTitle)
+        if(this.state.badgeType == 1){
+            console.log('badge type: beat min score')
+        }
+        else if(this.state.badgeType == 2){
+            console.log('badge type: beat max time')
+
+        }
+        else if(this.state.badgeType == 3){
+            console.log('badge type: perfect score')
+        }
+        else{
+            console.log('badge type: unknown')
+        }
+        console.log('min score: ' + this.state.minScore)
+        console.log('max time: ' + this.state.maxTime)
+        console.log('badge picture url: ' + this.state.badgePicture)
     }
 
     onSubmit(e) {
         e.preventDefault()
-
-        const badgeObject = {
-            title: this.state.title,
-            id: this.state.id
-        }
-
-        //axios.post
-
-        this.setState({
-            title: '',
-            id: ''
-        });
     }
+
+    handleFileChange = async event => {
+        const [file] = event.target.files;
+        if (!file) return;
+
+
+        const uploadedUrl = await uploadImage(file);
+        console.log(uploadedUrl)
+        this.setState({
+
+            badgePicture: uploadedUrl
+
+        }, () => {
+            if(this.props.onChange) {
+                this.props.onChange(this.state, this.props.index)
+            }
+        })
+
+    };
 
 
     render() {
@@ -72,46 +206,33 @@ export default class NewBadgeComponent extends Component {
             <Form onSubmit={this.onSubmit}>
                 <div class="medium">
                     <Form.Group controlId="Title">
-                        <Form.Label>Title:</Form.Label>
-                        <Form.Control type="text" value={this.state.title} onChange={this.onChangeBadgeTitle} />
+                        <Form.Label>Badge Title:</Form.Label>
+                        <Form.Control type="text" value={this.state.title} onChange={this.onChangeBadgeTitle} name="badgeTitle"/>
                     </Form.Group>
 
                     Select Badge Image:
-                    <div>
-                        <Button className="choose-file-button">
-                            Choose File
-                        </Button>
-                    </div>
-
+                    <Form.Control type="file" accept='image/*' onChange={this.handleFileChange} />
 
                     <div class="light">
                         <Form.Group controlId="BadgeCondition">
                             <div>
-                                <Form.Label>Select Badge Condition:</Form.Label>
+                                <Form.Label>Badge Condition:</Form.Label>
                                 <div>
-                                <select id="conditions" name="conditions">
-                                    <option value="blank">-------------------------------------------------------------------------------</option>
-                                    <option value="QuizTime">Complete Quiz in /TIME/</option>
-                                    <option value="QuizTime">Score at or above /PERCENT/</option>
-                                    <option value="Leaderboard>">Reach /POSITION/ on the Leaderboard</option>
-                                </select>
+                                    <Form.Check type='checkbox' label='Beat minimum score' onChange={this.onOption1Change} disabled={this.state.optionOneDisabled}></Form.Check>
+                                    <Form.Check type='checkbox' label='Beat minimum time' onChange={this.onOption2Change} disabled={this.state.optionTwoDisabled}></Form.Check>
+                                    <Form.Check type='checkbox'label='Earn perfect score' onChange={this.onOption3Change} disabled={this.state.optionThreeDisabled}></Form.Check>
                                 </div>
                             </div>
-                        </Form.Group>
-
-                        <Form.Group controlId="Description">
-                            <Form.Label>Description:</Form.Label>
-                            <Form.Control type="textarea" size="lg" value={this.state.desc} onChange={this.onChangePlatformDesc} />
+                            <Form.Label>Minimum Score:</Form.Label>
+                            <Form.Control type='number' disabled={this.state.optionOneDisabled} placeholder={this.state.minScore} onChange={this.onChangeMinScore} name="minScore"></Form.Control>
+                            <Form.Label>Minimum Time:</Form.Label>
+                            <Form.Control type='number' disabled={this.state.optionTwoDisabled} placeholder={this.state.maxTime} onChange={this.onChangeMaxTime} name="maxTime"></Form.Control>
                         </Form.Group>
                     </div>
 
                     <div class="text-right">
-                        <Button className='savebutton' type="submit" onClick={this.routeChangeNewQuiz}>
+                        <Button className='savebutton' type="submit" onClick={this.buildBadgeObject}>
                             Save
-                        </Button>
-
-                        <Button className='cancelbutton' variant="danger" onClick={this.routeChangeNewQuiz}>
-                            Cancel
                         </Button>
                     </div>
                 </div>
