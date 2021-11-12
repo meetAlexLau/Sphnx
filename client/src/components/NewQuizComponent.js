@@ -128,7 +128,7 @@ export default class NewQuizComponent extends Component {
         axios.post('/quizzes/createQuiz', quizObject)
             .then(res => console.log(res.data));
 
-        const newPath = ('/users/'+this.state.IDtoEdit)
+        
 
         var idsOfBadges = []
         let j = 0;
