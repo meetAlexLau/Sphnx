@@ -147,7 +147,7 @@ export default class Quiz extends Component {
 
     this.setState({ ResultActive: 1 })
 
-    let pointsScored = ((scoreResult / this.state.numberOfQuestion) * 100) * this.state.numberOfQuestion + (100 - (this.state.totalTime * 10))
+    let pointsScored = ( (((scoreResult / this.state.numberOfQuestion) * 100) * this.state.numberOfQuestion) + ( (15 - (this.state.totalTime / 1000) * 10) ) )
 
     let updatedUser = this.state.oldUser
     updatedUser.UserPoints = updatedUser.UserPoints + pointsScored
