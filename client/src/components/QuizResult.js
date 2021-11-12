@@ -11,7 +11,7 @@ export default class QuizResult extends Component{
         super(props);
         this.renderQuestions = this.renderQuestions.bind(this);
         this.routeHome = this.routeHome.bind(this);
-        this.routePlatform = this.routeHome.bind(this);
+        this.routePlatform = this.routePlatform.bind(this);
     }
     renderQuestions = () => {
         const q = [];
@@ -33,7 +33,8 @@ export default class QuizResult extends Component{
     }
 
     routePlatform(){
-        this.props.history.push('/platform');
+        console.log("platform Id is"+this.props.platformID)
+        this.props.history.push('/platform/'+this.props.platformID);
     }
     render(){
         return(
