@@ -13,32 +13,36 @@ export default class Platform extends Component {
 
   constructor(props) {
     super(props)
-
+    this.renderSubscribe = this.renderSubscribe.bind(this);
     this.clickNewQuiz = this.clickNewQuiz.bind(this)
 
     this.state = {
       isLoggedIn: sessionStorage.getItem('isLoggedIn'),
+      PlatformID: '',
       PlatformColor1: '#',
       PlatformColor2: '#',
-      PlatformName: ' Fans',
+      PlatformName: '',
       PlatformDesc: '',
       //PlatformPicture: `url("https://s3-alpha-sig.figma.com/img/00af/4155/29de19f4df8c2a4e41bb723fd95362e2?Expires=1635724800&Signature=PVA11EFkHmq5xt7imvZ89GSsvZWKadADlM0dqBwbYrXAd2UNVK0fssovN~EqEl0efWVO7s7ZPLhU5gEThaEZkWcCEvQ8SPWJ~EtEfErJAuZrxYZIMElKKdo4qq7~sys5s4CEbV1G-lR3Af2QBqz3vgMKUz2zaKZB3vQCE5VYtEVCtViB3J500MXdymu9Xj386~TrqvAXtNcEuWr5UD2nkwVjQjk9EWhNJ-zDOo1SxE71te15fXpJOda7GrFQAm8OAV0rbyRtAuzuXNnJC1GyULEaVJ5FYYZt4np~2jRXuP5HgDgoi1riOPDJG08IwUozIkiQ7WoCMXPilMEF6z5V3g__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA")`
       PlatformPicture: '',
       //PlatformPicture: `url(https://images.unsplash.com/photo-1494976388531-d1058494cdd8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8M3x8fGVufDB8fHx8&w=1000&q=80)`
       Quizzes: [],
+      Subscribed: '',
+      UserID: '',
       ScoreBoard: [],
       platformFeed: 1,
       lederboardScreen: 0,
       viewAllbadgeScreen: 0,
       Creator: ''
-
     }
 
   }
   componentWillUnmount() {
     sessionStorage.removeItem('current platform')
   }
-  componentDidMount() {
+  componentDidMount= async() => {
+    //get UserID to check if they are subscribed
+    let getUserID = sessionStorage.getItem('UserID');
     // Persistent Platform when using <back or forward> buttons
     let currentPlatform = sessionStorage.getItem('current platform');
     let PlatformID = currentPlatform ? currentPlatform : sessionStorage.getItem('previous platform')
@@ -48,11 +52,12 @@ export default class Platform extends Component {
       this.props.history.push('/')
     }
     else {
-      axios.get('http://localhost:4000/platforms/' + PlatformID)
+      await axios.get('http://localhost:4000/platforms/' + PlatformID)
         .then(res => {
-          console.log(sessionStorage.getItem('current platform'));
-          console.log('logging res', res);
+          //console.log(sessionStorage.getItem('current platform'));
+          //console.log('logging res', res);
           this.setState({
+            PlatformID: res.data.PlatformID,
             PlatformName: res.data.PlatformName,
             PlatformPicture: res.data.PlatformPicture,
             PlatformColor1: res.data.PlatformColor1,
@@ -62,8 +67,23 @@ export default class Platform extends Component {
             Creator: res.data.PlatformCreator,
           })
         })
-      this.getQuizzes(PlatformID);
+      this.getQuizzes(this.state.PlatformID);
+
+      //CHECK IF USER IS SUBSCRIBED
+      await axios.get('http://localhost:4000/users/UserID/'+ getUserID)
+        .then(res => {
+          
+          //x = get UserSubscribedPlatformArray, .find(PlatformID)
+          //if (x) {this.state.Subscribed = true} else {= false}
+          let subscribeFlag = res.data[0].UserSubscribedPlatformArray.find(id => id == PlatformID);   //flag = if user is subscribed
+          if(typeof subscribeFlag === 'undefined') subscribeFlag = false;
+          else subscribeFlag = true;
+          this.setState({
+            Subscribed: subscribeFlag
+          })
+        })
     }
+
   }
 
   routeChangeQuiz = (QuizID) => {
@@ -82,7 +102,7 @@ export default class Platform extends Component {
       .then(res => {
         plat = res.data;
       })
-
+    
     // iterate through and get all quizzes
     for (let i = 0; i < plat.PlatformQuizArray.length; i++) {
       try {
@@ -97,11 +117,78 @@ export default class Platform extends Component {
         console.log(err);
       }
     }
-    console.log(this.state.Quizzes);
+    //console.log(this.state.Quizzes);
   }
-
-  // Racecar Background
-  // `url("https://s3-alpha-sig.figma.com/img/00af/4155/29de19f4df8c2a4e41bb723fd95362e2?Expires=1635724800&Signature=PVA11EFkHmq5xt7imvZ89GSsvZWKadADlM0dqBwbYrXAd2UNVK0fssovN~EqEl0efWVO7s7ZPLhU5gEThaEZkWcCEvQ8SPWJ~EtEfErJAuZrxYZIMElKKdo4qq7~sys5s4CEbV1G-lR3Af2QBqz3vgMKUz2zaKZB3vQCE5VYtEVCtViB3J500MXdymu9Xj386~TrqvAXtNcEuWr5UD2nkwVjQjk9EWhNJ-zDOo1SxE71te15fXpJOda7GrFQAm8OAV0rbyRtAuzuXNnJC1GyULEaVJ5FYYZt4np~2jRXuP5HgDgoi1riOPDJG08IwUozIkiQ7WoCMXPilMEF6z5V3g__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA")`
+  renderSubscribe() {
+    if(document.getElementById('subscribe'))
+      if(this.state.Subscribed == true) {
+        document.getElementById('subscribe').innerHTML = 'unsubscribe';
+      }
+      else if(this.state.Subscribed == false) {
+        document.getElementById('subscribe').innerHTML = 'subscribe'
+      }
+  }
+  subscribeDisplay() {
+    if(this.state.Subscribed == true){
+      document.getElementById('subscribe').innerHTML = 'subscribe'
+      alert("You are now unsubscribed to " + this.state.PlatformName);
+    }
+    else if(this.state.Subscribed == false){
+      document.getElementById('subscribe').innerHTML = 'unsubscribe'
+      alert("You are now subscribed to " + this.state.PlatformName)
+    }
+  }
+  subscribeToPlatform= async() =>{
+    this.subscribeDisplay(); //change Un/Subscribed button
+    let getUserID = sessionStorage.getItem('UserID');
+    let PlatformID = this.state.PlatformID;
+    let plat, user;
+    await axios.get('http://localhost:4000/platforms/' + PlatformID)  //Get Platform Subscriber Array
+      .then(res => {
+        plat = res.data;
+      })
+    await axios.get('http://localhost:4000/users/UserID/' + getUserID) //Get User Subscribed Platform Array
+      .then(res => {
+        user = res.data[0];
+      })
+    
+    if(this.state.Subscribed == true){ //User is ALREADY SUBSCRIBED, they want to UNSUBSCRIBE
+      let i = plat.PlatformSubscriberArray.indexOf(plat.PlatformSubscriberArray.find(arr => arr.includes(user._id)));
+      plat.PlatformSubscriberArray[i][2] = false;
+      
+      //Updating User UserSubscribedPlatformArray
+      let tempUserSubPlatArr = user.UserSubscribedPlatformArray;
+      console.log(PlatformID);
+      user.UserSubscribedPlatformArray = tempUserSubPlatArr.filter(function(value) {
+        console.log(value);
+        return value !== PlatformID;  
+      });
+    }
+    else{   //User is NOT SUBSCRIBED, they want to SUBSCRIBE
+      let subscribedUser = [user._id, user.UserName, true]
+      if(plat.PlatformSubscriberArray.find(arr => arr.includes(user._id))){ //if is already in array but is not subscribed
+        let i = plat.PlatformSubscriberArray.indexOf(plat.PlatformSubscriberArray.find(arr => arr.includes(user._id)));
+        plat.PlatformSubscriberArray[i][2] = true;
+      }
+      else{
+        plat.PlatformSubscriberArray.push(subscribedUser);
+      }
+      user.UserSubscribedPlatformArray.push(PlatformID);
+    }
+    this.setState({
+        Subscribed: !this.state.Subscribed
+      })
+    //Updating Platform PlatformSubscriberArray
+    // [(userMongoId, username, points, timespentonplatform, isSubscribed)]
+    await axios.put('http://localhost:4000/platforms/updatePlatform/' + PlatformID, plat)
+      .then(res=> console.log("User Subscribe Arr:", res))
+      .catch(err=> console.log("User Subscribe Arr Err:", err));
+    
+    //Updating User UserSubscribedPlatformArray
+    await axios.put('http://localhost:4000/users/' + user._id, user)
+      .then(res=> console.log("User Subscribe Arr:", res))
+      .catch(err=> console.log("User Subscribe Arr Err:", err))
+  }
 
 
   onClickLeaderboard() {
@@ -139,8 +226,6 @@ export default class Platform extends Component {
 
 
   render() {
-    console.log(this.state)
-
     //
     //Quiz grid
     let quizs = this.state.Quizzes?.map((quiz, i) => (
@@ -154,13 +239,13 @@ export default class Platform extends Component {
       </Col>
 
     ))
-    console.log(quizs);
+    //console.log(quizs);
     let rendquizs = [];
     while (quizs.length > 0) {        //splice the array of platforms into groups of 4
       let chunk = quizs.splice(0, 4);
       rendquizs.push(chunk)
     }
-    console.log(rendquizs)
+    //console.log(rendquizs)
     for (var j = 0; j < rendquizs.length; j++) {          //each chunk is a group of 4, surround with <Row>
       rendquizs[j] = <Row> {rendquizs[j]} </Row>
     }
@@ -201,7 +286,18 @@ export default class Platform extends Component {
 
                 <Col >
 
-                  <Row className="d-flex justify-content-end"><Link to={"/"} className="platform-right-button" style={{ backgroundColor: "#E79696" }}>unsubscribe</Link></Row>
+                  <Row className="d-flex justify-content-end">
+                    <Button id = "subscribe"
+                          to={"/"}
+                          onClick = {() => this.subscribeToPlatform()}
+                          className="platform-right-button"
+                          style={{ backgroundColor: "#E79696" }}
+                          >
+                          {
+                            this.renderSubscribe()
+                          }
+                    </Button>
+                  </Row>
                   <Row className="d-flex justify-content-end"><Button onClick={this.clickNewQuiz} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Quiz</Button></Row>
                   <Row className="d-flex justify-content-end"><Link to={"/newPost"} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Post</Link></Row>
 

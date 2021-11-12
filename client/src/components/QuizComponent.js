@@ -237,9 +237,6 @@ export default class Quiz extends Component {
   render() {
     return (
       <div>
-
-
-
         {!this.state.ResultActive ? <div key={this.state.indexOfQuestion}>
 
           <div style={{ backgroundImage: `url(${this.state.backgroundPic})` }} className="background" >

@@ -59,6 +59,7 @@ router.route('/:id').put((req, res) => {
           object.UserBackgroundPicture = req.body.UserBackgroundPicture;
           object.UserBadgeArray = req.body.UserBadgeArray;
           object.UserPlatformArray = req.body.UserPlatformArray;
+          object.UserSubscribedPlatformArray = req.body.UserSubscribedPlatformArray;
           object.UserFriendsArray = req.body.UserFriendsArray;
           object.UserPoints = req.body.UserPoints;
           object.UserCoints = req.body.UserCoints;
