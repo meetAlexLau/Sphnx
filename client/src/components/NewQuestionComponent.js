@@ -8,7 +8,7 @@ import { Container } from "react-bootstrap";
 
 export default class NewQuestionComponent extends Component {
     constructor(props) {
-        super(props)
+        super(props) 
 
         // Setting up routes
         this.routeChangePlatform = this.routeChangePlatform.bind(this);

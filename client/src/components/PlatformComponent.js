@@ -6,12 +6,16 @@ import { Form, Col, Row, Container, Button } from "react-bootstrap";
 import axios from 'axios';
 import Card from 'react-bootstrap/Card';
 
+import PlatformLeaderboardComponent from "./PlatformLeaderboardComponent";
+
 
 export default class Platform extends Component {
 
   constructor(props) {
     super(props)
     this.renderSubscribe = this.renderSubscribe.bind(this);
+    this.clickNewQuiz = this.clickNewQuiz.bind(this)
+
     this.state = {
       isLoggedIn: sessionStorage.getItem('isLoggedIn'),
       PlatformID: '',
@@ -24,7 +28,12 @@ export default class Platform extends Component {
       //PlatformPicture: `url(https://images.unsplash.com/photo-1494976388531-d1058494cdd8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8M3x8fGVufDB8fHx8&w=1000&q=80)`
       Quizzes: [],
       Subscribed: '',
-      UserID: ''
+      UserID: '',
+      ScoreBoard: [],
+      platformFeed: 1,
+      lederboardScreen: 0,
+      viewAllbadgeScreen: 0,
+      Creator: ''
     }
 
   }
@@ -54,6 +63,8 @@ export default class Platform extends Component {
             PlatformColor1: res.data.PlatformColor1,
             PlatformColor2: res.data.PlatformColor2,
             PlatformDesc: res.data.PlatformDesc,
+            ScoreBoard: res.data.ScoreBoard,
+            Creator: res.data.PlatformCreator,
           })
         })
       this.getQuizzes(this.state.PlatformID);
@@ -179,6 +190,41 @@ export default class Platform extends Component {
       .catch(err=> console.log("User Subscribe Arr Err:", err))
   }
 
+
+  onClickLeaderboard() {
+    this.setState({
+      platformFeed: 0,
+      lederboardScreen: 1,
+      viewAllbadgeScreen: 0
+    })
+  }
+  onClickPlatformHome() {
+    this.setState({
+      platformFeed: 1,
+      lederboardScreen: 0,
+      viewAllbadgeScreen: 0
+    })
+  }
+  onClickViewAllbadges() {
+    this.setState({
+      platformFeed: 0,
+      lederboardScreen: 0,
+      viewAllbadgeScreen: 1
+    })
+  }
+
+  clickNewQuiz(){
+    console.log(this.state.Creator)
+    console.log(sessionStorage.getItem('UserID'))
+    if(this.state.Creator == sessionStorage.getItem('UserID')){
+      this.props.history.push('/newQuiz')
+    }
+    else{
+      
+    }
+  }
+
+
   render() {
     //
     //Quiz grid
@@ -217,11 +263,19 @@ export default class Platform extends Component {
             <Container>
               <Row>
                 <Col>
-                  <Row><Link to={"/platformLeaderboard"} className="platform-left-button">Leaderboard</Link>
+                  <Row>
+                    <button className="platform-left-button" onClick={() => this.onClickLeaderboard()}>
+                      Leaderboard
+                    </button>
+
+
                     <Link to={"/home"} className="platform-home-button"></Link>
                   </Row>
                   <Row><Link to={"/platformBadge"} className="platform-left-button">View All Badges</Link>
-                    <Link to={"/home"} className="platform-left-button">Platform Home</Link>
+
+                    <button className="platform-left-button" onClick={() => this.onClickPlatformHome()}>
+                      Platform Home
+                    </button>
                   </Row>
                 </Col>
 
@@ -244,7 +298,7 @@ export default class Platform extends Component {
                           }
                     </Button>
                   </Row>
-                  <Row className="d-flex justify-content-end"><Link to={"/newQuiz"} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Quiz</Link></Row>
+                  <Row className="d-flex justify-content-end"><Button onClick={this.clickNewQuiz} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Quiz</Button></Row>
                   <Row className="d-flex justify-content-end"><Link to={"/newPost"} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Post</Link></Row>
 
                 </Col>
@@ -340,16 +394,21 @@ export default class Platform extends Component {
 
 
           </Container>
-*/}
+          */}
 
           {/* quiz feed for platform in style of home feeds */}
 
-          <div className="platformQuizFeed" >
-            { 
+
+          {this.state.platformFeed ?
+            <div className="platformQuizFeed" >{
               rendquizs
             }
-          </div>
+            </div>
+            :""
+          }
 
+
+          {this.state.lederboardScreen ? <PlatformLeaderboardComponent ScoreBoard={this.state.ScoreBoard} />:""}
 
         </div>
       </div>

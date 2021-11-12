@@ -12,6 +12,7 @@ let Quiz = new Schema({
         type: String
     },
     QuizQuestions:[],
+    QuizBadgeArray:[],
     QuizAnswerKey:{ type : Array , "default" : [] },
     PlatformID: {
         type: String
