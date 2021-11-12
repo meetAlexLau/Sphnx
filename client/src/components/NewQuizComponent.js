@@ -49,6 +49,7 @@ export default class NewQuizComponent extends Component {
 
 
         this.eventhandler = this.eventhandler.bind(this);
+        this.eventhandler2 = this.eventhandler2.bind(this);
 
 
         // Setting up state
@@ -124,6 +125,29 @@ export default class NewQuizComponent extends Component {
             PlatformID: PlatformID
         };
 
+
+        var idsOfBadges = []
+        let j = 0;
+        while(this.state.QuizBadgeArray[j]){
+            const newBadgeObject = {
+                BadgeTitle: this.state.QuizBadgeArray[j].badgeTitle,
+                BadgePicture: this.state.QuizBadgeArray[j].badgePicture,
+                BadgeType: this.state.QuizBadgeArray[j].badgeType,
+                BadgeMinScore: this.state.QuizBadgeArray[j].minScore,
+                BadgeMaxTime: this.state.QuizBadgeArray[j].maxTime,
+            }
+
+            await axios.post('http://localhost:4000/badges/createBadge', newBadgeObject)
+                .then(res => {idsOfBadges.push(res.data)})
+            
+            j++
+        }
+
+
+
+    
+
+
         await axios.post('http://localhost:4000/quizzes/createQuiz', quizObject)
             .then(res => {newIDofQuiz=res.data});
 
@@ -135,7 +159,11 @@ export default class NewQuizComponent extends Component {
                 console.log('logging res', res);
                 let plat = res.data;
                 plat.PlatformQuizArray.push(newIDofQuiz);
-                plat.PlatformBadgeArray.push(newIDofBadge);
+                let k = 0;
+                while(idsOfBadges[k]){
+                    plat.PlatformBadgeArray.push(idsOfBadges[k])
+                    k++;
+                }
                 axios.put('http://localhost:4000/platforms/updatePlatform/' + PlatformID, plat).then(res => {})
             })  
 
@@ -154,6 +182,8 @@ export default class NewQuizComponent extends Component {
 
         this.props.history.push('/home')
         window.location.reload(false)
+        
+        
     }
 
 

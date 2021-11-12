@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-
+ 
 let Badge = new Schema({
 
     BadgeID: String,
@@ -11,3 +11,5 @@ let Badge = new Schema({
     BadgeType: Number
 
 })
+
+module.exports = mongoose.model('Badge', Badge)

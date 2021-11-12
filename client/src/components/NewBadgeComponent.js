@@ -58,7 +58,7 @@ export default class NewBadgeComponent extends Component {
     }
 
     onChangeBadgeTitle(e) {
-        this.setState({ title: e.target.value }, () => {
+        this.setState({ badgeTitle: e.target.value }, () => {
             if(this.props.onChange) {
                 this.props.onChange(this.state, this.props.index)
             }
@@ -66,11 +66,19 @@ export default class NewBadgeComponent extends Component {
     }
 
     onChangeMinScore(e){
-        this.setState({minScore: e.target.value})
+        this.setState({minScore: e.target.value}, () => {
+            if(this.props.onChange) {
+                this.props.onChange(this.state, this.props.index)
+            }
+        })
     }
 
     onChangeMaxTime(e){
-        this.setState({maxTime: e.target.value})
+        this.setState({maxTime: e.target.value}, () => {
+            if(this.props.onChange) {
+                this.props.onChange(this.state, this.props.index)
+            }
+        })
     }
 
     onOption1Change(e){
@@ -89,7 +97,11 @@ export default class NewBadgeComponent extends Component {
         }
 
         if(this.state.badgeType != 1){
-            this.setState({badgeType: 1})
+            this.setState({badgeType: 1}, () => {
+                if(this.props.onChange) {
+                    this.props.onChange(this.state, this.props.index)
+                }
+            })
         }
     }
 
@@ -109,7 +121,11 @@ export default class NewBadgeComponent extends Component {
         }
 
         if(this.state.badgeType != 2){
-            this.setState({badgeType: 2})
+            this.setState({badgeType: 2}, () => {
+                if(this.props.onChange) {
+                    this.props.onChange(this.state, this.props.index)
+                }
+            })
         }
 
     }
@@ -130,13 +146,17 @@ export default class NewBadgeComponent extends Component {
         }
 
         if(this.state.badgeType != 3){
-            this.setState({badgeType: 3})
+            this.setState({badgeType: 3}, () => {
+                if(this.props.onChange) {
+                    this.props.onChange(this.state, this.props.index)
+                }
+            })
         }
     }
 
     buildBadgeObject(){
 
-        console.log('badge title: ' + this.state.title)
+        console.log('badge title: ' + this.state.badgeTitle)
         if(this.state.badgeType == 1){
             console.log('badge type: beat min score')
         }
@@ -170,6 +190,10 @@ export default class NewBadgeComponent extends Component {
 
             badgePicture: uploadedUrl
 
+        }, () => {
+            if(this.props.onChange) {
+                this.props.onChange(this.state, this.props.index)
+            }
         })
 
     };
