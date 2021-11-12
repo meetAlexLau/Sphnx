@@ -39,23 +39,6 @@ export default class UserComponent extends Component{
         if(this.state.isLoggedIn !== "true"){
             this.props.history.push('/')
         }
-<<<<<<< HEAD
-            else{
-                axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
-                    .then(res => {
-                        let User = res.data[0];
-                        this.setState({
-                            UserName : User.UserName,
-                            UserPicture : User.UserPicture,
-                            UserPrimaryColor : User.UserPrimaryColor,
-                            UserSecondaryColor : User.UserSecondaryColor,
-                            UserBackgroundPicture : User.UserBackgroundPicture,
-                            UserPoints : User.UserPoints
-                        }) 
-                        console.log(this.state);
-                    })
-            }
-=======
         else{
             
             axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
@@ -73,7 +56,6 @@ export default class UserComponent extends Component{
                     this.renderPlatforms();
                 })
         }
->>>>>>> Build4
     }
 
     onClickNewPlatform(){

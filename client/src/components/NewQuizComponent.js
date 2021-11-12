@@ -68,16 +68,6 @@ export default class NewQuizComponent extends Component {
         if (this.state.isLoggedIn !== "true") {
             this.props.history.push('/')
         }
-<<<<<<< HEAD
-        else{
-            
-            axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
-             .then(res => {
-              let User = res.data[0];
-                this.setState({
-                    oldUser: User,
-                    IDtoEdit: User._id
-=======
         else {
 
             axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
@@ -87,7 +77,6 @@ export default class NewQuizComponent extends Component {
                         oldUser: User,
                         IDtoEdit: User._id
                     })
->>>>>>> Build4
                 })
         }
     }

@@ -72,14 +72,9 @@ export default class Quiz extends Component {
       let QuizID = currentQuiz ? currentQuiz : sessionStorage.getItem('previous quiz')
       sessionStorage.setItem('current quiz', sessionStorage.getItem('previous quiz'))
 
-<<<<<<< HEAD
-      //axios.get('http://localhost:4000/quizzes/6182b0b76ad37b02b34dd10e/')
-      axios.get('/quizzes/'+ QuizID)
-=======
 
       //axios.get('/quizzes/6182b0b76ad37b02b34dd10e/')
       await axios.get('/quizzes/' + QuizID)
->>>>>>> Build4
         .then(res => {
 
           const initUserAnswer = []
@@ -112,13 +107,9 @@ export default class Quiz extends Component {
           })
         })
 
-<<<<<<< HEAD
-        axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
-=======
 
 
       axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
->>>>>>> Build4
         .then(res => {
           let User = res.data[0]
           this.setState({
@@ -167,13 +158,11 @@ export default class Quiz extends Component {
       .then(res => console.log(res.data))
       .catch(err => console.log(err))
 
-<<<<<<< HEAD
     const newPath = ('/users/'+this.state.IDtoEdit)
         
         axios.put(newPath, updatedUser)
           .then(res => console.log(res.data))
           .catch(err => console.log(err))
-=======
 
     //update platform scoreboard-------------
     let updatedPlatform = this.state.oldPlatform
@@ -208,7 +197,6 @@ export default class Quiz extends Component {
 
     console.log("platoform name is " + this.state.platformName)
     console.log("platoform id is " + this.state.platformID)
->>>>>>> Build4
 
 
   }
