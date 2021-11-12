@@ -3,6 +3,8 @@ import React, { Component } from "react";
 import { Link } from 'react-router-dom';
 
 import { Form, Col, Row, Container, Button } from "react-bootstrap";
+import axios from "axios";
+import Card from 'react-bootstrap/Card';
 //import axios from 'axios';
 //import { SketchPicker } from 'react-color';
 
@@ -12,11 +14,66 @@ export default class MyBadge extends Component {
   constructor(props) {
     super(props)
 
+    this.state = {
+      Badges: [],
+    }
+  }
+
+  componentDidMount() {
+    this.getBadges();
+  }
+
+  getBadges = async () => {
+    let b = [];
+    let user;
+
+    // get userbadgearray from this user
+    await axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
+      .then(res => {
+        user = res.data[0];
+      })
+
+    // iterate through and get all badges
+    for (let i = 0; i < user.UserBadgeArray.length; i++) {
+      try {
+        await axios.get('http://localhost:4000/badges/' + user.UserBadgeArray[i])
+          .then(res => {
+            b.push(res.data);
+            this.setState({
+              Badges: this.state.Badges.concat([b[i]])
+            })
+          })
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    //console.log(this.state.Badges);
   }
 
   render() {
-    return (
 
+    let badges = this.state.Badges?.map((badge, i) => (
+      <Col key={i}>
+        <Card className='ml-auto activityCard'>
+          <Card.Img variant='top' className='activityCardImage' src={badge.BadgePicture}></Card.Img>
+          <Button className='activityCardButton' variant="primary">
+            {badge.BadgeTitle}
+          </Button>
+        </Card>
+      </Col>
+    ))
+
+    let rendbadges = [];
+    while (badges.length > 0) {
+      let chunk = badges.splice(0, 4);
+      rendbadges.push(chunk)
+    }
+
+    for (var j = 0; j < rendbadges.length; j++) {
+      rendbadges[j] = <Row> {rendbadges[j]} </Row>
+    }
+
+    return (
 
       <div class="background"  >
         <div class="badge-content">
@@ -27,7 +84,8 @@ export default class MyBadge extends Component {
             My badges
           </div>
 
-
+          {/* commenting out placeholder */}
+          {/*
           <Container>
             <Row>
               <Col>
@@ -39,7 +97,7 @@ export default class MyBadge extends Component {
               <Col>
                 <Row className="d-flex justify-content-center"><img style={{ "witdth": "100px", "height": "100px" }} src="https://www.pngmart.com/files/14/Golden-Ribbon-Badge-PNG.png" />
                 </Row>
-                <Row className="d-flex justify-content-center">Hat Trickr</Row>
+                <Row className="d-flex justify-content-center">Hat Trick</Row>
               </Col>
 
               <Col>
@@ -70,12 +128,13 @@ export default class MyBadge extends Component {
               </Col>
             </Row>
           </Container>
-
-
-
-
-
-
+*/}
+          {/* Dynamically populate with this user's earned badges */}
+          <div className="myBadgesFeed" >
+            {
+              rendbadges
+            }
+          </div>
 
         </div>
       </div>
