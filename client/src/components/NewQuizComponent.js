@@ -180,7 +180,8 @@ export default class NewQuizComponent extends Component {
         });
 
 
-        this.props.history.push('/home')
+        //this.props.history.push('/home')
+        this.props.history.push('/platform/'+PlatformID);
         window.location.reload(false)
         
         
