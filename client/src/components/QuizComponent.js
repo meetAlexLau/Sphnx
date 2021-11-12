@@ -191,7 +191,7 @@ export default class Quiz extends Component {
 
 
     console.log("platoform name is " + this.state.platformName)
-
+    console.log("platoform id is " + this.state.platformID)
 
 
   }

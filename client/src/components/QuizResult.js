@@ -32,10 +32,20 @@ export default class QuizResult extends Component{
         this.props.history.push('/home');
     }
 
+    /*
     routePlatform(){
         console.log("platform Id is"+this.props.platformID)
         this.props.history.push('/platform/'+this.props.platformID);
+    }*/
+
+
+    routePlatform() {
+        //should be  /profile/:userid
+        sessionStorage.setItem('current platform', this.props.platformID);
+        sessionStorage.setItem('previous platform', this.props.platformID);
+        this.props.history.push('/platform/' + this.props.platformID);
     }
+
     render(){
         return(
             <Container fluid className='light resultcontainer'>
