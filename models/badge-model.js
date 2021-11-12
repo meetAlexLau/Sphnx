@@ -12,4 +12,4 @@ let Badge = new Schema({
 
 })
 
-module.exports = mongoose.model('Badge', Badge)
+module.exports = mongoose.model('Badge', Badge);

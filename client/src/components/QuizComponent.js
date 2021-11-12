@@ -240,7 +240,7 @@ export default class Quiz extends Component {
 
 
 
-        {!this.state.ResultActive && <div key={this.state.indexOfQuestion}>
+        {!this.state.ResultActive ? <div key={this.state.indexOfQuestion}>
 
           <div style={{ backgroundImage: `url(${this.state.backgroundPic})` }} className="background" >
             <div className="quiz-content">
@@ -339,13 +339,13 @@ export default class Quiz extends Component {
           </div>
 
         </div>
-        }
+        :''}
 
         {
-          this.state.ResultActive && <QuizResult questionArray={this.state.questionArray} answerKeyArray={this.state.answerKeyArray}
+          this.state.ResultActive ? <QuizResult questionArray={this.state.questionArray} answerKeyArray={this.state.answerKeyArray}
             userAnswer={this.state.userAnswer} score={this.state.score}
             numberOfQuestion={this.state.numberOfQuestion} history={this.props.history} totalTime={this.state.totalTime}
-          />}
+          />:""}
 
 
       </div>
