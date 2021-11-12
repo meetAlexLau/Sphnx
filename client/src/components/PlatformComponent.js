@@ -66,6 +66,7 @@ export default class Platform extends Component {
           //if (x) {this.state.Subscribed = true} else {= false}
           let subscribeFlag = res.data[0].UserSubscribedPlatformArray.find(id => id == PlatformID);   //flag = if user is subscribed
           if(typeof subscribeFlag === 'undefined') subscribeFlag = false;
+          else subscribeFlag = true;
           this.setState({
             Subscribed: subscribeFlag
           })
@@ -139,19 +140,21 @@ export default class Platform extends Component {
       .then(res => {
         user = res.data[0];
       })
-    console.log("GETTING: " + user.UserSubscribedPlatformArray);
-    console.log("GETTING: " + plat.PlatformSubscriberArray); 
+    
     if(this.state.Subscribed == true){ //User is ALREADY SUBSCRIBED, they want to UNSUBSCRIBE
       let i = plat.PlatformSubscriberArray.indexOf(plat.PlatformSubscriberArray.find(arr => arr.includes(user._id)));
       plat.PlatformSubscriberArray[i][2] = false;
       
       //Updating User UserSubscribedPlatformArray
-      user.UserSubscribedPlatformArray = user.UserSubscribedPlatformArray.filter(function(value){
-        return value !== PlatformID;
+      let tempUserSubPlatArr = user.UserSubscribedPlatformArray;
+      console.log(PlatformID);
+      user.UserSubscribedPlatformArray = tempUserSubPlatArr.filter(function(value) {
+        console.log(value);
+        return value !== PlatformID;  
       });
     }
     else{   //User is NOT SUBSCRIBED, they want to SUBSCRIBE
-      let subscribedUser = [user._id, user.UserName, this.state.Subscribed]
+      let subscribedUser = [user._id, user.UserName, true]
       if(plat.PlatformSubscriberArray.find(arr => arr.includes(user._id))){ //if is already in array but is not subscribed
         let i = plat.PlatformSubscriberArray.indexOf(plat.PlatformSubscriberArray.find(arr => arr.includes(user._id)));
         plat.PlatformSubscriberArray[i][2] = true;
@@ -159,20 +162,18 @@ export default class Platform extends Component {
       else{
         plat.PlatformSubscriberArray.push(subscribedUser);
       }
+      user.UserSubscribedPlatformArray.push(PlatformID);
     }
     this.setState({
         Subscribed: !this.state.Subscribed
       })
     //Updating Platform PlatformSubscriberArray
     // [(userMongoId, username, points, timespentonplatform, isSubscribed)]
-    console.log(plat);
-    console.log(user);
     await axios.put('http://localhost:4000/platforms/updatePlatform/' + PlatformID, plat)
       .then(res=> console.log("User Subscribe Arr:", res))
       .catch(err=> console.log("User Subscribe Arr Err:", err));
     
     //Updating User UserSubscribedPlatformArray
-    user.UserSubscribedPlatformArray.push(PlatformID);
     await axios.put('http://localhost:4000/users/' + user._id, user)
       .then(res=> console.log("User Subscribe Arr:", res))
       .catch(err=> console.log("User Subscribe Arr Err:", err))
@@ -181,7 +182,6 @@ export default class Platform extends Component {
   render() {
     //
     //Quiz grid
-    
     let quizs = this.state.Quizzes?.map((quiz, i) => (
       <Col key={i}>
         <Card className='ml-auto activityCard'>
