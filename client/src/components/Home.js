@@ -20,6 +20,7 @@ export default class Home extends Component {
         this.routeChangePlatform = this.routeChangePlatform.bind(this);
         this.routeChangeQuiz = this.routeChangeQuiz.bind(this);
         this.renderPlatforms = this.renderPlatforms.bind(this);
+        this.renderSubscribePlatforms = this.renderSubscribePlatforms.bind(this);
         this.state = {
             isLoggedIn: sessionStorage.getItem('isLoggedIn'),
             UserID: '',
@@ -27,7 +28,8 @@ export default class Home extends Component {
             UserEmail: '',
             Platforms: [],
             Quizzes: [],
-            Users: []
+            Users: [],
+            UserSubscribedPlatformArray: []
         }
     }
     componentDidMount() {
@@ -40,15 +42,16 @@ export default class Home extends Component {
                     let User = res.data[0];
                     this.setState({
                         UserName: User.UserName,
-                        UserId: User.UserID,
-                        UserEmail: User.UserEmail
+                        UserID: User.UserID,
+                        UserEmail: User.UserEmail,
+                        UserSubscribedPlatformArray: User.UserSubscribedPlatformArray
                     });
+                    this.renderSubscribePlatforms();
                 })
                 .catch((err) => {
                     console.log(err);
                 })
             this.renderPlatforms();
-            this.renderQuizzes();
         }
     }
     routeChangeLogout() {
@@ -96,6 +99,7 @@ export default class Home extends Component {
         }
     }
 
+    /*
     renderQuizzes = async () => {
         let q = [];
         try {
@@ -112,7 +116,9 @@ export default class Home extends Component {
             console.log(err);
         }
     }
+    */
 
+    /*
     renderUsers = async () => {
         let u = [];
         try {
@@ -130,12 +136,24 @@ export default class Home extends Component {
             console.log(err);
         }
     }
+    */
 
-    renderSubscribePlatforms(){
-
+    renderSubscribePlatforms= async() =>{
+        let result = [];
+        let subplatforms = this.state.UserSubscribedPlatformArray;
+        for(let i =0; i < subplatforms.length; i++){
+            await axios.get('http://localhost:4000/platforms/' + subplatforms[i])
+                .then(res => {
+                    let p = res.data;
+                    let r = [p.PlatformName, p.PlatformID]
+                    result.push(r)
+                })
+        }
+        this.setState({
+            UserSubscribedPlatformArray: result
+        })
     }
     render() {
-        
         //Platform grid
         let plats = this.state.Platforms?.map((plat, i) => (        //map each platform to structure <Col>
             //<li key={i}>{plat.PlatformName}</li>
@@ -160,6 +178,17 @@ export default class Home extends Component {
         for (var j = 0; j < rendplats.length; j++) {          //each chunk is a group of 4, surround with <Row>
             rendplats[j] = <Row className='ml-auto mr-auto'> {rendplats[j]} </Row>
         }
+
+        let subplats = this.state.UserSubscribedPlatformArray?.map((plat, i) => (
+            
+            <Row key={i} className='subscriptionrow'>
+                <Button className='subscriptionbutton'onClick={() => this.routeChangePlatform(plat[1])} style={{textOverflow:'ellipsis'}}>
+                    <Form.Text className='subscriptions'>
+                        {plat[0]}
+                    </Form.Text>
+                </Button>
+            </Row>
+        ))
         //
         //Quiz grid
         /*
@@ -237,7 +266,7 @@ export default class Home extends Component {
                                         SUBSCRIPTIONS
                                     </Card>
                                 </Row>
-                                
+                                {subplats}
                             </Col>
                         </Row>
                     </Container>
