@@ -93,7 +93,7 @@ export default class Platform extends Component {
   }
 
   // get this platform's quizzes
-  getQuizzes = async (PlatformID) => {
+  /*getQuizzes = async (PlatformID) => {
     let q = [];
     let plat;
 
@@ -119,6 +119,7 @@ export default class Platform extends Component {
     }
     //console.log(this.state.Quizzes);
   }
+  */
   renderSubscribe() {
     if(document.getElementById('subscribe'))
       if(this.state.Subscribed == true) {

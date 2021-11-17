@@ -135,8 +135,8 @@ export default class Home extends Component {
         //Platform grid
         let plats = this.state.Platforms?.map((plat, i) => (        //map each platform to structure <Col>
             //<li key={i}>{plat.PlatformName}</li>
-            <Col key={i}>
-                <Card className='ml-auto activityCard'>
+            <Col key={i} className = 'ml-auto mr-auto' style={{maxWidth: '250px'}}>
+                <Card className='activityCard'>
                     <Card.Img variant='top' className='activityCardImage' src={plat.PlatformPicture}>
                     </Card.Img>
                     <Card.Title>
@@ -154,13 +154,13 @@ export default class Home extends Component {
             rendplats.push(chunk)
         }
         for (var j = 0; j < rendplats.length; j++) {          //each chunk is a group of 4, surround with <Row>
-            rendplats[j] = <Row> {rendplats[j]} </Row>
+            rendplats[j] = <Row className='ml-auto mr-auto'> {rendplats[j]} </Row>
         }
         //
         //Quiz grid
         let quizs = this.state.Quizzes?.map((quiz, i) => (
-            <Col key={i}>
-                <Card className='ml-auto activityCard'>
+            <Col key={i} className='ml-auto mr-auto' style={{maxWidth:'250px'}}>
+                <Card className='activityCard'>
                     <Card.Img variant='top' className='activityCardImage' src={quiz.QuizBackground}></Card.Img>
                     <Button className='activityCardButton' onClick={() => this.routeChangeQuiz(quiz._id)} variant="primary">
                         {quiz.QuizTitle}
@@ -201,48 +201,63 @@ export default class Home extends Component {
                         <SearchBar placeholder="Enter a platform name..." data={PlatData} />
                 </Row>
                 <Row className='mainFeed medium ml-auto mr-auto' style={{ alignContent: "center" }}>  {/* Home Container for Platform,Quiz,Profile */}
-                    <Container className='homecontainer'>
+                    <Container fluid className='homecontainer'>
                         <Row>
                             <Card className='ml-auto mr-auto'>
                                 Your News Feed
                             </Card>
                         </Row>
-                        <Row>
-                            <h2 className='ml-auto mr-auto'>
-                                Platforms For You
-                            </h2>
-                        </Row>
-                        {//Render Platforms
-                            rendplats
-                        }
-                        <Row>
-                            <h2 className='ml-auto mr-auto'>
-                                Quizzes For You
-                            </h2>
-                        </Row>
-                        {//Render Quizzes
-                            rendquizs
-                        }
-                        <Row>
-                            <h2 className='ml-auto mr-auto'>
-                                What Are Your Friends Up To?
-                            </h2>
-                        </Row>
-                        {//Render Users
+                        <Row className='medium' >
+                            <Col className='ml-auto mr-auto' style={{maxWidth: '100px', width:'100px'}}>
+                                <Card>
+                                    Platforms You Follow
+                                </Card>
+                            </Col>
+                            <Col className='ml-auto mr-auto medium'>
+                                <Row>
+                                    <h2 className='ml-auto mr-auto'>
+                                        Platforms For You
+                                    </h2>
+                                </Row>
+                                {//Render Platforms
+                                    rendplats
+                                }
+                                <Row>
+                                    <h2 className='ml-auto mr-auto'>
+                                        Quizzes For You
+                                    </h2>
+                                </Row>
+                                {//Render Quizzes
+                                    rendquizs
+                                }
+                                <Row>
+                                    <h2 className='ml-auto mr-auto'>
+                                        What Are Your Friends Up To?
+                                    </h2>
+                                </Row>
+                                {//Render Users
 
-                        }
-                        <Row>
-                            {/*
-                            <Button onClick={this.routeChangeQuiz} className ='marginspacing' variant="primary">
-                                Example Quiz
-                            </Button>
-                                    */
-                            }
-                        </Row>
-                        <Row>
-                            <Button onClick={this.routeChangeProfile} className='marginspacing' variant="primary">
-                                Example Profile
-                            </Button>
+                                }
+                                <Row>
+                                
+                                    {/*
+                                    <Button onClick={this.routeChangeQuiz} className ='marginspacing' variant="primary">
+                                        Example Quiz
+                                    </Button>
+                                            */
+                                    }
+                                </Row>
+                                <Row>
+                                    <Button onClick={this.routeChangeProfile} className='marginspacing' variant="primary">
+                                        Example Profile
+                                    </Button>
+                                </Row>
+                            </Col>
+                            <Col className='ml-auto mr-auto' style={{maxWidth: '100px', width:'100px'}}>
+                                <Card>
+                                    Trending Platforms
+                                </Card>
+                            </Col>
                         </Row>
                     </Container>
                 </Row>
