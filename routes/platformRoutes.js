@@ -44,7 +44,7 @@ router.route('/updatePlatform/:id').put((req, res) => {
       if(!object)
           res.status(404).send("Error Object not found")
       else  
-          object.PlatformActivityCardArray = req.body.PlatformActivityCardArray;
+          object.PlatformContentArray = req.body.PlatformContentArray;
           object.PlatformBadgeArray = req.body.PlatformBadgeArray;
           object.PlatformColor = req.body.PlatformColor;
           object.PlatformDesc = req.body.PlatformDesc;

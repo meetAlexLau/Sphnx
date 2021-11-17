@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 let Platform = new Schema({
 
-    PlatformActivityCardArray:{
+    PlatformContentArray:{
         type: Map,
         of: String
     },
