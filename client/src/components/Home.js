@@ -130,6 +130,10 @@ export default class Home extends Component {
             console.log(err);
         }
     }
+
+    renderSubscribePlatforms(){
+
+    }
     render() {
         
         //Platform grid
@@ -158,6 +162,7 @@ export default class Home extends Component {
         }
         //
         //Quiz grid
+        /*
         let quizs = this.state.Quizzes?.map((quiz, i) => (
             <Col key={i} className='ml-auto mr-auto' style={{maxWidth:'250px'}}>
                 <Card className='activityCard'>
@@ -177,6 +182,7 @@ export default class Home extends Component {
         for (var j = 0; j < rendquizs.length; j++) {          //each chunk is a group of 4, surround with <Row>
             rendquizs[j] = <Row> {rendquizs[j]} </Row>
         }
+        */
         return (
             <Container fluid className='sky containerrow'> {/* home container*/}
                 <Row className='medium marginspacing paddingspacing'> {/*Logout | Title | Profile */}
@@ -208,55 +214,30 @@ export default class Home extends Component {
                             </Card>
                         </Row>
                         <Row className='medium' >
-                            <Col className='ml-auto mr-auto' style={{maxWidth: '100px', width:'100px'}}>
-                                <Card>
-                                    Platforms You Follow
-                                </Card>
+                            <Col className='ml-auto mr-auto' style={{maxWidth: '150px', width:'150px'}}>
+                                <Row>
+                                    <Card>
+                                        TOP PLATFORMS
+                                    </Card>
+                                </Row>
                             </Col>
                             <Col className='ml-auto mr-auto medium'>
                                 <Row>
                                     <h2 className='ml-auto mr-auto'>
-                                        Platforms For You
+                                        PLATFORMS FOR YOU
                                     </h2>
                                 </Row>
                                 {//Render Platforms
                                     rendplats
                                 }
-                                <Row>
-                                    <h2 className='ml-auto mr-auto'>
-                                        Quizzes For You
-                                    </h2>
-                                </Row>
-                                {//Render Quizzes
-                                    rendquizs
-                                }
-                                <Row>
-                                    <h2 className='ml-auto mr-auto'>
-                                        What Are Your Friends Up To?
-                                    </h2>
-                                </Row>
-                                {//Render Users
-
-                                }
-                                <Row>
-                                
-                                    {/*
-                                    <Button onClick={this.routeChangeQuiz} className ='marginspacing' variant="primary">
-                                        Example Quiz
-                                    </Button>
-                                            */
-                                    }
-                                </Row>
-                                <Row>
-                                    <Button onClick={this.routeChangeProfile} className='marginspacing' variant="primary">
-                                        Example Profile
-                                    </Button>
-                                </Row>
                             </Col>
-                            <Col className='ml-auto mr-auto' style={{maxWidth: '100px', width:'100px'}}>
-                                <Card>
-                                    Trending Platforms
-                                </Card>
+                            <Col className='ml-auto mr-auto' style={{maxWidth: '150px', width:'150px'}}>
+                                <Row>
+                                    <Card>
+                                        SUBSCRIPTIONS
+                                    </Card>
+                                </Row>
+                                
                             </Col>
                         </Row>
                     </Container>
