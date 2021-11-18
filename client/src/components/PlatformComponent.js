@@ -7,7 +7,7 @@ import axios from 'axios';
 import Card from 'react-bootstrap/Card';
 
 import PlatformLeaderboardComponent from "./PlatformLeaderboardComponent";
-
+import PlatformBadgeComponent from "./PlatformBadgeComponent";
 
 export default class Platform extends Component {
 
@@ -272,7 +272,11 @@ export default class Platform extends Component {
 
                     <Link to={"/home"} className="platform-home-button"></Link>
                   </Row>
-                  <Row><Link to={"/platformBadge"} className="platform-left-button">View All Badges</Link>
+                  <Row>
+                  <button className="platform-left-button" onClick={() => this.onClickViewAllbadges()}>
+                  View All Badges
+                    </button>
+
 
                     <button className="platform-left-button" onClick={() => this.onClickPlatformHome()}>
                       Platform Home
@@ -410,7 +414,7 @@ export default class Platform extends Component {
 
 
           {this.state.lederboardScreen ? <PlatformLeaderboardComponent ScoreBoard={this.state.ScoreBoard} />:""}
-
+          {this.state.viewAllbadgeScreen ? <PlatformBadgeComponent />:""}
         </div>
       </div>
 
