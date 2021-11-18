@@ -54,6 +54,7 @@ router.route('/updatePlatform/:id').put((req, res) => {
           object.PlatformPicture = req.body.PlatformPicture;
           object.PlatformPoints = req.body.PlatformPoints;
           object.PlatformQuizArray = req.body.PlatformQuizArray;
+          object.PlatformPostArray = req.body.PlatformPostArray;
           object.PlatformSubscriberArray = req.body.PlatformSubscriberArray;
           object.ScoreBoard = req.body.ScoreBoard;
         

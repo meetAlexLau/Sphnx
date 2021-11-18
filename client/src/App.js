@@ -7,7 +7,7 @@ import SearchResult from './components/SearchResult';
 import NewBadgeComponent from './components/NewBadgeComponent';
 import NewPlatformComponent from './components/NewPlatformComponent';
 import NewQuizComponent from './components/NewQuizComponent';
-
+import NewPostComponent from './components/NewPostComponent';
 import UserComponent from './components/UserComponent';
 import EditUserComponent from './components/EditUserComponent';
 
@@ -32,6 +32,7 @@ class App extends Component{
                 <Route path='/newPlatform' exact component={NewPlatformComponent}/>
                 <Route path='/newBadge' exact component={NewBadgeComponent}/>
                 <Route path='/newQuiz' exact component={NewQuizComponent}/>
+                <Route path='/newPost' exact component={NewPostComponent}/>
                 <Route path="/myBadge" exact component={MyBadgeComponent} />
                 <Route path="/platformBadge" exact component={PlatformBadgeComponent} />
                 <Route path='/platformLeaderboard' exact component={PlatformLeaderboardComponent}/>

@@ -15,6 +15,7 @@ export default class Platform extends Component {
     super(props)
     this.renderSubscribe = this.renderSubscribe.bind(this);
     this.clickNewQuiz = this.clickNewQuiz.bind(this)
+    this.clickNewPost = this.clickNewPost.bind(this)
 
     this.state = {
       isLoggedIn: sessionStorage.getItem('isLoggedIn'),
@@ -225,6 +226,17 @@ export default class Platform extends Component {
     }
   }
 
+  clickNewPost(){
+    console.log(this.state.Creator)
+    console.log(sessionStorage.getItem('UserID'))
+    if(this.state.Creator == sessionStorage.getItem('UserID')){
+      this.props.history.push('/newPost')
+    }
+    else{
+      
+    }
+  }
+
 
   render() {
     //
@@ -304,8 +316,8 @@ export default class Platform extends Component {
                     </Button>
                   </Row>
                   <Row className="d-flex justify-content-end"><Button onClick={this.clickNewQuiz} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Quiz</Button></Row>
-                  <Row className="d-flex justify-content-end"><Link to={"/newPost"} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Post</Link></Row>
-
+                  <Row className="d-flex justify-content-end"><Button onClick={this.clickNewPost} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Post</Button></Row>
+                  
                 </Col>
               </Row>
 
