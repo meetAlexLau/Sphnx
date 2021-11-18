@@ -118,7 +118,7 @@ export default class Login extends Component{
                             What is Sphnx?
                         </Card>
                         <Card body>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        Sphnx is the exciting new place to test your knowledge and compete with your friends! Join and create platforms about any subject you want, try your best on challenging quizzes and earn points and badges to secure your place on the leaderboard. Tell your friends to check out Sphnx today! To get started, log in with your Google account.
                         </Card>
                     </Col>
                 </Row>
