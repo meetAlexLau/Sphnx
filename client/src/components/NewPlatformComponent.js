@@ -133,6 +133,7 @@ export default class NewPlatformComponent extends Component {
             PlatformPicture: this.state.PlatformPicture,
             PlatformID: this.state.id,
             PlatformQuizArray: [],
+            PlatformPostArray: [],
             PlatformCreator: sessionStorage.getItem('UserID'),
             PlatformSubscriberArray: []
         }
