@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 let Platform = new Schema({
 
-    PlatformActivityCardArray:{
+    PlatformContentArray:{
         type: Map,
         of: String
     },
@@ -53,8 +53,18 @@ let Platform = new Schema({
     },
 
     PlatformQuizArray: [],
+    PlatformPostArray: [],
+    
 
-    PlatformSubscriberArray: []
+    PlatformCreator: {
+        type: String
+    },
+
+    PlatformBadgeArray: [],
+
+    PlatformSubscriberArray: [],
+
+    ScoreBoard: []
 })
 
 module.exports = mongoose.model('Platform', Platform);

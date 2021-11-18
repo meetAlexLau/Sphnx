@@ -11,7 +11,7 @@ export default class QuizResult extends Component{
         super(props);
         this.renderQuestions = this.renderQuestions.bind(this);
         this.routeHome = this.routeHome.bind(this);
-        this.routePlatform = this.routeHome.bind(this);
+        this.routePlatform = this.routePlatform.bind(this);
     }
     renderQuestions = () => {
         const q = [];
@@ -32,9 +32,20 @@ export default class QuizResult extends Component{
         this.props.history.push('/home');
     }
 
+    /*
     routePlatform(){
-        this.props.history.push('/platform');
+        console.log("platform Id is"+this.props.platformID)
+        this.props.history.push('/platform/'+this.props.platformID);
+    }*/
+
+
+    routePlatform() {
+        //should be  /profile/:userid
+        sessionStorage.setItem('current platform', this.props.platformID);
+        sessionStorage.setItem('previous platform', this.props.platformID);
+        this.props.history.push('/platform/' + this.props.platformID);
     }
+
     render(){
         return(
             <Container fluid className='light resultcontainer'>
@@ -59,7 +70,7 @@ export default class QuizResult extends Component{
                     </Row>
                     <Row className='justify-content-center'>
                         <Card> {/*Obtain Score and Badges Earned */}
-                            Score: {this.props.score}/{this.props.numberOfQuestion}     Badge Earned:[  ]
+                            Score: {this.props.score}/{this.props.numberOfQuestion} 
                         </Card>
                     </Row>
                 </Container>

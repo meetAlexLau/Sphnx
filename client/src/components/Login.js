@@ -7,6 +7,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
+import Image from 'react-bootstrap/Image'
 import '../css/App.css';
 export default class Login extends Component{
     constructor(props){
@@ -37,7 +38,6 @@ export default class Login extends Component{
         setTimeout(refreshToken, refreshTiming);
     }
     responseGoogle = (resp) => {
-        console.log(resp);
         let profile = resp.profileObj;
         const newUser = {
             UserID: profile.googleId + "",
@@ -98,7 +98,7 @@ export default class Login extends Component{
                     <Col className='medium'>
                         <Container className = 'light loginleft'>
                             <Card body className='light loginSphnx'>
-                                Sphnx 
+                                <Image src={'https://res.cloudinary.com/sphnx/image/upload/v1637208733/spnhxLogoTransparent_csgze4.png'} fluid />
                             </Card>
                             <br/>
                             <Card className='light'>
@@ -119,7 +119,7 @@ export default class Login extends Component{
                             What is Sphnx?
                         </Card>
                         <Card body>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        Sphnx is the exciting new place to test your knowledge and compete with your friends!<br></br><br></br>Join and create platforms about any subject you want, try your best on challenging quizzes and earn points and badges to secure your place on the leaderboard.<br></br><br></br>Tell your friends to check out Sphnx today!<br></br><br></br><br></br>To get started, log in with your Google account.
                         </Card>
                     </Col>
                 </Row>

@@ -18,6 +18,7 @@ router.route('/createPlatform').post(function(req, res) {
         });
 });
 
+// get all platforms
 router.route('/').get(function(req, res) {
     platformSchema.find(function(err, platforms){
         if(err) {
@@ -29,12 +30,12 @@ router.route('/').get(function(req, res) {
     })
 })
 
+// get a platform by id
 router.route('/:id').get(function(req, res) {
     let id = req.params.id;
     platformSchema.findById(id, function(err, object) {
         res.json(object);
     });
-    console.log(res);
 });
 
 //update platform
@@ -43,7 +44,7 @@ router.route('/updatePlatform/:id').put((req, res) => {
       if(!object)
           res.status(404).send("Error Object not found")
       else  
-          object.PlatformActivityCardArray = req.body.PlatformActivityCardArray;
+          object.PlatformContentArray = req.body.PlatformContentArray;
           object.PlatformBadgeArray = req.body.PlatformBadgeArray;
           object.PlatformColor = req.body.PlatformColor;
           object.PlatformDesc = req.body.PlatformDesc;
@@ -53,8 +54,9 @@ router.route('/updatePlatform/:id').put((req, res) => {
           object.PlatformPicture = req.body.PlatformPicture;
           object.PlatformPoints = req.body.PlatformPoints;
           object.PlatformQuizArray = req.body.PlatformQuizArray;
-          object.platformSubscriberArray = req.body.PlatformQuizArray;
-        
+          object.PlatformPostArray = req.body.PlatformPostArray;
+          object.PlatformSubscriberArray = req.body.PlatformSubscriberArray;
+          object.ScoreBoard = req.body.ScoreBoard;
         
           object.save()
             .then(object => {

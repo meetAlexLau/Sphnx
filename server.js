@@ -25,11 +25,15 @@ const usersRouter = require('./routes/userRoutes');
 const platformsRouter = require('./routes/platformRoutes');
 const quizRouter = require('./routes/quizRoutes');
 const questionsRouter = require('./routes/questionRoutes');
+const badgesRouter = require('./routes/badgeRoutes');
+const postRouter = require('./routes/postRoutes');
 
 app.use('/users', usersRouter);
 app.use('/platforms', platformsRouter);
 app.use('/quizzes', quizRouter);
+app.use('/posts', postRouter);
 app.use('/questions', questionsRouter);
+app.use('/badges', badgesRouter);
 
 app.use(express.static(path.resolve(__dirname, "client", "build")))
 

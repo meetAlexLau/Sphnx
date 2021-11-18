@@ -49,7 +49,7 @@
   }
 
   .activityCard{
-    width: 100%;
+    width: 250px;
     height: 250px;
     outline: 2px solid black;
     align-items: center;
@@ -67,4 +67,25 @@
     max-width: auto;
     height: 150px;
     object-fit: cover;
+  }
+
+  .subscriptionrow{
+    margin-top: 8px;
+  }
+
+  .subscriptionbutton{
+    background: #E7C496;
+    border: 1px solid black;
+    color: black;
+    font-size: 20px;
+  }
+  .subscriptionbutton:hover, .subscriptionbutton:focus{
+    background: #D4AC67;
+  }
+  .subscriptions{
+    width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
   }

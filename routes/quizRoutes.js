@@ -18,8 +18,7 @@ let quizSchema = require('../models/quiz-model');
         });
 });
 
-//get all quiz
-
+//get all quizzes
 router.route('/').get((req, res) => {
     quizSchema.find((error, data) => {
       if (error) {
@@ -31,8 +30,7 @@ router.route('/').get((req, res) => {
   })
 
 
-//fetch quiz info
-
+//fetch quiz info (get quiz by id)
 router.route('/:id').get(function(req, res) {
     let id = req.params.id;
     quizSchema.findById(id, function(err, object) {

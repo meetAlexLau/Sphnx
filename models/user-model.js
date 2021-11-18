@@ -22,10 +22,7 @@ let UserSchema = new Schema({
         type: String
     },
 
-    UserBadgeArray: {
-        type: Map,
-        of: String
-    },
+    UserBadgeArray: [],
     
     UserPlatformArray: [],
 
