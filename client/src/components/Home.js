@@ -11,6 +11,7 @@ import '../css/Home.css';
 import axios from 'axios';
 import SearchBar from "../components/SearchBar"
 import PlatData from "../Data.json"
+import Image from 'react-bootstrap/Image'
 
 export default class Home extends Component {
     constructor(props) {
@@ -223,9 +224,9 @@ export default class Home extends Component {
                     >
                     </GoogleLogout>
                     <Card body className='ml-auto' style={{ width: "25%", textAlign: 'center', fontSize: '25px' }}>
-                        Sphnx
+                        <Image src={'https://res.cloudinary.com/sphnx/image/upload/v1637208733/spnhxLogoTransparent_csgze4.png'} fluid />
                         <p>
-                            Welcome, [{this.state.UserName}]
+                            Welcome, {this.state.UserName}!
                         </p>
                     </Card>
                     <Button className='ml-auto gray' onClick={this.routeChangeProfile} variant="primary">

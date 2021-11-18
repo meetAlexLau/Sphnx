@@ -7,6 +7,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
+import Image from 'react-bootstrap/Image'
 import '../css/App.css';
 export default class Login extends Component{
     constructor(props){
@@ -97,7 +98,7 @@ export default class Login extends Component{
                     <Col className='medium'>
                         <Container className = 'light loginleft'>
                             <Card body className='light loginSphnx'>
-                                Sphnx 
+                                <Image src={'https://res.cloudinary.com/sphnx/image/upload/v1637208733/spnhxLogoTransparent_csgze4.png'} fluid />
                             </Card>
                             <br/>
                             <Card className='light'>
