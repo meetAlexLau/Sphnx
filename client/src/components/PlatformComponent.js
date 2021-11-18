@@ -96,9 +96,9 @@ export default class Platform extends Component {
   }
 
   routeChangePost = (PostID) => {
-    sessionStorage.setItem('current quiz', PostID);
-    sessionStorage.setItem('previous quiz', PostID);
-    this.props.history.push('/quiz/' + PostID);
+    sessionStorage.setItem('current post', PostID);
+    sessionStorage.setItem('previous post', PostID);
+    this.props.history.push('/post/' + PostID);
   }
 
   // get this platform's quizzes

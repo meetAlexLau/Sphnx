@@ -85,3 +85,7 @@
   option {
     direction: ltr;
   }
+  
+  div {
+    white-space: pre-wrap;
+  }

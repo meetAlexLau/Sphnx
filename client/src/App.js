@@ -16,7 +16,7 @@ import PlatformBadgeComponent from './components/PlatformBadgeComponent';
 import PlatformLeaderboardComponent from './components/PlatformLeaderboardComponent';
 import PlatformComponent from './components/PlatformComponent';
 import QuizComponent from './components/QuizComponent';
-
+import PostComponent from './components/PostComponent';
 
 class App extends Component{
 
@@ -38,6 +38,7 @@ class App extends Component{
                 <Route path='/platformLeaderboard' exact component={PlatformLeaderboardComponent}/>
                 <Route path='/platform/:id' exact component={PlatformComponent}/>
                 <Route path='/quiz/:id' exact component={QuizComponent}/>
+                <Route path='/post/:id' exact component={PostComponent}/>
                 <Route path='/QuizResult' exact component={QuizResult} />
             </Router>
         )

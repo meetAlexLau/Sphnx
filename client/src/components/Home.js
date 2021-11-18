@@ -20,6 +20,7 @@ export default class Home extends Component {
         this.routeChangeProfile = this.routeChangeProfile.bind(this);
         this.routeChangePlatform = this.routeChangePlatform.bind(this);
         this.routeChangeQuiz = this.routeChangeQuiz.bind(this);
+        this.routeChangePost = this.routeChangePost.bind(this);
         this.renderPlatforms = this.renderPlatforms.bind(this);
         this.renderSubscribePlatforms = this.renderSubscribePlatforms.bind(this);
         this.state = {
@@ -75,6 +76,12 @@ export default class Home extends Component {
         sessionStorage.setItem('current quiz', QuizID);
         sessionStorage.setItem('previous quiz', QuizID);
         this.props.history.push('/quiz/' + QuizID);
+    }
+    routeChangePost = (PostID) => {
+        //should be  /profile/:userid
+        sessionStorage.setItem('current post', PostID);
+        sessionStorage.setItem('previous post', PostID);
+        this.props.history.push('/post/' + PostID);
     }
 
     logout = (response) => {

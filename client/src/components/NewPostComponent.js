@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import { Container } from "react-bootstrap";
+
 import '../App.css';
 
 const NAME_OF_UPLOAD_PRESET = "sphnxPreset";
@@ -153,7 +154,14 @@ export default class NewPostComponent extends Component {
                         <div class="light">
                             <Form.Group controlId="Description">
                                 <Form.Label>Description:</Form.Label>
+                                {/*
                                 <Form.Control type="textarea" size="lg" value={this.state.desc} onChange={this.onChangePostDesc} />
+                                <textarea value={this.state.desc} onChange={this.onChangePostDesc} />
+                                */}
+                                
+                                <Form.Control as="textarea" rows={3} value={this.state.desc} onChange={this.onChangePostDesc}/>
+                               
+
                             </Form.Group>
                         </div>
 
