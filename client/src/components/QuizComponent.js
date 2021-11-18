@@ -45,6 +45,7 @@ export default class Quiz extends Component {
       answerKeyArray: [],
       numberOfQuestion: '',
       userAnswer: [],
+      badgeArray:[],
       indexOfQuestion: 0,
       titleOfQuestion: '',
       submitActive: 0,
@@ -90,8 +91,8 @@ export default class Quiz extends Component {
             answerKeyArray: res.data.QuizAnswerKey,
             numberOfQuestion: res.data.QuizQuestions.length,
             userAnswer: initUserAnswer,
-            platformID: res.data.PlatformID
-
+            platformID: res.data.PlatformID,
+            badgeArray: res.data.QuizBadgeArray,
           })
         })
 
@@ -149,9 +150,54 @@ export default class Quiz extends Component {
 
     let pointsScored = ( (((scoreResult / this.state.numberOfQuestion) * 100) * this.state.numberOfQuestion) + ( (15 - (this.state.totalTime / 1000) * 10) ) )
 
+    var badgesWon = []
+    var j = 0;
+    while(this.state.badgeArray[j]){
+
+      let currentBadge = this.state.badgeArray[j]
+      if(currentBadge.badgeType == 1){
+
+        if(scoreResult >= parseInt(currentBadge.minScore)){
+          alert("You have won the badge: '" + currentBadge.badgeTitle + "' for beating the score of " + currentBadge.minScore + '!')
+          console.log("You have won the badge: '" + currentBadge.badgeTitle + "' for beating the score of " + currentBadge.minScore + '!')
+          badgesWon.push(currentBadge.badgeID)
+        }
+
+      }
+      else if(currentBadge.badgeType == 2){
+
+        if(totalTime <= parseInt(currentBadge.maxTime)){
+          alert("You have won the badge: '" + currentBadge.badgeTitle + "' for beating the time of " + currentBadge.maxTime + '!')
+          console.log("You have won the badge: '" + currentBadge.badgeTitle + "' for beating the time of " + currentBadge.maxTime + '!')
+          badgesWon.push(currentBadge.badgeID)
+        }
+      }
+      else if(currentBadge.badgeType == 3){
+
+        if(scoreResult == this.state.numberOfQuestion){
+          alert("You have won the badge: '"+ currentBadge.badgeTitle + "' for getting a perfect score!")
+          console.log("You have won the badge: '"+ currentBadge.badgeTitle + "' for getting a perfect score!")
+          badgesWon.push(currentBadge.badgeID)
+        }
+      }
+
+      j++
+
+    }
+
     let updatedUser = this.state.oldUser
     updatedUser.UserPoints = updatedUser.UserPoints + pointsScored
+    var k = 0;
+    while(badgesWon[k]){
+      if(updatedUser.UserBadgeArray.includes(badgesWon[k])){
 
+      }
+      else{
+        updatedUser.UserBadgeArray.push(badgesWon[k])
+      }
+      k++
+    }
+    
     const newPath = ('http://localhost:4000/users/' + this.state.IDtoEdit)
 
     axios.put(newPath, updatedUser)

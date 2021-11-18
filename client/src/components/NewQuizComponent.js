@@ -115,18 +115,8 @@ export default class NewQuizComponent extends Component {
         let PlatformID = currentPlatform ? currentPlatform : sessionStorage.getItem('previous platform')
         sessionStorage.setItem('current platform', sessionStorage.getItem('previous platform'))
 
-        const quizObject = {
-            QuizTitle: this.state.title,
-            QuizID: this.state.id,
-            QuizBackground: this.state.backgroundPic,
-            QuizQuestions: this.state.questionArray,
-            QuizAnswerKey: answer,
-            QuizBadgeArray: this.state.QuizBadgeArray,
-            PlatformID: PlatformID
-        };
-
-
         var idsOfBadges = []
+        var idOfNewBadge = ''
         let j = 0;
         while(this.state.QuizBadgeArray[j]){
             const newBadgeObject = {
@@ -138,14 +128,23 @@ export default class NewQuizComponent extends Component {
             }
 
             await axios.post('http://localhost:4000/badges/createBadge', newBadgeObject)
-                .then(res => {idsOfBadges.push(res.data)})
-            
+                .then(res => {idsOfBadges.push(res.data);
+                            idOfNewBadge = res.data})
+            this.state.QuizBadgeArray[j].badgeID = idOfNewBadge
             j++
         }
 
 
 
-    
+        const quizObject = {
+            QuizTitle: this.state.title,
+            QuizID: this.state.id,
+            QuizBackground: this.state.backgroundPic,
+            QuizQuestions: this.state.questionArray,
+            QuizAnswerKey: answer,
+            QuizBadgeArray: this.state.QuizBadgeArray,
+            PlatformID: PlatformID
+        };
 
 
         await axios.post('http://localhost:4000/quizzes/createQuiz', quizObject)
