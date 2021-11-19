@@ -3,6 +3,8 @@ import React, { Component } from "react";
 import { Link } from 'react-router-dom';
 
 import { Form, Col, Row, Container, Button } from "react-bootstrap";
+import axios from "axios";
+import Card from 'react-bootstrap/Card';
 //import axios from 'axios';
 
 
@@ -12,125 +14,69 @@ export default class PlatformBadge extends Component {
   constructor(props) {
     super(props)
 
+    this.state = {
+      Badges: [],
+    }
+  }
+
+  componentDidMount(){
+    //console.log(this.props.PlatformBadgeArray);
+    this.getBadges();
+  }
+
+  getBadges = async () => {
+    let b = [];
+    console.log(this.props.PlatformBadgeArray);
+
+    //iterate through badges
+    for (let i = 0; i < this.props.PlatformBadgeArray.length; i++) {
+      try {
+        await axios.get('http://localhost:4000/badges/' + this.props.PlatformBadgeArray[i])
+          .then(res => {
+            b.push(res.data);
+            this.setState({
+              Badges: this.state.Badges.concat([b[i]])
+            })
+          })
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    console.log(this.state.Badges);
   }
 
   render() {
+
+    let badges = this.state.Badges?.map((badge, i) => (
+      <Col key={i}>
+        <Card className='ml-auto activityCard'>
+          <Card.Img variant='top' className='activityCardImage' src={badge.BadgePicture}></Card.Img>
+          <Button className='activityCardButton' variant="primary">
+            {badge.BadgeTitle}
+          </Button>
+        </Card>
+      </Col>
+    ))
+
+    let rendbadges = [];
+    while (badges.length > 0) {
+      let chunk = badges.splice(0, 3);
+      rendbadges.push(chunk)
+    }
+
+    for (var j = 0; j < rendbadges.length; j++) {
+      rendbadges[j] = <Row> {rendbadges[j]} </Row>
+    }
+
     return (
 
-
-
-
-       
-          
-          <Container>
-            <Row>
-
-              <div class="platform-content-row">
-                <Container>
-                  <Row>
-                    <Col xs lg="2" >
-                      <img style={{ "witdth": "70px", "height": "70px" }} src="https://www.pngmart.com/files/14/Golden-Ribbon-Badge-PNG.png" />
-                    </Col>
-                    <Col  >
-                      <Row style={{ fontSize: "30px" }} >
-                        Speed Demon
-                      </Row>
-                      <Row>
-                        Complete a Quiz in less than 180 Seconds.
-                      </Row>
-                    </Col>
-                  </Row>
-                </Container>
-              </div>
-            </Row>
-
-
-            <Row>
-
-              <div class="platform-content-row">
-                <Container>
-                  <Row>
-                    <Col xs lg="2" >
-                      <img style={{ "witdth": "70px", "height": "70px" }} src="https://www.pngmart.com/files/14/Golden-Ribbon-Badge-PNG.png" />
-                    </Col>
-                    <Col  >
-                      <Row style={{ fontSize: "30px" }} >
-                        Gran Turismo
-                      </Row>
-                      <Row>
-                        Score above 80% correct answers on “GT Cars of Italy”.
-                      </Row>
-                    </Col>
-                  </Row>
-                </Container>
-              </div>
-            </Row>
-            <Row>
-
-              <div class="platform-content-row">
-                <Container>
-                  <Row>
-                    <Col xs lg="2" >
-                      <img style={{ "witdth": "70px", "height": "70px" }} src="https://www.pngmart.com/files/14/Golden-Ribbon-Badge-PNG.png" />
-                    </Col>
-                    <Col  >
-                      <Row style={{ fontSize: "30px" }} >
-                        Top Player
-                      </Row>
-                      <Row>
-                        Reach #1 on the leaderboard.
-                      </Row>
-                    </Col>
-                  </Row>
-                </Container>
-              </div>
-            </Row>
-            <Row>
-
-              <div class="platform-content-row">
-                <Container>
-                  <Row>
-                    <Col xs lg="2" >
-                      <img style={{ "witdth": "70px", "height": "70px" }} src="https://www.pngmart.com/files/14/Golden-Ribbon-Badge-PNG.png" />
-                    </Col>
-                    <Col  >
-                      <Row style={{ fontSize: "30px" }} >
-                        F1 Superstar
-                      </Row>
-                      <Row>
-                        Get a perfect score on “Iconic F1 Races”.
-                      </Row>
-                    </Col>
-                  </Row>
-                </Container>
-              </div>
-            </Row>
-            <Row>
-
-              <div class="platform-content-row">
-                <Container>
-                  <Row>
-                    <Col xs lg="2" >
-                      <img style={{ "witdth": "70px", "height": "70px" }} src="https://www.pngmart.com/files/14/Golden-Ribbon-Badge-PNG.png" />
-                    </Col>
-                    <Col  >
-                      <Row style={{ fontSize: "30px" }} >
-                        Need for Speed
-                      </Row>
-                      <Row>
-                        Complete “Fastest Cars in the United States” in less than 120 Seconds.
-                      </Row>
-                    </Col>
-                  </Row>
-                </Container>
-              </div>
-            </Row>
-
-          </Container>
-
-
-        
-      
+      <Container>
+        <div className="PlatformBadgesFeed">
+          {
+            rendbadges
+          }
+        </div>
+      </Container>
 
     );
   }

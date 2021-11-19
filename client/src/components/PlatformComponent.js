@@ -35,7 +35,8 @@ export default class Platform extends Component {
       platformFeed: 1,
       lederboardScreen: 0,
       viewAllbadgeScreen: 0,
-      Creator: ''
+      Creator: '',
+      PlatformBadgeArray: []
     }
 
   }
@@ -67,6 +68,7 @@ export default class Platform extends Component {
             PlatformDesc: res.data.PlatformDesc,
             ScoreBoard: res.data.ScoreBoard,
             Creator: res.data.PlatformCreator,
+            PlatformBadgeArray: res.data.PlatformBadgeArray
           })
         })
       this.getQuizzes(this.state.PlatformID);
@@ -502,7 +504,7 @@ export default class Platform extends Component {
 
 
           {this.state.lederboardScreen ? <PlatformLeaderboardComponent ScoreBoard={this.state.ScoreBoard} /> : ""}
-          {this.state.viewAllbadgeScreen ? <PlatformBadgeComponent /> : ""}
+          {this.state.viewAllbadgeScreen ? <PlatformBadgeComponent PlatformBadgeArray={this.state.PlatformBadgeArray} /> : ""}
         </div>
       </div>
 
