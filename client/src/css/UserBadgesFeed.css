@@ -1,3 +1,7 @@
 .myBadgesFeed {
-    align-items: center;
+    align-items: left;
+}
+
+.activityCard {
+    align-items: left;
 }

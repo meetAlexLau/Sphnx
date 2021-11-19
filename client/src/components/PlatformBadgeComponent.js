@@ -50,7 +50,7 @@ export default class PlatformBadge extends Component {
 
     let badges = this.state.Badges?.map((badge, i) => (
       <Col key={i}>
-        <Card className='ml-auto activityCard'>
+        <Card className='activityCard'>
           <Card.Img variant='top' className='activityCardImage' src={badge.BadgePicture}></Card.Img>
             {badge.BadgeTitle}
         </Card>
