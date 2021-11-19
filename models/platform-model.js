@@ -3,10 +3,7 @@ const Schema = mongoose.Schema;
 
 let Platform = new Schema({
 
-    PlatformContentArray:{
-        type: Map,
-        of: String
-    },
+    PlatformContentArray:[],
 
     PlatformBadgeArray : {
         type: Map,
