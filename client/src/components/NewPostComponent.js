@@ -126,6 +126,7 @@ export default class NewPostComponent extends Component {
             console.log('logging res', res);
             let plat = res.data;
             plat.PlatformPostArray.push(newIDofPost);
+            plat.PlatformContentArray.push(newIDofPost);
             axios.put('http://localhost:4000/platforms/updatePlatform/' + PlatformID, plat).then(res => {})
         })  
    

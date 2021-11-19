@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { Form, Col, Row, Container, Button } from "react-bootstrap";
 import axios from 'axios';
 import Card from 'react-bootstrap/Card';
-
+import '../css/Platform.css';
 import PlatformLeaderboardComponent from "./PlatformLeaderboardComponent";
 import PlatformBadgeComponent from "./PlatformBadgeComponent";
 
@@ -16,7 +16,7 @@ export default class Platform extends Component {
     this.renderSubscribe = this.renderSubscribe.bind(this);
     this.clickNewQuiz = this.clickNewQuiz.bind(this)
     this.clickNewPost = this.clickNewPost.bind(this)
-
+    this.getContent = this.getContent.bind(this);
     this.state = {
       isLoggedIn: sessionStorage.getItem('isLoggedIn'),
       PlatformID: '',
@@ -24,9 +24,7 @@ export default class Platform extends Component {
       PlatformColor2: '#',
       PlatformName: '',
       PlatformDesc: '',
-      //PlatformPicture: `url("https://s3-alpha-sig.figma.com/img/00af/4155/29de19f4df8c2a4e41bb723fd95362e2?Expires=1635724800&Signature=PVA11EFkHmq5xt7imvZ89GSsvZWKadADlM0dqBwbYrXAd2UNVK0fssovN~EqEl0efWVO7s7ZPLhU5gEThaEZkWcCEvQ8SPWJ~EtEfErJAuZrxYZIMElKKdo4qq7~sys5s4CEbV1G-lR3Af2QBqz3vgMKUz2zaKZB3vQCE5VYtEVCtViB3J500MXdymu9Xj386~TrqvAXtNcEuWr5UD2nkwVjQjk9EWhNJ-zDOo1SxE71te15fXpJOda7GrFQAm8OAV0rbyRtAuzuXNnJC1GyULEaVJ5FYYZt4np~2jRXuP5HgDgoi1riOPDJG08IwUozIkiQ7WoCMXPilMEF6z5V3g__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA")`
       PlatformPicture: '',
-      //PlatformPicture: `url(https://images.unsplash.com/photo-1494976388531-d1058494cdd8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8M3x8fGVufDB8fHx8&w=1000&q=80)`
       Quizzes: [],
       Posts: [],
       Subscribed: '',
@@ -36,7 +34,8 @@ export default class Platform extends Component {
       lederboardScreen: 0,
       viewAllbadgeScreen: 0,
       Creator: '',
-      PlatformBadgeArray: []
+      PlatformBadgeArray: [],
+      PlatformContentArray: []
     }
 
   }
@@ -68,11 +67,14 @@ export default class Platform extends Component {
             PlatformDesc: res.data.PlatformDesc,
             ScoreBoard: res.data.ScoreBoard,
             Creator: res.data.PlatformCreator,
-            PlatformBadgeArray: res.data.PlatformBadgeArray
+            PlatformBadgeArray: res.data.PlatformBadgeArray,
+            PlatformContentArray: res.data.PlatformContentArray,
+            Quizzes: res.data.PlatformQuizArray
           })
         })
-      this.getQuizzes(this.state.PlatformID);
-      this.getPosts(this.state.PlatformID);
+      //this.getQuizzes(this.state.PlatformID);
+      //this.getPosts(this.state.PlatformID);
+      this.getContent();
 
       //CHECK IF USER IS SUBSCRIBED
       await axios.get('http://localhost:4000/users/UserID/' + getUserID)
@@ -103,7 +105,7 @@ export default class Platform extends Component {
     this.props.history.push('/post/' + PostID);
   }
 
-  // get this platform's quizzes
+/*
   getQuizzes = async (PlatformID) => {
     let q = [];
     let plat;
@@ -130,7 +132,8 @@ export default class Platform extends Component {
     }
     //console.log(this.state.Quizzes);
   }
- //////copy about for post-----------------------------------------------------------
+  */
+ /*
   getPosts = async (PlatformID) => {
     let q = [];
     let plat;
@@ -157,9 +160,36 @@ export default class Platform extends Component {
     }
   
   }
-  //////-----------------------------------------------------------------------
-
-
+ */
+  
+  getContent = async() => {
+    let content = []
+    let getContent = this.state.PlatformContentArray;
+    let getQuizzes = this.state.Quizzes;
+    for(let i = getContent.length-1; i > -1; i--){
+      if(getQuizzes.includes(getContent[i])){ //if getContent[i] is in Quiz array, the content = quiz
+        await axios.get('http://localhost:4000/quizzes/' + getContent[i])
+        .then((res) => {
+          let quiz = res.data;
+          console.log(quiz);
+          let quizdata = [quiz.QuizTitle, quiz.QuizID, "quiz", quiz.QuizBackground]
+          content.push(quizdata)
+        })
+      }
+      else{
+        await axios.get('http://localhost:4000/posts/' + getContent[i])
+        .then((res) => {
+          let post = res.data
+          let postdata = [post.PostTitle, post.PostID, "post"]
+          content.push(postdata)
+        })
+      }
+    }
+    this.setState({
+      PlatformContentArray: content
+    })
+    console.log("CONTENT:", content);
+  }
 
 
   renderSubscribe() {
@@ -282,31 +312,58 @@ export default class Platform extends Component {
   render() {
     //
     //Quiz grid
-    let quizs = this.state.Quizzes?.map((quiz, i) => (
-      <Col key={i}>
-        <Card className='ml-auto activityCard'>
-          <Card.Img variant='top' className='activityCardImage' src={quiz.QuizBackground}></Card.Img>
-          <Button className='activityCardButton' onClick={() => this.routeChangeQuiz(quiz._id)} variant="primary">
-            {quiz.QuizTitle}
-          </Button>
-        </Card>
-      </Col>
-
-    ))
-    //console.log(quizs);
-    let rendquizs = [];
-    while (quizs.length > 0) {        //splice the array of platforms into groups of 4
-      let chunk = quizs.splice(0, 4);
-      rendquizs.push(chunk)
-    }
-    //console.log(rendquizs)
-    for (var j = 0; j < rendquizs.length; j++) {          //each chunk is a group of 4, surround with <Row>
-      rendquizs[j] = <Row> {rendquizs[j]} </Row>
-    }
+    let rendcontent = this.state.PlatformContentArray?.map((content, i) => {
+      return content[2] == 'quiz'?
+          <Row key={i} className='ml-auto mr-auto platformActivityRow'>
+            <Card className='platformActivityCard'>
+              <Row className='platformActivityCardRow'>
+                <Col xs={5}>
+                  <Card.Img variant='top' className='platformActivityCardImage' src={content[3]}>
+                  </Card.Img>
+                </Col>
+                <Col>
+                  <Card.Title>
+                    {content[0]}
+                  </Card.Title>
+                </Col>
+                <Col>
+                  <Button className='platformActivityCardButton' onClick={() => this.routeChangeQuiz(content[1])} variant="primary">
+                    {content[0]}
+                  </Button>
+                </Col>
+              </Row>
+            </Card>
+          </Row>
+      :
+        <Row key={i} className='ml-auto mr-auto platformActivityRow'>
+          <Card className='platformActivityCard'>
+            <Row className='platformActivityCardRow'>
+              <Col>
+                <Card.Title>
+                  {content[0]}
+                </Card.Title>
+              </Col>
+              <Col>
+                <Button className='platformActivityCardButton' onClick={() => this.routeChangePost(content[1])} variant="primary">
+                  Go to Post
+                </Button>
+              </Col>
+            </Row>
+          </Card>
+        </Row>
+    })
+    console.log("REND CONTENT:", rendcontent)
 
     //copy above for post---------------------------------------------------------------------------------
       //console.log(this.state.Posts)
     let posts = this.state.Posts?.map((post, i) => (
+      /*
+      <Row key = {i}>
+        <Card>
+          <Card.Img className= ''src={post.PostPicture}> </Card.Img>
+        </Card>
+      </Row>
+      */
       <Col key={i}>
         <Card className='ml-auto activityCard'>
           <Card.Img variant='top' className='activityCardImage' src={post.PostPicture}></Card.Img>
@@ -315,9 +372,11 @@ export default class Platform extends Component {
           </Button>
         </Card>
       </Col>
+      
 
     ))
-  
+
+    
     let rendposts = [];
     while (posts.length > 0) {        //splice the array of platforms into groups of 4
       let chunk = posts.splice(0, 4);
@@ -327,6 +386,7 @@ export default class Platform extends Component {
     for (var j = 0; j < rendposts.length; j++) {          //each chunk is a group of 4, surround with <Row>
       rendposts[j] = <Row> {rendposts[j]} </Row>
     }
+    
 
 
     //copy ---------------------------------------------------------------------------------
@@ -488,15 +548,7 @@ export default class Platform extends Component {
 
           {this.state.platformFeed ?
             <div className="platformQuizFeed" >
-              Quizes:{
-
-                rendquizs
-              }
-
-              Posts:{
-
-                rendposts
-              }
+              {rendcontent}
             </div>
 
             : ""

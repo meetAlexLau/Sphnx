@@ -165,7 +165,7 @@ export default class Home extends Component {
         //Platform grid
         let plats = this.state.Platforms?.map((plat, i) => (        //map each platform to structure <Col>
             //<li key={i}>{plat.PlatformName}</li>
-            <Col key={i} className = 'ml-auto mr-auto' style={{maxWidth: '250px'}}>
+            <Col key={i} className = 'ml-auto mr-auto'>
                 <Card className='activityCard'>
                     <Card.Img variant='top' className='activityCardImage' src={plat.PlatformPicture}>
                     </Card.Img>

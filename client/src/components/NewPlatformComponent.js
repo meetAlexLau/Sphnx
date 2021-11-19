@@ -135,7 +135,8 @@ export default class NewPlatformComponent extends Component {
             PlatformQuizArray: [],
             PlatformPostArray: [],
             PlatformCreator: sessionStorage.getItem('UserID'),
-            PlatformSubscriberArray: []
+            PlatformSubscriberArray: [],
+            PlatformContentArray: [],
         }
 
         await axios.post('http://localhost:4000/platforms/createPlatform', platformObject).then(res => {newIDofPlat = res.data});
