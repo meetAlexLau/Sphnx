@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Form, Col, Row, Container, Button } from "react-bootstrap";
 import axios from "axios";
 import Card from 'react-bootstrap/Card';
+import '../css/PlatBadges.css';
 //import axios from 'axios';
 
 
@@ -51,9 +52,7 @@ export default class PlatformBadge extends Component {
       <Col key={i}>
         <Card className='ml-auto activityCard'>
           <Card.Img variant='top' className='activityCardImage' src={badge.BadgePicture}></Card.Img>
-          <Button className='activityCardButton' variant="primary">
             {badge.BadgeTitle}
-          </Button>
         </Card>
       </Col>
     ))
