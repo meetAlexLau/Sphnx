@@ -158,6 +158,7 @@ export default class NewQuizComponent extends Component {
                 console.log('logging res', res);
                 let plat = res.data;
                 plat.PlatformQuizArray.push(newIDofQuiz);
+                plat.PlatformContentArray.push(newIDofQuiz);
                 let k = 0;
                 while(idsOfBadges[k]){
                     plat.PlatformBadgeArray.push(idsOfBadges[k])

@@ -49,11 +49,15 @@
   }
 
   .activityCard{
+    max-width: 400px;
     width: 250px;
-    height: 250px;
+    max-height: 400px;
+    height: 300px;
     outline: 2px solid black;
     align-items: center;
-    margin-top: 30px
+    margin-top: 30px;
+    margin-left: -15px;
+    margin-right: -15px;
   }
 
   .activityCardButton{
@@ -65,7 +69,7 @@
 
   .activityCardImage{
     max-width: auto;
-    height: 150px;
+    height: 200px;
     object-fit: cover;
   }
 
