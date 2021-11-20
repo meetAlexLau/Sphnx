@@ -125,8 +125,8 @@ export default class NewQuizComponent extends Component {
             PlatformID: PlatformID
         };
 
-        axios.post('/quizzes/createQuiz', quizObject)
-            .then(res => console.log(res.data));
+        await axios.post('/quizzes/createQuiz', quizObject)
+            .then(res => {newIDofQuiz=res.data});
 
         var idsOfBadges = []
         var idOfNewBadge = ''
@@ -147,23 +147,6 @@ export default class NewQuizComponent extends Component {
 
             j++
         }
-
-
-
-        const quizObject = {
-            QuizTitle: this.state.title,
-            QuizID: this.state.id,
-            QuizBackground: this.state.backgroundPic,
-            QuizQuestions: this.state.questionArray,
-            QuizAnswerKey: answer,
-            QuizBadgeArray: this.state.QuizBadgeArray,
-            PlatformID: PlatformID
-        };
-
-
-        await axios.post('/quizzes/createQuiz', quizObject)
-            .then(res => {newIDofQuiz=res.data});
-
 
         // retrieve platform from database, edit quiz array, and send the edited array back
         axios.get('/platforms/' + PlatformID)
