@@ -59,7 +59,7 @@ export default class NewPostComponent extends Component {
         }
         else{
             
-        axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
+        axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
          .then(res => {
           let User = res.data[0];
             this.setState({
@@ -117,17 +117,17 @@ export default class NewPostComponent extends Component {
             PlatformID: PlatformID
         }
 
-        await axios.post('http://localhost:4000/posts/createPost', postObject).then(res => {newIDofPost = res.data});
+        await axios.post('/posts/createPost', postObject).then(res => {newIDofPost = res.data});
 
 
-        axios.get('http://localhost:4000/platforms/' + PlatformID)
+        axios.get('/platforms/' + PlatformID)
         .then(res => {
             console.log(sessionStorage.getItem('current platform'));
             console.log('logging res', res);
             let plat = res.data;
             plat.PlatformPostArray.push(newIDofPost);
             plat.PlatformContentArray.push(newIDofPost);
-            axios.put('http://localhost:4000/platforms/updatePlatform/' + PlatformID, plat).then(res => {})
+            axios.put('/platforms/updatePlatform/' + PlatformID, plat).then(res => {})
         })  
    
        

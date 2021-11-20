@@ -62,7 +62,7 @@ export default class NewPlatformComponent extends Component {
         }
         else{
             
-        axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
+        axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
          .then(res => {
           let User = res.data[0];
             this.setState({
@@ -139,11 +139,11 @@ export default class NewPlatformComponent extends Component {
             PlatformContentArray: [],
         }
 
-        await axios.post('http://localhost:4000/platforms/createPlatform', platformObject).then(res => {newIDofPlat = res.data});
+        await axios.post('/platforms/createPlatform', platformObject).then(res => {newIDofPlat = res.data});
 
         console.log(newIDofPlat)
         updatedUser.UserPlatformArray.push(newIDofPlat)
-        const newPath = ('http://localhost:4000/users/'+this.state.IDtoEdit)
+        const newPath = ('/users/'+this.state.IDtoEdit)
         
         axios.put(newPath, updatedUser)
           .then(res => console.log(res.data))
