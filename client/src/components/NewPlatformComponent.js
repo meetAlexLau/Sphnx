@@ -139,6 +139,7 @@ export default class NewPlatformComponent extends Component {
             PlatformContentArray: [],
         }
 
+
         await axios.post('/platforms/createPlatform', platformObject).then(res => {newIDofPlat = res.data});
 
         console.log(newIDofPlat)

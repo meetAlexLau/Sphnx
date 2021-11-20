@@ -38,7 +38,9 @@ export default class Home extends Component {
         if (this.state.isLoggedIn !== "true") {
             this.props.history.push('/')
         }
-        else {
+
+        else{
+            console.log("Mounting")
             axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
                 .then((res) => {
                     let User = res.data[0];

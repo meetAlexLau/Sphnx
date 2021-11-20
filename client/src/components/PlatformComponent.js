@@ -77,6 +77,7 @@ export default class Platform extends Component {
       this.getContent();
 
       //CHECK IF USER IS SUBSCRIBED
+
       await axios.get('/users/UserID/' + getUserID)
         .then(res => {
 
