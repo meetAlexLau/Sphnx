@@ -11,6 +11,7 @@ import '../css/Home.css';
 import axios from 'axios';
 import SearchBar from "../components/SearchBar"
 import PlatData from "../Data.json"
+import Image from 'react-bootstrap/Image'
 
 export default class Home extends Component {
     constructor(props) {
@@ -19,7 +20,9 @@ export default class Home extends Component {
         this.routeChangeProfile = this.routeChangeProfile.bind(this);
         this.routeChangePlatform = this.routeChangePlatform.bind(this);
         this.routeChangeQuiz = this.routeChangeQuiz.bind(this);
+        this.routeChangePost = this.routeChangePost.bind(this);
         this.renderPlatforms = this.renderPlatforms.bind(this);
+        this.renderSubscribePlatforms = this.renderSubscribePlatforms.bind(this);
         this.state = {
             isLoggedIn: sessionStorage.getItem('isLoggedIn'),
             UserID: '',
@@ -27,13 +30,15 @@ export default class Home extends Component {
             UserEmail: '',
             Platforms: [],
             Quizzes: [],
-            Users: []
+            Users: [],
+            UserSubscribedPlatformArray: []
         }
     }
     componentDidMount() {
         if (this.state.isLoggedIn !== "true") {
             this.props.history.push('/')
         }
+
         else{
             console.log("Mounting")
             axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
@@ -41,15 +46,16 @@ export default class Home extends Component {
                     let User = res.data[0];
                     this.setState({
                         UserName: User.UserName,
-                        UserId: User.UserID,
-                        UserEmail: User.UserEmail
+                        UserID: User.UserID,
+                        UserEmail: User.UserEmail,
+                        UserSubscribedPlatformArray: User.UserSubscribedPlatformArray
                     });
+                    this.renderSubscribePlatforms();
                 })
                 .catch((err) => {
                     console.log(err);
                 })
             this.renderPlatforms();
-            this.renderQuizzes();
         }
     }
     routeChangeLogout() {
@@ -72,6 +78,12 @@ export default class Home extends Component {
         sessionStorage.setItem('current quiz', QuizID);
         sessionStorage.setItem('previous quiz', QuizID);
         this.props.history.push('/quiz/' + QuizID);
+    }
+    routeChangePost = (PostID) => {
+        //should be  /profile/:userid
+        sessionStorage.setItem('current post', PostID);
+        sessionStorage.setItem('previous post', PostID);
+        this.props.history.push('/post/' + PostID);
     }
 
     logout = (response) => {
@@ -97,6 +109,7 @@ export default class Home extends Component {
         }
     }
 
+    /*
     renderQuizzes = async () => {
         let q = [];
         try {
@@ -113,7 +126,9 @@ export default class Home extends Component {
             console.log(err);
         }
     }
+    */
 
+    /*
     renderUsers = async () => {
         let u = [];
         try {
@@ -131,13 +146,29 @@ export default class Home extends Component {
             console.log(err);
         }
     }
+    */
+
+    renderSubscribePlatforms= async() =>{
+        let result = [];
+        let subplatforms = this.state.UserSubscribedPlatformArray;
+        for(let i =0; i < subplatforms.length; i++){
+            await axios.get('/platforms/' + subplatforms[i])
+                .then(res => {
+                    let p = res.data;
+                    let r = [p.PlatformName, p.PlatformID]
+                    result.push(r)
+                })
+        }
+        this.setState({
+            UserSubscribedPlatformArray: result
+        })
+    }
     render() {
-        
         //Platform grid
         let plats = this.state.Platforms?.map((plat, i) => (        //map each platform to structure <Col>
             //<li key={i}>{plat.PlatformName}</li>
-            <Col key={i}>
-                <Card className='ml-auto activityCard'>
+            <Col key={i} className = 'ml-auto mr-auto'>
+                <Card className='activityCard'>
                     <Card.Img variant='top' className='activityCardImage' src={plat.PlatformPicture}>
                     </Card.Img>
                     <Card.Title>
@@ -155,13 +186,25 @@ export default class Home extends Component {
             rendplats.push(chunk)
         }
         for (var j = 0; j < rendplats.length; j++) {          //each chunk is a group of 4, surround with <Row>
-            rendplats[j] = <Row> {rendplats[j]} </Row>
+            rendplats[j] = <Row className='ml-auto mr-auto'> {rendplats[j]} </Row>
         }
+
+        let subplats = this.state.UserSubscribedPlatformArray?.map((plat, i) => (
+            
+            <Row key={i} className='subscriptionrow'>
+                <Button className='subscriptionbutton'onClick={() => this.routeChangePlatform(plat[1])} style={{textOverflow:'ellipsis'}}>
+                    <Form.Text className='subscriptions'>
+                        {plat[0]}
+                    </Form.Text>
+                </Button>
+            </Row>
+        ))
         //
         //Quiz grid
+        /*
         let quizs = this.state.Quizzes?.map((quiz, i) => (
-            <Col key={i}>
-                <Card className='ml-auto activityCard'>
+            <Col key={i} className='ml-auto mr-auto' style={{maxWidth:'250px'}}>
+                <Card className='activityCard'>
                     <Card.Img variant='top' className='activityCardImage' src={quiz.QuizBackground}></Card.Img>
                     <Button className='activityCardButton' onClick={() => this.routeChangeQuiz(quiz._id)} variant="primary">
                         {quiz.QuizTitle}
@@ -178,6 +221,7 @@ export default class Home extends Component {
         for (var j = 0; j < rendquizs.length; j++) {          //each chunk is a group of 4, surround with <Row>
             rendquizs[j] = <Row> {rendquizs[j]} </Row>
         }
+        */
         return (
             <Container fluid className='sky containerrow'> {/* home container*/}
                 <Row className='medium marginspacing paddingspacing'> {/*Logout | Title | Profile */}
@@ -189,7 +233,7 @@ export default class Home extends Component {
                     >
                     </GoogleLogout>
                     <Card body className='ml-auto' style={{ width: "25%", textAlign: 'center', fontSize: '25px' }}>
-                        Sphnx
+                        <Image src={'https://res.cloudinary.com/sphnx/image/upload/v1637208733/spnhxLogoTransparent_csgze4.png'} fluid />
                         <p>
                             Welcome, {this.state.UserName}!
                         </p>
@@ -202,48 +246,38 @@ export default class Home extends Component {
                         <SearchBar placeholder="Enter a platform name..." data={PlatData} />
                 </Row>
                 <Row className='mainFeed medium ml-auto mr-auto' style={{ alignContent: "center" }}>  {/* Home Container for Platform,Quiz,Profile */}
-                    <Container className='homecontainer'>
+                    <Container fluid className='homecontainer'>
                         <Row>
                             <Card className='ml-auto mr-auto'>
                                 Your News Feed
                             </Card>
                         </Row>
-                        <Row>
-                            <h2 className='ml-auto mr-auto'>
-                                Platforms For You
-                            </h2>
-                        </Row>
-                        {//Render Platforms
-                            rendplats
-                        }
-                        <Row>
-                            <h2 className='ml-auto mr-auto'>
-                                Quizzes For You
-                            </h2>
-                        </Row>
-                        {//Render Quizzes
-                            rendquizs
-                        }
-                        <Row>
-                            <h2 className='ml-auto mr-auto'>
-                                What Are Your Friends Up To?
-                            </h2>
-                        </Row>
-                        {//Render Users
-
-                        }
-                        <Row>
-                            {/*
-                            <Button onClick={this.routeChangeQuiz} className ='marginspacing' variant="primary">
-                                Example Quiz
-                            </Button>
-                                    */
-                            }
-                        </Row>
-                        <Row>
-                            <Button onClick={this.routeChangeProfile} className='marginspacing' variant="primary">
-                                Example Profile
-                            </Button>
+                        <Row className='medium' >
+                            <Col className='ml-auto mr-auto' style={{maxWidth: '150px', width:'150px'}}>
+                                <Row>
+                                    <Card>
+                                        TOP PLATFORMS
+                                    </Card>
+                                </Row>
+                            </Col>
+                            <Col className='ml-auto mr-auto medium'>
+                                <Row>
+                                    <h2 className='ml-auto mr-auto'>
+                                        PLATFORMS FOR YOU
+                                    </h2>
+                                </Row>
+                                {//Render Platforms
+                                    rendplats
+                                }
+                            </Col>
+                            <Col className='ml-auto mr-auto' style={{maxWidth: '150px', width:'150px'}}>
+                                <Row>
+                                    <Card>
+                                        SUBSCRIPTIONS
+                                    </Card>
+                                </Row>
+                                {subplats}
+                            </Col>
                         </Row>
                     </Container>
                 </Row>

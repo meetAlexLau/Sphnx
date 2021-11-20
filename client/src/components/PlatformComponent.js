@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom';
 import { Form, Col, Row, Container, Button } from "react-bootstrap";
 import axios from 'axios';
 import Card from 'react-bootstrap/Card';
-
+import '../css/Platform.css';
 import PlatformLeaderboardComponent from "./PlatformLeaderboardComponent";
-
+import PlatformBadgeComponent from "./PlatformBadgeComponent";
 
 export default class Platform extends Component {
 
@@ -15,7 +15,8 @@ export default class Platform extends Component {
     super(props)
     this.renderSubscribe = this.renderSubscribe.bind(this);
     this.clickNewQuiz = this.clickNewQuiz.bind(this)
-
+    this.clickNewPost = this.clickNewPost.bind(this)
+    this.getContent = this.getContent.bind(this);
     this.state = {
       isLoggedIn: sessionStorage.getItem('isLoggedIn'),
       PlatformID: '',
@@ -23,24 +24,25 @@ export default class Platform extends Component {
       PlatformColor2: '#',
       PlatformName: '',
       PlatformDesc: '',
-      //PlatformPicture: `url("https://s3-alpha-sig.figma.com/img/00af/4155/29de19f4df8c2a4e41bb723fd95362e2?Expires=1635724800&Signature=PVA11EFkHmq5xt7imvZ89GSsvZWKadADlM0dqBwbYrXAd2UNVK0fssovN~EqEl0efWVO7s7ZPLhU5gEThaEZkWcCEvQ8SPWJ~EtEfErJAuZrxYZIMElKKdo4qq7~sys5s4CEbV1G-lR3Af2QBqz3vgMKUz2zaKZB3vQCE5VYtEVCtViB3J500MXdymu9Xj386~TrqvAXtNcEuWr5UD2nkwVjQjk9EWhNJ-zDOo1SxE71te15fXpJOda7GrFQAm8OAV0rbyRtAuzuXNnJC1GyULEaVJ5FYYZt4np~2jRXuP5HgDgoi1riOPDJG08IwUozIkiQ7WoCMXPilMEF6z5V3g__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA")`
       PlatformPicture: '',
-      //PlatformPicture: `url(https://images.unsplash.com/photo-1494976388531-d1058494cdd8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8M3x8fGVufDB8fHx8&w=1000&q=80)`
       Quizzes: [],
+      Posts: [],
       Subscribed: '',
       UserID: '',
       ScoreBoard: [],
       platformFeed: 1,
       lederboardScreen: 0,
       viewAllbadgeScreen: 0,
-      Creator: ''
+      Creator: '',
+      PlatformBadgeArray: [],
+      PlatformContentArray: []
     }
 
   }
   componentWillUnmount() {
     sessionStorage.removeItem('current platform')
   }
-  componentDidMount= async() => {
+  componentDidMount = async () => {
     //get UserID to check if they are subscribed
     let getUserID = sessionStorage.getItem('UserID');
     // Persistent Platform when using <back or forward> buttons
@@ -65,18 +67,24 @@ export default class Platform extends Component {
             PlatformDesc: res.data.PlatformDesc,
             ScoreBoard: res.data.ScoreBoard,
             Creator: res.data.PlatformCreator,
+            PlatformBadgeArray: res.data.PlatformBadgeArray,
+            PlatformContentArray: res.data.PlatformContentArray,
+            Quizzes: res.data.PlatformQuizArray
           })
         })
-      this.getQuizzes(this.state.PlatformID);
+      //this.getQuizzes(this.state.PlatformID);
+      //this.getPosts(this.state.PlatformID);
+      this.getContent();
 
       //CHECK IF USER IS SUBSCRIBED
-      await axios.get('/users/UserID/'+ getUserID)
+
+      await axios.get('/users/UserID/' + getUserID)
         .then(res => {
-          
+
           //x = get UserSubscribedPlatformArray, .find(PlatformID)
           //if (x) {this.state.Subscribed = true} else {= false}
           let subscribeFlag = res.data[0].UserSubscribedPlatformArray.find(id => id == PlatformID);   //flag = if user is subscribed
-          if(typeof subscribeFlag === 'undefined') subscribeFlag = false;
+          if (typeof subscribeFlag === 'undefined') subscribeFlag = false;
           else subscribeFlag = true;
           this.setState({
             Subscribed: subscribeFlag
@@ -92,7 +100,13 @@ export default class Platform extends Component {
     this.props.history.push('/quiz/' + QuizID);
   }
 
-  // get this platform's quizzes
+  routeChangePost = (PostID) => {
+    sessionStorage.setItem('current post', PostID);
+    sessionStorage.setItem('previous post', PostID);
+    this.props.history.push('/post/' + PostID);
+  }
+
+/*
   getQuizzes = async (PlatformID) => {
     let q = [];
     let plat;
@@ -102,7 +116,7 @@ export default class Platform extends Component {
       .then(res => {
         plat = res.data;
       })
-    
+
     // iterate through and get all quizzes
     for (let i = 0; i < plat.PlatformQuizArray.length; i++) {
       try {
@@ -119,26 +133,86 @@ export default class Platform extends Component {
     }
     //console.log(this.state.Quizzes);
   }
+  */
+ /*
+  getPosts = async (PlatformID) => {
+    let q = [];
+    let plat;
+
+    // get platformpostarray from this platform
+    await axios.get('/platforms/' + PlatformID)
+      .then(res => {
+        plat = res.data;
+      })
+
+    // iterate through and get all posts
+    for (let i = 0; i < plat.PlatformPostArray.length; i++) {
+      try {
+        await axios.get('/posts/' + plat.PlatformPostArray[i])
+          .then(res => {
+            q.push(res.data);
+            this.setState({
+              Posts: this.state.Posts.concat([q[i]])
+            })
+          })
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  
+  }
+ */
+  
+  getContent = async() => {
+    let content = []
+    let getContent = this.state.PlatformContentArray;
+    let getQuizzes = this.state.Quizzes;
+    for(let i = getContent.length-1; i > -1; i--){
+      if(getQuizzes.includes(getContent[i])){ //if getContent[i] is in Quiz array, the content = quiz
+        await axios.get('/quizzes/' + getContent[i])
+        .then((res) => {
+          let quiz = res.data;
+          console.log(quiz);
+          let quizdata = [quiz.QuizTitle, quiz.QuizID, "quiz", quiz.QuizBackground]
+          content.push(quizdata)
+        })
+      }
+      else{
+        await axios.get('/posts/' + getContent[i])
+        .then((res) => {
+          let post = res.data
+          let postdata = [post.PostTitle, post.PostID, "post"]
+          content.push(postdata)
+        })
+      }
+    }
+    this.setState({
+      PlatformContentArray: content
+    })
+    console.log("CONTENT:", content);
+  }
+
+
   renderSubscribe() {
-    if(document.getElementById('subscribe'))
-      if(this.state.Subscribed == true) {
+    if (document.getElementById('subscribe'))
+      if (this.state.Subscribed == true) {
         document.getElementById('subscribe').innerHTML = 'unsubscribe';
       }
-      else if(this.state.Subscribed == false) {
+      else if (this.state.Subscribed == false) {
         document.getElementById('subscribe').innerHTML = 'subscribe'
       }
   }
   subscribeDisplay() {
-    if(this.state.Subscribed == true){
+    if (this.state.Subscribed == true) {
       document.getElementById('subscribe').innerHTML = 'subscribe'
       alert("You are now unsubscribed to " + this.state.PlatformName);
     }
-    else if(this.state.Subscribed == false){
+    else if (this.state.Subscribed == false) {
       document.getElementById('subscribe').innerHTML = 'unsubscribe'
       alert("You are now subscribed to " + this.state.PlatformName)
     }
   }
-  subscribeToPlatform= async() =>{
+  subscribeToPlatform = async () => {
     this.subscribeDisplay(); //change Un/Subscribed button
     let getUserID = sessionStorage.getItem('UserID');
     let PlatformID = this.state.PlatformID;
@@ -151,43 +225,43 @@ export default class Platform extends Component {
       .then(res => {
         user = res.data[0];
       })
-    
-    if(this.state.Subscribed == true){ //User is ALREADY SUBSCRIBED, they want to UNSUBSCRIBE
+
+    if (this.state.Subscribed == true) { //User is ALREADY SUBSCRIBED, they want to UNSUBSCRIBE
       let i = plat.PlatformSubscriberArray.indexOf(plat.PlatformSubscriberArray.find(arr => arr.includes(user._id)));
       plat.PlatformSubscriberArray[i][2] = false;
-      
+
       //Updating User UserSubscribedPlatformArray
       let tempUserSubPlatArr = user.UserSubscribedPlatformArray;
       console.log(PlatformID);
-      user.UserSubscribedPlatformArray = tempUserSubPlatArr.filter(function(value) {
+      user.UserSubscribedPlatformArray = tempUserSubPlatArr.filter(function (value) {
         console.log(value);
-        return value !== PlatformID;  
+        return value !== PlatformID;
       });
     }
-    else{   //User is NOT SUBSCRIBED, they want to SUBSCRIBE
+    else {   //User is NOT SUBSCRIBED, they want to SUBSCRIBE
       let subscribedUser = [user._id, user.UserName, true]
-      if(plat.PlatformSubscriberArray.find(arr => arr.includes(user._id))){ //if is already in array but is not subscribed
+      if (plat.PlatformSubscriberArray.find(arr => arr.includes(user._id))) { //if is already in array but is not subscribed
         let i = plat.PlatformSubscriberArray.indexOf(plat.PlatformSubscriberArray.find(arr => arr.includes(user._id)));
         plat.PlatformSubscriberArray[i][2] = true;
       }
-      else{
+      else {
         plat.PlatformSubscriberArray.push(subscribedUser);
       }
       user.UserSubscribedPlatformArray.push(PlatformID);
     }
     this.setState({
-        Subscribed: !this.state.Subscribed
-      })
+      Subscribed: !this.state.Subscribed
+    })
     //Updating Platform PlatformSubscriberArray
     // [(userMongoId, username, points, timespentonplatform, isSubscribed)]
     await axios.put('/platforms/updatePlatform/' + PlatformID, plat)
-      .then(res=> console.log("User Subscribe Arr:", res))
-      .catch(err=> console.log("User Subscribe Arr Err:", err));
-    
+      .then(res => console.log("User Subscribe Arr:", res))
+      .catch(err => console.log("User Subscribe Arr Err:", err));
+
     //Updating User UserSubscribedPlatformArray
     await axios.put('/users/' + user._id, user)
-      .then(res=> console.log("User Subscribe Arr:", res))
-      .catch(err=> console.log("User Subscribe Arr Err:", err))
+      .then(res => console.log("User Subscribe Arr:", res))
+      .catch(err => console.log("User Subscribe Arr Err:", err))
   }
 
 
@@ -213,14 +287,25 @@ export default class Platform extends Component {
     })
   }
 
-  clickNewQuiz(){
+  clickNewQuiz() {
     console.log(this.state.Creator)
     console.log(sessionStorage.getItem('UserID'))
-    if(this.state.Creator == sessionStorage.getItem('UserID')){
+    if (this.state.Creator == sessionStorage.getItem('UserID')) {
       this.props.history.push('/newQuiz')
     }
-    else{
-      
+    else {
+
+    }
+  }
+
+  clickNewPost() {
+    console.log(this.state.Creator)
+    console.log(sessionStorage.getItem('UserID'))
+    if (this.state.Creator == sessionStorage.getItem('UserID')) {
+      this.props.history.push('/newPost')
+    }
+    else {
+
     }
   }
 
@@ -228,37 +313,96 @@ export default class Platform extends Component {
   render() {
     //
     //Quiz grid
-    let quizs = this.state.Quizzes?.map((quiz, i) => (
+    let rendcontent = this.state.PlatformContentArray?.map((content, i) => {
+      return content[2] == 'quiz'?
+          <Row key={i} className='ml-auto mr-auto platformActivityRow'>
+            <Card className='platformActivityCard'>
+              <Row className='platformActivityCardRow'>
+                <Col xs={5}>
+                  <Card.Img variant='top' className='platformActivityCardImage' src={content[3]}>
+                  </Card.Img>
+                </Col>
+                <Col>
+                  <Card.Title>
+                    {content[0]}
+                  </Card.Title>
+                </Col>
+                <Col>
+                  <Button className='platformActivityCardButton' onClick={() => this.routeChangeQuiz(content[1])} variant="primary">
+                    {content[0]}
+                  </Button>
+                </Col>
+              </Row>
+            </Card>
+          </Row>
+      :
+        <Row key={i} className='ml-auto mr-auto platformActivityRow'>
+          <Card className='platformActivityCard'>
+            <Row className='platformActivityCardRow'>
+              <Col>
+                <Card.Title>
+                  {content[0]}
+                </Card.Title>
+              </Col>
+              <Col>
+                <Button className='platformActivityCardButton' onClick={() => this.routeChangePost(content[1])} variant="primary">
+                  Go to Post
+                </Button>
+              </Col>
+            </Row>
+          </Card>
+        </Row>
+    })
+    console.log("REND CONTENT:", rendcontent)
+
+    //copy above for post---------------------------------------------------------------------------------
+      //console.log(this.state.Posts)
+    let posts = this.state.Posts?.map((post, i) => (
+      /*
+      <Row key = {i}>
+        <Card>
+          <Card.Img className= ''src={post.PostPicture}> </Card.Img>
+        </Card>
+      </Row>
+      */
       <Col key={i}>
         <Card className='ml-auto activityCard'>
-          <Card.Img variant='top' className='activityCardImage' src={quiz.QuizBackground}></Card.Img>
-          <Button className='activityCardButton' onClick={() => this.routeChangeQuiz(quiz._id)} variant="primary">
-            {quiz.QuizTitle}
+          <Card.Img variant='top' className='activityCardImage' src={post.PostPicture}></Card.Img>
+          <Button className='activityCardButton' onClick={() => this.routeChangePost(post._id)} variant="primary">
+            {post.PostTitle}
           </Button>
         </Card>
       </Col>
+      
 
     ))
-    //console.log(quizs);
-    let rendquizs = [];
-    while (quizs.length > 0) {        //splice the array of platforms into groups of 4
-      let chunk = quizs.splice(0, 4);
-      rendquizs.push(chunk)
+
+    
+    let rendposts = [];
+    while (posts.length > 0) {        //splice the array of platforms into groups of 4
+      let chunk = posts.splice(0, 4);
+      rendposts.push(chunk)
     }
-    //console.log(rendquizs)
-    for (var j = 0; j < rendquizs.length; j++) {          //each chunk is a group of 4, surround with <Row>
-      rendquizs[j] = <Row> {rendquizs[j]} </Row>
+   
+    for (var j = 0; j < rendposts.length; j++) {          //each chunk is a group of 4, surround with <Row>
+      rendposts[j] = <Row> {rendposts[j]} </Row>
     }
+    
+
+
+    //copy ---------------------------------------------------------------------------------
+
+
 
     return (
 
 
-      <div class="platform-background" style={{ backgroundImage: 'url(' + this.state.PlatformPicture + ')' }} >
+      <div className="platform-background" style={{ backgroundImage: 'url(' + this.state.PlatformPicture + ')' }} >
 
 
 
-        <div class="platform-content" style={{ backgroundColor: this.state.PlatformColor1 }}>
-          <div class="platform-content-header" style={{ backgroundColor: this.state.PlatformColor2 }}>
+        <div className="platform-content" style={{ backgroundColor: this.state.PlatformColor1 }}>
+          <div className="platform-content-header" style={{ backgroundColor: this.state.PlatformColor2 }}>
 
             <Container>
               <Row>
@@ -271,7 +415,11 @@ export default class Platform extends Component {
 
                     <Link to={"/home"} className="platform-home-button"></Link>
                   </Row>
-                  <Row><Link to={"/platformBadge"} className="platform-left-button">View All Badges</Link>
+                  <Row>
+                    <button className="platform-left-button" onClick={() => this.onClickViewAllbadges()}>
+                      View All Badges
+                    </button>
+
 
                     <button className="platform-left-button" onClick={() => this.onClickPlatformHome()}>
                       Platform Home
@@ -287,19 +435,19 @@ export default class Platform extends Component {
                 <Col >
 
                   <Row className="d-flex justify-content-end">
-                    <Button id = "subscribe"
-                          to={"/"}
-                          onClick = {() => this.subscribeToPlatform()}
-                          className="platform-right-button"
-                          style={{ backgroundColor: "#E79696" }}
-                          >
-                          {
-                            this.renderSubscribe()
-                          }
+                    <Button id="subscribe"
+                      to={"/"}
+                      onClick={() => this.subscribeToPlatform()}
+                      className="platform-right-button"
+                      style={{ backgroundColor: "#E79696" }}
+                    >
+                      {
+                        this.renderSubscribe()
+                      }
                     </Button>
                   </Row>
                   <Row className="d-flex justify-content-end"><Button onClick={this.clickNewQuiz} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Quiz</Button></Row>
-                  <Row className="d-flex justify-content-end"><Link to={"/newPost"} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Post</Link></Row>
+                  <Row className="d-flex justify-content-end"><Button onClick={this.clickNewPost} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Post</Button></Row>
 
                 </Col>
               </Row>
@@ -400,16 +548,16 @@ export default class Platform extends Component {
 
 
           {this.state.platformFeed ?
-            <div className="platformQuizFeed" >{
-              rendquizs
-            }
+            <div className="platformQuizFeed" >
+              {rendcontent}
             </div>
-            :""
+
+            : ""
           }
 
 
-          {this.state.lederboardScreen ? <PlatformLeaderboardComponent ScoreBoard={this.state.ScoreBoard} />:""}
-
+          {this.state.lederboardScreen ? <PlatformLeaderboardComponent ScoreBoard={this.state.ScoreBoard} /> : ""}
+          {this.state.viewAllbadgeScreen ? <PlatformBadgeComponent PlatformBadgeArray={this.state.PlatformBadgeArray} /> : ""}
         </div>
       </div>
 

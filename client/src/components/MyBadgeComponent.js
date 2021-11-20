@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Form, Col, Row, Container, Button } from "react-bootstrap";
 import axios from "axios";
 import Card from 'react-bootstrap/Card';
+import '../css/UserBadgesFeed.css';
 //import axios from 'axios';
 //import { SketchPicker } from 'react-color';
 
@@ -54,18 +55,16 @@ export default class MyBadge extends Component {
 
     let badges = this.state.Badges?.map((badge, i) => (
       <Col key={i}>
-        <Card className='ml-auto activityCard'>
+        <Card className='activityCard'>
           <Card.Img variant='top' className='activityCardImage' src={badge.BadgePicture}></Card.Img>
-          <Button className='activityCardButton' variant="primary">
             {badge.BadgeTitle}
-          </Button>
         </Card>
       </Col>
     ))
 
     let rendbadges = [];
     while (badges.length > 0) {
-      let chunk = badges.splice(0, 4);
+      let chunk = badges.splice(0, 3);
       rendbadges.push(chunk)
     }
 
@@ -82,6 +81,14 @@ export default class MyBadge extends Component {
               Back
             </Link>
             My badges
+
+            {/* Dynamically populate with this user's earned badges */}
+            <div className="myBadgesFeed" >
+              {
+                rendbadges
+              }
+            </div>
+
           </div>
 
           {/* commenting out placeholder */}
@@ -129,12 +136,7 @@ export default class MyBadge extends Component {
             </Row>
           </Container>
 */}
-          {/* Dynamically populate with this user's earned badges */}
-          <div className="myBadgesFeed" >
-            {
-              rendbadges
-            }
-          </div>
+
 
         </div>
       </div>

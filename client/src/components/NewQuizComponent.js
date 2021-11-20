@@ -128,9 +128,8 @@ export default class NewQuizComponent extends Component {
         axios.post('/quizzes/createQuiz', quizObject)
             .then(res => console.log(res.data));
 
-        
-
         var idsOfBadges = []
+        var idOfNewBadge = ''
         let j = 0;
         while(this.state.QuizBadgeArray[j]){
             const newBadgeObject = {
@@ -142,14 +141,24 @@ export default class NewQuizComponent extends Component {
             }
 
             await axios.post('/badges/createBadge', newBadgeObject)
-                .then(res => {idsOfBadges.push(res.data)})
-            
+                .then(res => {idsOfBadges.push(res.data);
+                            idOfNewBadge = res.data})
+            this.state.QuizBadgeArray[j].badgeID = idOfNewBadge
+
             j++
         }
 
 
 
-    
+        const quizObject = {
+            QuizTitle: this.state.title,
+            QuizID: this.state.id,
+            QuizBackground: this.state.backgroundPic,
+            QuizQuestions: this.state.questionArray,
+            QuizAnswerKey: answer,
+            QuizBadgeArray: this.state.QuizBadgeArray,
+            PlatformID: PlatformID
+        };
 
 
         await axios.post('/quizzes/createQuiz', quizObject)
@@ -163,6 +172,7 @@ export default class NewQuizComponent extends Component {
                 console.log('logging res', res);
                 let plat = res.data;
                 plat.PlatformQuizArray.push(newIDofQuiz);
+                plat.PlatformContentArray.push(newIDofQuiz);
                 let k = 0;
                 while(idsOfBadges[k]){
                     plat.PlatformBadgeArray.push(idsOfBadges[k])
