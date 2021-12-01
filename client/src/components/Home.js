@@ -60,11 +60,22 @@ export default class Home extends Component {
         //should be  /home/:userid
         this.props.history.push('/')
     }
+    /*
     routeChangeProfile() {
         //should be  /profile/:userid
 
         this.props.history.push('/profile')
     }
+    */
+    routeChangeProfile = (UserID) => {
+        //should be  /profile/:userid
+        sessionStorage.setItem('current platform', UserID);
+        sessionStorage.setItem('previous platform', UserID);
+        this.props.history.push('/profile/' + UserID);
+    }
+    
+
+
     routeChangePlatform = (PlatformID) => {
         //should be  /profile/:userid
         sessionStorage.setItem('current platform', PlatformID);
@@ -236,7 +247,7 @@ export default class Home extends Component {
                             Welcome, {this.state.UserName}!
                         </p>
                     </Card>
-                    <Button className='ml-auto gray' onClick={this.routeChangeProfile} variant="primary">
+                    <Button className='ml-auto gray' onClick={/*this.routeChangeProfile*/() => this.routeChangeProfile(this.state.UserID)} variant="primary">
                         Profile
                     </Button>
                 </Row>
