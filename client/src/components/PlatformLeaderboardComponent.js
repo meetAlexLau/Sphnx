@@ -125,7 +125,9 @@ export default class PlatformLeaderboard extends Component {
                         {index+1}.
                       </Col>
                       <Col  >
+                      <Link to ={"/profile/" +input.userId}>
                         {input.userName}
+                        </Link>
                       </Col>
                       <Col  >
                         {input.point}
