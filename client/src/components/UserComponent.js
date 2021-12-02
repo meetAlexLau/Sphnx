@@ -36,12 +36,13 @@ export default class UserComponent extends Component{
     }
 
     componentDidMount(){
-        if(this.state.isLoggedIn !== "true"){
+        console.log(this.props.location.state.isLoggedIn)
+        if (this.props.location.state.isLoggedIn == false) {
             this.props.history.push('/')
         }
         else{
             
-            axios.get('http://localhost:4000/users/' + sessionStorage.getItem('profileID'))
+            axios.get('http://localhost:4000/users/' + this.props.match.params.id)
                 .then(res => {
                     let User = res.data;
                     console.log(res);
@@ -60,17 +61,26 @@ export default class UserComponent extends Component{
     }
 
     onClickNewPlatform(){
-      this.props.history.push('/newPlatform')
+      this.props.history.push({
+          pathname:'/newPlatform',
+          state: {isLoggedIn:true}
+          })
     }
 
     onClickPlatform(PlatformID){
         sessionStorage.setItem('current platform', PlatformID);
         sessionStorage.setItem('previous platform', PlatformID);
-        this.props.history.push('/platform/' + PlatformID);
+        this.props.history.push({
+            pathname:'/platform/' + PlatformID,
+            state: {isLoggedIn:true}
+            });
     }
 
     onClickMyBadge(){
-      this.props.history.push('/myBadge')
+      this.props.history.push({
+          pathname: '/myBadge',
+          state: {isLoggedIn:true}
+      })
     }
 
     onClickQuiz(){
@@ -101,6 +111,11 @@ export default class UserComponent extends Component{
         });
     }
     
+    renderNewPlatformButton() {
+        if(this.props.match.params.id == sessionStorage.getItem('ID'))
+            return <Button onClick={this.onClickNewPlatform} className="profileCard" style={{background: this.state.UserPrimaryColor}}> New Platform </Button>
+    }
+
     render(){
         //<Button onClick={this.onClickPlatform}  className="profileCard" style={{background: this.state.UserPrimaryColor}}>Cowboys</Button>
         //<Button onClick={this.onClickPlatform} className="profileCard" style={{background: this.state.UserPrimaryColor}}>Instruments</Button>
@@ -121,7 +136,7 @@ export default class UserComponent extends Component{
             <Col md={12}>
                 <Row>
                 <Col md={1}>
-                    <Link to="/home" class="homeButton">
+                    <Link to={{pathname:"/home", state: {isLoggedIn:true}}} class="homeButton">
                     Return Home
                     </Link>
                 </Col>
@@ -174,7 +189,8 @@ export default class UserComponent extends Component{
                 </Col>
                 <Col md={1}>
                     <Button onClick={this.onClickMyBadge} className="profilePageButton" style={{background: this.state.UserPrimaryColor}}>View All Badges</Button>
-                    <Link to="/profile/edit" className="profilePageButton" style={{background: this.state.UserPrimaryColor}}>Edit Profile </Link>
+                    <Link to={{pathname:"/profile/edit", state: {isLoggedIn:true}}} 
+                    className="profilePageButton" style={{background: this.state.UserPrimaryColor}}>Edit Profile </Link>
                 </Col>
                 </Row>
             </Col>
@@ -188,7 +204,9 @@ export default class UserComponent extends Component{
                     <div className="profileCard" style={{background: this.state.UserPrimaryColor}}>My Platforms</div>
                     </Col>
                     <Col md={4}>
-                    <Button onClick={this.onClickNewPlatform} className="profileCard" style={{background: this.state.UserPrimaryColor}}> New Platform </Button>
+                    
+                    {this.renderNewPlatformButton()}
+                    
                     </Col>
                 </Row>
                 <Row style={{ margin: "8px" }}>

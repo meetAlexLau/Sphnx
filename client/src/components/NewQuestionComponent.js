@@ -24,7 +24,10 @@ export default class NewQuestionComponent extends Component {
     }
 
     routeChangePlatform(e) {
-        this.props.history.push('/platform')
+        this.props.history.push({
+            pathname:'/platform',
+            state: {isLoggedIn:true}
+            })
     }
 
 

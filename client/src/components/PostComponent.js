@@ -23,7 +23,7 @@ export default class Post extends Component {
     }
 
     async componentDidMount() {
-        if (this.state.isLoggedIn !== "true") {
+        if (this.props.location.state.isLoggedIn == false) {
             this.props.history.push('/')
         }
         else {

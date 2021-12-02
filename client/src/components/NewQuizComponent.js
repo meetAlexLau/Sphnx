@@ -65,7 +65,7 @@ export default class NewQuizComponent extends Component {
     }
 
     componentDidMount() {
-        if (this.state.isLoggedIn !== "true") {
+        if (this.props.match.params.isLoggedIn == false) {
             this.props.history.push('/')
         }
         else {
@@ -181,7 +181,10 @@ export default class NewQuizComponent extends Component {
 
 
         //this.props.history.push('/home')
-        this.props.history.push('/platform/'+PlatformID);
+        this.props.history.push({
+            pathname:'/platform/'+PlatformID,
+            state: {isLoggedIn:true}
+            });
         window.location.reload(false)
         
         

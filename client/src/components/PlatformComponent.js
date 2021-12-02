@@ -50,9 +50,10 @@ export default class Platform extends Component {
     let PlatformID = currentPlatform ? currentPlatform : sessionStorage.getItem('previous platform')
     sessionStorage.setItem('current platform', sessionStorage.getItem('previous platform'))
     //
-    if (this.state.isLoggedIn !== "true") {
+    
+    if (this.props.match.params.isLoggedIn == false) {
       this.props.history.push('/')
-    }
+      }
     else {
       await axios.get('http://localhost:4000/platforms/' + PlatformID)
         .then(res => {
@@ -96,71 +97,20 @@ export default class Platform extends Component {
   routeChangeQuiz = (QuizID) => {
     sessionStorage.setItem('current quiz', QuizID);
     sessionStorage.setItem('previous quiz', QuizID);
-    this.props.history.push('/quiz/' + QuizID);
+    this.props.history.push({
+      pathname: '/quiz/' + QuizID,
+      state: {isLoggedIn:true}
+      });
   }
 
   routeChangePost = (PostID) => {
     sessionStorage.setItem('current post', PostID);
     sessionStorage.setItem('previous post', PostID);
-    this.props.history.push('/post/' + PostID);
+    this.props.history.push({
+      pathname:'/post/' + PostID,
+      state: {isLoggedIn:true}
+      });
   }
-
-/*
-  getQuizzes = async (PlatformID) => {
-    let q = [];
-    let plat;
-
-    // get platformquizarray from this platform
-    await axios.get('http://localhost:4000/platforms/' + PlatformID)
-      .then(res => {
-        plat = res.data;
-      })
-
-    // iterate through and get all quizzes
-    for (let i = 0; i < plat.PlatformQuizArray.length; i++) {
-      try {
-        await axios.get('http://localhost:4000/quizzes/' + plat.PlatformQuizArray[i])
-          .then(res => {
-            q.push(res.data);
-            this.setState({
-              Quizzes: this.state.Quizzes.concat([q[i]])
-            })
-          })
-      } catch (err) {
-        console.log(err);
-      }
-    }
-    //console.log(this.state.Quizzes);
-  }
-  */
- /*
-  getPosts = async (PlatformID) => {
-    let q = [];
-    let plat;
-
-    // get platformpostarray from this platform
-    await axios.get('http://localhost:4000/platforms/' + PlatformID)
-      .then(res => {
-        plat = res.data;
-      })
-
-    // iterate through and get all posts
-    for (let i = 0; i < plat.PlatformPostArray.length; i++) {
-      try {
-        await axios.get('http://localhost:4000/posts/' + plat.PlatformPostArray[i])
-          .then(res => {
-            q.push(res.data);
-            this.setState({
-              Posts: this.state.Posts.concat([q[i]])
-            })
-          })
-      } catch (err) {
-        console.log(err);
-      }
-    }
-  
-  }
- */
   
   getContent = async() => {
     let content = []
@@ -171,7 +121,6 @@ export default class Platform extends Component {
         await axios.get('http://localhost:4000/quizzes/' + getContent[i])
         .then((res) => {
           let quiz = res.data;
-          console.log(quiz);
           let quizdata = [quiz.QuizTitle, quiz.QuizID, "quiz", quiz.QuizBackground]
           content.push(quizdata)
         })
@@ -188,7 +137,6 @@ export default class Platform extends Component {
     this.setState({
       PlatformContentArray: content
     })
-    console.log("CONTENT:", content);
   }
 
 
@@ -290,7 +238,10 @@ export default class Platform extends Component {
     console.log(this.state.Creator)
     console.log(sessionStorage.getItem('UserID'))
     if (this.state.Creator == sessionStorage.getItem('UserID')) {
-      this.props.history.push('/newQuiz')
+      this.props.history.push({
+        pathname:'/newQuiz',
+        state: {isLoggedIn:true}
+        })
     }
     else {
 
@@ -301,7 +252,10 @@ export default class Platform extends Component {
     console.log(this.state.Creator)
     console.log(sessionStorage.getItem('UserID'))
     if (this.state.Creator == sessionStorage.getItem('UserID')) {
-      this.props.history.push('/newPost')
+      this.props.history.push({
+        pathname:'/newPost',
+        state: {isLoggedIn:true}
+      })
     }
     else {
 
@@ -352,7 +306,6 @@ export default class Platform extends Component {
           </Card>
         </Row>
     })
-    console.log("REND CONTENT:", rendcontent)
 
     //copy above for post---------------------------------------------------------------------------------
       //console.log(this.state.Posts)
@@ -412,7 +365,7 @@ export default class Platform extends Component {
                     </button>
 
 
-                    <Link to={"/home"} className="platform-home-button"></Link>
+                    <Link to={{pathname:"/home", state: {isLoggedIn:true}}} className="platform-home-button"></Link>
                   </Row>
                   <Row>
                     <button className="platform-left-button" onClick={() => this.onClickViewAllbadges()}>

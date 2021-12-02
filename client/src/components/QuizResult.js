@@ -13,6 +13,7 @@ export default class QuizResult extends Component{
         this.routeHome = this.routeHome.bind(this);
         this.routePlatform = this.routePlatform.bind(this);
     }
+    
     renderQuestions = () => {
         const q = [];
         for(var i =0; i < this.props.numberOfQuestion; i++){
@@ -29,7 +30,10 @@ export default class QuizResult extends Component{
     }
 
     routeHome(){
-        this.props.history.push('/home');
+        this.props.history.push({
+            pathname:'/home',
+            state: {isLoggedIn:true}
+            });
     }
 
     /*
@@ -43,7 +47,10 @@ export default class QuizResult extends Component{
         //should be  /profile/:userid
         sessionStorage.setItem('current platform', this.props.platformID);
         sessionStorage.setItem('previous platform', this.props.platformID);
-        this.props.history.push('/platform/' + this.props.platformID);
+        this.props.history.push({
+            pathname:'/platform/' + this.props.platformID,
+            state: {isLoggedIn:true}
+            });
     }
 
     render(){

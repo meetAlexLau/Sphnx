@@ -64,9 +64,9 @@ export default class Quiz extends Component {
 
 
   async componentDidMount() {
-    if (this.state.isLoggedIn !== "true") {
+    if (this.props.match.params.isLoggedIn == false) {
       this.props.history.push('/')
-    }
+      }
     else {
 
       let currentQuiz = sessionStorage.getItem('current quiz');
@@ -234,12 +234,6 @@ export default class Quiz extends Component {
       .catch(err => console.log(err))
 
     //update platform scoreboard-------------
-
-
-    console.log("platoform name is " + this.state.platformName)
-    console.log("platoform id is " + this.state.platformID)
-
-
   }
   onClickNext() {
     /*if (this.state.indexOfQuestion >= this.state.numberOfQuestion - 1) {
@@ -262,10 +256,7 @@ export default class Quiz extends Component {
     } else {
       this.setState({ indexOfQuestion: this.state.indexOfQuestion - 1 })
       console.log(this.state.indexOfQuestion)
-
     }
-
-
   }
 
   onValueChange(event) {

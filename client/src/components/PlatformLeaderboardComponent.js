@@ -125,7 +125,7 @@ export default class PlatformLeaderboard extends Component {
                         {index+1}.
                       </Col>
                       <Col  >
-                      <Link to ={"/profile/" +input.userId} onClick={() => sessionStorage.setItem("profileID", input.userId)}>
+                      <Link to ={{pathname:"/profile/" +input.userId, state:{isLoggedIn:true}}} onClick={() => sessionStorage.setItem('profileID', input.userId)}>
                         {input.userName}
                         </Link>
                       </Col>

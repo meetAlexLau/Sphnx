@@ -25,7 +25,7 @@ class App extends Component{
         return(
 
             <Router>
-                <Route path="/" exact component={Login} />
+                <Route path="/" exact component={Login}/>
                 <Route path="/home" exact component={Home} />
                 <Route path="/profile/:id" exact component={UserComponent} />
                 <Route path="/profile/edit" exact component={EditUserComponent} />

@@ -54,7 +54,7 @@ export default class NewPostComponent extends Component {
         }
     }
     componentDidMount() {
-        if(this.state.isLoggedIn !== "true"){
+        if (this.props.match.params.isLoggedIn == false) {
             this.props.history.push('/')
         }
         else{

@@ -36,7 +36,7 @@ export default class Home extends Component {
         }
     }
     componentDidMount() {
-        if (this.state.isLoggedIn !== "true") {
+        if (this.props.location.state.isLoggedIn == false) {
             this.props.history.push('/')
         }
         else {
@@ -50,6 +50,7 @@ export default class Home extends Component {
                         UserEmail: User.UserEmail,
                         UserSubscribedPlatformArray: User.UserSubscribedPlatformArray
                     });
+                    sessionStorage.setItem('ID', User._id)
                     this.renderSubscribePlatforms();
                 })
                 .catch((err) => {
@@ -71,9 +72,10 @@ export default class Home extends Component {
     */
     routeChangeProfile = (ProfileID) => {
         //should be  /profile/:userid
-        sessionStorage.setItem('current platform', ProfileID);
-        sessionStorage.setItem('previous platform', ProfileID);
-        this.props.history.push('/profile/' + ProfileID);
+        this.props.history.push({
+            pathname: '/profile/' + ProfileID,
+            state: {isLoggedIn:true}
+            });
     }
     
 
@@ -82,19 +84,28 @@ export default class Home extends Component {
         //should be  /profile/:userid
         sessionStorage.setItem('current platform', PlatformID);
         sessionStorage.setItem('previous platform', PlatformID);
-        this.props.history.push('/platform/' + PlatformID);
+        this.props.history.push({
+            pathname:'/platform/' + PlatformID,
+            state: {isLoggedIn:true}
+            });
     }
     routeChangeQuiz = (QuizID) => {
         //should be  /profile/:userid
         sessionStorage.setItem('current quiz', QuizID);
         sessionStorage.setItem('previous quiz', QuizID);
-        this.props.history.push('/quiz/' + QuizID);
+        this.props.history.push({
+            pathname:'/quiz/' + QuizID,
+            state: {isLoggedIn:true}
+            });
     }
     routeChangePost = (PostID) => {
         //should be  /profile/:userid
         sessionStorage.setItem('current post', PostID);
         sessionStorage.setItem('previous post', PostID);
-        this.props.history.push('/post/' + PostID);
+        this.props.history.push({
+            pathname:'/post/' + PostID,
+            state: {isLoggedIn:true}
+            });
     }
 
     logout = (response) => {
