@@ -41,9 +41,10 @@ export default class UserComponent extends Component{
         }
         else{
             
-            axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
+            axios.get('http://localhost:4000/users/' + sessionStorage.getItem('profileID'))
                 .then(res => {
-                    let User = res.data[0];
+                    let User = res.data;
+                    console.log(res);
                     this.setState({
                         UserName : User.UserName,
                         UserPicture : User.UserPicture,

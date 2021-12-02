@@ -51,6 +51,7 @@ export default class Login extends Component{
                     let UserData = res.data[0]
                     if(typeof UserData !== 'undefined'){ //RETURNING USER
                         sessionStorage.setItem('UserID', UserData.UserID)
+                        sessionStorage.setItem("profileID", UserData._id)
                         sessionStorage.setItem("id token", resp.tokenId)
                         sessionStorage.setItem("isLoggedIn", true);
                         this.refreshTokenSetup(resp)
@@ -61,6 +62,7 @@ export default class Login extends Component{
                             .then((res) => {
                                 console.log("NEW USER")
                                 sessionStorage.setItem('UserID', newUser.UserID)
+                                sessionStorage.setItem("profileID", UserData._id)
                                 sessionStorage.setItem("id token", resp.tokenId)
                                 sessionStorage.setItem("isLoggedIn", true);
                                 console.log("TOKEN ID", resp.tokenId)

@@ -25,6 +25,7 @@ export default class Home extends Component {
         this.renderSubscribePlatforms = this.renderSubscribePlatforms.bind(this);
         this.state = {
             isLoggedIn: sessionStorage.getItem('isLoggedIn'),
+            ProfileID: '',
             UserID: '',
             UserName: '',
             UserEmail: '',
@@ -43,6 +44,7 @@ export default class Home extends Component {
                 .then((res) => {
                     let User = res.data[0];
                     this.setState({
+                        ProfileID: User._id,
                         UserName: User.UserName,
                         UserID: User.UserID,
                         UserEmail: User.UserEmail,
@@ -67,11 +69,11 @@ export default class Home extends Component {
         this.props.history.push('/profile')
     }
     */
-    routeChangeProfile = (UserID) => {
+    routeChangeProfile = (ProfileID) => {
         //should be  /profile/:userid
-        sessionStorage.setItem('current platform', UserID);
-        sessionStorage.setItem('previous platform', UserID);
-        this.props.history.push('/profile/' + UserID);
+        sessionStorage.setItem('current platform', ProfileID);
+        sessionStorage.setItem('previous platform', ProfileID);
+        this.props.history.push('/profile/' + ProfileID);
     }
     
 
@@ -117,45 +119,6 @@ export default class Home extends Component {
             console.log(err)
         }
     }
-
-    /*
-    renderQuizzes = async () => {
-        let q = [];
-        try {
-            await axios.get('http://localhost:4000/quizzes')
-                .then(res => {
-                    q = res.data;
-                    for (var i = 0; i < q.length; i++) {
-                        this.setState({
-                            Quizzes: this.state.Quizzes.concat([q[i]])
-                        })
-                    }
-                })
-        } catch (err) {
-            console.log(err);
-        }
-    }
-    */
-
-    /*
-    renderUsers = async () => {
-        let u = [];
-        try {
-            await axios.get('http://localhost:4000/users')
-                .then(res => {
-                    u = res.data;
-                    for (var i = 0; i < u.length; i++) {
-                        this.setState({
-                            Users: this.state.Users.concat([u[i]])
-                        })
-                    }
-                })
-            console.log(this.state.Users)
-        } catch (err) {
-            console.log(err);
-        }
-    }
-    */
 
     renderSubscribePlatforms= async() =>{
         let result = [];
@@ -247,7 +210,7 @@ export default class Home extends Component {
                             Welcome, {this.state.UserName}!
                         </p>
                     </Card>
-                    <Button className='ml-auto gray' onClick={/*this.routeChangeProfile*/() => this.routeChangeProfile(this.state.UserID)} variant="primary">
+                    <Button className='ml-auto gray' onClick={/*this.routeChangeProfile*/() => this.routeChangeProfile(this.state.ProfileID)} variant="primary">
                         Profile
                     </Button>
                 </Row>
