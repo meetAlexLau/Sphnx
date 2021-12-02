@@ -20,6 +20,7 @@ export default class UserComponent extends Component{
         this.state = {
             isLoggedIn: sessionStorage.getItem('isLoggedIn'),
             UserPrimaryColor: '',
+            ID: '',
             UserSecondaryColor: '',
             UserName: '',
             UserPicture: "",
@@ -36,7 +37,6 @@ export default class UserComponent extends Component{
     }
 
     componentDidMount(){
-        console.log(this.props.location.state.isLoggedIn)
         if (this.props.location.state.isLoggedIn == false) {
             this.props.history.push('/')
         }
@@ -45,8 +45,8 @@ export default class UserComponent extends Component{
             axios.get('http://localhost:4000/users/' + this.props.match.params.id)
                 .then(res => {
                     let User = res.data;
-                    console.log(res);
                     this.setState({
+                        ID: User._id,
                         UserName : User.UserName,
                         UserPicture : User.UserPicture,
                         UserPrimaryColor : User.UserPrimaryColor,
@@ -78,8 +78,8 @@ export default class UserComponent extends Component{
 
     onClickMyBadge(){
       this.props.history.push({
-          pathname: '/myBadge',
-          state: {isLoggedIn:true}
+          pathname: '/myBadge/' + this.state.ID,
+          state: {isLoggedIn:true, ID: this.state.ID}
       })
     }
 
@@ -189,7 +189,7 @@ export default class UserComponent extends Component{
                 </Col>
                 <Col md={1}>
                     <Button onClick={this.onClickMyBadge} className="profilePageButton" style={{background: this.state.UserPrimaryColor}}>View All Badges</Button>
-                    <Link to={{pathname:"/profile/edit", state: {isLoggedIn:true}}} 
+                    <Link to={{pathname:"/profile/edit/" + this.state.ID, state: {isLoggedIn:true}}} 
                     className="profilePageButton" style={{background: this.state.UserPrimaryColor}}>Edit Profile </Link>
                 </Col>
                 </Row>

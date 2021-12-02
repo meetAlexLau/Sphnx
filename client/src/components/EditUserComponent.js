@@ -135,7 +135,10 @@ export default class EditUserComponent extends Component{
         axios.put(newPath, updatedUser)
           .then(res => console.log(res.data))
           .catch(err => console.log(err))
-        this.props.history.push('/profile')
+        this.props.history.push({
+          pathname:'/profile/' + this.state.IDtoEdit,
+          state:{isLoggedIn:true}
+          })
         window.location.reload(false);
 
       }
@@ -301,7 +304,7 @@ export default class EditUserComponent extends Component{
                         boxSizing: 'border-box',
                         borderRadius: '20px',
                   }}
-                  to={'/profile'}>
+                  to={{pathname:'/profile/' + this.state.IDtoEdit, state:{isLoggedIn:true}}}>
                     Exit
               </Link>
               <Button
