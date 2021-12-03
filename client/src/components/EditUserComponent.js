@@ -57,9 +57,9 @@ export default class EditUserComponent extends Component{
     }
 
     componentDidMount(){
-      if(this.state.isLoggedIn !== "true"){
-            this.props.history.push('/')
-        }
+      if (this.props.match.params.isLoggedIn == false) {
+      this.props.history.push('/')
+      }
       else{
 
         axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))

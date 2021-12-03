@@ -25,6 +25,7 @@ export default class Home extends Component {
         this.renderSubscribePlatforms = this.renderSubscribePlatforms.bind(this);
         this.state = {
             isLoggedIn: sessionStorage.getItem('isLoggedIn'),
+            ProfileID: '',
             UserID: '',
             UserName: '',
             UserEmail: '',
@@ -35,7 +36,7 @@ export default class Home extends Component {
         }
     }
     componentDidMount() {
-        if (this.state.isLoggedIn !== "true") {
+        if (this.props.location.state.isLoggedIn == false) {
             this.props.history.push('/')
         }
         else {
@@ -43,11 +44,13 @@ export default class Home extends Component {
                 .then((res) => {
                     let User = res.data[0];
                     this.setState({
+                        ProfileID: User._id,
                         UserName: User.UserName,
                         UserID: User.UserID,
                         UserEmail: User.UserEmail,
                         UserSubscribedPlatformArray: User.UserSubscribedPlatformArray
                     });
+                    sessionStorage.setItem('ID', User._id)
                     this.renderSubscribePlatforms();
                 })
                 .catch((err) => {
@@ -60,28 +63,49 @@ export default class Home extends Component {
         //should be  /home/:userid
         this.props.history.push('/')
     }
+    /*
     routeChangeProfile() {
         //should be  /profile/:userid
 
         this.props.history.push('/profile')
     }
+    */
+    routeChangeProfile = (ProfileID) => {
+        //should be  /profile/:userid
+        this.props.history.push({
+            pathname: '/profile/' + ProfileID,
+            state: {isLoggedIn:true}
+            });
+    }
+    
+
+
     routeChangePlatform = (PlatformID) => {
         //should be  /profile/:userid
         sessionStorage.setItem('current platform', PlatformID);
         sessionStorage.setItem('previous platform', PlatformID);
-        this.props.history.push('/platform/' + PlatformID);
+        this.props.history.push({
+            pathname:'/platform/' + PlatformID,
+            state: {isLoggedIn:true}
+            });
     }
     routeChangeQuiz = (QuizID) => {
         //should be  /profile/:userid
         sessionStorage.setItem('current quiz', QuizID);
         sessionStorage.setItem('previous quiz', QuizID);
-        this.props.history.push('/quiz/' + QuizID);
+        this.props.history.push({
+            pathname:'/quiz/' + QuizID,
+            state: {isLoggedIn:true}
+            });
     }
     routeChangePost = (PostID) => {
         //should be  /profile/:userid
         sessionStorage.setItem('current post', PostID);
         sessionStorage.setItem('previous post', PostID);
-        this.props.history.push('/post/' + PostID);
+        this.props.history.push({
+            pathname:'/post/' + PostID,
+            state: {isLoggedIn:true}
+            });
     }
 
     logout = (response) => {
@@ -106,45 +130,6 @@ export default class Home extends Component {
             console.log(err)
         }
     }
-
-    /*
-    renderQuizzes = async () => {
-        let q = [];
-        try {
-            await axios.get('http://localhost:4000/quizzes')
-                .then(res => {
-                    q = res.data;
-                    for (var i = 0; i < q.length; i++) {
-                        this.setState({
-                            Quizzes: this.state.Quizzes.concat([q[i]])
-                        })
-                    }
-                })
-        } catch (err) {
-            console.log(err);
-        }
-    }
-    */
-
-    /*
-    renderUsers = async () => {
-        let u = [];
-        try {
-            await axios.get('http://localhost:4000/users')
-                .then(res => {
-                    u = res.data;
-                    for (var i = 0; i < u.length; i++) {
-                        this.setState({
-                            Users: this.state.Users.concat([u[i]])
-                        })
-                    }
-                })
-            console.log(this.state.Users)
-        } catch (err) {
-            console.log(err);
-        }
-    }
-    */
 
     renderSubscribePlatforms= async() =>{
         let result = [];
@@ -236,7 +221,7 @@ export default class Home extends Component {
                             Welcome, {this.state.UserName}!
                         </p>
                     </Card>
-                    <Button className='ml-auto gray' onClick={this.routeChangeProfile} variant="primary">
+                    <Button className='ml-auto gray' onClick={/*this.routeChangeProfile*/() => this.routeChangeProfile(this.state.ProfileID)} variant="primary">
                         Profile
                     </Button>
                 </Row>

@@ -24,7 +24,13 @@ export default class Login extends Component{
     }
     routeChange() {
         //should be  /home/:userid
-        this.props.history.push('/home');
+        this.setState({
+            isLoggedIn: true
+        })
+        this.props.history.push({
+            pathname:'/home',
+            state: {isLoggedIn:true}
+            });
     }
     refreshTokenSetup = (res) => {
         let refreshTiming = (res.tokenObj.expires_in ||3600 - 5 * 60) * 1000;
@@ -51,8 +57,8 @@ export default class Login extends Component{
                     let UserData = res.data[0]
                     if(typeof UserData !== 'undefined'){ //RETURNING USER
                         sessionStorage.setItem('UserID', UserData.UserID)
+                        sessionStorage.setItem("profileID", UserData._id)
                         sessionStorage.setItem("id token", resp.tokenId)
-                        sessionStorage.setItem("isLoggedIn", true);
                         this.refreshTokenSetup(resp)
                         this.routeChange();
                     }
@@ -61,8 +67,8 @@ export default class Login extends Component{
                             .then((res) => {
                                 console.log("NEW USER")
                                 sessionStorage.setItem('UserID', newUser.UserID)
+                                sessionStorage.setItem("profileID", UserData._id)
                                 sessionStorage.setItem("id token", resp.tokenId)
-                                sessionStorage.setItem("isLoggedIn", true);
                                 console.log("TOKEN ID", resp.tokenId)
                                 console.log("ACCESS TOKEN", resp.accessToken)
                                 this.refreshTokenSetup(resp)
