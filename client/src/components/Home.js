@@ -79,7 +79,6 @@ export default class Home extends Component {
     }
     
 
-
     routeChangePlatform = (PlatformID) => {
         //should be  /profile/:userid
         sessionStorage.setItem('current platform', PlatformID);
@@ -226,7 +225,7 @@ export default class Home extends Component {
                     </Button>
                 </Row>
                 <Row className='medium homesearchbar'> {/* Search Bar */}
-                        <SearchBar placeholder="Enter a platform name..." data={this.state.Platforms} />
+                        <SearchBar placeholder="Enter a platform name..." data={this.state.Platforms}/>
                 </Row>
                 <Row className='mainFeed medium ml-auto mr-auto' style={{ alignContent: "center" }}>  {/* Home Container for Platform,Quiz,Profile */}
                     <Container fluid className='homecontainer'>

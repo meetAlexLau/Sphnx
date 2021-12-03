@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, Link } from "react";
+import { useHistory } from "react-router-dom";
 import "../css/SearchBar.css";
 
+function SearchBar({ placeholder, data}) {
+    let history = useHistory();
 
-function SearchBar({ placeholder, data }) {
     const [filteredData, setFilteredData] = useState([]);
     const [wordEntered, setWordEntered] = useState("");
 
@@ -25,6 +27,15 @@ function SearchBar({ placeholder, data }) {
         setWordEntered("");
     };
 
+    const routeChangePlatform = function(PlatformID){
+        sessionStorage.setItem('current platform', PlatformID);
+        sessionStorage.setItem('previous platform', PlatformID);
+        history.push({
+            pathname:'/platform/' + PlatformID,
+            state: {isLoggedIn:true}
+            });
+    }
+
     return (
         <div className="search">
             <div className="searchInputs">
@@ -39,15 +50,16 @@ function SearchBar({ placeholder, data }) {
                 <div className="dataResult">
                     {filteredData.slice(0, 15).map((value, key) => {
                         return (
-                            <a className="dataItem" href={'/platform/'+value.PlatformID} target="_blank">
+                            <button type="button" className="dataItem" onClick={routeChangePlatform.bind(this, value.PlatformID)}>
                                 <p>{value.PlatformName}</p>
-                            </a>
+                            </button>
                         );
                     })}
                 </div>
             )}
         </div>
     );
+    
 }
 
 export default SearchBar;
