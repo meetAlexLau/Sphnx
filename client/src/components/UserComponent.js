@@ -34,6 +34,7 @@ export default class UserComponent extends Component{
         this.onClickFriend = this.onClickFriend.bind(this)
         this.onClickMyBadge = this.onClickMyBadge.bind(this)
         this.onClickQuiz = this.onClickQuiz.bind(this)
+        this.onClickEditProfile = this.onClickEditProfile.bind(this)
         this.renderPlatforms = this.renderPlatforms.bind(this)
         this.renderFriends = this.renderFriends.bind(this)
         this.renderIsFriend = this.renderIsFriend.bind(this)
@@ -119,6 +120,13 @@ export default class UserComponent extends Component{
       })
     }
 
+    onClickEditProfile(){
+        this.props.history.push({
+            pathname: '/profile/edit',
+            state: {isLoggedIn: true}
+        })
+    }
+
     onClickQuiz(){
       this.props.history.push('/quiz')
     }
@@ -194,6 +202,12 @@ export default class UserComponent extends Component{
         document.getElementById('add friend').innerHTML = 'Add friend'
       }
 
+    }
+
+    renderEditProfileButton(){
+        if(this.props.match.params.id == sessionStorage.getItem('ID'))
+            return <Button onClick={this.onClickEditProfile} 
+            className="profilePageButton" style={{background: this.state.UserPrimaryColor}}>Edit Profile </Button>
     }
 
   
@@ -277,18 +291,7 @@ export default class UserComponent extends Component{
                 >
                     <Row>
                     <Col md={1}>
-                        <Image
-                        src="https://www.pngmart.com/files/14/Golden-Ribbon-Badge-PNG.png"
-                        fluid
-                        />
-                        <Image
-                        src="https://www.pngmart.com/files/14/Golden-Ribbon-Badge-PNG.png"
-                        fluid
-                        />
-                        <Image
-                        src="https://www.pngmart.com/files/14/Golden-Ribbon-Badge-PNG.png"
-                        fluid
-                        />
+                        
                     </Col>
                     <Col md={10}>
                         <Image
@@ -301,26 +304,12 @@ export default class UserComponent extends Component{
                         <div className="profileNameTag"
                             style={{background: this.state.UserSecondaryColor}}>Total Points: {""+this.state.UserPoints}</div>
                     </Col>
-                    <Col md={1}>
-                        <Image
-                        src="https://www.pngmart.com/files/14/Golden-Ribbon-Badge-PNG.png"
-                        fluid
-                        />
-                        <Image
-                        src="https://www.pngmart.com/files/14/Golden-Ribbon-Badge-PNG.png"
-                        fluid
-                        />
-                        <Image
-                        src="https://www.pngmart.com/files/14/Golden-Ribbon-Badge-PNG.png"
-                        fluid
-                        />
-                    </Col>
+                    
                     </Row>
                 </Col>
                 <Col md={1}>
                     <Button onClick={this.onClickMyBadge} className="profilePageButton" style={{background: this.state.UserPrimaryColor}}>View All Badges</Button>
-                    <Link to={{pathname:"/profile/edit", state: {isLoggedIn:true}}} 
-                    className="profilePageButton" style={{background: this.state.UserPrimaryColor}}>Edit Profile </Link>
+                    {this.renderEditProfileButton()}
                     <Button id="add friend"
                       to={"/"}
                       onClick={() => this.addFriend()}
