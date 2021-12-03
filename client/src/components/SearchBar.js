@@ -39,7 +39,7 @@ function SearchBar({ placeholder, data }) {
                 <div className="dataResult">
                     {filteredData.slice(0, 15).map((value, key) => {
                         return (
-                            <a className="dataItem" href={value.link} target="_blank">
+                            <a className="dataItem" href={'/platform/'+value.PlatformID} target="_blank">
                                 <p>{value.PlatformName}</p>
                             </a>
                         );
