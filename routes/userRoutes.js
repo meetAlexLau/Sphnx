@@ -27,13 +27,14 @@ router.route('/:id').get(function(req, res) {
     });
 });
 
+// get all users
 router.route('/').get(function(req, res) {
-    userSchema.find(function(err, platforms){
+    userSchema.find(function(err, users){
         if(err) {
             console.log(err)
         }
         else{
-            res.json(platforms);
+            res.json(users);
         }
     })
 })

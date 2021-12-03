@@ -12,6 +12,8 @@ import axios from 'axios';
 import PlatformSearchBar from "./PlatformSearchBar"
 //import PlatData from "../Data.json"
 import Image from 'react-bootstrap/Image'
+import QuizSearchBar from './QuizSearchBar';
+import UserSearchBar from './UserSearchBar';
 
 export default class Home extends Component {
     constructor(props) {
@@ -23,6 +25,8 @@ export default class Home extends Component {
         this.routeChangePost = this.routeChangePost.bind(this);
         this.renderPlatforms = this.renderPlatforms.bind(this);
         this.renderSubscribePlatforms = this.renderSubscribePlatforms.bind(this);
+        this.pullQuizzes = this.pullQuizzes.bind(this);
+        this.pullUsers = this.pullUsers.bind(this);
         this.state = {
             isLoggedIn: sessionStorage.getItem('isLoggedIn'),
             ProfileID: '',
@@ -57,8 +61,8 @@ export default class Home extends Component {
                     console.log(err);
                 })
             this.renderPlatforms();
-            console.log(this.state.Quizzes);
-            console.log(this.state.Users);
+            this.pullQuizzes();
+            this.pullUsers();
         }
     }
     routeChangeLogout() {
@@ -151,15 +155,35 @@ export default class Home extends Component {
     pullQuizzes = async () => {
         let q = [];
         try {
-            await axios.get('http://localhost:4000/')
-
+            await axios.get('http://localhost:4000/quizzes')
+            .then(res => {
+                q = res.data
+                for (var i = 0; i < q.length; i++) {
+                    this.setState({
+                        Quizzes: this.state.Quizzes.concat([q[i]])
+                    })
+                }
+            })
         } catch (err) {
             console.log(err)
         }
     }
 
     pullUsers = async () => {
-
+        let u = [];
+        try {
+            await axios.get('http://localhost:4000/users')
+            .then(res => {
+                u = res.data
+                for (var i = 0; i < u.length; i++) {
+                    this.setState({
+                        Users: this.state.Users.concat([u[i]])
+                    })
+                }
+            })
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     render() {
@@ -242,8 +266,13 @@ export default class Home extends Component {
                     </Button>
                 </Row>
                 <Row className='medium homesearchbar'> {/* Search Bar */}
-                        <PlatformSearchBar placeholder="Enter a platform name..." data={this.state.Platforms}/>
+                        <PlatformSearchBar id='platsearch' placeholder="Enter a platform name..." data={this.state.Platforms}/>
+                        <QuizSearchBar id='quizsearch' placeholder="Enter a quiz name..." data={this.state.Quizzes}/>
+                        <UserSearchBar id='usersearch' placeholder="Enter a user's name..." data={this.state.Users}/>
                 </Row>
+                <script>
+                    
+                </script>
                 <Row className='mainFeed medium ml-auto mr-auto' style={{ alignContent: "center" }}>  {/* Home Container for Platform,Quiz,Profile */}
                     <Container fluid className='homecontainer'>
                         <Row>
