@@ -216,6 +216,20 @@ export default class UserComponent extends Component{
             return <Button onClick={this.onClickNewPlatform} className="profileCard" style={{background: this.state.UserPrimaryColor}}> New Platform </Button>
     }
 
+    renderAddFriendButton() {
+        if(this.props.match.params.id != sessionStorage.getItem('ID'))
+            return <Button id="add friend"
+                    to={"/"}
+                    onClick={() => this.addFriend()}
+                    className="profilePageButton"
+                    style={{background: this.state.UserPrimaryColor}}
+                >
+                    {
+                    this.renderIsFriend()
+                    }
+                </Button>
+    }
+
     addFriend = async () => {
         this.friendDisplay()
         let getUserID = sessionStorage.getItem('UserID');
@@ -310,16 +324,7 @@ export default class UserComponent extends Component{
                 <Col md={1}>
                     <Button onClick={this.onClickMyBadge} className="profilePageButton" style={{background: this.state.UserPrimaryColor}}>View All Badges</Button>
                     {this.renderEditProfileButton()}
-                    <Button id="add friend"
-                      to={"/"}
-                      onClick={() => this.addFriend()}
-                      className="profilePageButton"
-                      style={{background: this.state.UserPrimaryColor}}
-                    >
-                      {
-                        this.renderIsFriend()
-                      }
-                    </Button>
+                    {this.renderAddFriendButton()}
                 </Col>
                 </Row>
             </Col>
