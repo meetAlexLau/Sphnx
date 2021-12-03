@@ -2,7 +2,7 @@ import React, { useState, Link } from "react";
 import { useHistory } from "react-router-dom";
 import "../css/SearchBar.css";
 
-function SearchBar({ placeholder, data}) {
+function PlatformSearchBar({ placeholder, data}) {
     let history = useHistory();
 
     const [filteredData, setFilteredData] = useState([]);
@@ -50,9 +50,9 @@ function SearchBar({ placeholder, data}) {
                 <div className="dataResult">
                     {filteredData.slice(0, 15).map((value, key) => {
                         return (
-                            <button type="button" className="dataItem" onClick={routeChangePlatform.bind(this, value.PlatformID)}>
+                            <a className="dataItem" onClick={routeChangePlatform.bind(this, value.PlatformID)}>
                                 <p>{value.PlatformName}</p>
-                            </button>
+                            </a>
                         );
                     })}
                 </div>
@@ -62,4 +62,4 @@ function SearchBar({ placeholder, data}) {
     
 }
 
-export default SearchBar;
+export default PlatformSearchBar;

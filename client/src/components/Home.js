@@ -9,7 +9,7 @@ import Card from 'react-bootstrap/Card';
 import { GoogleLogout } from 'react-google-login';
 import '../css/Home.css';
 import axios from 'axios';
-import SearchBar from "../components/SearchBar"
+import PlatformSearchBar from "./PlatformSearchBar"
 //import PlatData from "../Data.json"
 import Image from 'react-bootstrap/Image'
 
@@ -57,6 +57,8 @@ export default class Home extends Component {
                     console.log(err);
                 })
             this.renderPlatforms();
+            console.log(this.state.Quizzes);
+            console.log(this.state.Users);
         }
     }
     routeChangeLogout() {
@@ -145,6 +147,21 @@ export default class Home extends Component {
             UserSubscribedPlatformArray: result
         })
     }
+
+    pullQuizzes = async () => {
+        let q = [];
+        try {
+            await axios.get('http://localhost:4000/')
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    pullUsers = async () => {
+
+    }
+
     render() {
         //Platform grid
         let plats = this.state.Platforms?.map((plat, i) => (        //map each platform to structure <Col>
@@ -225,7 +242,7 @@ export default class Home extends Component {
                     </Button>
                 </Row>
                 <Row className='medium homesearchbar'> {/* Search Bar */}
-                        <SearchBar placeholder="Enter a platform name..." data={this.state.Platforms}/>
+                        <PlatformSearchBar placeholder="Enter a platform name..." data={this.state.Platforms}/>
                 </Row>
                 <Row className='mainFeed medium ml-auto mr-auto' style={{ alignContent: "center" }}>  {/* Home Container for Platform,Quiz,Profile */}
                     <Container fluid className='homecontainer'>
