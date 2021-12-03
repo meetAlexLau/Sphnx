@@ -10,7 +10,7 @@ import { GoogleLogout } from 'react-google-login';
 import '../css/Home.css';
 import axios from 'axios';
 import SearchBar from "../components/SearchBar"
-import PlatData from "../Data.json"
+//import PlatData from "../Data.json"
 import Image from 'react-bootstrap/Image'
 
 export default class Home extends Component {
@@ -241,7 +241,7 @@ export default class Home extends Component {
                     </Button>
                 </Row>
                 <Row className='medium homesearchbar'> {/* Search Bar */}
-                        <SearchBar placeholder="Enter a platform name..." data={PlatData} />
+                        <SearchBar placeholder="Enter a platform name..." data={this.state.Platforms} />
                 </Row>
                 <Row className='mainFeed medium ml-auto mr-auto' style={{ alignContent: "center" }}>  {/* Home Container for Platform,Quiz,Profile */}
                     <Container fluid className='homecontainer'>
