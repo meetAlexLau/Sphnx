@@ -102,12 +102,14 @@ export default class UserComponent extends Component{
 
         console.log('here')
         sessionStorage.setItem('profileID', friendID)
+        this.props.history.push('/')
+        
         this.props.history.push({
             pathname:'/profile/' + friendID,
             state: {isLoggedIn:true}
 
-        })
-
+        });
+        window.location.reload(false)
     }
 
     onClickMyBadge(){
@@ -249,7 +251,7 @@ export default class UserComponent extends Component{
         let friends = this.state.UserFriendArray?.map((friend, i) =>{
             return(
                 <Button key={i}
-                        onclick={() => this.onClickFriend(friend[0])}
+                        onClick={() => this.onClickFriend(friend[0])}
                         className="profileCard"
                         style={{background: this.state.UserPrimaryColor}}
                         >
