@@ -28,6 +28,7 @@ function PlatformSearchBar({ placeholder, data}) {
     };
 
     const routeChangeProfile = function(UserID){
+        sessionStorage.setItem('profileID', UserID);
         history.push({
             pathname:'/profile/' + UserID,
             state: {isLoggedIn:true}
@@ -48,7 +49,7 @@ function PlatformSearchBar({ placeholder, data}) {
                 <div className="dataResult">
                     {filteredData.slice(0, 15).map((value, key) => {
                         return (
-                            <a className="dataItem" onClick={routeChangeProfile.bind(this, value.UserID)}>
+                            <a className="dataItem" onClick={routeChangeProfile.bind(this, value._id)}>
                                 <p>{value.UserName}</p>
                             </a>
                         );

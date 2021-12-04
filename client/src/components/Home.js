@@ -292,6 +292,7 @@ export default class Home extends Component {
                 </Row>
 
                 {/* DropDown menu */}
+                    {/*
                 <Row>
                     <select id="sel" onChange={
                         {toggle() {
@@ -322,11 +323,11 @@ export default class Home extends Component {
                         <option value="3">User Search</option>
                     </select>
                 </Row>
-
+                    */}
                 <Row className='medium homesearchbar'> {/* Search Bar */}
-                    <PlatformSearchBar id='platsearch' placeholder="Enter a platform name..." data={this.state.Platforms} />
-                    <QuizSearchBar id='quizsearch' placeholder="Enter a quiz name..." data={this.state.Quizzes} />
-                    <UserSearchBar id='usersearch' placeholder="Enter a user's name..." data={this.state.Users} />
+                    <PlatformSearchBar id='platsearch' placeholder="Search Platforms..." data={this.state.Platforms} />
+                    <QuizSearchBar id='quizsearch' placeholder="Search Quizzes..." data={this.state.Quizzes} />
+                    <UserSearchBar id='usersearch' placeholder="Search Users..." data={this.state.Users} />
                 </Row>
 
                 <Row className='mainFeed medium ml-auto mr-auto' style={{ alignContent: "center" }}>  {/* Home Container for Platform,Quiz,Profile */}

@@ -44,11 +44,13 @@ export default class UserComponent extends Component{
 
     componentDidMount = async() =>{
         console.log(this.props.location.state.isLoggedIn)
+        console.log(sessionStorage.getItem('profileID'))
+        console.log(this.state.UserPlatformArray)
         if (this.props.location.state.isLoggedIn == false) {
             this.props.history.push('/')
         }
-        else{
-            
+        else{       
+            console.log(this.props.match.params.id);
             axios.get('http://localhost:4000/users/' + this.props.match.params.id)
                 .then(res => {
                     let User = res.data;
@@ -127,6 +129,8 @@ export default class UserComponent extends Component{
         let p: [number, string] = [];
         let promises = [];
         
+        //console.log(this.state.UserPlatformArray);
+
         for(let i =0; i < this.state.UserPlatformArray.length; i++){
             let platID = this.state.UserPlatformArray[i];
             promises.push(
