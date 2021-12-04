@@ -160,7 +160,7 @@ export default class NewPostComponent extends Component {
                                 <textarea value={this.state.desc} onChange={this.onChangePostDesc} />
                                 */}
                                 
-                                <Form.Control as="textarea" rows={3} value={this.state.desc} onChange={this.onChangePostDesc}/>
+                                <Form.Control as="textarea" style={{backgroundColor: '#F3ECC9'}} rows={3} value={this.state.desc} onChange={this.onChangePostDesc}/>
                                
 
                             </Form.Group>
