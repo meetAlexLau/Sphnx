@@ -155,30 +155,38 @@ export default class Quiz extends Component {
     while(this.state.badgeArray[j]){
 
       let currentBadge = this.state.badgeArray[j]
-      if(currentBadge.badgeType == 1){
-
-        if(scoreResult >= parseInt(currentBadge.minScore)){
-          alert("You have won the badge: '" + currentBadge.badgeTitle + "' for beating the score of " + currentBadge.minScore + '!')
-          console.log("You have won the badge: '" + currentBadge.badgeTitle + "' for beating the score of " + currentBadge.minScore + '!')
-          badgesWon.push(currentBadge.badgeID)
-        }
+      if(this.state.oldUser.UserBadgeArray.includes(currentBadge.badgeID)){
 
       }
-      else if(currentBadge.badgeType == 2){
+      else{
 
-        if(totalTime <= parseInt(currentBadge.maxTime)){
-          alert("You have won the badge: '" + currentBadge.badgeTitle + "' for beating the time of " + currentBadge.maxTime + '!')
-          console.log("You have won the badge: '" + currentBadge.badgeTitle + "' for beating the time of " + currentBadge.maxTime + '!')
-          badgesWon.push(currentBadge.badgeID)
-        }
-      }
-      else if(currentBadge.badgeType == 3){
+      
+        if(currentBadge.badgeType == 1){
 
-        if(scoreResult == this.state.numberOfQuestion){
-          alert("You have won the badge: '"+ currentBadge.badgeTitle + "' for getting a perfect score!")
-          console.log("You have won the badge: '"+ currentBadge.badgeTitle + "' for getting a perfect score!")
-          badgesWon.push(currentBadge.badgeID)
+          if(scoreResult >= parseInt(currentBadge.minScore)){
+            alert("You have won the badge: '" + currentBadge.badgeTitle + "' for beating the score of " + currentBadge.minScore + '!')
+            console.log("You have won the badge: '" + currentBadge.badgeTitle + "' for beating the score of " + currentBadge.minScore + '!')
+            badgesWon.push(currentBadge.badgeID)
+          }
+
         }
+        else if(currentBadge.badgeType == 2){
+
+          if(totalTime <= parseInt(currentBadge.maxTime)){
+            alert("You have won the badge: '" + currentBadge.badgeTitle + "' for beating the time of " + currentBadge.maxTime + '!')
+            console.log("You have won the badge: '" + currentBadge.badgeTitle + "' for beating the time of " + currentBadge.maxTime + '!')
+            badgesWon.push(currentBadge.badgeID)
+          }
+        }
+        else if(currentBadge.badgeType == 3){
+
+          if(scoreResult == this.state.numberOfQuestion){
+            alert("You have won the badge: '"+ currentBadge.badgeTitle + "' for getting a perfect score!")
+            console.log("You have won the badge: '"+ currentBadge.badgeTitle + "' for getting a perfect score!")
+            badgesWon.push(currentBadge.badgeID)
+          }
+        }
+
       }
 
       j++

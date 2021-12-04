@@ -135,7 +135,11 @@ export default class EditUserComponent extends Component{
         axios.put(newPath, updatedUser)
           .then(res => console.log(res.data))
           .catch(err => console.log(err))
-        this.props.history.push('/profile')
+        this.props.history.push(
+          {
+            pathname: '/profile/'+ this.state.IDtoEdit,
+            state: {isLoggedIn: true}
+          })
         window.location.reload(false);
 
       }
@@ -162,171 +166,171 @@ export default class EditUserComponent extends Component{
 
     render(){
         return(
-            <Container fluid style={{ width: "100%" }}>
-    <Row className="containerrow">
-      <Col className="medium" md={6}>
-        <Container className="light loginleft">
-          <div
-            style={{
-              width: "311px",
-              height: "76px",
-              left: "54px",
-              top: "87px",
+            <Container fluid >
+              <Row className="containerrow">
+                <Col className="medium" md={6}>
+                  <Container className="light loginleft">
+                    <div
+                      style={{
+                        width: "311px",
+                        height: "76px",
+                        left: "54px",
+                        top: "87px",
 
-              fontFamily: "Oxygen",
-              fontStyle: "normal",
-              fontWeight: "bold",
-              fontSize: "60px",
-              lineHeight: "76px",
-              textAlign: "center"
-            }}
-          >
-            Edit Profile
-          </div>
+                        fontFamily: "Oxygen",
+                        fontStyle: "normal",
+                        fontWeight: "bold",
+                        fontSize: "60px",
+                        lineHeight: "76px",
+                        textAlign: "center"
+                      }}
+                    >
+                      Edit Profile
+                    </div>
 
-          <div
-            style={{
-              width: "864px",
-              height: "801px",
+                    <div
+                      style={{
+                        width: "864px",
+                        height: "801px",
 
-              background: "#E7C496",
-              border: "solid",
-              boxSizing: "border-box",
-              borderRadius: "15px"
-            }}
-          >
-            <Form>
-              <Form.Group controlId="formUserName">
-                <Form.Label
-                  style={{
-                    width: "218px",
-                    height: "32px",
-                    fontFamily: "Oxygen",
-                    fontStyle: "normal",
-                    fontWeight: "bold",
-                    fontSize: "25px",
-                    lineHeight: "32px"
-                  }}
-                >
-                  Change Username
-                </Form.Label>
-                <Form.Control type="text" placeholder={this.state.UserName} onChange={this.onChangeUserName} />
-              </Form.Group>
+                        background: "#E7C496",
+                        border: "solid",
+                        boxSizing: "border-box",
+                        borderRadius: "15px"
+                      }}
+                    >
+                      <Form>
+                        <Form.Group controlId="formUserName">
+                          <Form.Label
+                            style={{
+                              width: "218px",
+                              height: "32px",
+                              fontFamily: "Oxygen",
+                              fontStyle: "normal",
+                              fontWeight: "bold",
+                              fontSize: "25px",
+                              lineHeight: "32px"
+                            }}
+                          >
+                            Change Username
+                          </Form.Label>
+                          <Form.Control type="text" placeholder={this.state.UserName} onChange={this.onChangeUserName} />
+                        </Form.Group>
 
-              <Form.Group controlId="formUserProfilePicture">
-                <Form.Label
-                  style={{
-                    width: "314px",
-                    height: "32px",
-                    fontFamily: "Oxygen",
-                    fontStyle: "normal",
-                    fontWeight: "bold",
-                    fontSize: "25px",
-                    lineHeight: "32px"
-                  }}
-                >
-                  Profile Picture
-                </Form.Label>
-                <Form.Control type="file" accept='image/*' onChange={this.handleFileChange}/>
-              </Form.Group>
+                        <Form.Group controlId="formUserProfilePicture">
+                          <Form.Label
+                            style={{
+                              width: "314px",
+                              height: "32px",
+                              fontFamily: "Oxygen",
+                              fontStyle: "normal",
+                              fontWeight: "bold",
+                              fontSize: "25px",
+                              lineHeight: "32px"
+                            }}
+                          >
+                            Profile Picture
+                          </Form.Label>
+                          <Form.Control type="file" accept='image/*' onChange={this.handleFileChange}/>
+                        </Form.Group>
 
-              <Form.Group controlId="formUserBackgroundPicture">
-                <Form.Label
-                  style={{
-                    width: "100%",
-                    height: "32px",
-                    fontFamily: "Oxygen",
-                    fontStyle: "normal",
-                    fontWeight: "bold",
-                    fontSize: "25px",
-                    lineHeight: "32px"
-                  }}
-                >
-                  Profile Background Picture
-                </Form.Label>
-                <Form.Control type="file" accept='image/*' onChange={this.handleFileChange2}/>
-              </Form.Group>
+                        <Form.Group controlId="formUserBackgroundPicture">
+                          <Form.Label
+                            style={{
+                              width: "100%",
+                              height: "32px",
+                              fontFamily: "Oxygen",
+                              fontStyle: "normal",
+                              fontWeight: "bold",
+                              fontSize: "25px",
+                              lineHeight: "32px"
+                            }}
+                          >
+                            Profile Background Picture
+                          </Form.Label>
+                          <Form.Control type="file" accept='image/*' onChange={this.handleFileChange2}/>
+                        </Form.Group>
 
-              <Form.Label
-                style={{
-                  width: "300px",
-                  height: "32px",
-                  fontFamily: "Oxygen",
-                  fontStyle: "normal",
-                  fontWeight: "bold",
-                  fontSize: "25px",
-                  lineHeight: "32px"
-                }}
-              >
-                Primary Color
-              </Form.Label>
-              <Form.Control
-                type="color"
-                defaultValue={this.state.UserPrimaryColor}
-                title="Choose your color"
-                onChange={this.onChangeUserPrimaryColor}
-              />
+                        <Form.Label
+                          style={{
+                            width: "300px",
+                            height: "32px",
+                            fontFamily: "Oxygen",
+                            fontStyle: "normal",
+                            fontWeight: "bold",
+                            fontSize: "25px",
+                            lineHeight: "32px"
+                          }}
+                        >
+                          Primary Color
+                        </Form.Label>
+                        <Form.Control
+                          type="color"
+                          defaultValue={this.state.UserPrimaryColor}
+                          title="Choose your color"
+                          onChange={this.onChangeUserPrimaryColor}
+                        />
 
-              <Form.Label
-                style={{
-                  width: "300px",
-                  height: "32px",
-                  fontFamily: "Oxygen",
-                  fontStyle: "normal",
-                  fontWeight: "bold",
-                  fontSize: "25px",
-                  lineHeight: "32px"
-                }}
-              >
-                Secondary Color
-              </Form.Label>
-              <Form.Control
-                type="color"
-                defaultValue={this.state.UserSecondaryColor}
-                title="Choose your color"
-                onChange={this.onChangeUserSecondaryColor}
-              />
+                        <Form.Label
+                          style={{
+                            width: "300px",
+                            height: "32px",
+                            fontFamily: "Oxygen",
+                            fontStyle: "normal",
+                            fontWeight: "bold",
+                            fontSize: "25px",
+                            lineHeight: "32px"
+                          }}
+                        >
+                          Secondary Color
+                        </Form.Label>
+                        <Form.Control
+                          type="color"
+                          defaultValue={this.state.UserSecondaryColor}
+                          title="Choose your color"
+                          onChange={this.onChangeUserSecondaryColor}
+                        />
 
-              <Link
-                style={{position: 'absolute',
-                        width: '164px',
-                        height: '76px',
-                        left: '431px',
-                        top: '700px',
-                        
-                        background: '#FF6961',
-                        border: 'solid',
-                        borderColor: "black",
-                        borderSize: '4px',
-                        boxSizing: 'border-box',
-                        borderRadius: '20px',
-                  }}
-                  to={'/profile'}>
-                    Exit
-              </Link>
-              <Button
-                
-                style={{position: 'absolute',
-                  width: '233px',
-                  height: '76px',
-                  left: '608px',
-                  top: '700px',
-                  
-                  background: '#77DD77',
-                  border: 'solid',
-                  borderSize: '4px',
-                  borderColor: 'black',
-                  boxSizing: 'border-box',
-                  borderRadius: '20px',
-                }}
-                onClick={this.onSubmit}>
-                  Save & Exit
-              </Button>
-            </Form>
-          </div>
-        </Container>
-      </Col>
-    </Row>
+                        <Link
+                          style={{position: 'absolute',
+                                  width: '164px',
+                                  height: '76px',
+                                  left: '431px',
+                                  top: '700px',
+                                  
+                                  background: '#FF6961',
+                                  border: 'solid',
+                                  borderColor: "black",
+                                  borderSize: '4px',
+                                  boxSizing: 'border-box',
+                                  borderRadius: '20px',
+                            }}
+                            to={{pathname: '/profile/' + this.state.IDtoEdit, state:{isLoggedIn: true}}}>
+                              Exit
+                        </Link>
+                        <Button
+                          
+                          style={{position: 'absolute',
+                            width: '233px',
+                            height: '76px',
+                            left: '608px',
+                            top: '700px',
+                            
+                            background: '#77DD77',
+                            border: 'solid',
+                            borderSize: '4px',
+                            borderColor: 'black',
+                            boxSizing: 'border-box',
+                            borderRadius: '20px',
+                          }}
+                          onClick={this.onSubmit}>
+                            Save & Exit
+                        </Button>
+                      </Form>
+                    </div>
+                  </Container>
+                </Col>
+              </Row>
   </Container>
         )
 
