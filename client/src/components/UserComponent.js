@@ -125,7 +125,7 @@ export default class UserComponent extends Component{
 
     onClickEditProfile(){
         this.props.history.push({
-            pathname: '/profile/edit',
+            pathname: '/profile/edit/' + this.state.ID,
             state: {isLoggedIn: true}
         })
     }
