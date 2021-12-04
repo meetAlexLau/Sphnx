@@ -115,7 +115,7 @@ export default class NewQuizComponent extends Component {
         let PlatformID = currentPlatform ? currentPlatform : sessionStorage.getItem('previous platform')
         sessionStorage.setItem('current platform', sessionStorage.getItem('previous platform'))
 
-        const quizObject = {
+        let quizObject = {
             QuizTitle: this.state.title,
             QuizID: this.state.id,
             QuizBackground: this.state.backgroundPic,
@@ -148,7 +148,7 @@ export default class NewQuizComponent extends Component {
             j++
         }
 
-        const quizObject = {
+        quizObject = {
             QuizTitle: this.state.title,
             QuizID: this.state.id,
             QuizBackground: this.state.backgroundPic,
