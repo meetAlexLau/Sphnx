@@ -32,7 +32,7 @@ export default class Post extends Component {
             let PostID = currentPost ? currentPost : sessionStorage.getItem('previous post')
             sessionStorage.setItem('current post', sessionStorage.getItem('previous post'))
 
-            await axios.get('http://localhost:4000/posts/' + PostID)
+            await axios.get('/posts/' + PostID)
                 .then(res => {
                     this.setState({
                         postId: res.data._id,
@@ -43,7 +43,7 @@ export default class Post extends Component {
                     })
                 })
 
-            await axios.get('http://localhost:4000/platforms/' + this.state.platformID)
+            await axios.get('/platforms/' + this.state.platformID)
                 .then(res => {
                     let Platform = res.data
                     this.setState({

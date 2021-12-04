@@ -29,7 +29,7 @@ export default class MyBadge extends Component {
     let user;
 
     // get userbadgearray from this user
-    await axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
+    await axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
       .then(res => {
         user = res.data[0];
       })
@@ -37,7 +37,7 @@ export default class MyBadge extends Component {
     // iterate through and get all badges
     for (let i = 0; i < user.UserBadgeArray.length; i++) {
       try {
-        await axios.get('http://localhost:4000/badges/' + user.UserBadgeArray[i])
+        await axios.get('/badges/' + user.UserBadgeArray[i])
           .then(res => {
             b.push(res.data);
             this.setState({
