@@ -65,7 +65,7 @@ export default class NewQuizComponent extends Component {
     }
 
     componentDidMount() {
-        if (this.state.isLoggedIn !== "true") {
+        if (this.props.match.params.isLoggedIn == false) {
             this.props.history.push('/')
         }
         else {
@@ -148,6 +148,20 @@ export default class NewQuizComponent extends Component {
             j++
         }
 
+        const quizObject = {
+            QuizTitle: this.state.title,
+            QuizID: this.state.id,
+            QuizBackground: this.state.backgroundPic,
+            QuizQuestions: this.state.questionArray,
+            QuizAnswerKey: answer,
+            QuizBadgeArray: this.state.QuizBadgeArray,
+            PlatformID: PlatformID
+        };
+
+
+        await axios.post('/quizzes/createQuiz', quizObject)
+            .then(res => {newIDofQuiz=res.data});
+
         // retrieve platform from database, edit quiz array, and send the edited array back
         axios.get('/platforms/' + PlatformID)
             .then(res => {
@@ -178,7 +192,10 @@ export default class NewQuizComponent extends Component {
 
 
         //this.props.history.push('/home')
-        this.props.history.push('/platform/'+PlatformID);
+        this.props.history.push({
+            pathname:'/platform/'+PlatformID,
+            state: {isLoggedIn:true}
+            });
         window.location.reload(false)
         
         

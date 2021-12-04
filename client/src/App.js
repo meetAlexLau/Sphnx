@@ -25,15 +25,15 @@ class App extends Component{
         return(
 
             <Router>
-                <Route path="/" exact component={Login} />
+                <Route path="/" exact component={Login}/>
                 <Route path="/home" exact component={Home} />
-                <Route path="/profile" exact component={UserComponent} />
-                <Route path="/profile/edit" exact component={EditUserComponent} />
+                <Route path="/profile/:id" exact component={UserComponent} />
+                <Route path="/profile/edit/:id" exact component={EditUserComponent} />
                 <Route path='/newPlatform' exact component={NewPlatformComponent}/>
                 <Route path='/newBadge' exact component={NewBadgeComponent}/>
                 <Route path='/newQuiz' exact component={NewQuizComponent}/>
                 <Route path='/newPost' exact component={NewPostComponent}/>
-                <Route path="/myBadge" exact component={MyBadgeComponent} />
+                <Route path="/myBadge/:id" exact component={MyBadgeComponent} />
                 <Route path="/platformBadge" exact component={PlatformBadgeComponent} />
                 <Route path='/platformLeaderboard' exact component={PlatformLeaderboardComponent}/>
                 <Route path='/platform/:id' exact component={PlatformComponent}/>

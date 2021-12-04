@@ -20,56 +20,114 @@ export default class UserComponent extends Component{
         this.state = {
             isLoggedIn: sessionStorage.getItem('isLoggedIn'),
             UserPrimaryColor: '',
+            ID: '',
             UserSecondaryColor: '',
             UserName: '',
             UserPicture: "",
             UserBackgroundPicture: '',
             UserPoints: 0,
-            UserPlatformArray: []
+            UserPlatformArray: [],
+            UserFriendArray: []
         }
 
         this.onClickNewPlatform = this.onClickNewPlatform.bind(this)
         this.onClickPlatform = this.onClickPlatform.bind(this)
+        this.onClickFriend = this.onClickFriend.bind(this)
         this.onClickMyBadge = this.onClickMyBadge.bind(this)
         this.onClickQuiz = this.onClickQuiz.bind(this)
+        this.onClickEditProfile = this.onClickEditProfile.bind(this)
         this.renderPlatforms = this.renderPlatforms.bind(this)
+        this.renderFriends = this.renderFriends.bind(this)
+        this.renderIsFriend = this.renderIsFriend.bind(this)
+        this.friendDisplay = this.friendDisplay.bind(this)
+        this.addFriend = this.addFriend.bind(this)
+
     }
 
-    componentDidMount(){
-        if(this.state.isLoggedIn !== "true"){
+    componentDidMount = async() =>{
+        console.log(this.props.location.state.isLoggedIn)
+        console.log(sessionStorage.getItem('profileID'))
+        console.log(this.state.UserPlatformArray)
+        if (this.props.location.state.isLoggedIn == false) {
             this.props.history.push('/')
         }
-        else{
-            
-            axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
+        else{       
+            console.log(this.props.match.params.id);
+            axios.get('/users/' + this.props.match.params.id)
                 .then(res => {
-                    let User = res.data[0];
+                    let User = res.data;
                     this.setState({
+                        ID: User._id,
                         UserName : User.UserName,
                         UserPicture : User.UserPicture,
                         UserPrimaryColor : User.UserPrimaryColor,
                         UserSecondaryColor : User.UserSecondaryColor,
                         UserBackgroundPicture : User.UserBackgroundPicture,
                         UserPoints : User.UserPoints,
-                        UserPlatformArray: User.UserPlatformArray
+                        UserPlatformArray: User.UserPlatformArray,
+                        UserFriendArray : User.UserFriendArray
                     }) 
                     this.renderPlatforms();
+                    this.renderFriends();
                 })
         }
+
+        let getUserID = sessionStorage.getItem('UserID');
+        let getFriendID = this.props.match.params.id;
+
+        await axios.get('/users/UserID/' + getUserID)
+            .then(res => {
+                let friendFlag = res.data[0].UserFriendArray.find(id => id == getFriendID);
+                if (typeof friendFlag === 'undefined') friendFlag = false;
+                else friendFlag = true;
+                this.setState({
+                    isFriend: friendFlag
+                })
+            })
     }
 
     onClickNewPlatform(){
-      this.props.history.push('/newPlatform')
+      this.props.history.push({
+          pathname:'/newPlatform',
+          state: {isLoggedIn:true}
+          })
     }
 
     onClickPlatform(PlatformID){
         sessionStorage.setItem('current platform', PlatformID);
         sessionStorage.setItem('previous platform', PlatformID);
-        this.props.history.push('/platform/' + PlatformID);
+        this.props.history.push({
+            pathname:'/platform/' + PlatformID,
+            state: {isLoggedIn:true}
+            });
+    }
+
+    onClickFriend(friendID){
+
+        console.log('here')
+        sessionStorage.setItem('profileID', friendID)
+        this.props.history.push('/')
+        
+        this.props.history.push({
+            pathname:'/profile/' + friendID,
+            state: {isLoggedIn:true}
+
+        });
+        window.location.reload(false)
     }
 
     onClickMyBadge(){
-      this.props.history.push('/myBadge')
+      this.props.history.push({
+          pathname: '/myBadge/' + this.state.ID,
+          state: {isLoggedIn:true, ID: this.state.ID}
+      })
+    }
+
+    onClickEditProfile(){
+        this.props.history.push({
+            pathname: '/profile/edit/' + this.state.ID,
+            state: {isLoggedIn: true}
+        })
     }
 
     onClickQuiz(){
@@ -80,6 +138,8 @@ export default class UserComponent extends Component{
         let p: [number, string] = [];
         let promises = [];
         
+        //console.log(this.state.UserPlatformArray);
+
         for(let i =0; i < this.state.UserPlatformArray.length; i++){
             let platID = this.state.UserPlatformArray[i];
             promises.push(
@@ -99,6 +159,112 @@ export default class UserComponent extends Component{
             })
         });
     }
+
+    renderFriends(){
+        let f: [number, string] = [];
+        let promises = [];
+
+        for(let i = 0; i < this.state.UserFriendArray.length; i++){
+            let friendID = this.state.UserFriendArray[i];
+            promises.push(
+                axios.get('/users/' + friendID)
+                .then(res => {
+                    let object = res.data;
+                    f.push([friendID, object.UserName])
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+            )
+        }
+        Promise.all(promises).then(() => {
+            this.setState({
+                UserFriendArray: f
+            })
+        })
+    }
+
+    friendDisplay(){
+
+        if (this.state.isFriend == true) {
+            document.getElementById('add friend').innerHTML = 'Add friend'
+            alert("Removed " + this.state.UserName + " as a friend!");
+          }
+          else if (this.state.isFriend == false) {
+            document.getElementById('add friend').innerHTML = 'Unfriend'
+            alert("Added " + this.state.UserName + " as a friend!");
+          }
+        
+    }
+
+    renderIsFriend(){
+
+    if (document.getElementById('add friend'))
+      if (this.state.isFriend == true) {
+        document.getElementById('add friend').innerHTML = 'Unfriend';
+      }
+      else if (this.state.isFriend == false) {
+        document.getElementById('add friend').innerHTML = 'Add friend'
+      }
+
+    }
+
+    renderEditProfileButton(){
+        if(this.props.match.params.id == sessionStorage.getItem('ID'))
+            return <Button onClick={this.onClickEditProfile} 
+            className="profilePageButton" style={{background: this.state.UserPrimaryColor}}>Edit Profile </Button>
+    }
+
+  
+    renderNewPlatformButton() {
+        if(this.props.match.params.id == sessionStorage.getItem('ID'))
+            return <Button onClick={this.onClickNewPlatform} className="profileCard" style={{background: this.state.UserPrimaryColor}}> New Platform </Button>
+    }
+
+    renderAddFriendButton() {
+        if(this.props.match.params.id != sessionStorage.getItem('ID'))
+            return <Button id="add friend"
+                    to={"/"}
+                    onClick={() => this.addFriend()}
+                    className="profilePageButton"
+                    style={{background: this.state.UserPrimaryColor}}
+                >
+                    {
+                    this.renderIsFriend()
+                    }
+                </Button>
+    }
+
+    addFriend = async () => {
+        this.friendDisplay()
+        let getUserID = sessionStorage.getItem('UserID');
+        let newFriendID = this.props.match.params.id;
+        let user;
+        await axios.get('/users/UserID/' + getUserID)
+        .then(res => {
+            user = res.data[0];
+        })
+
+        if(this.state.isFriend == true){
+            let tempFriendArray = user.UserFriendArray;
+            user.UserFriendArray = tempFriendArray.filter(function (value) {
+                console.log(value);
+                return value !== newFriendID;
+            })
+        }
+        else{
+            user.UserFriendArray.push(newFriendID)
+        }
+
+        this.setState({
+            isFriend: !this.state.isFriend
+        })
+
+        await axios.put('/users/'+ user._id, user)
+        .then(res => console.log("User friend Arr:", res))
+        .catch(err => console.log("User friend Arr Err:", err))
+    }
+
     
     render(){
         //<Button onClick={this.onClickPlatform}  className="profileCard" style={{background: this.state.UserPrimaryColor}}>Cowboys</Button>
@@ -114,13 +280,26 @@ export default class UserComponent extends Component{
             </Button>
             )
         })
+
+        let friends = this.state.UserFriendArray?.map((friend, i) =>{
+            return(
+                <Button key={i}
+                        onClick={() => this.onClickFriend(friend[0])}
+                        className="profileCard"
+                        style={{background: this.state.UserPrimaryColor}}
+                        >
+                            {friend[1]}
+                        </Button>
+            )
+        })
+
         return(
           <Container fluid style={{ background: this.state.UserPrimaryColor }}>
             <Row>
             <Col md={12}>
                 <Row>
                 <Col md={1}>
-                    <Link to="/home" class="homeButton">
+                    <Link to={{pathname:"/home", state: {isLoggedIn:true}}} class="homeButton">
                     Return Home
                     </Link>
                 </Col>
@@ -131,18 +310,7 @@ export default class UserComponent extends Component{
                 >
                     <Row>
                     <Col md={1}>
-                        <Image
-                        src="https://www.pngmart.com/files/14/Golden-Ribbon-Badge-PNG.png"
-                        fluid
-                        />
-                        <Image
-                        src="https://www.pngmart.com/files/14/Golden-Ribbon-Badge-PNG.png"
-                        fluid
-                        />
-                        <Image
-                        src="https://www.pngmart.com/files/14/Golden-Ribbon-Badge-PNG.png"
-                        fluid
-                        />
+                        
                     </Col>
                     <Col md={10}>
                         <Image
@@ -155,25 +323,13 @@ export default class UserComponent extends Component{
                         <div className="profileNameTag"
                             style={{background: this.state.UserSecondaryColor}}>Total Points: {""+this.state.UserPoints}</div>
                     </Col>
-                    <Col md={1}>
-                        <Image
-                        src="https://www.pngmart.com/files/14/Golden-Ribbon-Badge-PNG.png"
-                        fluid
-                        />
-                        <Image
-                        src="https://www.pngmart.com/files/14/Golden-Ribbon-Badge-PNG.png"
-                        fluid
-                        />
-                        <Image
-                        src="https://www.pngmart.com/files/14/Golden-Ribbon-Badge-PNG.png"
-                        fluid
-                        />
-                    </Col>
+                    
                     </Row>
                 </Col>
                 <Col md={1}>
                     <Button onClick={this.onClickMyBadge} className="profilePageButton" style={{background: this.state.UserPrimaryColor}}>View All Badges</Button>
-                    <Link to="/profile/edit" className="profilePageButton" style={{background: this.state.UserPrimaryColor}}>Edit Profile </Link>
+                    {this.renderEditProfileButton()}
+                    {this.renderAddFriendButton()}
                 </Col>
                 </Row>
             </Col>
@@ -187,7 +343,9 @@ export default class UserComponent extends Component{
                     <div className="profileCard" style={{background: this.state.UserPrimaryColor}}>My Platforms</div>
                     </Col>
                     <Col md={4}>
-                    <Button onClick={this.onClickNewPlatform} className="profileCard" style={{background: this.state.UserPrimaryColor}}> New Platform </Button>
+                    
+                    {this.renderNewPlatformButton()}
+                    
                     </Col>
                 </Row>
                 <Row style={{ margin: "8px" }}>
@@ -202,9 +360,12 @@ export default class UserComponent extends Component{
                 style={{background: this.state.UserSecondaryColor}}>
                 <Row>
                     <Col md={12} style={{ margin: "5px 2px" }}>
-                    <div className="profileCard" style={{background: this.state.UserPrimaryColor}}> Recently </div>
-                    <div className="profileCard" style={{background: this.state.UserPrimaryColor}}> Quiz: Racecar Facts</div>
-                    <Button className="profileCard" onClick={this.onClickPlatform}  style={{background: this.state.UserPrimaryColor}}> Platform: Movies</Button>
+                    <div className="profileCard" style={{background: this.state.UserPrimaryColor}}> Friends List </div>
+                    <Row style={{ margin: "8px" }}>
+                    <Col md={12} style={{ margin: "5px 2px" }}>
+                        {friends}
+                    </Col>
+                </Row>
                     </Col>
                 </Row>
                 </div>

@@ -64,9 +64,9 @@ export default class Quiz extends Component {
 
 
   async componentDidMount() {
-    if (this.state.isLoggedIn !== "true") {
+    if (this.props.match.params.isLoggedIn == false) {
       this.props.history.push('/')
-    }
+      }
     else {
 
       let currentQuiz = sessionStorage.getItem('current quiz');
@@ -155,30 +155,38 @@ export default class Quiz extends Component {
     while(this.state.badgeArray[j]){
 
       let currentBadge = this.state.badgeArray[j]
-      if(currentBadge.badgeType == 1){
-
-        if(scoreResult >= parseInt(currentBadge.minScore)){
-          alert("You have won the badge: '" + currentBadge.badgeTitle + "' for beating the score of " + currentBadge.minScore + '!')
-          console.log("You have won the badge: '" + currentBadge.badgeTitle + "' for beating the score of " + currentBadge.minScore + '!')
-          badgesWon.push(currentBadge.badgeID)
-        }
+      if(this.state.oldUser.UserBadgeArray.includes(currentBadge.badgeID)){
 
       }
-      else if(currentBadge.badgeType == 2){
+      else{
 
-        if(totalTime <= parseInt(currentBadge.maxTime)){
-          alert("You have won the badge: '" + currentBadge.badgeTitle + "' for beating the time of " + currentBadge.maxTime + '!')
-          console.log("You have won the badge: '" + currentBadge.badgeTitle + "' for beating the time of " + currentBadge.maxTime + '!')
-          badgesWon.push(currentBadge.badgeID)
-        }
-      }
-      else if(currentBadge.badgeType == 3){
+      
+        if(currentBadge.badgeType == 1){
 
-        if(scoreResult == this.state.numberOfQuestion){
-          alert("You have won the badge: '"+ currentBadge.badgeTitle + "' for getting a perfect score!")
-          console.log("You have won the badge: '"+ currentBadge.badgeTitle + "' for getting a perfect score!")
-          badgesWon.push(currentBadge.badgeID)
+          if(scoreResult >= parseInt(currentBadge.minScore)){
+            alert("You have won the badge: '" + currentBadge.badgeTitle + "' for beating the score of " + currentBadge.minScore + '!')
+            console.log("You have won the badge: '" + currentBadge.badgeTitle + "' for beating the score of " + currentBadge.minScore + '!')
+            badgesWon.push(currentBadge.badgeID)
+          }
+
         }
+        else if(currentBadge.badgeType == 2){
+
+          if(totalTime <= parseInt(currentBadge.maxTime)){
+            alert("You have won the badge: '" + currentBadge.badgeTitle + "' for beating the time of " + currentBadge.maxTime + '!')
+            console.log("You have won the badge: '" + currentBadge.badgeTitle + "' for beating the time of " + currentBadge.maxTime + '!')
+            badgesWon.push(currentBadge.badgeID)
+          }
+        }
+        else if(currentBadge.badgeType == 3){
+
+          if(scoreResult == this.state.numberOfQuestion){
+            alert("You have won the badge: '"+ currentBadge.badgeTitle + "' for getting a perfect score!")
+            console.log("You have won the badge: '"+ currentBadge.badgeTitle + "' for getting a perfect score!")
+            badgesWon.push(currentBadge.badgeID)
+          }
+        }
+
       }
 
       j++
@@ -233,12 +241,6 @@ export default class Quiz extends Component {
       .catch(err => console.log(err))
 
     //update platform scoreboard-------------
-
-
-    console.log("platoform name is " + this.state.platformName)
-    console.log("platoform id is " + this.state.platformID)
-
-
   }
   onClickNext() {
     /*if (this.state.indexOfQuestion >= this.state.numberOfQuestion - 1) {
@@ -261,10 +263,7 @@ export default class Quiz extends Component {
     } else {
       this.setState({ indexOfQuestion: this.state.indexOfQuestion - 1 })
       console.log(this.state.indexOfQuestion)
-
     }
-
-
   }
 
   onValueChange(event) {

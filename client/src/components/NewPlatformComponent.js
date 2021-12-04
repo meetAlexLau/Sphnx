@@ -57,7 +57,7 @@ export default class NewPlatformComponent extends Component {
         }
     }
     componentDidMount() {
-        if(this.state.isLoggedIn !== "true"){
+        if (this.props.match.params.isLoggedIn == false) {
             this.props.history.push('/')
         }
         else{
@@ -90,7 +90,10 @@ export default class NewPlatformComponent extends Component {
     };
 
     routeChangeProfile() {
-        this.props.history.push('/profile')
+        this.props.history.push({
+            pathname:'/profile/' + sessionStorage.getItem("profileID"),
+            state: {isLoggedIn:true}
+            })
         window.location.reload(false)
     }
 
@@ -138,8 +141,6 @@ export default class NewPlatformComponent extends Component {
             PlatformSubscriberArray: [],
             PlatformContentArray: [],
         }
-
-
         await axios.post('/platforms/createPlatform', platformObject).then(res => {newIDofPlat = res.data});
 
         console.log(newIDofPlat)
