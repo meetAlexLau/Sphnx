@@ -115,6 +115,19 @@ export default class NewQuizComponent extends Component {
         let PlatformID = currentPlatform ? currentPlatform : sessionStorage.getItem('previous platform')
         sessionStorage.setItem('current platform', sessionStorage.getItem('previous platform'))
 
+        const quizObject = {
+            QuizTitle: this.state.title,
+            QuizID: this.state.id,
+            QuizBackground: this.state.backgroundPic,
+            QuizQuestions: this.state.questionArray,
+            QuizAnswerKey: answer,
+            QuizBadgeArray: this.state.QuizBadgeArray,
+            PlatformID: PlatformID
+        };
+
+        await axios.post('/quizzes/createQuiz', quizObject)
+            .then(res => {newIDofQuiz=res.data});
+
         var idsOfBadges = []
         var idOfNewBadge = ''
         let j = 0;
@@ -131,10 +144,9 @@ export default class NewQuizComponent extends Component {
                 .then(res => {idsOfBadges.push(res.data);
                             idOfNewBadge = res.data})
             this.state.QuizBadgeArray[j].badgeID = idOfNewBadge
+
             j++
         }
-
-
 
         const quizObject = {
             QuizTitle: this.state.title,
@@ -149,7 +161,6 @@ export default class NewQuizComponent extends Component {
 
         await axios.post('/quizzes/createQuiz', quizObject)
             .then(res => {newIDofQuiz=res.data});
-
 
         // retrieve platform from database, edit quiz array, and send the edited array back
         axios.get('/platforms/' + PlatformID)

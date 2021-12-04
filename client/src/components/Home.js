@@ -43,6 +43,7 @@ export default class Home extends Component {
         if (this.props.location.state.isLoggedIn == false) {
             this.props.history.push('/')
         }
+
         else {
             axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
                 .then((res) => {
@@ -186,8 +187,7 @@ export default class Home extends Component {
         }
     }
 
-
-    toggle() {
+  toggle() {
         var psearch = document.getElementById('platsearch');
         var qsearch = document.getElementById('quizsearch');
         var usearch = document.getElementById('usersearch');
@@ -206,7 +206,6 @@ export default class Home extends Component {
             psearch.style.display = 'none';
             qsearch.style.display = 'none';
             usearch.style.display = 'block';
-
         }
     }
 

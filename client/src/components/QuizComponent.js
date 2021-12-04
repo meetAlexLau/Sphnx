@@ -205,13 +205,12 @@ export default class Quiz extends Component {
       }
       k++
     }
-    
+
     const newPath = ('/users/' + this.state.IDtoEdit)
 
     axios.put(newPath, updatedUser)
       .then(res => console.log(res.data))
       .catch(err => console.log(err))
-
 
     //update platform scoreboard-------------
     let updatedPlatform = this.state.oldPlatform

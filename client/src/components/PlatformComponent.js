@@ -78,6 +78,7 @@ export default class Platform extends Component {
       this.getContent();
 
       //CHECK IF USER IS SUBSCRIBED
+
       await axios.get('/users/UserID/' + getUserID)
         .then(res => {
 
@@ -106,6 +107,7 @@ export default class Platform extends Component {
   routeChangePost = (PostID) => {
     sessionStorage.setItem('current post', PostID);
     sessionStorage.setItem('previous post', PostID);
+
     this.props.history.push({
       pathname:'/post/' + PostID,
       state: {isLoggedIn:true}
