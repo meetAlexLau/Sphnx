@@ -348,7 +348,7 @@ export default class Home extends Component {
                 </Row>
                     */}
                 <Row className='medium homesearchbar'>
-                    <Col>
+                    <Col xs={1}>
                         <select className="selection" value={this.state.searchBarCategory} onChange={this.handleSearchChange}>
                             <option value="platform">Platform</option>
                             <option value="quiz">Quiz</option>
