@@ -27,6 +27,7 @@ export default class Home extends Component {
         this.renderSubscribePlatforms = this.renderSubscribePlatforms.bind(this);
         this.pullQuizzes = this.pullQuizzes.bind(this);
         this.pullUsers = this.pullUsers.bind(this);
+        this.handleSearchChange = this.handleSearchChange.bind(this);
         this.state = {
             isLoggedIn: sessionStorage.getItem('isLoggedIn'),
             ProfileID: '',
@@ -36,7 +37,9 @@ export default class Home extends Component {
             Platforms: [],
             Quizzes: [],
             Users: [],
-            UserSubscribedPlatformArray: []
+            UserSubscribedPlatformArray: [],
+            searchBarSelection: 0,
+            searchBarCategory: 'platform'
         }
     }
     componentDidMount() {
@@ -210,6 +213,17 @@ export default class Home extends Component {
         }
     }
 
+    handleSearchChange(event) {
+        //console.log("this is exampleL:"+event.target.value)
+        if (event.target.value == "platform") {
+            this.setState({ searchBarSelection: 0, searchBarCategory: "platform" })
+        } else if (event.target.value == "quiz") {
+            this.setState({ searchBarSelection: 1, searchBarCategory: "quiz" })
+        } else {
+            this.setState({ searchBarSelection: 2, searchBarCategory: "user" })
+        }
+
+    }
 
     render() {
         //Platform grid
@@ -247,6 +261,15 @@ export default class Home extends Component {
                 </Button>
             </Row>
         ))
+
+
+        let searchBar = <PlatformSearchBar id='platsearch' placeholder="Search Platforms..." data={this.state.Platforms} />
+        if (this.state.searchBarSelection == 1) {
+            searchBar = <QuizSearchBar id='quizsearch' placeholder="Search Quizzes..." data={this.state.Quizzes} />
+        } else if (this.state.searchBarSelection == 2) {
+            searchBar = <UserSearchBar id='usersearch' placeholder="Search Users..." data={this.state.Users} />
+        }
+
         //
         //Quiz grid
         /*
@@ -292,7 +315,7 @@ export default class Home extends Component {
                 </Row>
 
                 {/* DropDown menu */}
-                    {/*
+                {/*
                 <Row>
                     <select id="sel" onChange={
                         {toggle() {
@@ -324,10 +347,24 @@ export default class Home extends Component {
                     </select>
                 </Row>
                     */}
-                <Row className='medium homesearchbar'> {/* Search Bar */}
+                <Row className='medium homesearchbar'>
+                    <Col>
+                        <select className="selection" value={this.state.searchBarCategory} onChange={this.handleSearchChange}>
+                            <option value="platform">Platform</option>
+                            <option value="quiz">Quiz</option>
+                            <option value="user">User</option>
+
+                        </select>
+                    </Col>
+                    <Col>
+                        {searchBar}
+                    </Col>
+
+                    {/*
                     <PlatformSearchBar id='platsearch' placeholder="Search Platforms..." data={this.state.Platforms} />
                     <QuizSearchBar id='quizsearch' placeholder="Search Quizzes..." data={this.state.Quizzes} />
                     <UserSearchBar id='usersearch' placeholder="Search Users..." data={this.state.Users} />
+                    */}
                 </Row>
 
                 <Row className='mainFeed medium ml-auto mr-auto' style={{ alignContent: "center" }}>  {/* Home Container for Platform,Quiz,Profile */}
