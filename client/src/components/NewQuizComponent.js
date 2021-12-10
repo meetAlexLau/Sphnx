@@ -163,7 +163,7 @@ export default class NewQuizComponent extends Component {
         };
 
         // update quiz with badge array
-        await axios.put('http://localhost:4000/updateQuiz/' + newIDofQuiz, badgeQuizObject)
+        await axios.put('http://localhost:4000/quizzes/updateQuiz/' + newIDofQuiz, badgeQuizObject)
             .then(res => console.log(res.data))
             .catch(err => console.log(err))
 
