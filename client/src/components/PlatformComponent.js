@@ -95,12 +95,20 @@ export default class Platform extends Component {
   }
 
   routeChangeEditQuiz = (QuizID) => {
-    sessionStorage.setItem('current quiz', QuizID);
-    sessionStorage.setItem('previous quiz', QuizID);
-    this.props.history.push({
-      pathname: '/editQuiz/' + QuizID,
-      state: {isLoggedIn:true}
-      });
+    if(this.state.Creator == sessionStorage.getItem('UserID')){
+      sessionStorage.setItem('current quiz', QuizID);
+      sessionStorage.setItem('previous quiz', QuizID);
+      this.props.history.push({
+        pathname: '/editQuiz/' + QuizID,
+        state: {isLoggedIn:true}
+        });
+    }
+    else{
+
+      alert("Sorry, you do not have permission to do that!")
+
+    }
+    
   }
 
   routeChangeQuiz = (QuizID) => {
