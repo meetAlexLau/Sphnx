@@ -17,7 +17,7 @@ import PlatformLeaderboardComponent from './components/PlatformLeaderboardCompon
 import PlatformComponent from './components/PlatformComponent';
 import QuizComponent from './components/QuizComponent';
 import PostComponent from './components/PostComponent';
-
+import EditPostComponent from './components/EditPostComponent'
 import EditQuizComponent from "./components/EditQuizComponent";
 
 class App extends Component{
@@ -42,7 +42,7 @@ class App extends Component{
                 <Route path='/quiz/:id' exact component={QuizComponent}/>
                 <Route path='/post/:id' exact component={PostComponent}/>
                 <Route path='/QuizResult' exact component={QuizResult} />
-
+                <Route path='/editPost/:id' exact component={EditPostComponent} />
                 <Route path='/editQuiz/:id' exact component={EditQuizComponent} />
             </Router>
         )

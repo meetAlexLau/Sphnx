@@ -122,6 +122,15 @@ export default class Platform extends Component {
     
   }
 
+  routeChangeEditPost = (PostID) => {
+    sessionStorage.setItem('current post', PostID);
+    sessionStorage.setItem('previous post', PostID);
+    this.props.history.push({
+      pathname:'/editPost/' + PostID,
+      state: {isLoggedIn:true}
+      });
+  }
+
   routeChangeQuiz = (QuizID) => {
     sessionStorage.setItem('current quiz', QuizID);
     sessionStorage.setItem('previous quiz', QuizID);
@@ -348,6 +357,12 @@ export default class Platform extends Component {
                   Go to Post
                 </Button>
               </Col>
+              <Col>
+                {this.state.isCreator ? <Button className='platformActivityCardButton' onClick={() => this.routeChangeEditPost(content[1])} variant="primary">
+                    Edit Post
+                  </Button> : ""}
+
+                </Col>
             </Row>
           </Card>
         </Row>
