@@ -115,6 +115,21 @@ export default class NewQuizComponent extends Component {
         let PlatformID = currentPlatform ? currentPlatform : sessionStorage.getItem('previous platform')
         sessionStorage.setItem('current platform', sessionStorage.getItem('previous platform'))
 
+        const quizObject = {
+            QuizTitle: this.state.title,
+            QuizID: this.state.id,
+            QuizBackground: this.state.backgroundPic,
+            QuizQuestions: this.state.questionArray,
+            QuizAnswerKey: answer,
+            //QuizBadgeArray: this.state.QuizBadgeArray,
+            PlatformID: PlatformID
+        };
+
+        // post quiz
+        await axios.post('http://localhost:4000/quizzes/createQuiz', quizObject)
+            .then(res => {newIDofQuiz=res.data});
+
+        // post badges
         var idsOfBadges = []
         var idOfNewBadge = ''
         let j = 0;
@@ -125,6 +140,8 @@ export default class NewQuizComponent extends Component {
                 BadgeType: this.state.QuizBadgeArray[j].badgeType,
                 BadgeMinScore: this.state.QuizBadgeArray[j].minScore,
                 BadgeMaxTime: this.state.QuizBadgeArray[j].maxTime,
+                BadgeHostPlatform: PlatformID,
+                BadgeHostQuiz: newIDofQuiz
             }
 
             await axios.post('http://localhost:4000/badges/createBadge', newBadgeObject)
@@ -134,9 +151,8 @@ export default class NewQuizComponent extends Component {
             j++
         }
 
-
-
-        const quizObject = {
+        // edit quiz to add badge array
+        const badgeQuizObject = {
             QuizTitle: this.state.title,
             QuizID: this.state.id,
             QuizBackground: this.state.backgroundPic,
@@ -146,10 +162,10 @@ export default class NewQuizComponent extends Component {
             PlatformID: PlatformID
         };
 
-
-        await axios.post('http://localhost:4000/quizzes/createQuiz', quizObject)
-            .then(res => {newIDofQuiz=res.data});
-
+        // update quiz with badge array
+        await axios.put('http://localhost:4000/updateQuiz/' + newIDofQuiz, badgeQuizObject)
+            .then(res => console.log(res.data))
+            .catch(err => console.log(err))
 
         // retrieve platform from database, edit quiz array, and send the edited array back
         axios.get('http://localhost:4000/platforms/' + PlatformID)

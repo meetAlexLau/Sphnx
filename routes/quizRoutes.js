@@ -60,7 +60,9 @@ router.route('/updateQuiz/:id').put((req, res) => {
           object.QuizTitle = req.body.QuizTitle;
           object.QuizBackground = req.body.QuizBackground;
           object.QuizQuestions = req.body.QuizQuestions;
-        
+          object.QuizBadgeArray = req.body.QuizBadgeArray;
+          object.QuizAnswerKey = req.body.QuizAnswerKey;
+          object.PlatformID = req.body.PlatformID;
         
           object.save()
             .then(object => {
