@@ -29,6 +29,17 @@ router.route('/').get((req, res) => {
     })
   })
 
+  // Get Single quiz
+router.route('/editQuiz/:id').get((req, res) => {
+  quizSchema.findById(req.params.id, (error, data) => {
+    if (error) {
+      return next(error)
+    } else {
+      res.json(data)
+    }
+  })
+})
+
 
 //fetch quiz info (get quiz by id)
 router.route('/:id').get(function(req, res) {

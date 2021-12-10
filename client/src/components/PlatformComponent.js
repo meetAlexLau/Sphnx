@@ -94,6 +94,15 @@ export default class Platform extends Component {
 
   }
 
+  routeChangeEditQuiz = (QuizID) => {
+    sessionStorage.setItem('current quiz', QuizID);
+    sessionStorage.setItem('previous quiz', QuizID);
+    this.props.history.push({
+      pathname: '/editQuiz/' + QuizID,
+      state: {isLoggedIn:true}
+      });
+  }
+
   routeChangeQuiz = (QuizID) => {
     sessionStorage.setItem('current quiz', QuizID);
     sessionStorage.setItem('previous quiz', QuizID);
@@ -284,6 +293,13 @@ export default class Platform extends Component {
                   <Button className='platformActivityCardButton' onClick={() => this.routeChangeQuiz(content[1])} variant="primary">
                     {content[0]}
                   </Button>
+                  
+                </Col>
+                <Col>
+                  <Button className='platformActivityCardButton' onClick={() => this.routeChangeEditQuiz(content[1])} variant="primary">
+                    Edit {content[0]}
+                  </Button>
+                  
                 </Col>
               </Row>
             </Card>
