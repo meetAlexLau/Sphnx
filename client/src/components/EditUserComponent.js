@@ -26,11 +26,6 @@ async function uploadImage(file) {
   return img.secure_url;
 }
 
-
-
-
-
-
 export default class EditUserComponent extends Component{
 
     constructor(props){

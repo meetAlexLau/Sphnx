@@ -29,9 +29,10 @@ export default class MyBadge extends Component {
     let user;
 
     // get userbadgearray from this user
-    await axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
+    console.log(this.props.match.params.id);
+    await axios.get('http://localhost:4000/users/' + this.props.match.params.id)
       .then(res => {
-        user = res.data[0];
+        user = res.data;
       })
 
     // iterate through and get all badges
