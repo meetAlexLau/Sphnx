@@ -38,6 +38,27 @@ router.route('/:id').get(function(req, res) {
     });
 });
 
+//delete post
+router.route('/deletePost/:id').delete(function(req, res){
+  Object.findByIdAndDelete(req.params.id, function(err, object){
+    if(!object)
+      res.status(404).send('data not found')
+    else
+      object.PostDesc = req.body.PostDesc;
+      object.PostID = req.params.id;
+      object.PostTitle = req.body.PostTitle;
+      object.PostPicture = req.body.PostPicture;
+
+      object.save().then( object => {
+        res.json('Deleted Post')
+      })
+      .catch(err => {
+        res.status(400).send('not deleted!')
+      })
+
+  })
+})
+
 //update post
 router.route('/updatePost/:id').put((req, res) => {
   postSchema.findById(req.params.id, function(err, object) {
