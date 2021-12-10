@@ -28,6 +28,7 @@ export default class Home extends Component {
         this.pullQuizzes = this.pullQuizzes.bind(this);
         this.pullUsers = this.pullUsers.bind(this);
         this.handleSearchChange = this.handleSearchChange.bind(this);
+        this.topUsers = this.topUsers.bind(this);
         this.state = {
             isLoggedIn: sessionStorage.getItem('isLoggedIn'),
             ProfileID: '',
@@ -39,7 +40,8 @@ export default class Home extends Component {
             Users: [],
             UserSubscribedPlatformArray: [],
             searchBarSelection: 0,
-            searchBarCategory: 'platform'
+            searchBarCategory: 'platform',
+            top15users: []
         }
     }
     componentDidMount() {
@@ -66,6 +68,7 @@ export default class Home extends Component {
             this.renderPlatforms();
             this.pullQuizzes();
             this.pullUsers();
+            this.topUsers();
         }
     }
     routeChangeLogout() {
@@ -225,6 +228,18 @@ export default class Home extends Component {
 
     }
 
+    topUsers(){
+        axios.get('http://localhost:4000/users')
+            .then(res => {
+                let users = res.data;
+                let top15users = users.sort((a,b) => b.UserPoints - a.UserPoints).slice(0,15);
+                this.setState({
+                    top15users: top15users
+                })
+                console.log(top15users);
+            })
+    }
+
     render() {
         //Platform grid
         let plats = this.state.Platforms?.map((plat, i) => (        //map each platform to structure <Col>
@@ -262,6 +277,15 @@ export default class Home extends Component {
             </Row>
         ))
 
+        let top15users = this.state.top15users?.map((user, i) => (
+            <Row key={i} className='topuserrow'>
+                <Button className='subscriptionbutton' onClick={() => this.routeChangeProfile(user._id)} style={{ textOverflow: 'ellipsis' }}>
+                    <Form.Text className='topuser'>
+                        {user.UserName}
+                    </Form.Text>
+                </Button>
+            </Row>
+        ))
 
         let searchBar = <PlatformSearchBar id='platsearch' placeholder="Search Platforms..." data={this.state.Platforms} />
         if (this.state.searchBarSelection == 1) {
@@ -269,30 +293,6 @@ export default class Home extends Component {
         } else if (this.state.searchBarSelection == 2) {
             searchBar = <UserSearchBar id='usersearch' placeholder="Search Users..." data={this.state.Users} />
         }
-
-        //
-        //Quiz grid
-        /*
-        let quizs = this.state.Quizzes?.map((quiz, i) => (
-            <Col key={i} className='ml-auto mr-auto' style={{maxWidth:'250px'}}>
-                <Card className='activityCard'>
-                    <Card.Img variant='top' className='activityCardImage' src={quiz.QuizBackground}></Card.Img>
-                    <Button className='activityCardButton' onClick={() => this.routeChangeQuiz(quiz._id)} variant="primary">
-                        {quiz.QuizTitle}
-                    </Button>
-                </Card>
-            </Col>
-
-        ))
-        let rendquizs = [];
-        while (quizs.length > 0) {        //splice the array of platforms into groups of 4
-            let chunk = quizs.splice(0, 4);
-            rendquizs.push(chunk)
-        }
-        for (var j = 0; j < rendquizs.length; j++) {          //each chunk is a group of 4, surround with <Row>
-            rendquizs[j] = <Row> {rendquizs[j]} </Row>
-        }
-        */
         return (
             <Container fluid className='sky containerrow'> {/* home container*/}
                 <Row className='medium marginspacing paddingspacing'> {/*Logout | Title | Profile */}
@@ -378,9 +378,10 @@ export default class Home extends Component {
                             <Col className='ml-auto mr-auto' style={{ maxWidth: '150px', width: '150px' }}>
                                 <Row>
                                     <Card>
-                                        TOP PLATFORMS
+                                        TOP USERS
                                     </Card>
                                 </Row>
+                                {top15users}
                             </Col>
                             <Col className='ml-auto mr-auto medium'>
                                 <Row>
