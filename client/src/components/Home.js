@@ -278,9 +278,9 @@ export default class Home extends Component {
         ))
 
         let top15users = this.state.top15users?.map((user, i) => (
-            <Row key={i} className='subscriptionrow'>
+            <Row key={i} className='topuserrow'>
                 <Button className='subscriptionbutton' onClick={() => this.routeChangeProfile(user._id)} style={{ textOverflow: 'ellipsis' }}>
-                    <Form.Text className='subscriptions'>
+                    <Form.Text className='topuser'>
                         {user.UserName}
                     </Form.Text>
                 </Button>
