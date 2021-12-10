@@ -50,6 +50,16 @@ export default class Post extends Component {
                         oldPlatform: Platform,
                         platformName: Platform.PlatformName
                     })
+                    if(Platform.PlatformCreator == sessionStorage.getItem('UserID')){
+                        this.setState({
+                            isCreator: true
+                        })
+                    }
+                    else{
+                        this.setState({
+                            isCreator: false
+                        })
+                    }
                 })
         }
     }
@@ -61,48 +71,55 @@ export default class Post extends Component {
 
     onClickDelete = async() => {
 
+        var r = confirm("Are you sure you want to delete this post? This action cannot be undone.")
+
+        if(r == true){
+
         let platCreator = ""
-
-        await axios.get('http://localhost:4000/platforms/' + this.state.platformID)
-        .then(res => {
-            let Platform = res.data
-            platCreator = Platform.PlatformCreator
-
-        })
-
-        if(platCreator == sessionStorage.getItem('UserID')){
-
-            await axios.delete('http://localhost:4000/posts/deletePost/' + this.state.postId)
-            .then(res => {
-                console.log('deleted post!')
-            })
-            .catch(err => {
-                console.log(err)
-            })
 
             await axios.get('http://localhost:4000/platforms/' + this.state.platformID)
             .then(res => {
                 let Platform = res.data
-                const index = Platform.PlatformContentArray.indexOf(this.state.postId)
-                if (index > -1){
-                    Platform.PlatformContentArray.splice(index, 1)
-                }
+                platCreator = Platform.PlatformCreator
 
-                axios.put('http://localhost:4000/platforms/updatePlatform/' + this.state.platformID, Platform).then(res => {})
-
-                this.props.history.push({
-                    pathname:'/platform/'+this.state.platformID,
-                    state: {isLoggedIn:true}
-                    });
-                window.location.reload(false)
-                
             })
+
+            if(platCreator == sessionStorage.getItem('UserID')){
+
+                await axios.delete('http://localhost:4000/posts/deletePost/' + this.state.postId)
+                .then(res => {
+                    console.log('deleted post!')
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+
+                await axios.get('http://localhost:4000/platforms/' + this.state.platformID)
+                .then(res => {
+                    let Platform = res.data
+                    const index = Platform.PlatformContentArray.indexOf(this.state.postId)
+                    if (index > -1){
+                        Platform.PlatformContentArray.splice(index, 1)
+                    }
+
+                    axios.put('http://localhost:4000/platforms/updatePlatform/' + this.state.platformID, Platform).then(res => {})
+
+                    this.props.history.push({
+                        pathname:'/platform/'+this.state.platformID,
+                        state: {isLoggedIn:true}
+                        });
+                    window.location.reload(false)
+                    
+                })
+            }
+            else{
+
+                alert("Sorry, you do not have permission to do that.")
+            }
         }
         else{
-
-            alert("Sorry, you do not have permission to do that.")
+            
         }
-
 
     }
 
@@ -126,7 +143,7 @@ export default class Post extends Component {
                             <button className="quiz-button" onClick={() => this.onClickBack()}>
                                 Back
                             </button>
-                            <button className='quiz-button' onClick={() => this.onClickDelete()}>Delete Post</button>
+                            {this.state.isCreator ? <button className='quiz-button' onClick={() => this.onClickDelete()}>Delete Post</button> : ""}
                         </div>
                     </div>
                 </div>
