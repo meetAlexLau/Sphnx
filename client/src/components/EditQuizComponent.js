@@ -41,6 +41,7 @@ export default class EditQuizComponent extends Component {
         // Setting up functions
         this.onChangeQuizTitle = this.onChangeQuizTitle.bind(this);
         this.onChangeQuizId = this.onChangeQuizId.bind(this);
+        this.onClickDelete = this.onClickDelete.bind(this);
 
 
         this.onSubmit = this.onSubmit.bind(this);
@@ -111,6 +112,45 @@ export default class EditQuizComponent extends Component {
 
     routeChangeNewBadge(e) {
         this.props.history.push('/newBadge')
+    }
+
+    onClickDelete = async() => {
+
+        var r = confirm("Are you sure you want to delete this quiz? This action cannot be undone.")
+
+        if(r == true){
+            await axios.delete('http://localhost:4000/quizzes/deleteQuiz/' + this.state.quizId)
+            .then(res => {
+                console.log('deleted quiz!')
+            })
+            .catch(err =>{
+                console.log(err)
+            })
+
+
+            await axios.get('http://localhost:4000/platforms/' + this.state.platformID)
+            .then(res => {
+                let Platform = res.data
+                const index = Platform.PlatformContentArray.indexOf(this.state.quizId)
+                if (index > -1){
+                    Platform.PlatformContentArray.splice(index, 1)
+                }
+
+                axios.put('http://localhost:4000/platforms/updatePlatform/' + this.state.platformID, Platform).then(res => {})
+
+                this.props.history.push({
+                    pathname:'/platform/'+this.state.platformID,
+                    state: {isLoggedIn:true}
+                    });
+
+                window.location.reload(false)
+                
+            })
+        }
+        else{
+
+        }
+
     }
 
     onChangeQuizTitle(e) {
@@ -351,6 +391,10 @@ export default class EditQuizComponent extends Component {
 
                             <Button className='cancelbutton' variant="danger" onClick={this.routeChangePlatform}>
                                 Cancel
+                            </Button>
+
+                            <Button className ='cancelbutton' variant='danger' onClick={this.onClickDelete}>
+                                Delete Quiz
                             </Button>
                         </div>
                     </div>
