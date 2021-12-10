@@ -163,8 +163,9 @@ export default class EditQuizComponent extends Component {
         const updateQuizObject = {
             QuizTitle: this.state.title,
             QuizBackground: this.state.backgroundPic,
-            QuizQuestions: this.state.questQionArray,
+            QuizQuestions: this.state.questionArray,
             QuizAnswerKey: answer,
+            PlatformID: this.state.platformID
             //QuizBadgeArray: this.state.QuizBadgeArray
         };
 
