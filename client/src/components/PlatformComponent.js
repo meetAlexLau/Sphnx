@@ -92,6 +92,17 @@ export default class Platform extends Component {
         })
     }
 
+    if(this.state.Creator == sessionStorage.getItem('UserID')){
+      this.setState({
+        isCreator: 1
+      })
+    }else{
+      this.setState({
+        isCreator: 0
+      })
+    }
+
+
   }
 
   routeChangeEditQuiz = (QuizID) => {
@@ -279,6 +290,10 @@ export default class Platform extends Component {
     }
   }
 
+  renderEditButton(){
+
+  }
+
 
   render() {
     //
@@ -304,10 +319,17 @@ export default class Platform extends Component {
                   
                 </Col>
                 <Col>
+                {this.state.isCreator ? <Button className='platformActivityCardButton' onClick={() => this.routeChangeEditQuiz(content[1])} variant="primary">
+                    Edit {content[0]}
+                  </Button> : ""}
+
+                  {/*
                   <Button className='platformActivityCardButton' onClick={() => this.routeChangeEditQuiz(content[1])} variant="primary">
                     Edit {content[0]}
                   </Button>
-                  
+                  */}
+
+
                 </Col>
               </Row>
             </Card>
