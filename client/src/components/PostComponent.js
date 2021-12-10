@@ -57,34 +57,51 @@ export default class Post extends Component {
     onClickBack() {
         this.props.history.goBack()
     }
+    
 
     onClickDelete = async() => {
-        
-        await axios.delete('http://localhost:4000/posts/deletePost/' + this.state.postId)
-        .then(res => {
-            console.log('deleted post!')
-        })
-        .catch(err => {
-            console.log(err)
-        })
+
+        let platCreator = ""
 
         await axios.get('http://localhost:4000/platforms/' + this.state.platformID)
         .then(res => {
             let Platform = res.data
-            const index = Platform.PlatformContentArray.indexOf(this.state.postId)
-            if (index > -1){
-                Platform.PlatformContentArray.splice(index, 1)
-            }
+            platCreator = Platform.PlatformCreator
 
-            axios.put('http://localhost:4000/platforms/updatePlatform/' + this.state.platformID, Platform).then(res => {})
-
-            this.props.history.push({
-                pathname:'/platform/'+this.state.platformID,
-                state: {isLoggedIn:true}
-                });
-            window.location.reload(false)
-            
         })
+
+        if(platCreator == sessionStorage.getItem('UserID')){
+
+            await axios.delete('http://localhost:4000/posts/deletePost/' + this.state.postId)
+            .then(res => {
+                console.log('deleted post!')
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+            await axios.get('http://localhost:4000/platforms/' + this.state.platformID)
+            .then(res => {
+                let Platform = res.data
+                const index = Platform.PlatformContentArray.indexOf(this.state.postId)
+                if (index > -1){
+                    Platform.PlatformContentArray.splice(index, 1)
+                }
+
+                axios.put('http://localhost:4000/platforms/updatePlatform/' + this.state.platformID, Platform).then(res => {})
+
+                this.props.history.push({
+                    pathname:'/platform/'+this.state.platformID,
+                    state: {isLoggedIn:true}
+                    });
+                window.location.reload(false)
+                
+            })
+        }
+        else{
+
+            alert("Sorry, you do not have permission to do that.")
+        }
 
 
     }
