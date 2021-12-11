@@ -10,7 +10,7 @@ import NewQuizComponent from './components/NewQuizComponent';
 import NewPostComponent from './components/NewPostComponent';
 import UserComponent from './components/UserComponent';
 import EditUserComponent from './components/EditUserComponent';
-
+import EditPlatformComponent from './components/EditPlatformComponent';
 import MyBadgeComponent from './components/MyBadgeComponent';
 import PlatformBadgeComponent from './components/PlatformBadgeComponent';
 import PlatformLeaderboardComponent from './components/PlatformLeaderboardComponent';
@@ -42,6 +42,7 @@ class App extends Component{
                 <Route path='/quiz/:id' exact component={QuizComponent}/>
                 <Route path='/post/:id' exact component={PostComponent}/>
                 <Route path='/QuizResult' exact component={QuizResult} />
+                <Route path='/editPlatform/:id' exact component={EditPlatformComponent} />
                 <Route path='/editPost/:id' exact component={EditPostComponent} />
                 <Route path='/editQuiz/:id' exact component={EditQuizComponent} />
             </Router>

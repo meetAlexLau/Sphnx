@@ -17,6 +17,7 @@ export default class Platform extends Component {
     this.clickNewQuiz = this.clickNewQuiz.bind(this)
     this.clickNewPost = this.clickNewPost.bind(this)
     this.getContent = this.getContent.bind(this);
+    this.clickEditPlatform = this.clickEditPlatform.bind(this);
     this.state = {
       isLoggedIn: sessionStorage.getItem('isLoggedIn'),
       PlatformID: '',
@@ -299,8 +300,12 @@ export default class Platform extends Component {
     }
   }
 
-  renderEditButton(){
+  clickEditPlatform() {
 
+    this.props.history.push({
+      pathname:'/editPlatform/' + this.state.PlatformID,
+      state: {isLoggedIn:true}
+      });
   }
 
 
@@ -459,9 +464,10 @@ export default class Platform extends Component {
                       }
                     </Button>
                   </Row>
-                  <Row className="d-flex justify-content-end"><Button onClick={this.clickNewQuiz} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Quiz</Button></Row>
-                  <Row className="d-flex justify-content-end"><Button onClick={this.clickNewPost} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Post</Button></Row>
-
+                  <Row className="d-flex justify-content-end">{ this.state.isCreator ? <Button onClick={this.clickNewQuiz} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Quiz</Button>: ""}</Row>
+                  <Row className="d-flex justify-content-end">{ this.state.isCreator ? <Button onClick={this.clickNewPost} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Post</Button>: ""}
+                  { this.state.isCreator ? <Button onClick={this.clickEditPlatform} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>Edit Platform</Button>:""}</Row>
+                  
                 </Col>
               </Row>
 

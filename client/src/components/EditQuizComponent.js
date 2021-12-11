@@ -179,26 +179,7 @@ export default class EditQuizComponent extends Component {
         var idsOfBadges = []
         var idOfNewBadge = ''
         let j = 0;
-        /*
-        while (this.state.QuizBadgeArray[j]) {
-            const newBadgeObject = {
-                BadgeTitle: this.state.QuizBadgeArray[j].badgeTitle,
-                BadgePicture: this.state.QuizBadgeArray[j].badgePicture,
-                BadgeType: this.state.QuizBadgeArray[j].badgeType,
-                BadgeMinScore: this.state.QuizBadgeArray[j].minScore,
-                BadgeMaxTime: this.state.QuizBadgeArray[j].maxTime,
-            }
-
-            await axios.post('http://localhost:4000/badges/createBadge', newBadgeObject)
-                .then(res => {
-                    idsOfBadges.push(res.data);
-                    idOfNewBadge = res.data
-                })
-            this.state.QuizBadgeArray[j].badgeID = idOfNewBadge
-            j++
-        }
-        */
-
+       
 
         const updateQuizObject = {
             QuizTitle: this.state.title,
@@ -209,11 +190,6 @@ export default class EditQuizComponent extends Component {
             //QuizBadgeArray: this.state.QuizBadgeArray
         };
 
-
-        /*
-        await axios.post('http://localhost:4000/quizzes/createQuiz', quizObject)
-            .then(res => { newIDofQuiz = res.data });
-        */
 
 
         const editQuizPath = ('http://localhost:4000/quizzes/updateQuiz/' + this.state.quizId)
