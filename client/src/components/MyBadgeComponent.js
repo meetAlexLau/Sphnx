@@ -17,6 +17,8 @@ export default class MyBadge extends Component {
 
     this.state = {
       Badges: [],
+      BadgePlatformNames: [],
+      BadgeQuizNames: []
     }
   }
 
@@ -52,13 +54,40 @@ export default class MyBadge extends Component {
     //console.log(this.state.Badges);
   }
 
+  getPlatformNames = async () => {
+    let p = [];
+
+
+  }
+
+  getQuizNames = async () => {
+
+  }
+
   render() {
 
     let badges = this.state.Badges?.map((badge, i) => (
       <Col key={i}>
         <Card className='activityCard'>
           <Card.Img variant='top' className='activityCardImage' src={badge.BadgePicture}></Card.Img>
-            {badge.BadgeTitle}
+          {badge.BadgeTitle}
+          <div>
+            {(() => {
+              if (badge.BadgeType == 3) {
+                return (
+                  <div> Earn a perfect score. </div>
+                )
+              } else if (badge.BadgeType == 2) {
+                return (
+                  <div> Complete within {badge.BadgeMaxTime} seconds. </div>
+                )
+              } else {
+                return (
+                  <div> Earn at least {badge.BadgeMinScore} points.</div>
+                )
+              }
+            })()}
+          </div>
         </Card>
       </Col>
     ))
@@ -78,7 +107,7 @@ export default class MyBadge extends Component {
       <div class="background"  >
         <div class="badge-content">
           <div class="badge-content-header">
-            <Link to={{pathname:'/profile/' + this.props.match.params.id, state:{isLoggedIn:true}}} className="badge-button">
+            <Link to={{ pathname: '/profile/' + this.props.match.params.id, state: { isLoggedIn: true } }} className="badge-button">
               Back
             </Link>
             My badges
