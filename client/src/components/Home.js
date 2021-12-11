@@ -45,7 +45,7 @@ export default class Home extends Component {
         }
     }
     componentDidMount() {
-        if (this.props.location.state.isLoggedIn == false) {
+        if (this.state.isLoggedIn == "false" || this.state.isLoggedIn == undefined) {
             this.props.history.push('/')
         }
         else {

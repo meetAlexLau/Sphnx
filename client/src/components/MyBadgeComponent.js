@@ -16,6 +16,7 @@ export default class MyBadge extends Component {
     super(props)
 
     this.state = {
+      isLoggedIn: sessionStorage.getItem('isLoggedIn'),
       Badges: [],
       BadgePlatformNames: [],
       BadgeQuizNames: []
@@ -23,6 +24,9 @@ export default class MyBadge extends Component {
   }
 
   componentDidMount() {
+    if (this.state.isLoggedIn == "false" || this.state.isLoggedIn == undefined) {
+      this.props.history.push('/')
+    }
     this.getBadges(this.getPlatformNames, this.getQuizNames);
   }
 

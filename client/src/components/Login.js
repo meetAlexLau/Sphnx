@@ -59,6 +59,7 @@ export default class Login extends Component{
                         sessionStorage.setItem('UserID', UserData.UserID)
                         sessionStorage.setItem("profileID", UserData._id)
                         sessionStorage.setItem("id token", resp.tokenId)
+                        sessionStorage.setItem("isLoggedIn", true);
                         this.refreshTokenSetup(resp)
                         this.routeChange();
                     }
@@ -69,8 +70,7 @@ export default class Login extends Component{
                                 sessionStorage.setItem('UserID', newUser.UserID)
                                 sessionStorage.setItem("profileID", UserData._id)
                                 sessionStorage.setItem("id token", resp.tokenId)
-                                console.log("TOKEN ID", resp.tokenId)
-                                console.log("ACCESS TOKEN", resp.accessToken)
+                                sessionStorage.setItem("isLoggedIn", true);
                                 this.refreshTokenSetup(resp)
                                 this.routeChange(); //change to home screen
                             })

@@ -52,8 +52,8 @@ export default class EditUserComponent extends Component{
     }
 
     componentDidMount(){
-      if (this.props.match.params.isLoggedIn == false) {
-      this.props.history.push('/')
+      if (this.state.isLoggedIn == "false" || this.state.isLoggedIn == undefined) {
+        this.props.history.push('/')
       }
       else{
 

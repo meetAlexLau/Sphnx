@@ -23,9 +23,9 @@ export default class Post extends Component {
     }
 
     async componentDidMount() {
-        if (this.props.location.state.isLoggedIn == false) {
-            this.props.history.push('/')
-        }
+        if (this.state.isLoggedIn == "false" || this.state.isLoggedIn == undefined) {
+      this.props.history.push('/')
+    }
         else {
 
             let currentPost = sessionStorage.getItem('current post');

@@ -65,7 +65,7 @@ export default class NewQuizComponent extends Component {
     }
 
     componentDidMount() {
-        if (this.props.match.params.isLoggedIn == false) {
+        if (this.state.isLoggedIn == "false" || this.state.isLoggedIn == undefined) {
             this.props.history.push('/')
         }
         else {

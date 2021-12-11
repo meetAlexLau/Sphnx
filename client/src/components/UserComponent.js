@@ -45,10 +45,7 @@ export default class UserComponent extends Component{
     }
 
     componentDidMount = async() =>{
-        console.log(this.props.location.state.isLoggedIn)
-        console.log(sessionStorage.getItem('profileID'))
-        console.log(this.state.UserPlatformArray)
-        if (this.props.location.state.isLoggedIn == false) {
+        if (this.state.isLoggedIn == "false" || this.state.isLoggedIn == undefined) {
             this.props.history.push('/')
         }
         else{       

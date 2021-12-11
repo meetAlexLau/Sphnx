@@ -11,14 +11,7 @@ export default class PlatformLeaderboard extends Component {
 
   constructor(props) {
     super(props)
-    //this.comparePoints = this.comparePoints.bind(this);
   }
-
-  /*
-  comparePoints(a, b) {
-    return a.point - b.point;
-  }*/
-
 
   render() {
     let sortedByPointArray=this.props.ScoreBoard

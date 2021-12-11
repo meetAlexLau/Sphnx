@@ -57,7 +57,7 @@ export default class NewPlatformComponent extends Component {
         }
     }
     async componentDidMount() {
-        if (this.props.match.params.isLoggedIn == false) {
+        if (this.state.isLoggedIn == "false" || this.state.isLoggedIn == undefined) {
             this.props.history.push('/')
         }
         else{

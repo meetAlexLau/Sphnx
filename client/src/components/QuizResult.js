@@ -12,8 +12,15 @@ export default class QuizResult extends Component{
         this.renderQuestions = this.renderQuestions.bind(this);
         this.routeHome = this.routeHome.bind(this);
         this.routePlatform = this.routePlatform.bind(this);
+        this.state = {
+            isLoggedIn: sessionStorage.getItem('isLoggedIn')
+        }
     }
-    
+    componentDidMount(){
+        if (this.state.isLoggedIn == "false" || this.state.isLoggedIn == undefined) {
+            this.props.history.push('/')
+        }
+    }
     renderQuestions = () => {
         const q = [];
         for(var i =0; i < this.props.numberOfQuestion; i++){
