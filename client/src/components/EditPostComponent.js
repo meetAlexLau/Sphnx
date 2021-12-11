@@ -41,6 +41,7 @@ export default class NewPostComponent extends Component {
         this.onChangePostTitle = this.onChangePostTitle.bind(this);
         this.onChangePostId = this.onChangePostId.bind(this);
         this.onChangePostDesc = this.onChangePostDesc.bind(this);
+        this.onClickDelete = this.onClickDelete.bind(this);
 
         this.onSubmit = this.onSubmit.bind(this);
 
@@ -53,20 +54,38 @@ export default class NewPostComponent extends Component {
             id: ''
         }
     }
-    componentDidMount() {
+
+    async componentDidMount() {
         if (this.props.match.params.isLoggedIn == false) {
             this.props.history.push('/')
         }
         else{
-            
-        axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
-         .then(res => {
-          let User = res.data[0];
-            this.setState({
-                oldUser: User,
-                IDtoEdit: User._id
+
+        
+            let currentPost = sessionStorage.getItem('current post');
+            let PostID = currentPost ? currentPost : sessionStorage.getItem('previous post')
+            sessionStorage.setItem('current quiz', sessionStorage.getItem('previous quiz'))
+
+            await axios.get('http://localhost:4000/posts/' + PostID)
+            .then(res => {
+                this.setState({
+                    id: res.data.PostID,
+                    title: res.data.PostTitle,
+                    desc: res.data.PostDesc,
+                    picture: res.data.PostPicture,
+                    platformID: res.data.PlatformID
+                })
             })
-        })
+
+            axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
+            .then(res => {
+            let User = res.data[0];
+                this.setState({
+                    oldUser: User,
+                    IDtoEdit: User._id
+                })
+            })
+        
         }
     }
    
@@ -98,6 +117,63 @@ export default class NewPostComponent extends Component {
         this.setState({ desc: e.target.value })
     }
 
+    onClickDelete = async() => {
+
+        var r = confirm("Are you sure you want to delete this post? This action cannot be undone.")
+
+        if(r == true){
+
+        let platCreator = ""
+
+            await axios.get('http://localhost:4000/platforms/' + this.state.platformID)
+            .then(res => {
+          
+                let Platform = res.data
+                platCreator = Platform.PlatformCreator
+               
+
+            })
+
+            if(platCreator == sessionStorage.getItem('UserID')){
+
+                await axios.delete('http://localhost:4000/posts/deletePost/' + this.state.id)
+                .then(res => {
+                    console.log('deleted post!')
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+
+                await axios.get('http://localhost:4000/platforms/' + this.state.platformID)
+                .then(res => {
+                    let Platform = res.data
+                    const index = Platform.PlatformContentArray.indexOf(this.state.id)
+                    if (index > -1){
+                        Platform.PlatformContentArray.splice(index, 1)
+                    }
+
+                    axios.put('http://localhost:4000/platforms/updatePlatform/' + this.state.platformID, Platform).then(res => {})
+
+                    this.props.history.push({
+                        pathname:'/platform/'+this.state.platformID,
+                        state: {isLoggedIn:true}
+                        });
+                    window.location.reload(false)
+                    
+                })
+                window.location.reload(false)
+            }
+            else{
+
+                alert("Sorry, you do not have permission to do that.")
+            }
+        }
+        else{
+            
+        }
+
+    }
+
 
     
 
@@ -109,7 +185,7 @@ export default class NewPostComponent extends Component {
         sessionStorage.setItem('current platform', sessionStorage.getItem('previous platform'))
 
 
-        const postObject = {
+        const updatedPostObject = {
             PostTitle: this.state.title,
             PostDesc: this.state.desc,
             PostPicture: this.state.picture,
@@ -117,24 +193,16 @@ export default class NewPostComponent extends Component {
             PlatformID: PlatformID
         }
 
-        await axios.post('http://localhost:4000/posts/createPost', postObject).then(res => {newIDofPost = res.data});
+        const editPostPath = ('http://localhost:4000/posts/updatePost/' + this.state.id)
 
-
-        axios.get('http://localhost:4000/platforms/' + PlatformID)
-        .then(res => {
-            console.log(sessionStorage.getItem('current platform'));
-            console.log('logging res', res);
-            let plat = res.data;
-            plat.PlatformPostArray.push(newIDofPost);
-            plat.PlatformContentArray.push(newIDofPost);
-            axios.put('http://localhost:4000/platforms/updatePlatform/' + PlatformID, plat).then(res => {})
-        })  
-   
-       
+        await axios.put(editPostPath, updatedPostObject)
+            .then(res => console.log(res.data))
+            .catch(err => console.log(err))
+        
         this.props.history.push({
-            pathname:'/platform/'+PlatformID,
-            state: {isLoggedIn:true}
-            });
+            pathname: '/platform/' + PlatformID,
+            state: { isLoggedIn: true }
+        });
         window.location.reload(false)
 
     }
@@ -178,6 +246,11 @@ export default class NewPostComponent extends Component {
                             <Button className='cancelbutton' variant="danger" onClick={this.routeChangePlatform}>
                                 Cancel
                             </Button>
+
+                            <Button className ='cancelbutton' variant='danger' onClick={this.onClickDelete}>
+                                Delete Post
+                            </Button>
+
                         </div>
                     </div>
                 </Form>

@@ -17,6 +17,7 @@ export default class Platform extends Component {
     this.clickNewQuiz = this.clickNewQuiz.bind(this)
     this.clickNewPost = this.clickNewPost.bind(this)
     this.getContent = this.getContent.bind(this);
+    this.clickEditPlatform = this.clickEditPlatform.bind(this);
     this.state = {
       isLoggedIn: sessionStorage.getItem('isLoggedIn'),
       PlatformID: '',
@@ -92,13 +93,41 @@ export default class Platform extends Component {
         })
     }
 
+    if(this.state.Creator == sessionStorage.getItem('UserID')){
+      this.setState({
+        isCreator: 1
+      })
+    }else{
+      this.setState({
+        isCreator: 0
+      })
+    }
+
+
   }
 
   routeChangeEditQuiz = (QuizID) => {
-    sessionStorage.setItem('current quiz', QuizID);
-    sessionStorage.setItem('previous quiz', QuizID);
+    if(this.state.Creator == sessionStorage.getItem('UserID')){
+      sessionStorage.setItem('current quiz', QuizID);
+      sessionStorage.setItem('previous quiz', QuizID);
+      this.props.history.push({
+        pathname: '/editQuiz/' + QuizID,
+        state: {isLoggedIn:true}
+        });
+    }
+    else{
+
+      alert("Sorry, you do not have permission to do that!")
+
+    }
+    
+  }
+
+  routeChangeEditPost = (PostID) => {
+    sessionStorage.setItem('current post', PostID);
+    sessionStorage.setItem('previous post', PostID);
     this.props.history.push({
-      pathname: '/editQuiz/' + QuizID,
+      pathname:'/editPost/' + PostID,
       state: {isLoggedIn:true}
       });
   }
@@ -271,6 +300,14 @@ export default class Platform extends Component {
     }
   }
 
+  clickEditPlatform() {
+
+    this.props.history.push({
+      pathname:'/editPlatform/' + this.state.PlatformID,
+      state: {isLoggedIn:true}
+      });
+  }
+
 
   render() {
     //
@@ -296,10 +333,17 @@ export default class Platform extends Component {
                   
                 </Col>
                 <Col>
+                {this.state.isCreator ? <Button className='platformActivityCardButton' onClick={() => this.routeChangeEditQuiz(content[1])} variant="primary">
+                    Edit {content[0]}
+                  </Button> : ""}
+
+                  {/*
                   <Button className='platformActivityCardButton' onClick={() => this.routeChangeEditQuiz(content[1])} variant="primary">
                     Edit {content[0]}
                   </Button>
-                  
+                  */}
+
+
                 </Col>
               </Row>
             </Card>
@@ -318,6 +362,12 @@ export default class Platform extends Component {
                   Go to Post
                 </Button>
               </Col>
+              <Col>
+                {this.state.isCreator ? <Button className='platformActivityCardButton' onClick={() => this.routeChangeEditPost(content[1])} variant="primary">
+                    Edit Post
+                  </Button> : ""}
+
+                </Col>
             </Row>
           </Card>
         </Row>
@@ -414,9 +464,10 @@ export default class Platform extends Component {
                       }
                     </Button>
                   </Row>
-                  <Row className="d-flex justify-content-end"><Button onClick={this.clickNewQuiz} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Quiz</Button></Row>
-                  <Row className="d-flex justify-content-end"><Button onClick={this.clickNewPost} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Post</Button></Row>
-
+                  <Row className="d-flex justify-content-end">{ this.state.isCreator ? <Button onClick={this.clickNewQuiz} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Quiz</Button>: ""}</Row>
+                  <Row className="d-flex justify-content-end">{ this.state.isCreator ? <Button onClick={this.clickNewPost} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>New Post</Button>: ""}
+                  { this.state.isCreator ? <Button onClick={this.clickEditPlatform} className="platform-right-button" style={{ backgroundColor: "#9C9C9C" }}>Edit Platform</Button>:""}</Row>
+                  
                 </Col>
               </Row>
 

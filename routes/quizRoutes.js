@@ -49,6 +49,31 @@ router.route('/:id').get(function(req, res) {
     });
 });
 
+//delete quiz
+router.route('/deleteQuiz/:id').delete(function(req, res){
+  Object.findByIdAndDelete(req.params.id, function(err, object){
+    if(!object)
+      res.status(404).send('data not found')
+    else
+      object.QuizAnswerKey = req.body.QuizAnswerKey;
+      object.QuizID = req.params.id;
+      object.QuizTitle = req.body.QuizTitle;
+      object.QuizBackground = req.body.QuizBackground;
+      object.QuizQuestions = req.body.QuizQuestions;
+      object.QuizBadgeArray = req.body.QuizBadgeArray;
+      object.QuizAnswerKey = req.body.QuizAnswerKey;
+      object.PlatformID = req.body.PlatformID;
+
+      object.save().then( object => {
+        res.json('Deleted Quiz')
+      })
+      .catch(err => {
+        res.status(400).send('not deleted!')
+      })
+
+  })
+})
+
 //update quiz
 router.route('/updateQuiz/:id').put((req, res) => {
     quizSchema.findById(req.params.id, function(err, object) {

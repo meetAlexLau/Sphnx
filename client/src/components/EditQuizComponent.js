@@ -41,6 +41,7 @@ export default class EditQuizComponent extends Component {
         // Setting up functions
         this.onChangeQuizTitle = this.onChangeQuizTitle.bind(this);
         this.onChangeQuizId = this.onChangeQuizId.bind(this);
+        this.onClickDelete = this.onClickDelete.bind(this);
 
 
         this.onSubmit = this.onSubmit.bind(this);
@@ -113,6 +114,45 @@ export default class EditQuizComponent extends Component {
         this.props.history.push('/newBadge')
     }
 
+    onClickDelete = async() => {
+
+        var r = confirm("Are you sure you want to delete this quiz? This action cannot be undone.")
+
+        if(r == true){
+            await axios.delete('http://localhost:4000/quizzes/deleteQuiz/' + this.state.quizId)
+            .then(res => {
+                console.log('deleted quiz!')
+            })
+            .catch(err =>{
+                console.log(err)
+            })
+
+
+            await axios.get('http://localhost:4000/platforms/' + this.state.platformID)
+            .then(res => {
+                let Platform = res.data
+                const index = Platform.PlatformContentArray.indexOf(this.state.quizId)
+                if (index > -1){
+                    Platform.PlatformContentArray.splice(index, 1)
+                }
+
+                axios.put('http://localhost:4000/platforms/updatePlatform/' + this.state.platformID, Platform).then(res => {})
+
+                this.props.history.push({
+                    pathname:'/platform/'+this.state.platformID,
+                    state: {isLoggedIn:true}
+                    });
+
+                window.location.reload(false)
+                
+            })
+        }
+        else{
+
+        }
+
+    }
+
     onChangeQuizTitle(e) {
 
         this.setState({ title: e.target.value })
@@ -139,40 +179,17 @@ export default class EditQuizComponent extends Component {
         var idsOfBadges = []
         var idOfNewBadge = ''
         let j = 0;
-        /*
-        while (this.state.QuizBadgeArray[j]) {
-            const newBadgeObject = {
-                BadgeTitle: this.state.QuizBadgeArray[j].badgeTitle,
-                BadgePicture: this.state.QuizBadgeArray[j].badgePicture,
-                BadgeType: this.state.QuizBadgeArray[j].badgeType,
-                BadgeMinScore: this.state.QuizBadgeArray[j].minScore,
-                BadgeMaxTime: this.state.QuizBadgeArray[j].maxTime,
-            }
-
-            await axios.post('http://localhost:4000/badges/createBadge', newBadgeObject)
-                .then(res => {
-                    idsOfBadges.push(res.data);
-                    idOfNewBadge = res.data
-                })
-            this.state.QuizBadgeArray[j].badgeID = idOfNewBadge
-            j++
-        }
-        */
-
+       
 
         const updateQuizObject = {
             QuizTitle: this.state.title,
             QuizBackground: this.state.backgroundPic,
-            QuizQuestions: this.state.questQionArray,
+            QuizQuestions: this.state.questionArray,
             QuizAnswerKey: answer,
+            PlatformID: this.state.platformID
             //QuizBadgeArray: this.state.QuizBadgeArray
         };
 
-
-        /*
-        await axios.post('http://localhost:4000/quizzes/createQuiz', quizObject)
-            .then(res => { newIDofQuiz = res.data });
-        */
 
 
         const editQuizPath = ('http://localhost:4000/quizzes/updateQuiz/' + this.state.quizId)
@@ -350,6 +367,10 @@ export default class EditQuizComponent extends Component {
 
                             <Button className='cancelbutton' variant="danger" onClick={this.routeChangePlatform}>
                                 Cancel
+                            </Button>
+
+                            <Button className ='cancelbutton' variant='danger' onClick={this.onClickDelete}>
+                                Delete Quiz
                             </Button>
                         </div>
                     </div>
