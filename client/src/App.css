@@ -187,19 +187,6 @@
   margin-bottom: 400px;
 }
 
-
-.medium.homesearchbar{
-  margin-left: 8%;
-  margin-right: 8%;
-}
-
-.homecontainer{
-  width:95%;
-  height:100vh;
-  margin-bottom:10%;
-  align-items:left;
-}
-
 .dark{
   background-color: #D4AC67;
 }
@@ -212,12 +199,6 @@
   margin-left:0;
   margin-right:0;
   height:100%;
-}
-.marginspacing{
-  margin: 1%;
-}
-.paddingspacing{
-  padding: 0.5%;
 }
 
 .sky {

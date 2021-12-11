@@ -6,18 +6,6 @@
     background-color: #E7C496;
   }
   
-  .medium.homesearchbar{
-    margin-left: 8%;
-    margin-right: 8%;
-  }
-  
-  .homecontainer{
-    width:100%;
-    height:100%;
-    margin-bottom:10%;
-    align-items:left;
-  }
-  
   .dark{
     background-color: #D4AC67;
   }
@@ -30,20 +18,90 @@
   .gray{
     background-color: #AAAAAA;
   }
+
+  .homeBackground{
+    background-image: linear-gradient(to bottom right,#f9c51c,#c9e9f6, #1f40ba);
+  }
+
+  .homeTitleRow{
+    margin: 1%;
+    padding: 0.5%;
+    border: solid black;
+    border-radius: 15px;
+    border-width: 1px;
+    box-shadow: rgb(0 0 0 / 24%) 2px 2px 1px 1px, rgb(0 0 0 / 24%) 0px 0px 1px 0px;
+  }
+
+  .homesearchbar{
+    margin-left: 8%;
+    margin-right: 8%;
+    border-top: solid black;
+    border-left: solid black;
+    border-right: solid black;
+    border-radius: 10px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+  }
+
+  .selection{
+    border: 0;
+    border-radius: 2px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    height: 30px;
+    margin-top: 15px;
+    box-shadow: rgb(0 0 0 / 24%) 2px 2px 1px 1px, rgb(0 0 0 / 24%) 0px 0px 1px 0px;
+  }
+
+  .homeCard{
+    width: 25% !important;
+    text-align: center;
+    font-size: 25px;
+    border: solid black;
+    border-radius: 15px;
+    border-width: 1px;
+    box-shadow: rgb(0 0 0 / 24%) 2px 2px 1px 1px, rgb(0 0 0 / 24%) 0px 0px 1px 0px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .homeLogout{
+    border: solid black !important;
+    border-radius: 15px !important;
+    border-width: 1px !important;
+    box-shadow: rgb(0 0 0 / 24%) 2px 2px 1px 1px, rgb(0 0 0 / 24%) 0px 0px 1px 0px !important;
+    height: inherit !important;
+    margin-right: auto;
+    width: 8%;
+  }
+
+  .homecontainer{
+    max-width: 100vw;
+    width:100%;
+    height:100vh;
+    margin-bottom:10%;
+    
+    border: solid black;
+    border-radius: 40px;
+    border-width: 2px;
+  }
+
+  .homeProfile{
+    border: solid black;
+    border-radius: 15px;
+    border-width: 1px;
+    box-shadow: rgb(0 0 0 / 24%) 2px 2px 1px 1px, rgb(0 0 0 / 24%) 0px 0px 1px 0px;
+    height: inherit !important;
+    margin-left: auto;
+    width: 8%;
+  }
   
   .containerrow {
     margin-left:0;
     margin-right:0;
     height:100%;
   }
-  .marginspacing{
-    margin: 1%;
-  }
 
-  .paddingspacing{
-    padding: 0.5%;
-  }
-  
   .sky {
     background-color: #87CEEB;
   }
@@ -94,16 +152,6 @@
     text-align: left;
   }
 
-  .selection{
-    border: 0;
-    border-radius: 2px;
-    border-top-right-radius: 0px;
-    border-bottom-right-radius: 0px;
-    height: 30px;
-    margin-top: 15px;
-   
-  }
-
   .topuserrow{
     margin-top:8px;
     margin-right:15px;
@@ -115,4 +163,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: left;
+  }
+
+  .mainFeed{
+    
+    align-content: center;
   }
