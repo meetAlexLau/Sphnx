@@ -8,7 +8,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import Image from 'react-bootstrap/Image'
-import '../css/App.css';
+import '../css/Login.css';
 export default class Login extends Component{
     constructor(props){
         super(props);
@@ -99,18 +99,18 @@ export default class Login extends Component{
     }
     render(){
         return (
-            <Container fluid style={{width: '100%'}}>
-                <Row className='containerrow'>
-                    <Col className='medium'>
+            <Container fluid className='containerlogin'>
+                <Row className='mainlogin'>
+                    <Col className='medium loginCol'>
                         <Container className = 'light loginleft'>
                             <Card body className='light loginSphnx'>
                                 <Image src={'https://res.cloudinary.com/sphnx/image/upload/v1637208733/spnhxLogoTransparent_csgze4.png'} fluid />
                             </Card>
                             <br/>
-                            <Card className='light'>
+                            <Card className='light logindescription'>
                                 Quiz yourself, Quiz your friends, Quiz Everyone!
                             </Card>
-                            <GoogleLogin className = 'login'
+                            <GoogleLogin className = 'login' 
                                 clientId = '787055066898-kiaajnba1a2dpgk2lvkg20uhsn70pe3i.apps.googleusercontent.com'
                                 buttonText = "Sign In With Google"
                                 onSuccess = {this.responseGoogle}
@@ -120,13 +120,24 @@ export default class Login extends Component{
                             />
                         </Container>
                     </Col>
+                    <div className = 'verticalLine'>
+                    </div>
                     <Col className='dark' fluid>
-                        <Card body className= 'medium sphnxtext'>
-                            What is Sphnx?
-                        </Card>
-                        <Card body>
-                        Sphnx is the exciting new place to test your knowledge and compete with your friends!<br></br><br></br>Join and create platforms about any subject you want, try your best on challenging quizzes and earn points and badges to secure your place on the leaderboard.<br></br><br></br>Tell your friends to check out Sphnx today!<br></br><br></br><br></br>To get started, log in with your Google account.
-                        </Card>
+                        <Container className='loginRight'>
+                            <Card body className= 'tan sphnxTitle'>
+                                What is Sphnx?
+                            </Card>
+                            <Card className= 'tan sphnxText'>
+                            Sphnx is an exciting new place to test your knowledge, compete with your friends, and learn all sorts of interesting things!
+                            <br></br><br></br>
+                            Join and create platforms about any subject you want, try your best on challenging quizzes, and earn points and badges to secure your place on the leaderboard.
+                            <br></br><br></br>
+                            Sphnx offers limitless communities to join, and if you can't find one, be the first to make one!
+                            Tell your friends to check out Sphnx today!
+                            <br></br><br></br>
+                            To get started, log in with your Google account.
+                            </Card>
+                        </Container>
                     </Col>
                 </Row>
             </Container>

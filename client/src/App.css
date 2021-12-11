@@ -1,4 +1,6 @@
-
+*{
+  font-family: 'Lato', sans-serif;
+}
 .background {
   display: flex;
   justify-content: center;
@@ -204,22 +206,6 @@
 
 .gray{
   background-color: #AAAAAA;
-}
-
-.loginleft{
-  height: 100vh;
-}
-.loginSphnx{
-  font-size: 45px;
-}
-
-.medium .login{
-  margin-top: 15%;
-  padding-left: 50%;
-  padding-right: 50%;
-  position: relative;
-  width:40%;
-  font-size: 25px;
 }
 
 .containerrow {

@@ -1,0 +1,100 @@
+  .light{
+    background-color: #F3ECC9;
+  }
+  
+  .medium{
+    background-color: #E7C496;
+  }
+  
+  .tan{
+    background-color: #F6D7B0;
+  }
+
+  .sphnxTitle{
+    margin-top: 4%;
+    margin-bottom: 8%;
+    border: solid black;
+    border-width: 2px;
+    border-radius: 15px;
+    font-size: 36px;
+    text-align: center;
+    box-shadow: rgb(0 0 0 / 24%) 2px 2px 1px 1px, rgb(0 0 0 / 24%) 0px 0px 1px 0px;
+  }
+  
+  .sphnxText{
+    padding: 25px;
+    border: solid black;
+    border-width: 2px;
+    border-radius: 15px;
+    font-size: 24px;
+    box-shadow: rgb(0 0 0 / 24%) 2px 2px 1px 1px, rgb(0 0 0 / 24%) 0px 0px 1px 0px;
+  }
+
+  .dark{
+    background-color: #D4AC67;
+  }
+  
+  .loginleft{
+    height: calc(100vh - 50px);
+    width: 100%;
+    padding-top: 25px;
+    padding-left: 75px;
+    padding-right: 75px;
+    box-shadow: rgb(0 0 0 / 30%) 2px 2px 1px 1px, rgb(0 0 0 / 24%) 0px 0px 1px 0px;
+    border-radius: 10px;
+  }
+
+  .loginRight{
+    
+  }
+  .loginCol{
+    width: calc(100%);
+    padding-top: 25px;
+    padding-bottom: 25px;
+  }
+  .loginSphnx{
+    border-radius: 15px;
+    border-color: black;
+    border-width: 2px;
+  }
+  .login{
+    margin-top: 8%;
+    padding-left: 50%;
+    padding-right: 50%;
+    padding-bottom: 50%;
+    position: relative;
+    width:100%;
+    height: 75px;
+    border-radius: 15px !important;
+    box-shadow: rgb(0 0 0 / 46%) 2px 2px 2px 0px, rgb(0 0 0 / 24%) 0px 0px 1px 0px !important;
+    text-align: center !important;
+    font-size: 25px !important;
+  }
+  .containerlogin{
+      max-width: 100vw;
+      width: 100%;
+      margin-left: 0px;
+      margin-right: 0px;
+      padding-left: 0px;
+      padding-right: 0px;
+  }
+  .mainlogin {
+    height:100%;
+    max-width: 100vw;
+    width: 100%;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+  .logindescription{
+      font-size: 24px;
+      font-family: 'Lato', sans-serif;
+      border-radius: 15px;
+      border-color: black;
+      border-width: 2px;
+      text-align: center;
+  }
+  .verticalLine{
+      border: solid black;
+      border-width: 1px;
+      background-color: black;
+  }
