@@ -23,10 +23,10 @@ export default class MyBadge extends Component {
   }
 
   componentDidMount() {
-    this.getBadges();
+    this.getBadges(this.getPlatformNames, this.getQuizNames);
   }
 
-  getBadges = async () => {
+  getBadges = async (callbackOne, callbackTwo) => {
     let b = [];
     let user;
 
@@ -52,16 +52,54 @@ export default class MyBadge extends Component {
       }
     }
     //console.log(this.state.Badges);
+    callbackOne();
+    callbackTwo();
   }
 
   getPlatformNames = async () => {
-    let p = [];
+    let n = [];
+    let plat;
 
+    // iterate through badges and get their platforms
+    for (let i = 0; i < this.state.Badges.length; i++){
+      try {
+        await axios.get('http://localhost:4000/platforms/' + this.state.Badges[i].BadgeHostPlatform)
+          .then(res => {
+            plat = res.data;
+            n.push(plat.PlatformName);
+            this.setState({
+              BadgePlatformNames: this.state.BadgePlatformNames.concat([n[i]])
+            })
+          })
+      } catch (err) {
+        console.log(err);
+      }
+    }
 
+    console.log(this.state.BadgePlatformNames)
   }
 
   getQuizNames = async () => {
+    let n = [];
+    let quiz;
 
+    // iterate through badges and get their quiz
+    for (let i =0; i < this.state.Badges.length; i++){
+      try {
+        await axios.get('http://localhost:4000/quizzes/' + this.state.Badges[i].BadgeHostQuiz)
+          .then(res => {
+            quiz = res.data;
+            n.push(quiz.QuizTitle);
+            this.setState({
+              BadgeQuizNames: this.state.BadgeQuizNames.concat([n[i]])
+            })
+          })
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    console.log(this.state.BadgeQuizNames)
   }
 
   render() {
@@ -70,7 +108,16 @@ export default class MyBadge extends Component {
       <Col key={i}>
         <Card className='activityCard'>
           <Card.Img variant='top' className='activityCardImage' src={badge.BadgePicture}></Card.Img>
+          {/* Badge Title */}
           {badge.BadgeTitle}
+
+          {/* Badge Quiz */}
+          From "{this.state.BadgeQuizNames[i]}" 
+
+          {/* Badge Platform */}
+          on "{this.state.BadgePlatformNames[i]}" platform.
+
+          {/* Badge Earning Conditions */}
           <div>
             {(() => {
               if (badge.BadgeType == 3) {
