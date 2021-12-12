@@ -312,8 +312,8 @@ export default class Home extends Component {
                         Profile
                     </Button>
                 </Row>
-                <Row className='medium homesearchbar'>
-                    <Col xs={1}>
+                <Row  className='medium homesearchbar'>
+                    <Col xs={1} className="d-flex justify-content-end block-example border-right border-dark">
                         <select className="selection" value={this.state.searchBarCategory} onChange={this.handleSearchChange}>
                             <option value="platform">Platform</option>
                             <option value="quiz">Quiz</option>
@@ -321,7 +321,7 @@ export default class Home extends Component {
 
                         </select>
                     </Col>
-                    <Col>
+                    <Col className="d-flex justify-content-start">
                         {searchBar}
                     </Col>
                 </Row>
