@@ -109,32 +109,32 @@ export default class MyBadge extends Component {
   render() {
 
     let badges = this.state.Badges?.map((badge, i) => (
-      <Col key={i}>
-        <Card className='activityCard'>
+      <Col key={i} >
+        <Card className='activityCard' >
           <Card.Img variant='top' className='activityCardImage' src={badge.BadgePicture}></Card.Img>
           {/* Badge Title */}
-          {badge.BadgeTitle}
+          <div className='badgeTitle'>{badge.BadgeTitle}</div>
 
           {/* Badge Quiz */}
-          From "{this.state.BadgeQuizNames[i]}" 
+          <div className='badgeDescription'>From "{this.state.BadgeQuizNames[i]}" Quiz </div>
 
           {/* Badge Platform */}
-          on "{this.state.BadgePlatformNames[i]}" platform.
+          <div className='badgeDescription'>on "{this.state.BadgePlatformNames[i]}" platform.</div>
 
           {/* Badge Earning Conditions */}
           <div>
             {(() => {
               if (badge.BadgeType == 3) {
                 return (
-                  <div> Earn a perfect score. </div>
+                  <div className='badgeDescription'>Condition: Earn a perfect score. </div>
                 )
               } else if (badge.BadgeType == 2) {
                 return (
-                  <div> Complete within {badge.BadgeMaxTime} seconds. </div>
+                  <div className='badgeDescription'>Condition:  Complete within {badge.BadgeMaxTime} seconds. </div>
                 )
               } else {
                 return (
-                  <div> Earn at least {badge.BadgeMinScore} points.</div>
+                  <div className='badgeDescription'>Condition:  Earn at least {badge.BadgeMinScore} points.</div>
                 )
               }
             })()}
@@ -155,13 +155,14 @@ export default class MyBadge extends Component {
 
     return (
 
-      <div class="background"  >
-        <div class="badge-content">
+      <Container fluid className=" badge-background">
+        <Container className="badge-content">
           <div class="badge-content-header">
             <Link to={{ pathname: '/profile/' + this.props.match.params.id, state: { isLoggedIn: true } }} className="badge-button">
               Back
             </Link>
             My badges
+            </div>
 
             {/* Dynamically populate with this user's earned badges */}
             <div className="myBadgesFeed" >
@@ -170,11 +171,11 @@ export default class MyBadge extends Component {
               }
             </div>
 
-          </div>
-
+          
           {/* commenting out placeholder */}
-        </div>
-      </div>
+        
+        </Container>
+      </Container>
 
     );
   }
