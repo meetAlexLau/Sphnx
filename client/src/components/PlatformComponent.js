@@ -315,74 +315,59 @@ export default class Platform extends Component {
     let rendcontent = this.state.PlatformContentArray?.map((content, i) => {
       return content[2] == 'quiz'?
           <Row key={i} className='ml-auto mr-auto platformActivityRow'>
-            <Card className='platformActivityCard'>
+            <Card className='platformActivityQuizCard'>
               <Row className='platformActivityCardRow'>
                 <Col xs={5}>
                   <Card.Img variant='top' className='platformActivityCardImage' src={content[3]}>
                   </Card.Img>
                 </Col>
                 <Col>
-                  <Card.Title>
+                  <Card.Title className='platformActivityCardQuizTitle'>
                     {content[0]}
                   </Card.Title>
                 </Col>
                 <Col>
-                  <Button className='platformActivityCardButton' onClick={() => this.routeChangeQuiz(content[1])} variant="primary">
-                    {content[0]}
-                  </Button>
-                  
-                </Col>
-                <Col>
-                {this.state.isCreator ? <Button className='platformActivityCardButton' onClick={() => this.routeChangeEditQuiz(content[1])} variant="primary">
-                    Edit {content[0]}
-                  </Button> : ""}
-
-                  {/*
-                  <Button className='platformActivityCardButton' onClick={() => this.routeChangeEditQuiz(content[1])} variant="primary">
-                    Edit {content[0]}
-                  </Button>
-                  */}
-
-
+                  <Row className = 'platformActivityCardButtonQuizRow'>
+                    <Button className='platformActivityCardButton' onClick={() => this.routeChangeQuiz(content[1])} variant="primary">
+                      Take Quiz:{content[0]}
+                    </Button>
+                  </Row>
+                  <Row className = 'platformActivityCardButtonQuizRow'>
+                    {this.state.isCreator ? <Button className='platformActivityCardButton' onClick={() => this.routeChangeEditQuiz(content[1])} variant="primary">
+                      Edit Quiz:{content[0]}
+                    </Button> : ""}
+                  </Row>
                 </Col>
               </Row>
             </Card>
           </Row>
       :
         <Row key={i} className='ml-auto mr-auto platformActivityRow'>
-          <Card className='platformActivityCard'>
+          <Card className='platformActivityPostCard'>
             <Row className='platformActivityCardRow'>
               <Col>
-                <Card.Title>
+                <Card.Title className='platformActivityCardPostTitle'>
                   {content[0]}
                 </Card.Title>
               </Col>
-              <Col>
-                <Button className='platformActivityCardButton' onClick={() => this.routeChangePost(content[1])} variant="primary">
-                  Go to Post
-                </Button>
+              <Col className ='platformActivityCardButtonPostRow'>
+                <Row>
+                  <Button className='platformActivityCardButton' onClick={() => this.routeChangePost(content[1])} variant="primary">
+                    Go to Post
+                  </Button>
+                </Row>
+                <Row className ='platformActivityCardButtonPostRow'>
+                  {this.state.isCreator ? <Button className='platformActivityCardButton' onClick={() => this.routeChangeEditPost(content[1])} variant="primary">
+                      Edit Post
+                    </Button> : ""}
+                </Row>
               </Col>
-              <Col>
-                {this.state.isCreator ? <Button className='platformActivityCardButton' onClick={() => this.routeChangeEditPost(content[1])} variant="primary">
-                    Edit Post
-                  </Button> : ""}
-
-                </Col>
             </Row>
           </Card>
         </Row>
     })
 
-    //copy above for post---------------------------------------------------------------------------------
-      //console.log(this.state.Posts)
     let posts = this.state.Posts?.map((post, i) => (
-      /*
-      <Row key = {i}>
-        <Card>
-          <Card.Img className= ''src={post.PostPicture}> </Card.Img>
-        </Card>
-      </Row>
-      */
       <Col key={i}>
         <Card className='ml-auto activityCard'>
           <Card.Img variant='top' className='activityCardImage' src={post.PostPicture}></Card.Img>
@@ -413,15 +398,9 @@ export default class Platform extends Component {
 
 
     return (
-
-
-      <div className="platform-background" style={{ backgroundImage: 'url(' + this.state.PlatformPicture + ')' }} >
-
-
-
-        <div className="platform-content" style={{ backgroundColor: this.state.PlatformColor1 }}>
+      <Container fluid className="platform-background" style={{ backgroundImage: 'url(' + this.state.PlatformPicture + ')' }} >
+        <Container className="platform-content" style={{ backgroundColor: this.state.PlatformColor1 }}>
           <div className="platform-content-header" style={{ backgroundColor: this.state.PlatformColor2 }}>
-
             <Container>
               <Row>
                 <Col>
@@ -429,16 +408,12 @@ export default class Platform extends Component {
                     <button className="platform-left-button" onClick={() => this.onClickLeaderboard()}>
                       Leaderboard
                     </button>
-
-
                     <Link to={{pathname:"/home", state: {isLoggedIn:true}}} className="platform-home-button"></Link>
                   </Row>
                   <Row>
                     <button className="platform-left-button" onClick={() => this.onClickViewAllbadges()}>
                       View All Badges
                     </button>
-
-
                     <button className="platform-left-button" onClick={() => this.onClickPlatformHome()}>
                       Platform Home
                     </button>
@@ -451,7 +426,6 @@ export default class Platform extends Component {
                 </Col>
 
                 <Col >
-
                   <Row className="d-flex justify-content-end">
                     <Button id="subscribe"
                       to={"/"}
@@ -470,116 +444,19 @@ export default class Platform extends Component {
                   
                 </Col>
               </Row>
-
-
             </Container>
 
-
-
-
           </div>
-
-          {/*       commenting out the placeholder rows              */}
-          {/*
-          <Container>
-            <Row>
-
-              <div class="platform-content-row" style={{ backgroundColor: this.state.PlatformColor2 }}>
-                <Container>
-                  <Row>
-                    <Col xs lg="2" >
-                      <Row>
-                        Posted
-                      </Row>
-                      <Row>
-                        10/19/2020:
-                      </Row>
-                    </Col>
-                    <Col  >Did you know? Dale Earnhardt Jr was born on...</Col>
-                  </Row>
-                </Container>
-              </div>
-            </Row>
-
-
-            <Row>
-              <div class="platform-content-row" style={{ backgroundColor: this.state.PlatformColor2 }}>
-                <Container>
-                  <Row>
-                    <Col xs lg="2" >
-                      Quiz:
-                    </Col>
-                    <Col  > NASCAR History 101</Col>
-                  </Row>
-                </Container>
-              </div>
-            </Row>
-            <Row>
-            <div class="platform-content-row" style={{ backgroundColor: this.state.PlatformColor2 }}>
-                <Container>
-                  <Row>
-                    <Col xs lg="2" >
-                      New Subscriber:
-                    </Col>
-                    <Col  > MrMan97</Col>
-                  </Row>
-                </Container>
-              </div>
-            </Row>
-            <Row>
-
-            <div class="platform-content-row" style={{ backgroundColor: this.state.PlatformColor2 }}>
-                <Container>
-                  <Row>
-                    <Col xs lg="2" >
-                      <Row>
-                        Posted
-                      </Row>
-                      <Row>
-                        10/19/2020:
-                      </Row>
-                    </Col>
-                    <Col  >Hello everyone! We will be releasing a new quiz...</Col>
-                  </Row>
-                </Container>
-              </div>
-            </Row>
-
-
-            <Row>
-            <div class="platform-content-row" style={{ backgroundColor: this.state.PlatformColor2 }}>
-                <Container>
-                  <Row>
-                    <Col xs lg="2" >
-                      New Subscriber:
-                    </Col>
-                    <Col  > Sp33dRacer3</Col>
-                  </Row>
-                </Container>
-              </div>
-            </Row>
-
-
-          </Container>
-          */}
-
-          {/* quiz feed for platform in style of home feeds */}
-
-
           {this.state.platformFeed ?
             <div className="platformQuizFeed" >
               {rendcontent}
-            </div>
-
-            : ""
+            </div>: ""
           }
-
 
           {this.state.lederboardScreen ? <PlatformLeaderboardComponent ScoreBoard={this.state.ScoreBoard} /> : ""}
           {this.state.viewAllbadgeScreen ? <PlatformBadgeComponent PlatformBadgeArray={this.state.PlatformBadgeArray} /> : ""}
-        </div>
-      </div>
-
+        </Container>
+      </Container>
     );
   }
 }
