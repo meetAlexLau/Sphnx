@@ -232,11 +232,10 @@ export default class Home extends Component {
         axios.get('http://localhost:4000/users')
             .then(res => {
                 let users = res.data;
-                let top15users = users.sort((a,b) => b.UserPoints - a.UserPoints).slice(0,15);
+                let top15users = users.sort((a,b) => b.UserPoints - a.UserPoints).slice(0,25);
                 this.setState({
                     top15users: top15users
                 })
-                console.log(top15users);
             })
     }
 
@@ -244,8 +243,8 @@ export default class Home extends Component {
         //Platform grid
         let plats = this.state.Platforms?.map((plat, i) => (        //map each platform to structure <Col>
             //<li key={i}>{plat.PlatformName}</li>
-            <Col key={i} className='ml-auto mr-auto'>
-                <Card className='activityCard'>
+            
+                <Card key={i} className='activityCard'>
                     <Card.Img variant='top' className='activityCardImage' src={plat.PlatformPicture}>
                     </Card.Img>
                     <Card.Title>
@@ -255,7 +254,7 @@ export default class Home extends Component {
                         {plat.PlatformName}
                     </Button>
                 </Card>
-            </Col>
+            
         ))
         let rendplats = [];             //row oriented platforms
         while (plats.length > 0) {        //splice the array of platforms into groups of 4
@@ -263,7 +262,7 @@ export default class Home extends Component {
             rendplats.push(chunk)
         }
         for (var j = 0; j < rendplats.length; j++) {          //each chunk is a group of 4, surround with <Row>
-            rendplats[j] = <Row className='ml-auto mr-auto'> {rendplats[j]} </Row>
+            rendplats[j] = <Row className='activityRow'> {rendplats[j]} </Row>
         }
 
         let subplats = this.state.UserSubscribedPlatformArray?.map((plat, i) => (
@@ -328,9 +327,9 @@ export default class Home extends Component {
                 </Row>
 
                 <Container className='homecontainer'>
-                    <Row className='medium' >
-                        <Col className='ml-auto mr-auto' style={{ maxWidth: '150px', width: '150px' }}>
-                            <Row>
+                    <Row className='medium homerow'>
+                        <Col className='homeColumn'>
+                            <Row style={{justifyContent: 'center'}}>
                                 <Card>
                                     TOP USERS
                                 </Card>
@@ -347,8 +346,8 @@ export default class Home extends Component {
                                 rendplats
                             }
                         </Col>
-                        <Col className='ml-auto mr-auto' style={{ maxWidth: '150px', width: '150px' }}>
-                            <Row>
+                        <Col className='homeColumn'>
+                            <Row style={{justifyContent: 'center'}}>
                                 <Card>
                                     SUBSCRIPTIONS
                                 </Card>

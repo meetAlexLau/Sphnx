@@ -80,9 +80,12 @@
     width:100%;
     height:100vh;
     margin-bottom:10%;
-    
+  }
+
+  .homerow{
+    border-top-right-radius: 40px;
+    border-top-left-radius: 40px;
     border: solid black;
-    border-radius: 40px;
     border-width: 2px;
   }
 
@@ -105,7 +108,10 @@
   .sky {
     background-color: #87CEEB;
   }
-
+  .activityRow{
+    display: flex;
+    justify-content: center;
+  }
   .activityCard{
     max-width: 400px;
     width: 250px;
@@ -114,8 +120,8 @@
     outline: 2px solid black;
     align-items: center;
     margin-top: 30px;
-    margin-left: -15px;
-    margin-right: -15px;
+    margin-left: 20px;
+    margin-right: 20px;
   }
 
   .activityCardButton{
@@ -145,11 +151,12 @@
     background: #D4AC67;
   }
   .subscriptions{
-    width: 150px;
+    width: 120px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: left;
+    
   }
 
   .topuserrow{
@@ -166,6 +173,15 @@
   }
 
   .mainFeed{
-    
     align-content: center;
+  }
+
+  .homeColumn{
+    max-width: 10%;
+    width: 100%;
+    border-radius: 40px;
+    margin-left: 5px !important;
+    margin-right: 5px !important;
+    margin-top: 15px;
+    
   }
