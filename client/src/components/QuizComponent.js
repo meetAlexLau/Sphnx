@@ -1,25 +1,13 @@
 import React, { Component } from "react";
-//import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
-//import Button from 'react-bootstrap/Button';
-
-//import exampleBackground from "../img/quizBackgroundExample.png";
 import axios from 'axios'
-
 import QuizResult from "./QuizResult";
-
+import '../css/Quiz.css';
 export default class Quiz extends Component {
 
   constructor(props) {
-
-
-
     var time = new Date()
-
-
-
     super(props)
-
     // Setting up functions
     this.onClickNext = this.onClickNext.bind(this);
     this.onValueChange = this.onValueChange.bind(this);
@@ -48,32 +36,22 @@ export default class Quiz extends Component {
       //arrayOfAnswer: []
     }
   }
-
-
-
-
-
-
   async componentDidMount() {
     if (this.state.isLoggedIn == "false" || this.state.isLoggedIn == undefined) {
       this.props.history.push('/')
     }
     else {
-
       let currentQuiz = sessionStorage.getItem('current quiz');
       let QuizID = currentQuiz ? currentQuiz : sessionStorage.getItem('previous quiz')
       sessionStorage.setItem('current quiz', sessionStorage.getItem('previous quiz'))
 
-
       //axios.get('http://localhost:4000/quizzes/6182b0b76ad37b02b34dd10e/')
       await axios.get('http://localhost:4000/quizzes/' + QuizID)
         .then(res => {
-
           const initUserAnswer = []
           for (let i = 0; i < res.data.QuizQuestions.length; i++) {
             initUserAnswer[i] = -1
           }
-
           this.setState({
             quizId: res.data._id,
             quizTitle: res.data.QuizTitle,
@@ -87,20 +65,14 @@ export default class Quiz extends Component {
           })
         })
 
-
       await axios.get('http://localhost:4000/platforms/' + this.state.platformID)
         .then(res => {
           let Platform = res.data
           this.setState({
             oldPlatform: Platform,
             platformName: Platform.PlatformName
-
-
           })
         })
-
-
-
       axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
         .then(res => {
           let User = res.data[0]
@@ -116,7 +88,6 @@ export default class Quiz extends Component {
         })
     }
     //console.log(this.state)
-
   }
 
   onClickSubmit() {
@@ -129,13 +100,10 @@ export default class Quiz extends Component {
         //console.log("scoreResult is: "+scoreResult)
       }
     }
-
     this.setState({ score: scoreResult })
 
     var endtime = new Date()
     this.setState({ totalTime: endtime - this.state.startTime })
-
-
 
     this.setState({ ResultActive: 1 })
 
@@ -145,25 +113,18 @@ export default class Quiz extends Component {
     var j = 0;
     let totalTime = this.state.totalTime
     while(this.state.badgeArray[j]){
-
       let currentBadge = this.state.badgeArray[j]
       if(this.state.oldUser.UserBadgeArray.includes(currentBadge.badgeID)){
-
       }
       else{
-
-      
         if(currentBadge.badgeType == 1){
-
           if(scoreResult >= parseInt(currentBadge.minScore)){
             alert("You have won the badge: '" + currentBadge.badgeTitle + "' for beating the score of " + currentBadge.minScore + '!')
             console.log("You have won the badge: '" + currentBadge.badgeTitle + "' for beating the score of " + currentBadge.minScore + '!')
             badgesWon.push(currentBadge.badgeID)
           }
-
         }
         else if(currentBadge.badgeType == 2){
-
           if(totalTime <= parseInt(currentBadge.maxTime)){
             alert("You have won the badge: '" + currentBadge.badgeTitle + "' for beating the time of " + currentBadge.maxTime + '!')
             console.log("You have won the badge: '" + currentBadge.badgeTitle + "' for beating the time of " + currentBadge.maxTime + '!')
@@ -171,18 +132,14 @@ export default class Quiz extends Component {
           }
         }
         else if(currentBadge.badgeType == 3){
-
           if(scoreResult == this.state.numberOfQuestion){
             alert("You have won the badge: '"+ currentBadge.badgeTitle + "' for getting a perfect score!")
             console.log("You have won the badge: '"+ currentBadge.badgeTitle + "' for getting a perfect score!")
             badgesWon.push(currentBadge.badgeID)
           }
         }
-
       }
-
       j++
-
     }
 
     let updatedUser = this.state.oldUser
@@ -190,7 +147,6 @@ export default class Quiz extends Component {
     var k = 0;
     while(badgesWon[k]){
       if(updatedUser.UserBadgeArray.includes(badgesWon[k])){
-
       }
       else{
         updatedUser.UserBadgeArray.push(badgesWon[k])
@@ -203,7 +159,6 @@ export default class Quiz extends Component {
     axios.put(newPath, updatedUser)
       .then(res => console.log(res.data))
       .catch(err => console.log(err))
-
 
     //update platform scoreboard-------------
     let updatedPlatform = this.state.oldPlatform
@@ -235,22 +190,14 @@ export default class Quiz extends Component {
 
     //update platform scoreboard-------------
   }
+
   onClickNext() {
-    /*if (this.state.indexOfQuestion >= this.state.numberOfQuestion - 1) {
-      //this.props.history.push('/QuizResult')
-      this.setState({ ResultActive: 1 })
-
-    } else {*/
-
-
     this.setState({ indexOfQuestion: this.state.indexOfQuestion + 1 })
     //console.log(this.state.numberOfQuestion)
     console.log(this.state.indexOfQuestion)
-
   }
 
   onClickBack() {
-
     if (this.state.indexOfQuestion <= 0) {
       this.props.history.goBack()
     } else {
@@ -266,50 +213,24 @@ export default class Quiz extends Component {
     this.setState({ userAnswer: tempUserAnswer })
 
   }
-  //<div className="form-wrapper" style={{ backgroundImage: `url(${quizBackground})` }}>
-  //<Button  variant="primary">Next</Button>{' '}
-  //backgroundImage: `url(${quizBackground})`
-  // <div style={{ backgroundImage: `url("https://s3-alpha-sig.figma.com/img/793b/aa30/5e39f555720dd1019bc2b4bf12dc7715?Expires=1635724800&Signature=WmJcOUAdHownhxyVuHA4dIaYTNHAm4Wleek0KcE7uh8KR6~Bs~gOINKRRjD-cymZwo4SIctR~o2SFkxKNypOWRqfLUHROGQe~y4relxobiHJLjqDX888ajYiFHuIY~Toim7KvmMbq3LrmUC5rs9HmI4pgXqcvrEtA3f2sHCsOTLlShglgG-pad0Bbx-FnChpyDCqqGu1ZVJyF~wI3jIZml4Hs66Xz7NWUEJeBTeUId8W02dh84FHbqQZucRUwSKjVsitMooSWw1KGmSZu0mlxzqxYVyAKEwtUEvT~Xv1NlfXt82A6RqPSOOykqf0Tdgi8paEY38g353GAMMYxVIIEw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA")` }} class="background" >
-  //<div style={{ backgroundImage: `url(${exampleBackground})` }} class="background" >
   render() {
     return (
       <div>
         {!this.state.ResultActive ? <div key={this.state.indexOfQuestion}>
-
-          <div style={{ backgroundImage: `url(${this.state.backgroundPic})` }} className="background" >
-            <div className="quiz-content">
-
-              <h1 style={{ textAlign: 'center', fontSize: 20 }}>{this.state.quizTitle}</h1>
-              <h2 style={{ fontSize: 15, marginLeft: "5%" }}>Question {this.state.indexOfQuestion + 1}</h2>
-              <h2 style={{ fontSize: 15, marginLeft: "5%" }}>{this.state.questionArray[this.state.indexOfQuestion].questionTitle}</h2>
-              {
-                /*console.log(this.state.questionArray[0].questionTitle)
-                */
-              }
-
-
-
-
+          <div style={{ backgroundImage: `url(${this.state.backgroundPic})` }} className="quizbackground" >
+            <div className="quizcontent">
+              <h1 style={{ textAlign: 'center', fontSize: '65px' }}>{this.state.quizTitle}</h1>
+              <h2 style={{ fontSize: 15, marginLeft: "5%", fontSize: '45px' }}>Question {this.state.indexOfQuestion + 1}</h2>
+              <h2 style={{ fontSize: 15, marginLeft: "5%", fontSize: '45px' }}>{this.state.questionArray[this.state.indexOfQuestion].questionTitle}</h2>
+              
               <div style={{ "width": "100%", "display": "table" }}>
                 <div style={{ "display": "table-row", "height": "100px" }}>
                   <div style={{ "width": "50%", "display": "table-cell", justifyContent: "center", alignItems: "center" }}>
-
-
                     {
                       (this.state.questionArray[this.state.indexOfQuestion].answerInputArray ? this.state.questionArray[this.state.indexOfQuestion].answerInputArray : []).map((input, indexOfAnswer) => {
                         return (
-                          /*
-                          <div key={indexOfAnswer}>
-                            <div className="form-check" style={{ fontSize: 15, marginLeft: "15%" }}>
-                              <label className="form-check-label">
-                                <input type="checkbox" className="form-check-input" />
-                                {input}
-                              </label>
-                            </div>
-                          </div>
-                          */
-
-                          <div key={indexOfAnswer} className="radio" style={{ fontSize: 15, marginLeft: "5%" }}>
+                    
+                          <div key={indexOfAnswer} className="radio" style={{ fontSize: 15, marginLeft: "5%", fontSize: '20px' }}>
                             <label>
                               <input
                                 type="radio"
@@ -323,27 +244,16 @@ export default class Quiz extends Component {
                         )
                       })
                     }
-                    <div style={{ fontSize: 15, marginLeft: "5%" }}>
+                    <div style={{ fontSize: 15, marginLeft: "5%",fontSize: '20px' }}>
 
                       Selected answer is : {
                         this.state.questionArray[this.state.indexOfQuestion].answerInputArray[this.state.userAnswer[this.state.indexOfQuestion]]
                         //this.state.userAnswer[this.state.indexOfQuestion]
                       }
-
                     </div>
-
-
-
-
                   </div>
-                  {/*
-              <div style={{ "display": "table-cell" }}>
-                <img style={{ "witdth": "160px", "height": "120px" }} src="https://www.innovationnewsnetwork.com/wp-content/uploads/2020/11/Black-hole-simulations-800x450.jpg" />
-              </div>
-              */}
                 </div>
               </div>
-
 
               {(this.state.indexOfQuestion < this.state.numberOfQuestion - 1) &&
                 <button className="quiz-button" onClick={() => this.onClickNext()}>
@@ -357,35 +267,19 @@ export default class Quiz extends Component {
                 </button>
               }
 
-
               <button className="quiz-button" onClick={() => this.onClickBack()}>
                 Back
               </button>
-
-              {/*
-          <Link to={"/QuizResult"} className="quiz-button">
-            Back
-          </Link>
-          */
-              }
-
             </div>
           </div>
-
         </div>
         :''}
-
         {
           this.state.ResultActive ? <QuizResult questionArray={this.state.questionArray} answerKeyArray={this.state.answerKeyArray}
             userAnswer={this.state.userAnswer} score={this.state.score} platformID={this.state.platformID}
             numberOfQuestion={this.state.numberOfQuestion} history={this.props.history} totalTime={this.state.totalTime}
           />:""}
-
-
       </div>
-
-
-
     );
   }
 }
