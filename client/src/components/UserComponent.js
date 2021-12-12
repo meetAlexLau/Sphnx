@@ -48,7 +48,6 @@ export default class UserComponent extends Component{
             this.props.history.push('/')
         }
         else{       
-            console.log(this.props.match.params.id);
             axios.get('http://localhost:4000/users/' + this.props.match.params.id)
                 .then(res => {
                     let User = res.data;

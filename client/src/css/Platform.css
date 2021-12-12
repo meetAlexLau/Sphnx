@@ -1,31 +1,162 @@
-.platformActivityRow{
-    margin-left: 50px;
-    margin-right: 50px;
-}
+    html, body, #root, .platform-background{
+        height: 100%;
+        overflow:auto;
+    }
+    .platformActivityRow{
+        margin-left: 50px;
+        margin-right: 50px;
+    }
 
-.platformActivityCard{
-    max-width: 100%;
-    width: 100%;
-    max-height: 100%;
-    height: 150px;
-    display: flex;
-    margin: 15px;
-    outline: 2px solid black;
-}
+    .platformActivityQuizCard{
+        max-width: 100%;
+        width: 100%;
+        max-height: 100%;
+        height: 150px;
+        display: flex;
+        margin: 15px;
+        outline: 2px solid black;
+    }
 
-.platformActivityCardRow{
-    max-width: 100%;
+    .platformActivityPostCard{
+        max-width: 100%;
+        width: 100%;
+        max-height: 100%;
+        height: 100px;
+        display: flex;
+        margin: 15px;
+        outline: 2px solid black;
+    }
+
+    .platformActivityCardRow{
+        max-width: 100%;
+        width: 100%;
+    }
+    .platformActivityCardQuizTitle{
+        font-size: 40px;
+        text-align: center;
+        padding: 15% 0;
+    }
+    .platformActivityCardPostTitle{
+        padding-top: 4%;
+        font-size: 40px;
+        text-align: center;
+        max-height: 100%;
+        height: 100%;
+    }
+    .platformActivityCardButton{
+        bottom: 0px;
+        inline-size: 200px;
+        overflow-wrap: break-word;
+        width: 100%;
+        height: 100%;
+    }
+    .platformActivityCardButtonPostRow{
+        vertical-align: middle;
+        margin-top: 1%;
+        height: inherit;
+    }
+    .platformActivityCardButtonQuizRow{
+        vertical-align: middle;
+        margin:5%;
+        height: inherit;
+    }
+    .platformActivityCardImage{
+        max-width: auto;
+        height: 150px;
+        object-fit: cover;
+    }  
+
+  .platform-background {
+    height: 100%;
     width: 100%;
-}
-.platformActivityCardButton{
-    position: absolute;
-    bottom: 0px;
-    inline-size: 200px;
-    overflow-wrap: break-word;
   }
-
-.platformActivityCardImage{
-    max-width: auto;
-    height: 150px;
-    object-fit: cover;
+  .platform-content {
+    
+    max-width: 90%;
+    
+    border-color: #000000;
+    border-style: solid;
+    
+    /*background-color: #E79696;*/
+    margin-top: 2%;
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+  
+  .platform-content-header {
+    color: #ffffff;
+    text-align: center;
+    font-size: 30px;
+    height: 110px;
+    width: 90%;
+    border-color: #000000;
+    border-style: solid;
+    /*background-color: #E96363;*/
+    margin: 1% auto;
+    box-shadow: rgb(0 0 0 / 24%) 2px 2px 1px 1px, rgb(0 0 0 / 24%) 0px 0px 1px 0px;
+  }
+  
+  .platform-left-button {
+    padding: 5px 5px;
+    font-size: 0.875rem;
+    line-height: normal;
+    color: #000000;
+    background-color: #E7C496;
+    border-color: #E7C496;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    position: relative;
+    left: 10px;
+    top: 5px;
+    float: left
+  }
+  
+  .platform-home-button {
+  
+    background-color: #E7C496;
+    border-color: #E7C496;
+    margin-right: 10px;
+    position: relative;
+    left: 10px;
+    top: 10px;
+    float: left;
+    height: 20px;
+    width: 20px;
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    background-image: url("../img/homebutton.png");
+    /*background-image: url("https://s3-alpha-sig.figma.com/img/0382/8b48/140edd168ff7161345206341c0ff5fa6?Expires=1635724800&Signature=Cz4q5p0kCSf0c0T18rRHS0THDTAvElybIqU6PgdSoeafXvyNyecIHaeahLElopWwusZKT2aEWzUFQGLuDfNT~nxKZOd3pozK8HUmwVst7LPRKlhh861jf88-ZLUlxS8dfBH1RKnv6LIecR1k2Sq5bEtHU-2VHMI-A6aL9PFX6JH2xsWNb6iWX9xSzPWKm3v2yGUJhHcLp2P1yDgXFMuO7rmc9pT9CNljnuTrEM83C5lCTYUnxgNMmNDsNgMWcqsxlzcWXzGqqucp9pGF2EXq9iB0jhxMC2Csu6XZKKU3rS5JzGcpGtVkg6kBene53H1y5i8eK0YUnQXa-o7mdgc7ow__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA");
+    */
+  }
+  
+  .platform-right-button {
+    padding: 4px 4px;
+    font-size: 0.875rem;
+    line-height: normal;
+    color: #000000;
+    background-color: #E7C496;
+    border-color: #E7C496;
+    
+    margin-bottom: 5px;
+    position: relative;
+    right: 10px;
+    top: 5px;
+    
+   
+  }
+  
+  .platform-content-row {
+    color: #ffffff;
+    text-align: left;
+    font-size: 20px;
+    height: 80px;
+    width: 90%;
+    border-color: #000000;
+    border-style: solid;
+    /*background-color: #D87171;*/
+    margin-left:auto;
+    margin-right:auto;
+    margin-top: 5px;
+    margin-bottom: 5px;
   }  
+  
