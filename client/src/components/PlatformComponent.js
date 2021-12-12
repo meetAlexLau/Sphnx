@@ -327,13 +327,13 @@ export default class Platform extends Component {
                   </Card.Title>
                 </Col>
                 <Col>
-                  <Row className = 'platformActivityCardButtonQuizRow'>
+                  <Row className = 'platformActivityCardButtonQuizRow  d-flex justify-content-end'>
                     <Button className='platformActivityCardButton' onClick={() => this.routeChangeQuiz(content[1])} variant="primary">
                       Take Quiz:{content[0]}
                     </Button>
                   </Row>
-                  <Row className = 'platformActivityCardButtonQuizRow'>
-                    {this.state.isCreator ? <Button className='platformActivityCardButton' onClick={() => this.routeChangeEditQuiz(content[1])} variant="primary">
+                  <Row className = 'platformActivityCardButtonQuizRow d-flex justify-content-end'>
+                    {this.state.isCreator ? <Button className='platformActivityCardButton platformActivityCardEditButton' onClick={() => this.routeChangeEditQuiz(content[1])} variant="primary">
                       Edit Quiz:{content[0]}
                     </Button> : ""}
                   </Row>
@@ -350,14 +350,14 @@ export default class Platform extends Component {
                   {content[0]}
                 </Card.Title>
               </Col>
-              <Col className ='platformActivityCardButtonPostRow'>
-                <Row>
+              <Col >
+                <Row className ='platformActivityCardButtonPostRow d-flex justify-content-end'>
                   <Button className='platformActivityCardButton' onClick={() => this.routeChangePost(content[1])} variant="primary">
                     Go to Post
                   </Button>
                 </Row>
-                <Row className ='platformActivityCardButtonPostRow'>
-                  {this.state.isCreator ? <Button className='platformActivityCardButton' onClick={() => this.routeChangeEditPost(content[1])} variant="primary">
+                <Row className ='platformActivityCardButtonPostRow d-flex justify-content-end'>
+                  {this.state.isCreator ? <Button className='platformActivityCardButton platformActivityCardEditButton' onClick={() => this.routeChangeEditPost(content[1])} variant="primary">
                       Edit Post
                     </Button> : ""}
                 </Row>
