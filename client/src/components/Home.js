@@ -45,7 +45,7 @@ export default class Home extends Component {
         }
     }
     componentDidMount() {
-        if (this.props.location.state.isLoggedIn == false) {
+        if (this.state.isLoggedIn == "false" || this.state.isLoggedIn == undefined) {
             this.props.history.push('/')
         }
         else {
@@ -232,11 +232,10 @@ export default class Home extends Component {
         axios.get('http://localhost:4000/users')
             .then(res => {
                 let users = res.data;
-                let top15users = users.sort((a,b) => b.UserPoints - a.UserPoints).slice(0,15);
+                let top15users = users.sort((a,b) => b.UserPoints - a.UserPoints).slice(0,25);
                 this.setState({
                     top15users: top15users
                 })
-                console.log(top15users);
             })
     }
 
@@ -244,8 +243,8 @@ export default class Home extends Component {
         //Platform grid
         let plats = this.state.Platforms?.map((plat, i) => (        //map each platform to structure <Col>
             //<li key={i}>{plat.PlatformName}</li>
-            <Col key={i} className='ml-auto mr-auto'>
-                <Card className='activityCard'>
+            
+                <Card key={i} className='activityCard'>
                     <Card.Img variant='top' className='activityCardImage' src={plat.PlatformPicture}>
                     </Card.Img>
                     <Card.Title>
@@ -255,7 +254,7 @@ export default class Home extends Component {
                         {plat.PlatformName}
                     </Button>
                 </Card>
-            </Col>
+            
         ))
         let rendplats = [];             //row oriented platforms
         while (plats.length > 0) {        //splice the array of platforms into groups of 4
@@ -263,7 +262,7 @@ export default class Home extends Component {
             rendplats.push(chunk)
         }
         for (var j = 0; j < rendplats.length; j++) {          //each chunk is a group of 4, surround with <Row>
-            rendplats[j] = <Row className='ml-auto mr-auto'> {rendplats[j]} </Row>
+            rendplats[j] = <Row className='activityRow'> {rendplats[j]} </Row>
         }
 
         let subplats = this.state.UserSubscribedPlatformArray?.map((plat, i) => (
@@ -294,59 +293,25 @@ export default class Home extends Component {
             searchBar = <UserSearchBar id='usersearch' placeholder="Search Users..." data={this.state.Users} />
         }
         return (
-            <Container fluid className='sky containerrow'> {/* home container*/}
-                <Row className='medium marginspacing paddingspacing'> {/*Logout | Title | Profile */}
-                    <GoogleLogout
+            <Container fluid className='homeBackground containerrow'> {/* home container*/}
+                <Row className='medium homeTitleRow'> {/*Logout | Title | Profile */}
+                    <GoogleLogout className='homeLogout'
                         clientId='787055066898-kiaajnba1a2dpgk2lvkg20uhsn70pe3i.apps.googleusercontent.com'
                         buttonText="Logout"
                         onLogoutSuccess={this.logout}
                         isSignedIn={false}
                     >
                     </GoogleLogout>
-                    <Card body className='ml-auto' style={{ width: "25%", textAlign: 'center', fontSize: '25px' }}>
-                        <Image src={'https://res.cloudinary.com/sphnx/image/upload/v1637208733/spnhxLogoTransparent_csgze4.png'} fluid />
-                        <p>
+                    <Card body className='homeCard' >
+                        <Card.Img src={'https://res.cloudinary.com/sphnx/image/upload/v1637208733/spnhxLogoTransparent_csgze4.png'} fluid />
+                        <Card.Text>
                             Welcome, {this.state.UserName}!
-                        </p>
+                        </Card.Text>
                     </Card>
-                    <Button className='ml-auto gray' onClick={/*this.routeChangeProfile*/() => this.routeChangeProfile(this.state.ProfileID)} variant="primary">
+                    <Button className='ml-auto gray homeProfile' onClick={/*this.routeChangeProfile*/() => this.routeChangeProfile(this.state.ProfileID)} variant="primary">
                         Profile
                     </Button>
                 </Row>
-
-                {/* DropDown menu */}
-                {/*
-                <Row>
-                    <select id="sel" onChange={
-                        {toggle() {
-                            var psearch = document.getElementById('platsearch');
-                            var qsearch = document.getElementById('quizsearch');
-                            var usearch = document.getElementById('usersearch');
-                    
-                            if (this.value == '1') {
-                                psearch.style.display = 'block';
-                                qsearch.style.display = 'none';
-                                usearch.style.display = 'none';
-                    
-                            } else if (this.value == '2') {
-                                psearch.style.display = 'none';
-                                qsearch.style.display = 'block';
-                                usearch.style.display = 'none';
-                    
-                            } else if (this.value == '3') {
-                                psearch.style.display = 'none';
-                                qsearch.style.display = 'none';
-                                usearch.style.display = 'block';
-                    
-                            }
-                        }}
-                    }>
-                        <option value="1" selected>Platform Search</option>
-                        <option value="2">Quiz Search</option>
-                        <option value="3">User Search</option>
-                    </select>
-                </Row>
-                    */}
                 <Row className='medium homesearchbar'>
                     <Col xs={1}>
                         <select className="selection" value={this.state.searchBarCategory} onChange={this.handleSearchChange}>
@@ -359,51 +324,39 @@ export default class Home extends Component {
                     <Col>
                         {searchBar}
                     </Col>
-
-                    {/*
-                    <PlatformSearchBar id='platsearch' placeholder="Search Platforms..." data={this.state.Platforms} />
-                    <QuizSearchBar id='quizsearch' placeholder="Search Quizzes..." data={this.state.Quizzes} />
-                    <UserSearchBar id='usersearch' placeholder="Search Users..." data={this.state.Users} />
-                    */}
                 </Row>
 
-                <Row className='mainFeed medium ml-auto mr-auto' style={{ alignContent: "center" }}>  {/* Home Container for Platform,Quiz,Profile */}
-                    <Container fluid className='homecontainer'>
-                        <Row>
-                            <Card className='ml-auto mr-auto'>
-                                Your News Feed
-                            </Card>
-                        </Row>
-                        <Row className='medium' >
-                            <Col className='ml-auto mr-auto' style={{ maxWidth: '150px', width: '150px' }}>
-                                <Row>
-                                    <Card>
-                                        TOP USERS
-                                    </Card>
-                                </Row>
-                                {top15users}
-                            </Col>
-                            <Col className='ml-auto mr-auto medium'>
-                                <Row>
-                                    <h2 className='ml-auto mr-auto'>
-                                        PLATFORMS FOR YOU
-                                    </h2>
-                                </Row>
-                                {//Render Platforms
-                                    rendplats
-                                }
-                            </Col>
-                            <Col className='ml-auto mr-auto' style={{ maxWidth: '150px', width: '150px' }}>
-                                <Row>
-                                    <Card>
-                                        SUBSCRIPTIONS
-                                    </Card>
-                                </Row>
-                                {subplats}
-                            </Col>
-                        </Row>
-                    </Container>
-                </Row>
+                <Container className='homecontainer'>
+                    <Row className='medium homerow'>
+                        <Col className='homeColumn'>
+                            <Row style={{justifyContent: 'center'}}>
+                                <Card>
+                                    TOP USERS
+                                </Card>
+                            </Row>
+                            {top15users}
+                        </Col>
+                        <Col className='medium' style={{alignContent: 'center'}}>
+                            <Row>
+                                <h2 className='ml-auto mr-auto'>
+                                    PLATFORMS FOR YOU
+                                </h2>
+                            </Row>
+                            {//Render Platforms
+                                rendplats
+                            }
+                        </Col>
+                        <Col className='homeColumn'>
+                            <Row style={{justifyContent: 'center'}}>
+                                <Card>
+                                    SUBSCRIPTIONS
+                                </Card>
+                            </Row>
+                            {subplats}
+                        </Col>
+                    </Row>
+                </Container>
+                
             </Container>
         )
     }

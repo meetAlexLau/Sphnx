@@ -52,9 +52,9 @@ export default class Platform extends Component {
     sessionStorage.setItem('current platform', sessionStorage.getItem('previous platform'))
     //
     
-    if (this.props.match.params.isLoggedIn == false) {
+    if (this.state.isLoggedIn == "false" || this.state.isLoggedIn == undefined) {
       this.props.history.push('/')
-      }
+    }
     else {
       await axios.get('http://localhost:4000/platforms/' + PlatformID)
         .then(res => {

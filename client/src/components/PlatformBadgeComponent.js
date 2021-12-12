@@ -21,7 +21,6 @@ export default class PlatformBadge extends Component {
   }
 
   componentDidMount(){
-    //console.log(this.props.PlatformBadgeArray);
     this.getBadges();
   }
 
@@ -47,7 +46,6 @@ export default class PlatformBadge extends Component {
   }
 
   render() {
-
     let badges = this.state.Badges?.map((badge, i) => (
       <Col key={i}>
         <Card className='activityCard'>
