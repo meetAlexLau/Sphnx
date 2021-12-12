@@ -13,16 +13,7 @@ export default class Quiz extends Component {
   constructor(props) {
 
 
-    /*
-        const t1 = new Date(1579876543210) // your initial time
-        const t2 = new Date(1579987654321) // your later time
-        
-        const diff = t2-t1
-        const SEC = 1000, MIN = 60 * SEC, HRS = 60 * MIN
-        const humanDiff = `${Math.floor(diff/HRS)}:${Math.floor((diff%HRS)/MIN).toLocaleString('en-US', {minimumIntegerDigits: 2})}:${Math.floor((diff%MIN)/SEC).toLocaleString('en-US', {minimumIntegerDigits: 2})}.${Math.floor(diff % SEC).toLocaleString('en-US', {minimumIntegerDigits: 4, useGrouping: false})}`
-        
-        console.log("humanDiff:", humanDiff)
-        */
+
     var time = new Date()
 
 
@@ -152,6 +143,7 @@ export default class Quiz extends Component {
 
     var badgesWon = []
     var j = 0;
+    let totalTime = this.state.totalTime
     while(this.state.badgeArray[j]){
 
       let currentBadge = this.state.badgeArray[j]

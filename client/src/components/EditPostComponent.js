@@ -243,7 +243,7 @@ export default class NewPostComponent extends Component {
                                 Save
                             </Button>
 
-                            <Button className='cancelbutton' variant="danger" onClick={this.routeChangePlatform}>
+                            <Button className='cancelbutton' variant="warning" onClick={this.routeChangePlatform}>
                                 Cancel
                             </Button>
 

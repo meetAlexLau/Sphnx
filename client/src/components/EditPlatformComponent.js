@@ -200,7 +200,7 @@ export default class NewPlatformComponent extends Component {
                                 Save
                             </Button>
 
-                            <Button className='cancelbutton' variant="danger" onClick={this.routeChangeProfile}>
+                            <Button className='cancelbutton' variant="warning" onClick={this.routeChangeProfile}>
                                 Cancel
                             </Button>
                         </div>
