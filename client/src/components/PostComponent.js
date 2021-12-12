@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { Link } from 'react-router-dom';
 import Image from 'react-bootstrap/Image'
 import axios from 'axios'
-
+import '../css/App.css';
 
 export default class Post extends Component {
 
@@ -134,6 +134,7 @@ export default class Post extends Component {
                             <h1 style={{ textAlign: 'center', fontSize: 20 }}>{this.state.postTitle}</h1>
 
                             <h2 style={{ fontSize: 15, marginLeft: "5%" }}>{this.state.postDec}</h2>
+                            
                             <img style={{ "witdth": "70px", "height": "70px", marginLeft: "5%" }} src={this.state.picture} />
 
                             <div style={{ "width": "100%", "display": "table" }}>
