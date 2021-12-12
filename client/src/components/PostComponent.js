@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Image from 'react-bootstrap/Image'
 import axios from 'axios'
 import '../css/App.css';
-
+import '../css/Post.css';
 export default class Post extends Component {
 
     constructor(props) {
@@ -128,8 +128,8 @@ export default class Post extends Component {
             <div>
                 <div key={this.state.indexOfQuestion}>
 
-                    <div className="background" >
-                        <div className="quiz-content">
+                    <div className="postbackground" >
+                        <div className="postontent">
 
                             <h1 style={{ textAlign: 'center', fontSize: 20 }}>{this.state.postTitle}</h1>
 
