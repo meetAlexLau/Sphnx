@@ -1,62 +1,88 @@
+  .profileCardTitle{
+    background: transparent;
+    border: 2px solid #000000;
+    box-shadow: rgb(0 0 0 / 24%) 2px 2px 1px 1px, rgb(0 0 0 / 24%) 0px 0px 1px 0px;
+    border-radius: 15px;
+    font-size: 25px;
+    color: white;
+    margin: 3%;
+    text-align: center;
+  }  
+  .profileNewPlatform{
+    background: transparent;
+    border: 2px solid #000000;
+    box-shadow: rgb(0 0 0 / 24%) 2px 2px 1px 1px, rgb(0 0 0 / 24%) 0px 0px 1px 0px;
+    border-radius: 15px;
+    font-size: 15px;
+    margin: 3%;
+    text-align: center;
+  }
 
-  
   .profileCard {
-    background: #ffa2a2;
+    background: transparent;
     border: 2px solid #000000;
     box-sizing: border-box;
-    box-shadow: 5px 10px 6px rgba(0, 0, 0, 0.25);
+    box-shadow: rgb(0 0 0 / 24%) 2px 2px 1px 1px, rgb(0 0 0 / 24%) 0px 0px 1px 0px;
     border-radius: 15px;
     text-align: center;
-    font-family: Oxygen;
     font-style: normal;
     font-weight: normal;
+    margin-right: 5px;
+    margin-top: 8px;
   }
   
   .profileBlock {
-    background: #87ceeb;
+    background: transparent;
     box-sizing: border-box;
-    border-radius: 25px;
-    border: "solid";
+    border-radius: 15px;
+    border: solid black;
     border-width: 4px;
+    max-height: 100%;
+    height: 100%;
   }
   
   .profileBlockBase {
-    margin: 5px 10px 0px;
+    margin: 20px 10px 0px;
+    max-height: 100%;
   }
   
   .profileNameTag {
-    background: #87ceeb;
-    margin: auto;
+    background: transparent;
+    margin-top: 7px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 8px;
     width: 25%;
     border: solid;
-    border-radius: 25px;
-    border-width: 4px;
+    border-radius: 15px;
+    border-width: 2px;
     text-align: center;
     box-sizing: border-box;
-    box-shadow: 5px 10px 6px rgba(0, 0, 0, 0.25);
-    font-family: Oxygen;
+    box-shadow: rgb(0 0 0 / 24%) 2px 2px 1px 1px, rgb(0 0 0 / 24%) 0px 0px 1px 0px;
     font-style: normal;
     font-weight: normal;
   }
   
   .homeButton {
-    background: #c4c4c4;
+    background: #D4AC67;
     border: 2px solid #000000;
     box-sizing: border-box;
-    box-shadow: 5px 10px 6px rgba(0, 0, 0, 0.25);
+    box-shadow: rgb(0 0 0 / 24%) 2px 2px 1px 1px, rgb(0 0 0 / 24%) 0px 0px 1px 0px;
     border-radius: 15px;
-    font-family: Roboto;
     font-style: normal;
     font-weight: normal;
+    margin: 5px 10px;
+  }
+  .homeButton:hover, .homeButton:focus{
+    background: #E7C496;
   }
   
   .profilePageButton {
-    background: #ffa2a2;
+    background: transparent;
     border: 2px solid #000000;
     box-sizing: border-box;
-    box-shadow: 5px 10px 6px rgba(0, 0, 0, 0.25);
+    box-shadow: rgb(0 0 0 / 24%) 2px 2px 1px 1px, rgb(0 0 0 / 24%) 0px 0px 1px 0px;
     border-radius: 15px;
-    font-family: Oxygen;
     font-style: normal;
     font-weight: normal;
     margin: 5px 10px;
@@ -66,7 +92,7 @@
     background: #aaaaaa;
     border: 4px solid #000000;
     box-sizing: border-box;
-    box-shadow: 5px 10px 6px rgba(0, 0, 0, 0.25);
+    box-shadow: rgb(0 0 0 / 24%) 2px 2px 1px 1px, rgb(0 0 0 / 24%) 0px 0px 1px 0px;
   }
   
   .profileBackgroundBlock {
@@ -74,4 +100,21 @@
     border: 4px solid #000000;
     box-sizing: border-box;
     border-radius: 25px;
+    margin-top: 20px;
+  }
+
+  .profileBackground{
+    height: 100vh;
+  }
+  .profileColumn{
+    max-width: 15%;
+    width: 100%;
+    margin-top: 20px;
+  }
+  .profileHomeCol{
+    margin-right: auto;
+  }
+
+  .profileEditCol{
+    margin-left: auto;
   }
