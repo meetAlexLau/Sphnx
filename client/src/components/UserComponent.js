@@ -161,6 +161,7 @@ export default class UserComponent extends Component{
             })
         });
     }
+    //
 
     renderFriends(){
         let f: [number, string] = [];
