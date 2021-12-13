@@ -41,12 +41,25 @@ html, body, #root, .badge-background{
 
 
 .myBadgesFeed {
-    align-items: left;
+    justify-content: center;
+    display: flex;
 }
 
-.activityCard {
+.activityCardBadge {
     align-items: left;
+    object-fit: cover;
+    max-width: 400px;
+    width: 300px;
+    max-height: 400px;
+    height: 300px;
+    outline: 2px solid black;
+    align-items: center;
+    margin-top: 30px;
+    margin-left: 35px;
+    margin-right: 35px;
+    margin-bottom: 30px;
 }
+
 .badgeTitle{
     font-size: 20px;
     font-weight: bold;
@@ -54,5 +67,4 @@ html, body, #root, .badge-background{
 }
 .badgeDescription{
     font-size: 15px;
-    
 }

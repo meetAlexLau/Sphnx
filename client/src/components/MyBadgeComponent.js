@@ -110,7 +110,7 @@ export default class MyBadge extends Component {
 
     let badges = this.state.Badges?.map((badge, i) => (
       <Col key={i} >
-        <Card className='activityCard' >
+        <Card className='activityCardBadge' >
           <Card.Img variant='top' className='activityCardImage' src={badge.BadgePicture}></Card.Img>
           {/* Badge Title */}
           <div className='badgeTitle'>{badge.BadgeTitle}</div>
