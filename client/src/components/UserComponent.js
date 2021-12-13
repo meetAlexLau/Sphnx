@@ -320,7 +320,7 @@ export default class UserComponent extends Component{
                                     <div className="profileNameTag"
                                         style={{background: this.state.UserSecondaryColor}}>{this.state.UserName}</div>
                                     <div className="profileNameTag"
-                                        style={{background: this.state.UserSecondaryColor}}>Total Points: {""+this.state.UserPoints}</div>
+                                        style={{background: this.state.UserSecondaryColor}}>Total Points: {""+Math.round(this.state.UserPoints *100)/100}</div>
                                 </Col>
                             </Row>
                         </Col>
