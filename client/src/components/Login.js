@@ -50,7 +50,9 @@ export default class Login extends Component{
             UserName: profile.name + (Math.floor(Math.random() * 1000) + 1),
             UserEmail: profile.email,
             UserPoints: 0,
-            UserPicture: "https://icon-library.com/images/default-profile-icon/default-profile-icon-5.jpg"
+            UserPicture: "https://icon-library.com/images/default-profile-icon/default-profile-icon-5.jpg",
+            UserPrimaryColor: "#c0b3e5",
+            UserSecondaryColor: "#e5c7c7"
         }
         if(!sessionStorage.getItem("isLoggedIn")){ //CHECKS IF USER IS ALREADY LOGGED IN
             axios.get('http://localhost:4000/users/UserID/'+ newUser.UserID)
