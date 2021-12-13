@@ -32,13 +32,13 @@
         width: 100%;
     }
     .platformActivityCardQuizTitle{
-        font-size: 40px;
+        font-size: 25px;
         text-align: center;
         padding: 15% 0;
     }
     .platformActivityCardPostTitle{
         padding-top: 4%;
-        font-size: 40px;
+        font-size: 25px;
         text-align: center;
         max-height: 100%;
         height: 100%;
