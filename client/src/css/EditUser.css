@@ -1,0 +1,46 @@
+html, body, #root, .editusercontainer{
+    height: 100vh;
+    overflow:auto;
+    width: 100%;
+  }
+
+  .light{
+    background-color: #F3ECC9;
+  }
+  
+  .medium{
+    background-color: #E7C496;
+  }
+  
+  .dark{
+    background-color: #D4AC67;
+  }
+
+  .edituserinner{
+    border: solid black;
+    border-radius: 15px;
+    border-width: 1px;
+    box-shadow: rgb(0 0 0 / 24%) 2px 2px 1px 1px, rgb(0 0 0 / 24%) 0px 0px 1px 0px;
+    height: 100%;
+  }
+
+  .edituserexit{
+    background: #FF6961;
+  }
+  .editusersubmit{
+    background-color: #77DD77;
+  }
+
+  .edituserbutton{
+    border: solid black;
+    border-radius: 15px;
+    border-width: 1px;
+    box-shadow: rgb(0 0 0 / 24%) 2px 2px 1px 1px, rgb(0 0 0 / 24%) 0px 0px 1px 0px;
+    font-size: 25px;
+    padding: 10px;
+    width: 200px;
+    display: block;
+    text-align: center;
+    margin-left: auto;
+    margin-top: 10px;
+  }

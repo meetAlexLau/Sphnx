@@ -7,6 +7,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import axios from 'axios'
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import '../css/EditUser.css';
 const NAME_OF_UPLOAD_PRESET = "sphnxPreset";
 const YOUR_CLOUDINARY_ID = "sphnx"; 
 
@@ -161,44 +162,18 @@ export default class EditUserComponent extends Component{
 
     render(){
         return(
-            <Container fluid >
-              <Row className="containerrow">
-                <Col className="medium" md={6}>
-                  <Container className="light loginleft">
-                    <div
-                      style={{
-                        width: "311px",
-                        height: "76px",
-                        left: "54px",
-                        top: "87px",
-
-                        fontFamily: "Oxygen",
-                        fontStyle: "normal",
-                        fontWeight: "bold",
-                        fontSize: "60px",
-                        lineHeight: "76px",
-                        textAlign: "center"
-                      }}
-                    >
+            <Container fluid className='editusercontainer medium'>
+                  <Container className="light edituserinner">
+                    <div style={{fontSize: 60}}>
                       Edit Profile
                     </div>
 
-                    <div
-                      style={{
-                        width: "864px",
-                        height: "801px",
-
-                        background: "#E7C496",
-                        border: "solid",
-                        boxSizing: "border-box",
-                        borderRadius: "15px"
-                      }}
-                    >
+                    <div>
                       <Form>
                         <Form.Group controlId="formUserName">
                           <Form.Label
                             style={{
-                              width: "218px",
+                              width: "250px",
                               height: "32px",
                               fontFamily: "Oxygen",
                               fontStyle: "normal",
@@ -286,46 +261,17 @@ export default class EditUserComponent extends Component{
                           onChange={this.onChangeUserSecondaryColor}
                         />
 
-                        <Link
-                          style={{position: 'absolute',
-                                  width: '164px',
-                                  height: '76px',
-                                  left: '431px',
-                                  top: '700px',
-                                  
-                                  background: '#FF6961',
-                                  border: 'solid',
-                                  borderColor: "black",
-                                  borderSize: '4px',
-                                  boxSizing: 'border-box',
-                                  borderRadius: '20px',
-                            }}
+                        <Link className = 'edituserexit edituserbutton'
                             to={{pathname: '/profile/' + this.state.IDtoEdit, state:{isLoggedIn: true}}}>
                               Exit
                         </Link>
-                        <Button
-                          
-                          style={{position: 'absolute',
-                            width: '233px',
-                            height: '76px',
-                            left: '608px',
-                            top: '700px',
-                            
-                            background: '#77DD77',
-                            border: 'solid',
-                            borderSize: '4px',
-                            borderColor: 'black',
-                            boxSizing: 'border-box',
-                            borderRadius: '20px',
-                          }}
+                        <Button className = 'editusersubmit edituserbutton'
                           onClick={this.onSubmit}>
                             Save & Exit
                         </Button>
                       </Form>
                     </div>
                   </Container>
-                </Col>
-              </Row>
   </Container>
         )
 
