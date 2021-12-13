@@ -66,7 +66,7 @@ export default class MyBadge extends Component {
     // iterate through badges and get their platforms
     for (let i = 0; i < this.state.Badges.length; i++){
       try {
-        await axios.get('http://localhost:4000/platforms/' + this.state.Badges[i].BadgeHostPlatform)
+        await axios.get('/platforms/' + this.state.Badges[i].BadgeHostPlatform)
           .then(res => {
             plat = res.data;
             n.push(plat.PlatformName);
@@ -89,7 +89,7 @@ export default class MyBadge extends Component {
     // iterate through badges and get their quiz
     for (let i =0; i < this.state.Badges.length; i++){
       try {
-        await axios.get('http://localhost:4000/quizzes/' + this.state.Badges[i].BadgeHostQuiz)
+        await axios.get('/quizzes/' + this.state.Badges[i].BadgeHostQuiz)
           .then(res => {
             quiz = res.data;
             n.push(quiz.QuizTitle);

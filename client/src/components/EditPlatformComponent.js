@@ -150,7 +150,7 @@ export default class NewPlatformComponent extends Component {
             PlatformPicture: this.state.picture
         }
 
-        const editPlatformPath = ('http://localhost:4000/platforms/updatePlatform/' + this.state.id)
+        const editPlatformPath = ('/platforms/updatePlatform/' + this.state.id)
 
         await axios.put(editPlatformPath, updatedPlatformObject)
             .then(res => console.log(res.data))
