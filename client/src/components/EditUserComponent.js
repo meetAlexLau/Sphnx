@@ -261,7 +261,7 @@ export default class EditUserComponent extends Component{
                         </Form.Label>
                         <Form.Control
                           type="color"
-                          defaultValue={this.state.UserPrimaryColor}
+                          value={this.state.UserPrimaryColor}
                           title="Choose your color"
                           onChange={this.onChangeUserPrimaryColor}
                         />
@@ -281,7 +281,7 @@ export default class EditUserComponent extends Component{
                         </Form.Label>
                         <Form.Control
                           type="color"
-                          defaultValue={this.state.UserSecondaryColor}
+                          value={this.state.UserSecondaryColor}
                           title="Choose your color"
                           onChange={this.onChangeUserSecondaryColor}
                         />
