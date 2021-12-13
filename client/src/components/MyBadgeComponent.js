@@ -35,27 +35,26 @@ export default class MyBadge extends Component {
     let user;
 
     // get userbadgearray from this user
-    await axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
+    
+    await axios.get('/users/' + this.props.match.params.id)
       .then(res => {
         user = res.data;
       })
 
     // iterate through and get all badges
-    if(user.UserBadgeArray.length){
     for (let i = 0; i < user.UserBadgeArray.length; i++) {
-        try {
-          await axios.get('/badges/' + user.UserBadgeArray[i])
-            .then(res => {
-              b.push(res.data);
-              this.setState({
-                Badges: this.state.Badges.concat([b[i]])
-              })
+      try {
+        await axios.get('/badges/' + user.UserBadgeArray[i])
+          .then(res => {
+            b.push(res.data);
+            this.setState({
+              Badges: this.state.Badges.concat([b[i]])
             })
-        } catch (err) {
-          console.log(err);
-        }
+          })
+      } catch (err) {
+        console.log(err);
+      }
     }
-  }
     //console.log(this.state.Badges);
     callbackOne();
     callbackTwo();
