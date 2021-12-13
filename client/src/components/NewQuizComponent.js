@@ -71,7 +71,7 @@ export default class NewQuizComponent extends Component {
         }
         else {
 
-            axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
+            axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
                 .then(res => {
                     let User = res.data[0];
                     this.setState({
@@ -116,11 +116,7 @@ export default class NewQuizComponent extends Component {
         let PlatformID = currentPlatform ? currentPlatform : sessionStorage.getItem('previous platform')
         sessionStorage.setItem('current platform', sessionStorage.getItem('previous platform'))
 
-<<<<<<< HEAD
         const quizObject = {
-=======
-        let quizObject = {
->>>>>>> 258c8384324e708b5ecd52ad60b527745a6d90a7
             QuizTitle: this.state.title,
             QuizID: this.state.id,
             QuizBackground: this.state.backgroundPic,
@@ -130,24 +126,11 @@ export default class NewQuizComponent extends Component {
             PlatformID: PlatformID
         };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        axios.post('/quizzes/createQuiz', quizObject)
-            .then(res => console.log(res.data));
-
-        
-=======
         // post quiz
         await axios.post('http://localhost:4000/quizzes/createQuiz', quizObject)
             .then(res => {newIDofQuiz=res.data});
->>>>>>> local-testing
 
         // post badges
-=======
-        await axios.post('/quizzes/createQuiz', quizObject)
-            .then(res => {newIDofQuiz=res.data});
-
->>>>>>> 258c8384324e708b5ecd52ad60b527745a6d90a7
         var idsOfBadges = []
         var idOfNewBadge = ''
         let j = 0;
@@ -162,33 +145,15 @@ export default class NewQuizComponent extends Component {
                 BadgeHostQuiz: newIDofQuiz
             }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-            await axios.post('/badges/createBadge', newBadgeObject)
-                .then(res => {idsOfBadges.push(res.data)})
-            
-=======
             await axios.post('http://localhost:4000/badges/createBadge', newBadgeObject)
                 .then(res => {idsOfBadges.push(res.data);
                             idOfNewBadge = res.data})
             this.state.QuizBadgeArray[j].badgeID = idOfNewBadge
->>>>>>> local-testing
             j++
         }
 
         // edit quiz to add badge array
         const badgeQuizObject = {
-=======
-            await axios.post('/badges/createBadge', newBadgeObject)
-                .then(res => {idsOfBadges.push(res.data);
-                            idOfNewBadge = res.data})
-            this.state.QuizBadgeArray[j].badgeID = idOfNewBadge
-
-            j++
-        }
-
-        quizObject = {
->>>>>>> 258c8384324e708b5ecd52ad60b527745a6d90a7
             QuizTitle: this.state.title,
             QuizID: this.state.id,
             QuizBackground: this.state.backgroundPic,
@@ -198,26 +163,13 @@ export default class NewQuizComponent extends Component {
             PlatformID: PlatformID
         };
 
-<<<<<<< HEAD
-
-    
-
-
-        await axios.post('/quizzes/createQuiz', quizObject)
-            .then(res => {newIDofQuiz=res.data});
-
-<<<<<<< HEAD
-=======
         // update quiz with badge array
         await axios.put('http://localhost:4000/quizzes/updateQuiz/' + newIDofQuiz, badgeQuizObject)
             .then(res => console.log(res.data))
             .catch(err => console.log(err))
->>>>>>> local-testing
 
-=======
->>>>>>> 258c8384324e708b5ecd52ad60b527745a6d90a7
         // retrieve platform from database, edit quiz array, and send the edited array back
-        axios.get('/platforms/' + PlatformID)
+        axios.get('http://localhost:4000/platforms/' + PlatformID)
             .then(res => {
                 console.log(sessionStorage.getItem('current platform'));
                 console.log('logging res', res);
@@ -229,10 +181,10 @@ export default class NewQuizComponent extends Component {
                     plat.PlatformBadgeArray.push(idsOfBadges[k])
                     k++;
                 }
-                axios.put('/platforms/updatePlatform/' + PlatformID, plat).then(res => {})
+                axios.put('http://localhost:4000/platforms/updatePlatform/' + PlatformID, plat).then(res => {})
             })  
 
-        const newPath = ('/users/' + this.state.IDtoEdit)
+        const newPath = ('http://localhost:4000/users/' + this.state.IDtoEdit)
 
         await axios.put(newPath, updatedUser)
             .then(res => console.log(res.data))
