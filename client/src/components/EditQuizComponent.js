@@ -305,7 +305,7 @@ export default class EditQuizComponent extends Component {
                     <div className="medium">
                         <Form.Group controlId="Title">
                             <Form.Label>Title:</Form.Label>
-                            <Form.Control type="text" value={this.state.title} onChange={this.onChangeQuizTitle} />
+                            <Form.Control type="text" maxLength="12" value={this.state.title} onChange={this.onChangeQuizTitle} />
                         </Form.Group>
 
                         <div>
