@@ -49,7 +49,8 @@ export default class Login extends Component{
             UserID: profile.googleId + "",
             UserName: profile.name + (Math.floor(Math.random() * 1000) + 1),
             UserEmail: profile.email,
-            UserPoints: 0
+            UserPoints: 0,
+            UserPicture: "https://icon-library.com/images/default-profile-icon/default-profile-icon-5.jpg"
         }
         if(!sessionStorage.getItem("isLoggedIn")){ //CHECKS IF USER IS ALREADY LOGGED IN
             axios.get('http://localhost:4000/users/UserID/'+ newUser.UserID)
