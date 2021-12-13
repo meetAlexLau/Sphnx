@@ -8,8 +8,9 @@ let Badge = new Schema({
     BadgePicture: String,
     BadgeMaxTime: Number,
     BadgeMinScore: Number,
-    BadgeType: Number
-
+    BadgeType: Number,
+    BadgeHostQuiz: String,
+    BadgeHostPlatform: String
 })
 
 module.exports = mongoose.model('Badge', Badge);

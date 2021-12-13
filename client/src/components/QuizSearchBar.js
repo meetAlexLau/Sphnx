@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, Link } from "react";
+import { useHistory } from "react-router-dom";
 import "../css/SearchBar.css";
 
+function QuizSearchBar({ placeholder, data}) {
+    let history = useHistory();
 
-function SearchBar({ placeholder, data }) {
     const [filteredData, setFilteredData] = useState([]);
     const [wordEntered, setWordEntered] = useState("");
 
@@ -10,7 +12,7 @@ function SearchBar({ placeholder, data }) {
         const searchWord = event.target.value;
         setWordEntered(searchWord);
         const newFilter = data.filter((value) => {
-            return value.title.toLowerCase().includes(searchWord.toLowerCase());
+            return value.QuizTitle.toLowerCase().includes(searchWord.toLowerCase());
         });
 
         if (searchWord === "") {
@@ -24,6 +26,15 @@ function SearchBar({ placeholder, data }) {
         setFilteredData([]);
         setWordEntered("");
     };
+
+    const routeChangeQuiz = function(QuizID){
+        sessionStorage.setItem('current quiz', QuizID);
+        sessionStorage.setItem('previous quiz', QuizID);
+        history.push({
+            pathname:'/quiz/' + QuizID,
+            state: {isLoggedIn:true}
+            });
+    }
 
     return (
         <div className="search">
@@ -39,8 +50,8 @@ function SearchBar({ placeholder, data }) {
                 <div className="dataResult">
                     {filteredData.slice(0, 15).map((value, key) => {
                         return (
-                            <a className="dataItem" href={value.link} target="_blank">
-                                <p>{value.title}</p>
+                            <a className="dataItem" onClick={routeChangeQuiz.bind(this, value.QuizID)}>
+                                <p>{value.QuizTitle}</p>
                             </a>
                         );
                     })}
@@ -48,6 +59,7 @@ function SearchBar({ placeholder, data }) {
             )}
         </div>
     );
+    
 }
 
-export default SearchBar;
+export default QuizSearchBar;

@@ -12,6 +12,14 @@ export default class QuizResult extends Component{
         this.renderQuestions = this.renderQuestions.bind(this);
         this.routeHome = this.routeHome.bind(this);
         this.routePlatform = this.routePlatform.bind(this);
+        this.state = {
+            isLoggedIn: sessionStorage.getItem('isLoggedIn')
+        }
+    }
+    componentDidMount(){
+        if (this.state.isLoggedIn == "false" || this.state.isLoggedIn == undefined) {
+            this.props.history.push('/')
+        }
     }
     renderQuestions = () => {
         const q = [];
@@ -29,7 +37,10 @@ export default class QuizResult extends Component{
     }
 
     routeHome(){
-        this.props.history.push('/home');
+        this.props.history.push({
+            pathname:'/home',
+            state: {isLoggedIn:true}
+            });
     }
 
     /*
@@ -43,7 +54,10 @@ export default class QuizResult extends Component{
         //should be  /profile/:userid
         sessionStorage.setItem('current platform', this.props.platformID);
         sessionStorage.setItem('previous platform', this.props.platformID);
-        this.props.history.push('/platform/' + this.props.platformID);
+        this.props.history.push({
+            pathname:'/platform/' + this.props.platformID,
+            state: {isLoggedIn:true}
+            });
     }
 
     render(){
@@ -70,7 +84,7 @@ export default class QuizResult extends Component{
                     </Row>
                     <Row className='justify-content-center'>
                         <Card> {/*Obtain Score and Badges Earned */}
-                            Score: {this.props.score}/{this.props.numberOfQuestion}     Badge Earned:[  ]
+                            Score: {this.props.score}/{this.props.numberOfQuestion} 
                         </Card>
                     </Row>
                 </Container>

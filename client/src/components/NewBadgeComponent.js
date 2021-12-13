@@ -45,6 +45,7 @@ export default class NewBadgeComponent extends Component {
 
         // Setting up state
         this.state = {
+            isLoggedIn: sessionStorage.getItem('isLoggedIn'),
             badgeTitle: '',
             badgeID: '',
             badgeType: 0,
@@ -54,6 +55,11 @@ export default class NewBadgeComponent extends Component {
             optionOneDisabled:'',
             optionTwoDisabled:'',
             optionThreeDisabled:''
+        }
+    }
+    componentDidMount(){
+        if (this.state.isLoggedIn == "false" || this.state.isLoggedIn == undefined) {
+            this.props.history.push('/')
         }
     }
 

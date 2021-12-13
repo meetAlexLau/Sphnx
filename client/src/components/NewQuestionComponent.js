@@ -17,14 +17,22 @@ export default class NewQuestionComponent extends Component {
         // Setting up functions
         // Setting up state
         this.state = {
+            isLoggedIn: sessionStorage.getItem('isLoggedIn'),
             questionTitle: '',
             answerNumber: '',
             answerInputArray: []
         }
     }
-
+    componentDidMount(){
+        if (this.state.isLoggedIn == "false" || this.state.isLoggedIn == undefined) {
+            this.props.history.push('/')
+        }
+    }
     routeChangePlatform(e) {
-        this.props.history.push('/platform')
+        this.props.history.push({
+            pathname:'/platform',
+            state: {isLoggedIn:true}
+            })
     }
 
 

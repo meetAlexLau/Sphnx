@@ -1,0 +1,18 @@
+html, body, #root, .postbackground{
+    height: 100vh;
+    overflow:auto;
+}
+
+.postbackground{
+    height: 100vh;
+    background-color: #87CEEB;
+}
+
+.postontent{
+    justify-content: center;
+    height: 80%;
+    width: 70%;
+    background-color: #ffffff;
+    margin: 0 auto;
+    margin-top: 50px;
+}

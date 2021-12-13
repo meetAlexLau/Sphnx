@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Form, Col, Row, Container, Button } from "react-bootstrap";
 import axios from "axios";
 import Card from 'react-bootstrap/Card';
+import '../css/UserBadgesFeed.css';
 //import axios from 'axios';
 //import { SketchPicker } from 'react-color';
 
@@ -15,22 +16,28 @@ export default class MyBadge extends Component {
     super(props)
 
     this.state = {
+      isLoggedIn: sessionStorage.getItem('isLoggedIn'),
       Badges: [],
+      BadgePlatformNames: [],
+      BadgeQuizNames: []
     }
   }
 
   componentDidMount() {
-    this.getBadges();
+    if (this.state.isLoggedIn == "false" || this.state.isLoggedIn == undefined) {
+      this.props.history.push('/')
+    }
+    this.getBadges(this.getPlatformNames, this.getQuizNames);
   }
 
-  getBadges = async () => {
+  getBadges = async (callbackOne, callbackTwo) => {
     let b = [];
     let user;
 
     // get userbadgearray from this user
     await axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
       .then(res => {
-        user = res.data[0];
+        user = res.data;
       })
 
     // iterate through and get all badges
@@ -48,24 +55,96 @@ export default class MyBadge extends Component {
       }
     }
     //console.log(this.state.Badges);
+    callbackOne();
+    callbackTwo();
+  }
+
+  getPlatformNames = async () => {
+    let n = [];
+    let plat;
+
+    // iterate through badges and get their platforms
+    for (let i = 0; i < this.state.Badges.length; i++){
+      try {
+        await axios.get('http://localhost:4000/platforms/' + this.state.Badges[i].BadgeHostPlatform)
+          .then(res => {
+            plat = res.data;
+            n.push(plat.PlatformName);
+            this.setState({
+              BadgePlatformNames: this.state.BadgePlatformNames.concat([n[i]])
+            })
+          })
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    console.log(this.state.BadgePlatformNames)
+  }
+
+  getQuizNames = async () => {
+    let n = [];
+    let quiz;
+
+    // iterate through badges and get their quiz
+    for (let i =0; i < this.state.Badges.length; i++){
+      try {
+        await axios.get('http://localhost:4000/quizzes/' + this.state.Badges[i].BadgeHostQuiz)
+          .then(res => {
+            quiz = res.data;
+            n.push(quiz.QuizTitle);
+            this.setState({
+              BadgeQuizNames: this.state.BadgeQuizNames.concat([n[i]])
+            })
+          })
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    console.log(this.state.BadgeQuizNames)
   }
 
   render() {
 
     let badges = this.state.Badges?.map((badge, i) => (
-      <Col key={i}>
-        <Card className='ml-auto activityCard'>
+      <Col key={i} >
+        <Card className='activityCardBadge' >
           <Card.Img variant='top' className='activityCardImage' src={badge.BadgePicture}></Card.Img>
-          <Button className='activityCardButton' variant="primary">
-            {badge.BadgeTitle}
-          </Button>
+          {/* Badge Title */}
+          <div className='badgeTitle'>{badge.BadgeTitle}</div>
+
+          {/* Badge Quiz */}
+          <div className='badgeDescription'>From "{this.state.BadgeQuizNames[i]}" Quiz </div>
+
+          {/* Badge Platform */}
+          <div className='badgeDescription'>on "{this.state.BadgePlatformNames[i]}" platform.</div>
+
+          {/* Badge Earning Conditions */}
+          <div>
+            {(() => {
+              if (badge.BadgeType == 3) {
+                return (
+                  <div className='badgeDescription'>Condition: Earn a perfect score. </div>
+                )
+              } else if (badge.BadgeType == 2) {
+                return (
+                  <div className='badgeDescription'>Condition:  Complete within {badge.BadgeMaxTime} seconds. </div>
+                )
+              } else {
+                return (
+                  <div className='badgeDescription'>Condition:  Earn at least {badge.BadgeMinScore} points.</div>
+                )
+              }
+            })()}
+          </div>
         </Card>
       </Col>
     ))
 
     let rendbadges = [];
     while (badges.length > 0) {
-      let chunk = badges.splice(0, 4);
+      let chunk = badges.splice(0, 3);
       rendbadges.push(chunk)
     }
 
@@ -75,69 +154,27 @@ export default class MyBadge extends Component {
 
     return (
 
-      <div class="background"  >
-        <div class="badge-content">
+      <Container fluid className=" badge-background">
+        <Container className="badge-content">
           <div class="badge-content-header">
-            <Link to={"/profile"} className="badge-button">
+            <Link to={{ pathname: '/profile/' + this.props.match.params.id, state: { isLoggedIn: true } }} className="badge-button">
               Back
             </Link>
             My badges
-          </div>
+            </div>
 
+            {/* Dynamically populate with this user's earned badges */}
+            <div className="myBadgesFeed" >
+              {
+                rendbadges
+              }
+            </div>
+
+          
           {/* commenting out placeholder */}
-          {/*
-          <Container>
-            <Row>
-              <Col>
-                <Row className="d-flex justify-content-center"><img style={{ "witdth": "100px", "height": "100px" }} src="https://www.pngmart.com/files/14/Golden-Ribbon-Badge-PNG.png" />
-                </Row>
-                <Row className="d-flex justify-content-center" >Speed Demon</Row>
-              </Col>
-
-              <Col>
-                <Row className="d-flex justify-content-center"><img style={{ "witdth": "100px", "height": "100px" }} src="https://www.pngmart.com/files/14/Golden-Ribbon-Badge-PNG.png" />
-                </Row>
-                <Row className="d-flex justify-content-center">Hat Trick</Row>
-              </Col>
-
-              <Col>
-
-                <Row className="d-flex justify-content-center"><img style={{ "witdth": "100px", "height": "100px" }} src="https://www.pngmart.com/files/14/Golden-Ribbon-Badge-PNG.png" />
-                </Row>
-                <Row className="d-flex justify-content-center">Biggest Loser</Row>
-              </Col>
-            </Row>
-            <Row>
-            <Col>
-                <Row className="d-flex justify-content-center"><img style={{ "witdth": "100px", "height": "100px" }} src="https://www.pngmart.com/files/14/Golden-Ribbon-Badge-PNG.png" />
-                </Row>
-                <Row className="d-flex justify-content-center">Ancient Member</Row>
-              </Col>
-
-              <Col>
-                <Row className="d-flex justify-content-center"><img style={{ "witdth": "100px", "height": "100px" }} src="https://www.pngmart.com/files/14/Golden-Ribbon-Badge-PNG.png" />
-                </Row>
-                <Row className="d-flex justify-content-center">Beginner’s Luck</Row>
-              </Col>
-
-              <Col>
-
-                <Row className="d-flex justify-content-center"><img style={{ "witdth": "100px", "height": "100px" }} src="https://www.pngmart.com/files/14/Golden-Ribbon-Badge-PNG.png" />
-                </Row>
-                <Row className="d-flex justify-content-center">Top Player</Row>
-              </Col>
-            </Row>
-          </Container>
-*/}
-          {/* Dynamically populate with this user's earned badges */}
-          <div className="myBadgesFeed" >
-            {
-              rendbadges
-            }
-          </div>
-
-        </div>
-      </div>
+        
+        </Container>
+      </Container>
 
     );
   }

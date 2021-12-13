@@ -7,7 +7,8 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
-import '../css/App.css';
+import Image from 'react-bootstrap/Image'
+import '../css/Login.css';
 export default class Login extends Component{
     constructor(props){
         super(props);
@@ -23,7 +24,13 @@ export default class Login extends Component{
     }
     routeChange() {
         //should be  /home/:userid
-        this.props.history.push('/home');
+        this.setState({
+            isLoggedIn: true
+        })
+        this.props.history.push({
+            pathname:'/home',
+            state: {isLoggedIn:true}
+            });
     }
     refreshTokenSetup = (res) => {
         let refreshTiming = (res.tokenObj.expires_in ||3600 - 5 * 60) * 1000;
@@ -42,7 +49,10 @@ export default class Login extends Component{
             UserID: profile.googleId + "",
             UserName: profile.name + (Math.floor(Math.random() * 1000) + 1),
             UserEmail: profile.email,
-            UserPoints: 0
+            UserPoints: 0,
+            UserPicture: "https://icon-library.com/images/default-profile-icon/default-profile-icon-5.jpg",
+            UserPrimaryColor: "#c0b3e5",
+            UserSecondaryColor: "#e5c7c7"
         }
         if(!sessionStorage.getItem("isLoggedIn")){ //CHECKS IF USER IS ALREADY LOGGED IN
             axios.get('/users/UserID/'+ newUser.UserID)
@@ -50,6 +60,7 @@ export default class Login extends Component{
                     let UserData = res.data[0]
                     if(typeof UserData !== 'undefined'){ //RETURNING USER
                         sessionStorage.setItem('UserID', UserData.UserID)
+                        sessionStorage.setItem("profileID", UserData._id)
                         sessionStorage.setItem("id token", resp.tokenId)
                         sessionStorage.setItem("isLoggedIn", true);
                         this.refreshTokenSetup(resp)
@@ -60,10 +71,9 @@ export default class Login extends Component{
                             .then((res) => {
                                 console.log("NEW USER")
                                 sessionStorage.setItem('UserID', newUser.UserID)
+                                sessionStorage.setItem("profileID", UserData._id)
                                 sessionStorage.setItem("id token", resp.tokenId)
                                 sessionStorage.setItem("isLoggedIn", true);
-                                console.log("TOKEN ID", resp.tokenId)
-                                console.log("ACCESS TOKEN", resp.accessToken)
                                 this.refreshTokenSetup(resp)
                                 this.routeChange(); //change to home screen
                             })
@@ -92,18 +102,18 @@ export default class Login extends Component{
     }
     render(){
         return (
-            <Container fluid style={{width: '100%'}}>
-                <Row className='containerrow'>
-                    <Col className='medium'>
+            <Container fluid className='containerlogin'>
+                <Row className='mainlogin'>
+                    <Col className='medium loginCol'>
                         <Container className = 'light loginleft'>
                             <Card body className='light loginSphnx'>
-                                Sphnx 
+                                <Image src={'https://res.cloudinary.com/sphnx/image/upload/v1637208733/spnhxLogoTransparent_csgze4.png'} fluid />
                             </Card>
                             <br/>
-                            <Card className='light'>
+                            <Card className='light logindescription'>
                                 Quiz yourself, Quiz your friends, Quiz Everyone!
                             </Card>
-                            <GoogleLogin className = 'login'
+                            <GoogleLogin className = 'login' 
                                 clientId = '787055066898-kiaajnba1a2dpgk2lvkg20uhsn70pe3i.apps.googleusercontent.com'
                                 buttonText = "Sign In With Google"
                                 onSuccess = {this.responseGoogle}
@@ -113,13 +123,24 @@ export default class Login extends Component{
                             />
                         </Container>
                     </Col>
+                    <div className = 'verticalLine'>
+                    </div>
                     <Col className='dark' fluid>
-                        <Card body className= 'medium sphnxtext'>
-                            What is Sphnx?
-                        </Card>
-                        <Card body>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        </Card>
+                        <Container className='loginRight'>
+                            <Card body className= 'tan sphnxTitle'>
+                                What is Sphnx?
+                            </Card>
+                            <Card className= 'tan sphnxText'>
+                            Sphnx is an exciting new place to test your knowledge, compete with your friends, and learn all sorts of interesting things!
+                            <br></br><br></br>
+                            Join and create platforms about any subject you want, try your best on challenging quizzes, and earn points and badges to secure your place on the leaderboard.
+                            <br></br><br></br>
+                            Sphnx offers limitless communities to join, and if you can't find one, be the first to make one!
+                            Tell your friends to check out Sphnx today!
+                            <br></br><br></br>
+                            To get started, log in with your Google account.
+                            </Card>
+                        </Container>
                     </Col>
                 </Row>
             </Container>

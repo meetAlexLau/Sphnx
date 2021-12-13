@@ -1,0 +1,70 @@
+html, body, #root, .badge-background{
+    height: 100%;
+    overflow:auto;
+}
+
+.badge-background {
+    
+  
+    /*background-image: url("./img/quizBackgournd.png");*/
+ 
+  
+    background-color: #87CEEB;
+    margin: 0 auto;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .badge-content {
+    
+    max-width: 90%;
+    border-color: #000000;
+    border-style: solid;
+    border-radius: 25px;
+    background-color: #E7C496;
+    margin: 0 auto;
+  }
+  .badge-content-header {
+    
+    text-align: center;
+    font-size: 30px;
+    height: 50px;
+    width: 90%;
+    border-color: #000000;
+    border-style: solid;
+    background-color: #F3ECC9;
+    margin-top:10px;
+    margin-bottom:0;
+    margin-left:auto;
+    margin-right:auto;
+  }
+
+
+.myBadgesFeed {
+    justify-content: center;
+    display: flex;
+}
+
+.activityCardBadge {
+    align-items: left;
+    object-fit: cover;
+    max-width: 400px;
+    width: 300px;
+    max-height: 400px;
+    height: 300px;
+    outline: 2px solid black;
+    align-items: center;
+    margin-top: 30px;
+    margin-left: 35px;
+    margin-right: 35px;
+    margin-bottom: 30px;
+}
+
+.badgeTitle{
+    font-size: 20px;
+    font-weight: bold;
+    
+}
+.badgeDescription{
+    font-size: 15px;
+}

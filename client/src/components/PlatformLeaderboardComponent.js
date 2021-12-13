@@ -11,14 +11,7 @@ export default class PlatformLeaderboard extends Component {
 
   constructor(props) {
     super(props)
-    //this.comparePoints = this.comparePoints.bind(this);
   }
-
-  /*
-  comparePoints(a, b) {
-    return a.point - b.point;
-  }*/
-
 
   render() {
     let sortedByPointArray=this.props.ScoreBoard
@@ -117,7 +110,7 @@ export default class PlatformLeaderboard extends Component {
 
             return (
                
-              <Row>
+              <Row key = {index}>
                 <div class="platform-content-row" style={{ backgroundColor: color }}>
                   <Container>
                     <Row>
@@ -125,7 +118,9 @@ export default class PlatformLeaderboard extends Component {
                         {index+1}.
                       </Col>
                       <Col  >
+                      <Link to ={{pathname:"/profile/" +input.userId, state:{isLoggedIn:true}}} onClick={() => sessionStorage.setItem('profileID', input.userId)}>
                         {input.userName}
+                        </Link>
                       </Col>
                       <Col  >
                         {input.point}

@@ -9,8 +9,11 @@ import Card from 'react-bootstrap/Card';
 import { GoogleLogout } from 'react-google-login';
 import '../css/Home.css';
 import axios from 'axios';
-import SearchBar from "../components/SearchBar"
-import PlatData from "../Data.json"
+import PlatformSearchBar from "./PlatformSearchBar"
+//import PlatData from "../Data.json"
+import Image from 'react-bootstrap/Image'
+import QuizSearchBar from './QuizSearchBar';
+import UserSearchBar from './UserSearchBar';
 
 export default class Home extends Component {
     constructor(props) {
@@ -19,19 +22,30 @@ export default class Home extends Component {
         this.routeChangeProfile = this.routeChangeProfile.bind(this);
         this.routeChangePlatform = this.routeChangePlatform.bind(this);
         this.routeChangeQuiz = this.routeChangeQuiz.bind(this);
+        this.routeChangePost = this.routeChangePost.bind(this);
         this.renderPlatforms = this.renderPlatforms.bind(this);
+        this.renderSubscribePlatforms = this.renderSubscribePlatforms.bind(this);
+        this.pullQuizzes = this.pullQuizzes.bind(this);
+        this.pullUsers = this.pullUsers.bind(this);
+        this.handleSearchChange = this.handleSearchChange.bind(this);
+        this.topUsers = this.topUsers.bind(this);
         this.state = {
             isLoggedIn: sessionStorage.getItem('isLoggedIn'),
+            ProfileID: '',
             UserID: '',
             UserName: '',
             UserEmail: '',
             Platforms: [],
             Quizzes: [],
-            Users: []
+            Users: [],
+            UserSubscribedPlatformArray: [],
+            searchBarSelection: 0,
+            searchBarCategory: 'platform',
+            top15users: []
         }
     }
     componentDidMount() {
-        if (this.state.isLoggedIn !== "true") {
+        if (this.state.isLoggedIn == "false" || this.state.isLoggedIn == undefined) {
             this.props.history.push('/')
         }
         else{
@@ -40,38 +54,70 @@ export default class Home extends Component {
                 .then((res) => {
                     let User = res.data[0];
                     this.setState({
+                        ProfileID: User._id,
                         UserName: User.UserName,
-                        UserId: User.UserID,
-                        UserEmail: User.UserEmail
+                        UserID: User.UserID,
+                        UserEmail: User.UserEmail,
+                        UserSubscribedPlatformArray: User.UserSubscribedPlatformArray
                     });
+                    sessionStorage.setItem('ID', User._id)
+                    this.renderSubscribePlatforms();
                 })
                 .catch((err) => {
                     console.log(err);
                 })
             this.renderPlatforms();
-            this.renderQuizzes();
+            this.pullQuizzes();
+            this.pullUsers();
+            this.topUsers();
         }
     }
     routeChangeLogout() {
         //should be  /home/:userid
         this.props.history.push('/')
     }
+    /*
     routeChangeProfile() {
         //should be  /profile/:userid
 
         this.props.history.push('/profile')
     }
+    */
+    routeChangeProfile = (ProfileID) => {
+        //should be  /profile/:userid
+        this.props.history.push({
+            pathname: '/profile/' + ProfileID,
+            state: { isLoggedIn: true }
+        });
+    }
+
+
     routeChangePlatform = (PlatformID) => {
         //should be  /profile/:userid
         sessionStorage.setItem('current platform', PlatformID);
         sessionStorage.setItem('previous platform', PlatformID);
-        this.props.history.push('/platform/' + PlatformID);
+        this.props.history.push({
+            pathname: '/platform/' + PlatformID,
+            state: { isLoggedIn: true }
+        });
     }
     routeChangeQuiz = (QuizID) => {
         //should be  /profile/:userid
         sessionStorage.setItem('current quiz', QuizID);
         sessionStorage.setItem('previous quiz', QuizID);
-        this.props.history.push('/quiz/' + QuizID);
+        this.props.history.push({
+            pathname: '/quiz/' + QuizID,
+            state: { isLoggedIn: true }
+        });
+    }
+    routeChangePost = (PostID) => {
+        //should be  /profile/:userid
+        sessionStorage.setItem('current post', PostID);
+        sessionStorage.setItem('previous post', PostID);
+        this.props.history.push({
+            pathname: '/post/' + PostID,
+            state: { isLoggedIn: true }
+        });
     }
 
     logout = (response) => {
@@ -97,12 +143,28 @@ export default class Home extends Component {
         }
     }
 
-    renderQuizzes = async () => {
+    renderSubscribePlatforms = async () => {
+        let result = [];
+        let subplatforms = this.state.UserSubscribedPlatformArray;
+        for (let i = 0; i < subplatforms.length; i++) {
+            await axios.get('http://localhost:4000/platforms/' + subplatforms[i])
+                .then(res => {
+                    let p = res.data;
+                    let r = [p.PlatformName, p.PlatformID]
+                    result.push(r)
+                })
+        }
+        this.setState({
+            UserSubscribedPlatformArray: result
+        })
+    }
+
+    pullQuizzes = async () => {
         let q = [];
         try {
             await axios.get('/quizzes')
                 .then(res => {
-                    q = res.data;
+                    q = res.data
                     for (var i = 0; i < q.length; i++) {
                         this.setState({
                             Quizzes: this.state.Quizzes.concat([q[i]])
@@ -110,34 +172,80 @@ export default class Home extends Component {
                     }
                 })
         } catch (err) {
-            console.log(err);
+            console.log(err)
         }
     }
 
-    renderUsers = async () => {
+    pullUsers = async () => {
         let u = [];
         try {
             await axios.get('/users')
                 .then(res => {
-                    u = res.data;
+                    u = res.data
                     for (var i = 0; i < u.length; i++) {
                         this.setState({
                             Users: this.state.Users.concat([u[i]])
                         })
                     }
                 })
-            console.log(this.state.Users)
         } catch (err) {
-            console.log(err);
+            console.log(err)
         }
     }
+
+
+    toggle() {
+        var psearch = document.getElementById('platsearch');
+        var qsearch = document.getElementById('quizsearch');
+        var usearch = document.getElementById('usersearch');
+
+        if (this.value == '1') {
+            psearch.style.display = 'block';
+            qsearch.style.display = 'none';
+            usearch.style.display = 'none';
+
+        } else if (this.value == '2') {
+            psearch.style.display = 'none';
+            qsearch.style.display = 'block';
+            usearch.style.display = 'none';
+
+        } else if (this.value == '3') {
+            psearch.style.display = 'none';
+            qsearch.style.display = 'none';
+            usearch.style.display = 'block';
+
+        }
+    }
+
+    handleSearchChange(event) {
+        //console.log("this is exampleL:"+event.target.value)
+        if (event.target.value == "platform") {
+            this.setState({ searchBarSelection: 0, searchBarCategory: "platform" })
+        } else if (event.target.value == "quiz") {
+            this.setState({ searchBarSelection: 1, searchBarCategory: "quiz" })
+        } else {
+            this.setState({ searchBarSelection: 2, searchBarCategory: "user" })
+        }
+
+    }
+
+    topUsers(){
+        axios.get('http://localhost:4000/users')
+            .then(res => {
+                let users = res.data;
+                let top15users = users.sort((a,b) => b.UserPoints - a.UserPoints).slice(0,25);
+                this.setState({
+                    top15users: top15users
+                })
+            })
+    }
+
     render() {
-        
         //Platform grid
         let plats = this.state.Platforms?.map((plat, i) => (        //map each platform to structure <Col>
             //<li key={i}>{plat.PlatformName}</li>
-            <Col key={i}>
-                <Card className='ml-auto activityCard'>
+            
+                <Card key={i} className='activityCard'>
                     <Card.Img variant='top' className='activityCardImage' src={plat.PlatformPicture}>
                     </Card.Img>
                     <Card.Title>
@@ -147,7 +255,7 @@ export default class Home extends Component {
                         {plat.PlatformName}
                     </Button>
                 </Card>
-            </Col>
+            
         ))
         let rendplats = [];             //row oriented platforms
         while (plats.length > 0) {        //splice the array of platforms into groups of 4
@@ -155,98 +263,101 @@ export default class Home extends Component {
             rendplats.push(chunk)
         }
         for (var j = 0; j < rendplats.length; j++) {          //each chunk is a group of 4, surround with <Row>
-            rendplats[j] = <Row> {rendplats[j]} </Row>
+            rendplats[j] = <Row className='activityRow'> {rendplats[j]} </Row>
         }
-        //
-        //Quiz grid
-        let quizs = this.state.Quizzes?.map((quiz, i) => (
-            <Col key={i}>
-                <Card className='ml-auto activityCard'>
-                    <Card.Img variant='top' className='activityCardImage' src={quiz.QuizBackground}></Card.Img>
-                    <Button className='activityCardButton' onClick={() => this.routeChangeQuiz(quiz._id)} variant="primary">
-                        {quiz.QuizTitle}
-                    </Button>
-                </Card>
-            </Col>
 
+        let subplats = this.state.UserSubscribedPlatformArray?.map((plat, i) => (
+
+            <Row key={i} className='subscriptionrow'>
+                <Button className='subscriptionbutton' onClick={() => this.routeChangePlatform(plat[1])} style={{ textOverflow: 'ellipsis' }}>
+                    <Form.Text className='subscriptions'>
+                        {plat[0]}
+                    </Form.Text>
+                </Button>
+            </Row>
         ))
-        let rendquizs = [];
-        while (quizs.length > 0) {        //splice the array of platforms into groups of 4
-            let chunk = quizs.splice(0, 4);
-            rendquizs.push(chunk)
-        }
-        for (var j = 0; j < rendquizs.length; j++) {          //each chunk is a group of 4, surround with <Row>
-            rendquizs[j] = <Row> {rendquizs[j]} </Row>
+
+        let top15users = this.state.top15users?.map((user, i) => (
+            <Row key={i} className='topuserrow'>
+                <Button className='subscriptionbutton' onClick={() => this.routeChangeProfile(user._id)} style={{ textOverflow: 'ellipsis' }}>
+                    <Form.Text className='topuser'>
+                        {user.UserName}
+                    </Form.Text>
+                </Button>
+            </Row>
+        ))
+
+        let searchBar = <PlatformSearchBar id='platsearch' placeholder="Search Platforms..." data={this.state.Platforms} />
+        if (this.state.searchBarSelection == 1) {
+            searchBar = <QuizSearchBar id='quizsearch' placeholder="Search Quizzes..." data={this.state.Quizzes} />
+        } else if (this.state.searchBarSelection == 2) {
+            searchBar = <UserSearchBar id='usersearch' placeholder="Search Users..." data={this.state.Users} />
         }
         return (
-            <Container fluid className='sky containerrow'> {/* home container*/}
-                <Row className='medium marginspacing paddingspacing'> {/*Logout | Title | Profile */}
-                    <GoogleLogout
+            <Container fluid className='homeBackground containerrow'> {/* home container*/}
+                <Row className='medium homeTitleRow'> {/*Logout | Title | Profile */}
+                    <GoogleLogout className='homeLogout'
                         clientId='787055066898-kiaajnba1a2dpgk2lvkg20uhsn70pe3i.apps.googleusercontent.com'
                         buttonText="Logout"
                         onLogoutSuccess={this.logout}
                         isSignedIn={false}
                     >
                     </GoogleLogout>
-                    <Card body className='ml-auto' style={{ width: "25%", textAlign: 'center', fontSize: '25px' }}>
-                        Sphnx
-                        <p>
+                    <Card body className='homeCard' >
+                        <Card.Img src={'https://res.cloudinary.com/sphnx/image/upload/v1637208733/spnhxLogoTransparent_csgze4.png'} fluid />
+                        <Card.Text>
                             Welcome, {this.state.UserName}!
-                        </p>
+                        </Card.Text>
                     </Card>
-                    <Button className='ml-auto gray' onClick={this.routeChangeProfile} variant="primary">
+                    <Button className='ml-auto gray homeProfile' onClick={/*this.routeChangeProfile*/() => this.routeChangeProfile(this.state.ProfileID)} variant="primary">
                         Profile
                     </Button>
                 </Row>
-                <Row className='medium homesearchbar'> {/* Search Bar */}
-                        <SearchBar placeholder="Enter a platform name..." data={PlatData} />
-                </Row>
-                <Row className='mainFeed medium ml-auto mr-auto' style={{ alignContent: "center" }}>  {/* Home Container for Platform,Quiz,Profile */}
-                    <Container className='homecontainer'>
-                        <Row>
-                            <Card className='ml-auto mr-auto'>
-                                Your News Feed
-                            </Card>
-                        </Row>
-                        <Row>
-                            <h2 className='ml-auto mr-auto'>
-                                Platforms For You
-                            </h2>
-                        </Row>
-                        {//Render Platforms
-                            rendplats
-                        }
-                        <Row>
-                            <h2 className='ml-auto mr-auto'>
-                                Quizzes For You
-                            </h2>
-                        </Row>
-                        {//Render Quizzes
-                            rendquizs
-                        }
-                        <Row>
-                            <h2 className='ml-auto mr-auto'>
-                                What Are Your Friends Up To?
-                            </h2>
-                        </Row>
-                        {//Render Users
+                <Row  className='medium homesearchbar'>
+                    <Col xs={1} className="d-flex justify-content-end block-example border-right border-dark">
+                        <select className="selection" value={this.state.searchBarCategory} onChange={this.handleSearchChange}>
+                            <option value="platform">Platform</option>
+                            <option value="quiz">Quiz</option>
+                            <option value="user">User</option>
 
-                        }
-                        <Row>
-                            {/*
-                            <Button onClick={this.routeChangeQuiz} className ='marginspacing' variant="primary">
-                                Example Quiz
-                            </Button>
-                                    */
-                            }
-                        </Row>
-                        <Row>
-                            <Button onClick={this.routeChangeProfile} className='marginspacing' variant="primary">
-                                Example Profile
-                            </Button>
-                        </Row>
-                    </Container>
+                        </select>
+                    </Col>
+                    <Col className="d-flex justify-content-start">
+                        {searchBar}
+                    </Col>
                 </Row>
+
+                <Container className='homecontainer'>
+                    <Row className='medium homerow'>
+                        <Col className='homeColumn'>
+                            <Row style={{justifyContent: 'center'}}>
+                                <Card>
+                                    TOP USERS
+                                </Card>
+                            </Row>
+                            {top15users}
+                        </Col>
+                        <Col className='medium' style={{alignContent: 'center'}}>
+                            <Row>
+                                <h2 className='ml-auto mr-auto'>
+                                    PLATFORMS FOR YOU
+                                </h2>
+                            </Row>
+                            {//Render Platforms
+                                rendplats
+                            }
+                        </Col>
+                        <Col className='homeColumn'>
+                            <Row style={{justifyContent: 'center'}}>
+                                <Card>
+                                    SUBSCRIPTIONS
+                                </Card>
+                            </Row>
+                            {subplats}
+                        </Col>
+                    </Row>
+                </Container>
+                
             </Container>
         )
     }

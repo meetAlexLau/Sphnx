@@ -56,20 +56,37 @@ export default class NewPlatformComponent extends Component {
             id: ''
         }
     }
-    componentDidMount() {
+    async componentDidMount() {
         if (this.state.isLoggedIn == "false" || this.state.isLoggedIn == undefined) {
             this.props.history.push('/')
         }
         else{
+
+            let currentPlatform = sessionStorage.getItem('current platform');
+            let PlatformID = currentPlatform ? currentPlatform : sessionStorage.getItem('previous platform')
+            sessionStorage.setItem('current platform', sessionStorage.getItem('previous platform'))
+        
+            await axios.get('http://localhost:4000/platforms/' + PlatformID)
+                .then(res => {
+
+                    this.setState({
+                        title: res.data.PlatformName,
+                        desc: res.data.PlatformDesc,
+                        color1: res.data.PlatformColor1,
+                        color2: res.data.PlatformColor2,
+                        id: res.data.PlatformID,
+                        picture: res.data.PlatformPicture
+                    })
+                })
             
-        axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
-         .then(res => {
-          let User = res.data[0];
-            this.setState({
-                oldUser: User,
-                IDtoEdit: User._id
-            })
-        })
+            axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
+                .then(res => {
+                let User = res.data[0];
+                    this.setState({
+                        oldUser: User,
+                        IDtoEdit: User._id
+                    })
+                })
         }
     }
     setUploadingImg(isUploading){
@@ -85,7 +102,7 @@ export default class NewPlatformComponent extends Component {
        
         const uploadedUrl = await uploadImage(file);
         this.setState({
-            PlatformPicture: uploadedUrl
+            picture: uploadedUrl
         })
     };
 
@@ -124,47 +141,27 @@ export default class NewPlatformComponent extends Component {
     onSubmit = async(e) => {
         e.preventDefault()
 
-        let updatedUser = this.state.oldUser
-        updatedUser.UserPoints = updatedUser.UserPoints + 25
 
-
-        const platformObject = {
+        const updatedPlatformObject = {
             PlatformName: this.state.title,
             PlatformDesc: this.state.desc,
             PlatformColor1: this.state.color1,
             PlatformColor2: this.state.color2,
-            PlatformPicture: this.state.PlatformPicture,
-            PlatformID: this.state.id,
-            PlatformQuizArray: [],
-            PlatformPostArray: [],
-            PlatformCreator: sessionStorage.getItem('UserID'),
-            PlatformSubscriberArray: [],
-            PlatformContentArray: [],
+            PlatformPicture: this.state.picture
         }
 
-        await axios.post('/platforms/createPlatform', platformObject).then(res => {newIDofPlat = res.data
-                                                                                                    }
-        );
+        const editPlatformPath = ('http://localhost:4000/platforms/updatePlatform/' + this.state.id)
 
-        console.log(newIDofPlat)
-        updatedUser.UserPlatformArray.push(newIDofPlat)
-        const newPath = ('/users/'+this.state.IDtoEdit)
-        
-        axios.put(newPath, updatedUser)
-          .then(res => console.log(res.data))
-          .catch(err => console.log(err))
+        await axios.put(editPlatformPath, updatedPlatformObject)
+            .then(res => console.log(res.data))
+            .catch(err => console.log(err))
 
-        
-        /*
-        this.setState({
-            title: '',
-            desc: '',
-            id: ''
+        this.props.history.push({
+            pathname: '/platform/' + this.state.id,
+            state: { isLoggedIn: true }
         });
-        */
-       
-        this.routeChangeProfile()
-
+        window.location.reload(false)
+    
     }
 
     //
@@ -176,7 +173,7 @@ export default class NewPlatformComponent extends Component {
                     <div class="medium">
                         <Form.Group controlId="Title">
                             <Form.Label>Title:</Form.Label>
-                            <Form.Control type="text" maxlength="16" value={this.state.title} onChange={this.onChangePlatformTitle} />
+                            <Form.Control type="text" maxLength="16" value={this.state.title} onChange={this.onChangePlatformTitle} />
                         </Form.Group>
 
                         Select Background Image:
@@ -203,7 +200,7 @@ export default class NewPlatformComponent extends Component {
                                 Save
                             </Button>
 
-                            <Button className='cancelbutton' variant="danger" onClick={this.routeChangeProfile}>
+                            <Button className='cancelbutton' variant="warning" onClick={this.routeChangeProfile}>
                                 Cancel
                             </Button>
                         </div>

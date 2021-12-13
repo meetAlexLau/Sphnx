@@ -27,13 +27,14 @@ router.route('/:id').get(function(req, res) {
     });
 });
 
+// get all users
 router.route('/').get(function(req, res) {
-    userSchema.find(function(err, platforms){
+    userSchema.find(function(err, users){
         if(err) {
             console.log(err)
         }
         else{
-            res.json(platforms);
+            res.json(users);
         }
     })
 })
@@ -60,7 +61,7 @@ router.route('/:id').put((req, res) => {
           object.UserBadgeArray = req.body.UserBadgeArray;
           object.UserPlatformArray = req.body.UserPlatformArray;
           object.UserSubscribedPlatformArray = req.body.UserSubscribedPlatformArray;
-          object.UserFriendsArray = req.body.UserFriendsArray;
+          object.UserFriendArray = req.body.UserFriendArray;
           object.UserPoints = req.body.UserPoints;
           object.UserCoints = req.body.UserCoints;
           object.UserColor1 = req.body.UserColor1;

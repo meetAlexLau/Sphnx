@@ -33,31 +33,10 @@
     background-color: #AAAAAA;
   }
   
-  .loginleft{
-    height: 100vh;
-  }
-  .loginSphnx{
-    font-size: 45px;
-  }
-  .login{
-    margin-top: 15%;
-    padding-left: 50%;
-    padding-right: 50%;
-    position: relative;
-    width:40%;
-    font-size: 25px;
-  }
-  
   .containerrow {
     margin-left:0;
     margin-right:0;
     height:100%;
-  }
-  .marginspacing{
-    margin: 1%;
-  }
-  .paddingspacing{
-    padding: 0.5%;
   }
   
   .sky {
@@ -84,4 +63,12 @@
   
   option {
     direction: ltr;
+  }
+  
+  div {
+    white-space: pre-wrap;
+  }
+
+  h2 {
+    white-space: pre-wrap;
   }
