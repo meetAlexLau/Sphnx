@@ -156,15 +156,24 @@ export default class Quiz extends Component {
     var k = 0;
     while(badgesWon[k]){
       if(updatedUser.UserBadgeArray.includes(badgesWon[k])){
+<<<<<<< HEAD
+=======
+
+>>>>>>> 258c8384324e708b5ecd52ad60b527745a6d90a7
       }
       else{
         updatedUser.UserBadgeArray.push(badgesWon[k])
       }
       k++
     }
+<<<<<<< HEAD
     
     const newPath = ('http://localhost:4000/users/' + this.state.IDtoEdit)
 >>>>>>> local-testing
+=======
+
+    const newPath = ('/users/' + this.state.IDtoEdit)
+>>>>>>> 258c8384324e708b5ecd52ad60b527745a6d90a7
 
     axios.put(newPath, updatedUser)
       .then(res => console.log(res.data))

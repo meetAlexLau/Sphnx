@@ -48,7 +48,8 @@ export default class UserComponent extends Component{
             this.props.history.push('/')
         }
         else{       
-            axios.get('http://localhost:4000/users/' + this.props.match.params.id)
+            console.log(this.props.match.params.id);
+            axios.get('/users/' + this.props.match.params.id)
                 .then(res => {
                     let User = res.data;
                     this.setState({
@@ -70,7 +71,7 @@ export default class UserComponent extends Component{
         let getUserID = sessionStorage.getItem('UserID');
         let getFriendID = this.props.match.params.id;
 
-        await axios.get('http://localhost:4000/users/UserID/' + getUserID)
+        await axios.get('/users/UserID/' + getUserID)
             .then(res => {
                 let friendFlag = res.data[0].UserFriendArray.find(id => id == getFriendID);
                 if (typeof friendFlag === 'undefined') friendFlag = false;
@@ -169,7 +170,7 @@ export default class UserComponent extends Component{
         for(let i = 0; i < this.state.UserFriendArray.length; i++){
             let friendID = this.state.UserFriendArray[i];
             promises.push(
-                axios.get('http://localhost:4000/users/' + friendID)
+                axios.get('/users/' + friendID)
                 .then(res => {
                     let object = res.data;
                     f.push([friendID, object.UserName])
@@ -241,7 +242,7 @@ export default class UserComponent extends Component{
         let getUserID = sessionStorage.getItem('UserID');
         let newFriendID = this.props.match.params.id;
         let user;
-        await axios.get('http://localhost:4000/users/UserID/' + getUserID)
+        await axios.get('/users/UserID/' + getUserID)
         .then(res => {
             user = res.data[0];
         })
@@ -261,7 +262,7 @@ export default class UserComponent extends Component{
             isFriend: !this.state.isFriend
         })
 
-        await axios.put('http://localhost:4000/users/'+ user._id, user)
+        await axios.put('/users/'+ user._id, user)
         .then(res => console.log("User friend Arr:", res))
         .catch(err => console.log("User friend Arr Err:", err))
     }

@@ -79,7 +79,8 @@ export default class Platform extends Component {
       this.getContent();
 
       //CHECK IF USER IS SUBSCRIBED
-      await axios.get('/users/UserID/'+ getUserID)
+
+      await axios.get('/users/UserID/' + getUserID)
         .then(res => {
 
           //x = get UserSubscribedPlatformArray, .find(PlatformID)
@@ -144,6 +145,7 @@ export default class Platform extends Component {
   routeChangePost = (PostID) => {
     sessionStorage.setItem('current post', PostID);
     sessionStorage.setItem('previous post', PostID);
+
     this.props.history.push({
       pathname:'/post/' + PostID,
       state: {isLoggedIn:true}
@@ -156,7 +158,7 @@ export default class Platform extends Component {
     let getQuizzes = this.state.Quizzes;
     for(let i = getContent.length-1; i > -1; i--){
       if(getQuizzes.includes(getContent[i])){ //if getContent[i] is in Quiz array, the content = quiz
-        await axios.get('http://localhost:4000/quizzes/' + getContent[i])
+        await axios.get('/quizzes/' + getContent[i])
         .then((res) => {
           let quiz = res.data;
           let quizdata = [quiz.QuizTitle, quiz.QuizID, "quiz", quiz.QuizBackground]
@@ -164,7 +166,7 @@ export default class Platform extends Component {
         })
       }
       else{
-        await axios.get('http://localhost:4000/posts/' + getContent[i])
+        await axios.get('/posts/' + getContent[i])
         .then((res) => {
           let post = res.data
           let postdata = [post.PostTitle, post.PostID, "post"]
@@ -240,13 +242,13 @@ export default class Platform extends Component {
     //Updating Platform PlatformSubscriberArray
     // [(userMongoId, username, points, timespentonplatform, isSubscribed)]
     await axios.put('/platforms/updatePlatform/' + PlatformID, plat)
-      .then(res=> console.log("User Subscribe Arr:", res))
-      .catch(err=> console.log("User Subscribe Arr Err:", err));
-    
+      .then(res => console.log("User Subscribe Arr:", res))
+      .catch(err => console.log("User Subscribe Arr Err:", err));
+
     //Updating User UserSubscribedPlatformArray
     await axios.put('/users/' + user._id, user)
-      .then(res=> console.log("User Subscribe Arr:", res))
-      .catch(err=> console.log("User Subscribe Arr Err:", err))
+      .then(res => console.log("User Subscribe Arr:", res))
+      .catch(err => console.log("User Subscribe Arr Err:", err))
   }
 
 

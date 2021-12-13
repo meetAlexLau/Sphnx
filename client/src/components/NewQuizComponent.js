@@ -115,7 +115,11 @@ export default class NewQuizComponent extends Component {
         let PlatformID = currentPlatform ? currentPlatform : sessionStorage.getItem('previous platform')
         sessionStorage.setItem('current platform', sessionStorage.getItem('previous platform'))
 
+<<<<<<< HEAD
         const quizObject = {
+=======
+        let quizObject = {
+>>>>>>> 258c8384324e708b5ecd52ad60b527745a6d90a7
             QuizTitle: this.state.title,
             QuizID: this.state.id,
             QuizBackground: this.state.backgroundPic,
@@ -125,6 +129,7 @@ export default class NewQuizComponent extends Component {
             PlatformID: PlatformID
         };
 
+<<<<<<< HEAD
 <<<<<<< HEAD
         axios.post('/quizzes/createQuiz', quizObject)
             .then(res => console.log(res.data));
@@ -137,6 +142,11 @@ export default class NewQuizComponent extends Component {
 >>>>>>> local-testing
 
         // post badges
+=======
+        await axios.post('/quizzes/createQuiz', quizObject)
+            .then(res => {newIDofQuiz=res.data});
+
+>>>>>>> 258c8384324e708b5ecd52ad60b527745a6d90a7
         var idsOfBadges = []
         var idOfNewBadge = ''
         let j = 0;
@@ -152,6 +162,7 @@ export default class NewQuizComponent extends Component {
             }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
             await axios.post('/badges/createBadge', newBadgeObject)
                 .then(res => {idsOfBadges.push(res.data)})
             
@@ -166,6 +177,17 @@ export default class NewQuizComponent extends Component {
 
         // edit quiz to add badge array
         const badgeQuizObject = {
+=======
+            await axios.post('/badges/createBadge', newBadgeObject)
+                .then(res => {idsOfBadges.push(res.data);
+                            idOfNewBadge = res.data})
+            this.state.QuizBadgeArray[j].badgeID = idOfNewBadge
+
+            j++
+        }
+
+        quizObject = {
+>>>>>>> 258c8384324e708b5ecd52ad60b527745a6d90a7
             QuizTitle: this.state.title,
             QuizID: this.state.id,
             QuizBackground: this.state.backgroundPic,
@@ -183,6 +205,7 @@ export default class NewQuizComponent extends Component {
         await axios.post('/quizzes/createQuiz', quizObject)
             .then(res => {newIDofQuiz=res.data});
 
+<<<<<<< HEAD
 =======
         // update quiz with badge array
         await axios.put('http://localhost:4000/quizzes/updateQuiz/' + newIDofQuiz, badgeQuizObject)
@@ -190,6 +213,8 @@ export default class NewQuizComponent extends Component {
             .catch(err => console.log(err))
 >>>>>>> local-testing
 
+=======
+>>>>>>> 258c8384324e708b5ecd52ad60b527745a6d90a7
         // retrieve platform from database, edit quiz array, and send the edited array back
         axios.get('/platforms/' + PlatformID)
             .then(res => {

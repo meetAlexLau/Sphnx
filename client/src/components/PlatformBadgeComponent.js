@@ -31,7 +31,7 @@ export default class PlatformBadge extends Component {
     //iterate through badges
     for (let i = 0; i < this.props.PlatformBadgeArray.length; i++) {
       try {
-        await axios.get('http://localhost:4000/badges/' + this.props.PlatformBadgeArray[i])
+        await axios.get('/badges/' + this.props.PlatformBadgeArray[i])
           .then(res => {
             b.push(res.data);
             this.setState({

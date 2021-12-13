@@ -48,8 +48,8 @@ export default class Home extends Component {
         if (this.state.isLoggedIn == "false" || this.state.isLoggedIn == undefined) {
             this.props.history.push('/')
         }
-        else{
-            console.log("Mounting")
+
+        else {
             axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
                 .then((res) => {
                     let User = res.data[0];
@@ -147,7 +147,7 @@ export default class Home extends Component {
         let result = [];
         let subplatforms = this.state.UserSubscribedPlatformArray;
         for (let i = 0; i < subplatforms.length; i++) {
-            await axios.get('http://localhost:4000/platforms/' + subplatforms[i])
+            await axios.get('/platforms/' + subplatforms[i])
                 .then(res => {
                     let p = res.data;
                     let r = [p.PlatformName, p.PlatformID]
@@ -193,8 +193,7 @@ export default class Home extends Component {
         }
     }
 
-
-    toggle() {
+  toggle() {
         var psearch = document.getElementById('platsearch');
         var qsearch = document.getElementById('quizsearch');
         var usearch = document.getElementById('usersearch');
@@ -213,7 +212,6 @@ export default class Home extends Component {
             psearch.style.display = 'none';
             qsearch.style.display = 'none';
             usearch.style.display = 'block';
-
         }
     }
 
