@@ -174,7 +174,7 @@ export default class NewPlatformComponent extends Component {
                     <div class="medium">
                         <Form.Group controlId="Title">
                             <Form.Label>Title:</Form.Label>
-                            <Form.Control type="text" value={this.state.title} onChange={this.onChangePlatformTitle} />
+                            <Form.Control type="text" maxlength="16" value={this.state.title} onChange={this.onChangePlatformTitle} />
                         </Form.Group>
 
                         Select Background Image:
