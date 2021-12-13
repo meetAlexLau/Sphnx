@@ -10,6 +10,7 @@ import NewQuestionComponent from "./NewQuestionComponent";
 
 const NAME_OF_UPLOAD_PRESET = "sphnxPreset";
 const YOUR_CLOUDINARY_ID = "sphnx";
+//
 
 var newIDofQuiz = "";
 
