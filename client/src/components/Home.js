@@ -228,7 +228,7 @@ export default class Home extends Component {
     }
 
     topUsers(){
-        axios.get('http://localhost:4000/users')
+        axios.get('/users')
             .then(res => {
                 let users = res.data;
                 let top15users = users.sort((a,b) => b.UserPoints - a.UserPoints).slice(0,25);

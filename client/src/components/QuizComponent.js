@@ -45,8 +45,7 @@ export default class Quiz extends Component {
       let QuizID = currentQuiz ? currentQuiz : sessionStorage.getItem('previous quiz')
       sessionStorage.setItem('current quiz', sessionStorage.getItem('previous quiz'))
 
-
-      //axios.get('/quizzes/6182b0b76ad37b02b34dd10e/')
+      
       await axios.get('/quizzes/' + QuizID)
         .then(res => {
           const initUserAnswer = []
@@ -66,7 +65,6 @@ export default class Quiz extends Component {
           })
         })
 
-
       await axios.get('/platforms/' + this.state.platformID)
         .then(res => {
           let Platform = res.data
@@ -75,9 +73,6 @@ export default class Quiz extends Component {
             platformName: Platform.PlatformName
           })
         })
-
-
-
       axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
         .then(res => {
           let User = res.data[0]
@@ -149,31 +144,17 @@ export default class Quiz extends Component {
 
     let updatedUser = this.state.oldUser
     updatedUser.UserPoints = updatedUser.UserPoints + pointsScored
-<<<<<<< HEAD
-
-    const newPath = ('/users/' + this.state.IDtoEdit)
-=======
     var k = 0;
     while(badgesWon[k]){
       if(updatedUser.UserBadgeArray.includes(badgesWon[k])){
-<<<<<<< HEAD
-=======
-
->>>>>>> 258c8384324e708b5ecd52ad60b527745a6d90a7
       }
       else{
         updatedUser.UserBadgeArray.push(badgesWon[k])
       }
       k++
     }
-<<<<<<< HEAD
     
-    const newPath = ('http://localhost:4000/users/' + this.state.IDtoEdit)
->>>>>>> local-testing
-=======
-
     const newPath = ('/users/' + this.state.IDtoEdit)
->>>>>>> 258c8384324e708b5ecd52ad60b527745a6d90a7
 
     axios.put(newPath, updatedUser)
       .then(res => console.log(res.data))

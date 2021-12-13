@@ -66,7 +66,7 @@ export default class NewPlatformComponent extends Component {
             let PlatformID = currentPlatform ? currentPlatform : sessionStorage.getItem('previous platform')
             sessionStorage.setItem('current platform', sessionStorage.getItem('previous platform'))
         
-            await axios.get('http://localhost:4000/platforms/' + PlatformID)
+            await axios.get('/platforms/' + PlatformID)
                 .then(res => {
 
                     this.setState({
@@ -79,7 +79,7 @@ export default class NewPlatformComponent extends Component {
                     })
                 })
             
-            axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
+            axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
                 .then(res => {
                 let User = res.data[0];
                     this.setState({

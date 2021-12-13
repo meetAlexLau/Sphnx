@@ -78,7 +78,7 @@ export default class EditQuizComponent extends Component {
             sessionStorage.setItem('current quiz', sessionStorage.getItem('previous quiz'))
 
 
-            await axios.get('http://localhost:4000/quizzes/' + QuizID)
+            await axios.get('/quizzes/' + QuizID)
                 .then(res => {
 
 
@@ -96,7 +96,7 @@ export default class EditQuizComponent extends Component {
 
 
 
-            axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
+            axios.get('users/UserID/' + sessionStorage.getItem('UserID'))
                 .then(res => {
                     let User = res.data[0];
                     this.setState({
@@ -120,7 +120,7 @@ export default class EditQuizComponent extends Component {
         var r = confirm("Are you sure you want to delete this quiz? This action cannot be undone.")
 
         if(r == true){
-            await axios.delete('http://localhost:4000/quizzes/deleteQuiz/' + this.state.quizId)
+            await axios.delete('/quizzes/deleteQuiz/' + this.state.quizId)
             .then(res => {
                 console.log('deleted quiz!')
             })
@@ -129,7 +129,7 @@ export default class EditQuizComponent extends Component {
             })
 
 
-            await axios.get('http://localhost:4000/platforms/' + this.state.platformID)
+            await axios.get('/platforms/' + this.state.platformID)
             .then(res => {
                 let Platform = res.data
                 const index = Platform.PlatformContentArray.indexOf(this.state.quizId)
@@ -137,7 +137,7 @@ export default class EditQuizComponent extends Component {
                     Platform.PlatformContentArray.splice(index, 1)
                 }
 
-                axios.put('http://localhost:4000/platforms/updatePlatform/' + this.state.platformID, Platform).then(res => {})
+                axios.put('platforms/updatePlatform/' + this.state.platformID, Platform).then(res => {})
 
                 this.props.history.push({
                     pathname:'/platform/'+this.state.platformID,
@@ -193,7 +193,7 @@ export default class EditQuizComponent extends Component {
 
 
 
-        const editQuizPath = ('http://localhost:4000/quizzes/updateQuiz/' + this.state.quizId)
+        const editQuizPath = ('/quizzes/updateQuiz/' + this.state.quizId)
 
         await axios.put(editQuizPath, updateQuizObject)
             .then(res => console.log(res.data))

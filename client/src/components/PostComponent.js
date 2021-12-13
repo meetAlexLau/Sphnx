@@ -77,7 +77,7 @@ export default class Post extends Component {
 
         let platCreator = ""
 
-            await axios.get('http://localhost:4000/platforms/' + this.state.platformID)
+            await axios.get('/platforms/' + this.state.platformID)
             .then(res => {
                 let Platform = res.data
                 platCreator = Platform.PlatformCreator
@@ -86,7 +86,7 @@ export default class Post extends Component {
 
             if(platCreator == sessionStorage.getItem('UserID')){
 
-                await axios.delete('http://localhost:4000/posts/deletePost/' + this.state.postId)
+                await axios.delete('/posts/deletePost/' + this.state.postId)
                 .then(res => {
                     console.log('deleted post!')
                 })
@@ -94,7 +94,7 @@ export default class Post extends Component {
                     console.log(err)
                 })
 
-                await axios.get('http://localhost:4000/platforms/' + this.state.platformID)
+                await axios.get('/platforms/' + this.state.platformID)
                 .then(res => {
                     let Platform = res.data
                     const index = Platform.PlatformContentArray.indexOf(this.state.postId)
@@ -102,7 +102,7 @@ export default class Post extends Component {
                         Platform.PlatformContentArray.splice(index, 1)
                     }
 
-                    axios.put('http://localhost:4000/platforms/updatePlatform/' + this.state.platformID, Platform).then(res => {})
+                    axios.put('/platforms/updatePlatform/' + this.state.platformID, Platform).then(res => {})
 
                     this.props.history.push({
                         pathname:'/platform/'+this.state.platformID,

@@ -66,7 +66,7 @@ export default class NewPostComponent extends Component {
             let PostID = currentPost ? currentPost : sessionStorage.getItem('previous post')
             sessionStorage.setItem('current quiz', sessionStorage.getItem('previous quiz'))
 
-            await axios.get('http://localhost:4000/posts/' + PostID)
+            await axios.get('/posts/' + PostID)
             .then(res => {
                 this.setState({
                     id: res.data.PostID,
@@ -77,7 +77,7 @@ export default class NewPostComponent extends Component {
                 })
             })
 
-            axios.get('http://localhost:4000/users/UserID/' + sessionStorage.getItem('UserID'))
+            axios.get('/users/UserID/' + sessionStorage.getItem('UserID'))
             .then(res => {
             let User = res.data[0];
                 this.setState({
@@ -125,7 +125,7 @@ export default class NewPostComponent extends Component {
 
         let platCreator = ""
 
-            await axios.get('http://localhost:4000/platforms/' + this.state.platformID)
+            await axios.get('/platforms/' + this.state.platformID)
             .then(res => {
           
                 let Platform = res.data
@@ -136,7 +136,7 @@ export default class NewPostComponent extends Component {
 
             if(platCreator == sessionStorage.getItem('UserID')){
 
-                await axios.delete('http://localhost:4000/posts/deletePost/' + this.state.id)
+                await axios.delete('/posts/deletePost/' + this.state.id)
                 .then(res => {
                     console.log('deleted post!')
                 })
@@ -144,7 +144,7 @@ export default class NewPostComponent extends Component {
                     console.log(err)
                 })
 
-                await axios.get('http://localhost:4000/platforms/' + this.state.platformID)
+                await axios.get('/platforms/' + this.state.platformID)
                 .then(res => {
                     let Platform = res.data
                     const index = Platform.PlatformContentArray.indexOf(this.state.id)
@@ -152,7 +152,7 @@ export default class NewPostComponent extends Component {
                         Platform.PlatformContentArray.splice(index, 1)
                     }
 
-                    axios.put('http://localhost:4000/platforms/updatePlatform/' + this.state.platformID, Platform).then(res => {})
+                    axios.put('/platforms/updatePlatform/' + this.state.platformID, Platform).then(res => {})
 
                     this.props.history.push({
                         pathname:'/platform/'+this.state.platformID,
@@ -193,7 +193,7 @@ export default class NewPostComponent extends Component {
             PlatformID: PlatformID
         }
 
-        const editPostPath = ('http://localhost:4000/posts/updatePost/' + this.state.id)
+        const editPostPath = ('/posts/updatePost/' + this.state.id)
 
         await axios.put(editPostPath, updatedPostObject)
             .then(res => console.log(res.data))
