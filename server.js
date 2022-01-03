@@ -39,7 +39,7 @@ app.use(express.static(path.resolve(__dirname, "client", "build")))
 
 app.use((req, res, next) => {
     if (req.header('x-forwarded-proto') !== 'https')
-      res.redirect('https://' + req.hostname + req.originalUrl);
+      res.redirect('https://sphnx.herokuapp.com/');
     else
       next()
 })
